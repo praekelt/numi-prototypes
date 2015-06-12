@@ -1,0 +1,31 @@
+<div class="nm-page">
+  <div class="input-group">
+    <input type="text" class="form-control" placeholder="Search for...">
+    <span class="input-group-btn">
+      <button class="btn btn-default" type="button">Search</button>
+    </span>
+  </div>
+
+  <br/>
+
+  <div class="panel-group" id="accordion" role="tablist">
+  {% for category in page.blocks.categories %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#{{ category.id }}">
+              {{ category.title }}
+          </a>
+        </h4>
+      </div>
+      <div id="{{ category.id }}" class="panel-collapse collapse in">
+        <div class="panel-body">
+          {% for block in category.blocks %}
+            <a class="btn {{ category.btnClass }}">{{ block }}</a>
+          {% endfor %}
+        </div>
+      </div>
+   </div>
+  {% endfor %}
+  </div>
+</div>
