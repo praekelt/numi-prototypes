@@ -1,10 +1,5 @@
 <div class="nm-page">
-  <div class="input-group">
-    <input type="text" class="form-control" placeholder="Search for...">
-    <span class="input-group-btn">
-      <button class="btn btn-default" type="button">Search</button>
-    </span>
-  </div>
+  <input id="search" type="text" class="form-control" placeholder="Search for a block...">
 
   <br/>
 
@@ -21,7 +16,7 @@
       <div id="{{ category.id }}" class="panel-collapse collapse in">
         <div class="panel-body">
           {% for block in category.blocks %}
-            <a class="btn {{ category.btnClass }}">{{ block }}</a>
+            <a class="btn {{ category.btnClass }} nm-btn-block">{{ block }}</a>
           {% endfor %}
         </div>
       </div>
@@ -29,3 +24,21 @@
   {% endfor %}
   </div>
 </div>
+
+<script>
+document.onready = function() {
+  $('#search').keyup(function(e) {
+    hideUnmatched($(this).val());
+  });
+
+
+  function hideUnmatched(expr) {
+    expr = new RegExp(expr, 'i');
+
+    $('.nm-btn-block').each(function() {
+      if (!$(this).text().match(expr)) $(this).hide();
+      else $(this).show();
+    });
+  }
+}
+</script>
