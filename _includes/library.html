@@ -1,5 +1,10 @@
 <div class="nm-page">
-  <input id="search" type="text" class="form-control" placeholder="Search for a block...">
+  <div class="input-group">
+    <input id="search-input" type="text" class="form-control" placeholder="Search for a block...">
+    <span class="input-group-btn">
+      <button id="search-btn" class="btn btn-default" type="button">Search</button>
+    </span>
+  </div>
 
   <br/>
 
@@ -27,10 +32,9 @@
 
 <script>
 document.onready = function() {
-  $('#search').keyup(function(e) {
-    hideUnmatched($(this).val());
+  $('#search-btn').click(function(e) {
+    hideUnmatched($('#search-input').val());
   });
-
 
   function hideUnmatched(expr) {
     expr = new RegExp(expr, 'i');
