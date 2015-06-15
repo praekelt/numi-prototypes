@@ -1,0 +1,16 @@
+<div>
+
+  {{#blocks}}
+
+  {{# type === 'ask' }}
+  <ask></ask>
+  {{/}}
+
+  {{# type === 'choice' }}
+  <choice></choice>
+  {{/}}
+
+  {{/blockSets}}
+
+  <button on-click="addBlock()">Add block</button>
+</div>

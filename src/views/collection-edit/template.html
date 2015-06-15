@@ -1,0 +1,18 @@
+<div>
+  <h1>{{name}}</h1>
+
+  {{#blockSets}}
+
+  {{# type === 'screen' }}
+  <screen></screen>
+  {{/}}
+
+  {{# type === 'filter' }}
+  <filter></filter>
+  {{/}}
+
+  {{/blockSets}}
+
+  <button on-click="addScreen()">Add screen</button>
+  <!-- TODO button for adding filters -->
+</div>
