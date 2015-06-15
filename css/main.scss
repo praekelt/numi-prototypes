@@ -18,7 +18,18 @@
     padding: 1em;
   }
 
-  .nm-btn-new {
+  .nm-btn-placeholder {
     border-style: dashed;
+  }
+
+  .nm-block-is-selected {
+    border-width: 0.2em;
+  }
+
+  .nm-block-title {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #666;
   }
 }

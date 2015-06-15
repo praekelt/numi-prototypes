@@ -21,7 +21,7 @@
       <div id="{{ category.id }}" class="panel-collapse collapse in">
         <div class="panel-body">
           {% for block in category.blocks %}
-            <a class="btn {{ category.btnClass }} nm-btn-block">{{ block }}</a>
+            <a {% if block.href %}href="{{ site.baseurl }}/{{ block.href }}"{% endif %} class="btn {{ category.btnClass }} nm-btn-block">{{ block.title }}</a>
           {% endfor %}
         </div>
       </div>
