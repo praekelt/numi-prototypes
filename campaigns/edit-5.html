@@ -11,13 +11,17 @@ layout: default
   <div class="btn btn-default btn-block">
     <p class="nm-block-title text-left">When</p>
   
-    <div class="btn btn-default btn-block nm-block-is-selected">
+    <div class="btn btn-default btn-block">
       <p class="nm-block-title text-left">User dials</p>
     
       <a class="btn btn-default btn-block" href="{{ site.baseurl }}/campaigns/choose-channel.html">*120*3#</a>
     </div>
-  
-    <a href="{{ site.baseurl }}/campaigns/library-when-action.html" class="btn btn-default btn-block nm-btn-placeholder">Add an action</a>
+
+    <div class="btn btn-default btn-block nm-block-is-selected">
+      <p class="nm-block-title text-left">Start collection</p>
+
+      <a class="btn btn-default btn-block nm-btn-placeholder" href="{{ site.baseurl }}/campaigns/choose-collection.html">Select collection</a>
+    </div>
   </div>
 
   <a class="btn btn-default btn-block nm-btn-placeholder" href="{{ site.baseurl }}/{{ include.href }}">Add Block</a>
