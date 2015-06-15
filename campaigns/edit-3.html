@@ -8,6 +8,23 @@ layout: default
     Campaign 4
   </h1>
 
-  {% include blocks/campaigns/when-2.html %}
+  <div class="btn btn-default btn-block">
+    <p class="nm-block-title text-left">When</p>
+  
+    <div class="btn btn-default btn-block nm-block-is-selected">
+      <p class="nm-block-title text-left">User dials</p>
+  
+      <a class="btn btn-default btn-block nm-btn-placeholder" href="{{ site.baseurl }}/campaigns/choose-channel.html">Select channel</a>
+    </div>
+  
+    <br/>
+  
+    <p class="nm-block-title text-left">Do the following</p>
+  
+    <div class="list-group">
+      <a href="#" class="list-group-item nm-btn-placeholder">Add an action</a>
+    </div>
+  </div>
+
   {% include blocks/add.html %}
 </div>
