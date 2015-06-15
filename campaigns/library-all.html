@@ -4,24 +4,19 @@ blocks:
     - id: event-types
       title: Event Types
       collapsed: false
-      btnClass: btn-success
+      btnClass: btn-info
       blocks:
         - title: When
           href: campaigns/edit-2.html
         - title: Every
-    - id: events
-      title: Events
-      collapsed: true
-      btnClass: btn-info
+    - id: patterns
+      title: Patterns
+      collapsed: false
+      btnClass: btn-success
       blocks:
-        - title: User Dials
-        - title: User Sends
-    - id: Reactions
-      title: Reactions
-      collapsed: true
-      btnClass: btn-warning
-      blocks:
-        - title: Start Collection
+        - title: When user dials in, start collection
+          href: campaigns/edit-2.1.html
+
 layout: default
 ---
 {% include library.html %}
