@@ -10,7 +10,7 @@
 
   <div class="panel-group" id="accordion" role="tablist">
   {% for category in page.blocks.categories %}
-    <div class="panel panel-default">
+    <div class="panel panel-default nm-block-category">
       <div class="panel-heading">
         <h4 class="panel-title">
           <a data-toggle="collapse" data-parent="#accordion" href="#{{ category.id }}">
@@ -40,9 +40,26 @@ document.onready = function() {
     expr = new RegExp(expr, 'i');
 
     $('.nm-btn-block').each(function() {
-      if (!$(this).text().match(expr)) $(this).hide();
-      else $(this).show();
+      if (!$(this).text().match(expr)) hide(this);
+      else show(this);
     });
+
+    $('.nm-block-category').each(function() {
+      var $all = $(this).find('.nm-btn-block');
+      var $hidden = $(this).find('.nm-btn-block[data-hidden]');
+      if ($all.length === $hidden.length) hide(this);
+      else show(this);
+    })
+  }
+
+
+  function hide(el) {
+    $(el).attr('data-hidden', true).hide();
+  }
+
+
+  function show(el) {
+    $(el).removeAttr('data-hidden').show();
   }
 }
 </script>
