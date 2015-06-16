@@ -7,7 +7,7 @@ layout: default
   Collection 11
 </h1>
 
-<div id="ask" class="btn btn-default btn-block" data-href="{{ site.baseurl }}/collections/edit-9.html">
+<div id="ask" class="btn btn-default btn-block nm-block-is-selected" data-href="{{ site.baseurl }}/collections/edit-9.html">
   <p class="nm-block-title text-left">Ask</p>
 
   <a class="btn btn-default btn-block nm-btn-text" href="{{ site.baseurl }}/collections/edit-ask-text.html">Hi. What is your gender?</a>
@@ -18,21 +18,13 @@ layout: default
     </p>
   </div>
 
-  <div class="btn btn-default btn-block nm-block-is-selected">
+  <div class="btn btn-default btn-block">
     <p class="nm-block-title text-left">Choice</p>
 
     <a class="btn btn-default btn-block nm-btn-text" href="{{ site.baseurl }}/collections/edit-choice-text-2.html">Male</a>
-
-    <a class="btn btn-default btn-block nm-btn-placeholder" href="#">Add block</a>
   </div>
+
+  <a class="btn btn-default btn-block nm-btn-placeholder" href="{{ site.baseurl }}/collections/library-ask-3.html">Add block</a>
 </div>
 
 <a class="btn btn-default btn-block nm-btn-placeholder" href="{{ site.baseurl }}/collections/library-all-2.html">Add block</a>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  $('#ask').click(function() {
-    document.location = $(this).attr('data-href');
-  });
-});
-</script>
