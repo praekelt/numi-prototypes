@@ -7,22 +7,27 @@ layout: default
   Collection 11
 </h1>
 
-<div class="btn btn-default btn-block">
+<div id="ask" class="btn btn-default btn-block nm-block-is-selected" data-href="{{ site.baseurl }}/collections/edit-6.html">
   <p class="nm-block-title text-left">Ask</p>
 
   <a class="btn btn-default btn-block nm-btn-text" href="{{ site.baseurl }}/collections/edit-ask-text.html">Hi. What is your gender?</a>
+
+  <div class="btn btn-default btn-block">
+    <p class="nm-block-title text-left">Choice</p>
+      <a class="btn btn-default btn-block nm-btn-text" href="{{ site.baseurl }}/collections/edit-choice-text.html">Female</a>
+    </p>
+  </div>
+
+  <a class="btn btn-default btn-block nm-btn-placeholder" href="{{ site.baseurl }}/collections/library-ask-2.html">Add block</a>
 </div>
 
-<div class="btn btn-default btn-block">
-  <p class="nm-block-title text-left">Choice</p>
-  <a class="btn btn-default btn-block nm-btn-text" href="{{ site.baseurl }}/collections/edit-choice-text.html">Female</a>
-  </p>
-</div>
+<a class="btn btn-default btn-block nm-btn-placeholder" href="{{ site.baseurl }}/collections/library-all-3.html">Add block</a>
 
-<div class="btn btn-default btn-block nm-block-is-selected">
-  <p class="nm-block-title text-left">Choice</p>
 
-  <a class="btn btn-default btn-block nm-btn-placeholder" href="{{ site.baseurl }}/collections/edit-choice-text-2.html">Enter choice text</a>
-</div>
-
-<a class="btn btn-default btn-block nm-btn-placeholder" href="{{ site.baseurl }}/collections/library-all-2.html">Add block</a>
+<script>
+document.addEventListener("DOMContentLoaded", function() { 
+  $('#ask').click(function() {
+    document.location = $(this).attr('data-href');
+  });
+});
+</script>
