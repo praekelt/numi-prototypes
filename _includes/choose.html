@@ -1,41 +1,39 @@
-<div class="nm-page">
-  {% if page.label %}
-  <h3>{{ page.label }}</h3>
-  {% endif %}
+{% if page.label %}
+<h3>{{ page.label }}</h3>
+{% endif %}
 
-  {% unless page.unsearchable %}
-  <div class="input-group">
+{% unless page.unsearchable %}
+<div class="input-group">
     <input id="search-input" type="text" class="form-control" placeholder="Search for a channel...">
     <span class="input-group-btn">
       <button id="search-btn" class="btn btn-default" type="button">Search</button>
     </span>
-  </div>
-  {% endunless %}
+</div>
+{% endunless %}
 
-  <div class="list-group">
+<div class="list-group">
     {% for choice in page.choices %}
     <a class="list-group-item nm-choice" {% if choice.href %}href="{{ site.baseurl }}/{{ choice.href }}"{% endif %}>{{choice.text}}</a>
     {% endfor %}
-  </div>
-
-  <script>
-  document.addEventListener("DOMContentLoaded", function() { 
-    $('#search-btn').click(function(e) {
-      hideUnmatched($('#search-input').val());
-    });
-
-    function hideUnmatched(expr) {
-      expr = new RegExp(escapeRegExp(expr), 'i');
-
-      $('.nm-choice').each(function() {
-        if (!$(this).text().match(expr)) $(this).hide();
-        else $(this).show();
-      });
-    }
-
-    function escapeRegExp(str) {
-      return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-    }
-  });
-  </script>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() { 
+$('#search-btn').click(function(e) {
+  hideUnmatched($('#search-input').val());
+});
+
+function hideUnmatched(expr) {
+  expr = new RegExp(escapeRegExp(expr), 'i');
+
+  $('.nm-choice').each(function() {
+    if (!$(this).text().match(expr)) $(this).hide();
+    else $(this).show();
+  });
+}
+
+function escapeRegExp(str) {
+  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+}
+});
+</script>
