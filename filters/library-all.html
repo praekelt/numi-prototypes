@@ -2,19 +2,32 @@
 layout: default
 blocks:
   categories:
-    - id: interactions
-      title: Event Types
+    - id: numbers
+      title: Numbers
       collapsed: false
       btnClass: btn-info
       blocks:
-        - title: Ask
-          href: collections/edit-2.html
-        - title: Reply and end
-    - id: conditionals
-      title: Conditionals
+        - title: Equals
+        - title: Less than
+        - title: Greater than
+        - title: Less than or equal to
+        - title: Greater than
+        - title: Greater than or equal to
+    - id: text
+      title: Text
+      collapsed: false
+      btnClass: btn-warning
+      blocks:
+        - title: Equals
+          href: filters/edit-2.html
+    - id: dates
+      title: Dates and times
       collapsed: false
       btnClass: btn-success
       blocks:
-        - title: Filter
+        - title: Equals
+          href: filters/edit-2.html
+        - title: Earlier than
+        - title: Later than
 ---
 {% include library.html %}
