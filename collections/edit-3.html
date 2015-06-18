@@ -10,7 +10,7 @@ layout: default
 <div class="btn btn-default btn-block">
   <p class="nm-block-title text-left">Ask</p>
 
-  <input type="text" class="form-control" placeholder="Enter question text">
+  <input id="ask-text" type="text" class="form-control" placeholder="Enter question text">
 
   <br/>
 
@@ -22,4 +22,11 @@ layout: default
 </div>
 
 
-<a class="btn btn-default btn-block nm-btn-placeholder" href="{{ site.baseurl }}/collections/library-all-3.html">Add block</a>
+<a class="btn btn-default btn-block nm-btn-placeholder" href="#.html">Add block</a>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  $('#ask-text').val(localStorage.getItem('ask-text'));
+});
+</script>
