@@ -1,4 +1,6 @@
+require('bootstrap/dist/css/bootstrap.css');
 require('./app.scss');
+
 var $ = require('jquery');
 var page = require('page');
 var CollectionEdit = require('./views/collection-edit');
