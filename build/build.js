@@ -48,7 +48,7 @@
 	var $ = __webpack_require__(5);
 	var page = __webpack_require__(6);
 	var CollectionEdit = __webpack_require__(10);
-	var pg = __webpack_require__(26);
+	var pg = __webpack_require__(14);
 
 
 	// make already existing collections here
@@ -114,7 +114,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
-	exports.push([module.id, "", ""]);
+	exports.push([module.id, "html {\n  background-color: #333;\n  max-width: 320px;\n  margin: 0 auto; }\n\nbody {\n  background-color: #fff; }\n\n.nm-page {\n  padding: 1em; }\n\n.nm-placeholder {\n  border-style: dashed; }\n\n.nm-block-title {\n  font-weight: bold;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  color: #666; }\n", ""]);
 
 /***/ },
 /* 3 */
@@ -10568,8 +10568,8 @@
 	    this.push('blockSets', {type: 'screen'});
 	  },
 	  components: {
-	    screen: __webpack_require__(17),
-	    filter: __webpack_require__(19)
+	    screen: __webpack_require__(13),
+	    filter: __webpack_require__(23)
 	  }
 	});
 
@@ -27203,20 +27203,16 @@
 /* 12 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h1","f":[{"t":2,"r":"name"}]}," ",{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"screen"}],"x":{"r":["type"],"s":"_0===\"screen\""}}," ",{"t":4,"f":[{"t":7,"e":"filter"}],"x":{"r":["type"],"s":"_0===\"filter\""}}],"r":"blockSets"}," ",{"t":7,"e":"button","v":{"click":{"m":"addScreen","a":{"r":[],"s":"[]"}}},"f":["Add screen"]}," "]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"h1","a":{"class":"page-header"},"f":[{"t":7,"e":"small","f":["Campaign"]}," ",{"t":7,"e":"br"}," ",{"t":2,"r":"name"}]}," ",{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"screen"}],"x":{"r":["type"],"s":"_0===\"screen\""}},{"t":4,"f":[{"t":7,"e":"filter"}],"x":{"r":["type"],"s":"_0===\"filter\""}}],"r":"blockSets"},{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addScreen","a":{"r":[],"s":"[]"}}},"f":["Add screen"]}," "]};
 
 /***/ },
-/* 13 */,
-/* 14 */,
-/* 15 */,
-/* 16 */,
-/* 17 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(5);
 	var Ractive = __webpack_require__(11);
-	var pg = __webpack_require__(26);
-	var BlockLibrary = __webpack_require__(24);
+	var pg = __webpack_require__(14);
+	var BlockLibrary = __webpack_require__(15);
 
 
 	module.exports = Ractive.extend({
@@ -27230,90 +27226,14 @@
 	    pg.push(library.el);
 	  },
 	  components: {
-	    ask: __webpack_require__(27),
-	    choice: __webpack_require__(29)
+	    ask: __webpack_require__(19),
+	    choice: __webpack_require__(21)
 	  }
 	});
 
 
 /***/ },
-/* 18 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"ask"}],"x":{"r":["type"],"s":"_0===\"ask\""}}," ",{"t":4,"f":[{"t":7,"e":"choice"}],"x":{"r":["type"],"s":"_0===\"choice\""}}],"r":"blocks"}," ",{"t":7,"e":"button","v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["Add block"]}]}]};
-
-/***/ },
-/* 19 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Ractive = __webpack_require__(11);
-
-
-	module.exports = Ractive.extend({
-	  template: __webpack_require__(20)
-	});
-
-
-/***/ },
-/* 20 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[]};
-
-/***/ },
-/* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Ractive = __webpack_require__(11);
-	var pg = __webpack_require__(26);
-
-
-	// TODO something similar to this for filters
-	module.exports = Ractive.extend({
-	  template: __webpack_require__(22),
-	  addBlock: function(type) {
-	    this.get('source').push('blocks', {type: type});
-	    pg.pop();
-	  }
-	});
-
-
-/***/ },
-/* 22 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"h1","f":["Library"]}," ",{"t":4,"f":[{"t":7,"e":"h2","f":[{"t":2,"r":"title"}]}," ",{"t":4,"f":[{"t":7,"e":"button","v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}],"r":"blocks"}],"r":"types"}]};
-
-/***/ },
-/* 23 */,
-/* 24 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Library = __webpack_require__(21);
-
-
-	// TODO something similar to this for filters
-	module.exports = Library.extend({
-	  data: function() {
-	    return {
-	      types: [{
-	        title: 'Interactions',
-	        blocks: [{
-	          title: 'Ask',
-	          type: 'ask'
-	        }, {
-	          title: 'Choice',
-	          type: 'choice'
-	        }]
-	      }]
-	    };
-	  }
-	});
-
-
-/***/ },
-/* 25 */,
-/* 26 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(5);
@@ -27350,40 +27270,114 @@
 
 
 /***/ },
-/* 27 */
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Library = __webpack_require__(16);
+
+
+	// TODO something similar to this for filters
+	module.exports = Library.extend({
+	  data: function() {
+	    return {
+	      types: [{
+	        title: 'Interactions',
+	        blocks: [{
+	          title: 'Ask',
+	          type: 'ask'
+	        }, {
+	          title: 'Choice',
+	          type: 'choice'
+	        }]
+	      }]
+	    };
+	  }
+	});
+
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Ractive = __webpack_require__(11);
+	var pg = __webpack_require__(14);
+
+
+	// TODO something similar to this for filters
+	module.exports = Ractive.extend({
+	  template: __webpack_require__(17),
+	  addBlock: function(type) {
+	    this.get('source').push('blocks', {type: type});
+	    pg.pop();
+	  }
+	});
+
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Library"]}," ",{"t":4,"f":[{"t":7,"e":"h2","f":[{"t":2,"r":"title"}]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}],"r":"blocks"}],"r":"types"}]};
+
+/***/ },
+/* 18 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"ask"}],"x":{"r":["type"],"s":"_0===\"ask\""}}," ",{"t":4,"f":[{"t":7,"e":"choice"}],"x":{"r":["type"],"s":"_0===\"choice\""}}],"r":"blocks"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["Add block"]}]}]}]};
+
+/***/ },
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Ractive = __webpack_require__(11);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(28)
+	  template: __webpack_require__(20)
 	});
 
 
 /***/ },
-/* 28 */
+/* 20 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"p","f":["Ask"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control"}}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Ask"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control"}}," "]}]}]};
 
 /***/ },
-/* 29 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Ractive = __webpack_require__(11);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(30)
+	  template: __webpack_require__(22)
 	});
 
 
 /***/ },
-/* 30 */
+/* 22 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":["Choice"]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Choice"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control"}}," "]}]}]};
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Ractive = __webpack_require__(11);
+
+
+	module.exports = Ractive.extend({
+	  template: __webpack_require__(24)
+	});
+
+
+/***/ },
+/* 24 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[]};
 
 /***/ }
 /******/ ]);

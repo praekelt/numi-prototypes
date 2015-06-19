@@ -1,16 +1,17 @@
-<div>
+<div class="panel panel-default">
+  <div class="panel-body">
+    {{#blocks}}
 
-  {{#blocks}}
+    {{# type === 'ask' }}
+    <ask></ask>
+    {{/}}
 
-  {{# type === 'ask' }}
-  <ask></ask>
-  {{/}}
+    {{# type === 'choice' }}
+    <choice></choice>
+    {{/}}
 
-  {{# type === 'choice' }}
-  <choice></choice>
-  {{/}}
+    {{/blockSets}}
 
-  {{/blockSets}}
-
-  <button on-click="addBlock()">Add block</button>
+    <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">Add block</button>
+  </div>
 </div>

@@ -1,18 +1,20 @@
-<div>
-  <h1>{{name}}</h1>
+<h1 class="page-header">
+  <small>Campaign</small>
+  <br/>
+  {{ name }}
+</h1>
 
-  {{#blockSets}}
+{{#blockSets}}
 
-  {{# type === 'screen' }}
-  <screen></screen>
-  {{/}}
+{{# type === 'screen' }}
+<screen></screen>
+{{/}}
 
-  {{# type === 'filter' }}
-  <filter></filter>
-  {{/}}
+{{# type === 'filter' }}
+<filter></filter>
+{{/}}
 
-  {{/blockSets}}
+{{/blockSets}}
 
-  <button on-click="addScreen()">Add screen</button>
-  <!-- TODO button for adding filters -->
-</div>
+<button class="btn btn-default btn-block nm-placeholder" on-click="addScreen()">Add screen</button>
+<!-- TODO button for adding filters -->
