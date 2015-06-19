@@ -1,0 +1,28 @@
+---
+layout: default
+---
+<h1 class="page-header">
+  <small>Collection</small>
+  <br/>
+  Collection 11
+</h1>
+
+<div class="btn btn-default btn-block nm-block-is-selected">
+  <p class="nm-block-title text-left">Ask</p>
+
+  <input id="ask-text" type="text" class="form-control" placeholder="Enter question text">
+
+  <br/>
+
+  <a class="btn btn-default btn-block nm-btn-placeholder" href="{{ site.baseurl }}/collections/library-ask.html">Add block</a>
+</div>
+
+<a class="btn btn-default btn-block nm-btn-placeholder" href="{{ site.baseurl }}/collections/library-all.html">Add block</a>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  $(window).unload(function() {
+    localStorage.setItem('ask-text', $('#ask-text').val());
+  });
+});
+</script>
