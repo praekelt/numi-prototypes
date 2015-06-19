@@ -1,4 +1,3 @@
-require('bootstrap/dist/css/bootstrap.css');
 require('./app.scss');
 
 var $ = require('jquery');
