@@ -13,12 +13,12 @@ var collections = {
 
 
 // TODO change this to go to a campaign view once we have multiple collections
-page('/', function(ctx, next) {
+page('./', function(ctx, next) {
   pg.push(collections.collection1.edit.el);
 });
 
 
-page('/collections/:id/edit', function(ctx, next) {
+page('./collections/:id/edit', function(ctx, next) {
   pg.push(collections[ctx.params.id].edit.el);
 });
 
