@@ -1,14 +1,10 @@
 # numi-prototypes
 
-## Testing Script
+### development
 
-### Campaign 1
-
-* Ask location
-* Ask quality of service: Good, Bad, or Ugly
-
-### Campaign 2
-
-* Ask age
-* Ask gender
-* Ask favourite singer
+```
+$ npm install webpack -g
+$ npm install
+$ python -m SimpleHTTPServer 8888 &  # or some other way of serving the static files
+$ webpack -w
+```
