@@ -118,7 +118,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
-	exports.push([module.id, "html {\n  background-color: #333;\n  max-width: 320px;\n  margin: 0 auto; }\n\nbody {\n  background-color: #fff; }\n\n.nm-page {\n  padding: 1em; }\n\n.nm-placeholder {\n  border-style: dashed; }\n\n.nm-block-title {\n  font-weight: bold;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  color: #666; }\n", ""]);
+	exports.push([module.id, "html {\n  background-color: #333;\n  max-width: 320px;\n  margin: 0 auto; }\n\nbody {\n  background-color: #fff; }\n\n.nm-page {\n  padding: 1em; }\n\n.nm-placeholder {\n  border-style: dashed; }\n\n.nm-block-title {\n  font-weight: bold;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  color: #666; }\n\n.btn-library {\n  margin: 0.5em; }\n\n.screen {\n  padding-bottom: 3em;\n  border-bottom: solid 1px #333;\n  margin-bottom: 3em; }\n", ""]);
 
 /***/ },
 /* 3 */
@@ -10573,7 +10573,7 @@
 	  },
 	  components: {
 	    screen: __webpack_require__(13),
-	    filter: __webpack_require__(23)
+	    filter: __webpack_require__(31)
 	  }
 	});
 
@@ -27231,7 +27231,11 @@
 	  },
 	  components: {
 	    ask: __webpack_require__(19),
-	    choice: __webpack_require__(21)
+	    choice: __webpack_require__(21),
+	    userdialsin: __webpack_require__(23),
+	    userreplies: __webpack_require__(25),
+	    scheduled: __webpack_require__(27),
+	    manual: __webpack_require__(29),
 	  }
 	});
 
@@ -27293,6 +27297,22 @@
 	          title: 'Choice',
 	          type: 'choice'
 	        }]
+	      },
+	      {
+	        title: 'Events',
+	        blocks: [{
+	          title: 'User dials in',
+	          type: 'userdialsin'
+	        }, {
+	          title: 'User replies',
+	          type: 'userreplies'
+	        }, {
+	          title: 'Scheduled',
+	          type: 'scheduled'
+	        }, {
+	          title: 'Manual',
+	          type: 'manual'
+	        }]
 	      }]
 	    };
 	  }
@@ -27321,13 +27341,13 @@
 /* 17 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Library"]}," ",{"t":4,"f":[{"t":7,"e":"h2","f":[{"t":2,"r":"title"}]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}],"r":"blocks"}],"r":"types"}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Library"]}," ",{"t":4,"f":[{"t":7,"e":"h2","f":[{"t":2,"r":"title"}]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-library"},"v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}],"r":"blocks"}],"r":"types"}]};
 
 /***/ },
 /* 18 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"ask"}],"x":{"r":["type"],"s":"_0===\"ask\""}}," ",{"t":4,"f":[{"t":7,"e":"choice"}],"x":{"r":["type"],"s":"_0===\"choice\""}}],"r":"blocks"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["Add block"]}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"screen"},"f":[{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"ask"}],"x":{"r":["type"],"s":"_0===\"ask\""}}," ",{"t":4,"f":[{"t":7,"e":"choice"}],"x":{"r":["type"],"s":"_0===\"choice\""}}," ",{"t":4,"f":[{"t":7,"e":"userdialsin"}],"x":{"r":["type"],"s":"_0===\"userdialsin\""}}," ",{"t":4,"f":[{"t":7,"e":"userreplies"}],"x":{"r":["type"],"s":"_0===\"userreplies\""}}," ",{"t":4,"f":[{"t":7,"e":"scheduled"}],"x":{"r":["type"],"s":"_0===\"scheduled\""}}," ",{"t":4,"f":[{"t":7,"e":"manual"}],"x":{"r":["type"],"s":"_0===\"manual\""}}],"r":"blocks"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["Add block"]}]}]};
 
 /***/ },
 /* 19 */
@@ -27379,6 +27399,78 @@
 
 /***/ },
 /* 24 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["User Dials In"]}," "]}]}]};
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Ractive = __webpack_require__(11);
+
+
+	module.exports = Ractive.extend({
+	  template: __webpack_require__(26)
+	});
+
+
+/***/ },
+/* 26 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["User Replies"]}," "]}]}]};
+
+/***/ },
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Ractive = __webpack_require__(11);
+
+
+	module.exports = Ractive.extend({
+	  template: __webpack_require__(28)
+	});
+
+
+/***/ },
+/* 28 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Scheduled"]}," "]}]}]};
+
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Ractive = __webpack_require__(11);
+
+
+	module.exports = Ractive.extend({
+	  template: __webpack_require__(30)
+	});
+
+
+/***/ },
+/* 30 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Manual"]}," "]}]}]};
+
+/***/ },
+/* 31 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Ractive = __webpack_require__(11);
+
+
+	module.exports = Ractive.extend({
+	  template: __webpack_require__(32)
+	});
+
+
+/***/ },
+/* 32 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[]};

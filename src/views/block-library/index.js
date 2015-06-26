@@ -14,6 +14,22 @@ module.exports = Library.extend({
           title: 'Choice',
           type: 'choice'
         }]
+      },
+      {
+        title: 'Events',
+        blocks: [{
+          title: 'User dials in',
+          type: 'userdialsin'
+        }, {
+          title: 'User replies',
+          type: 'userreplies'
+        }, {
+          title: 'Scheduled',
+          type: 'scheduled'
+        }, {
+          title: 'Manual',
+          type: 'manual'
+        }]
       }]
     };
   }

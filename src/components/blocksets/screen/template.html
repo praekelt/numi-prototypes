@@ -1,5 +1,4 @@
-<div class="panel panel-default">
-  <div class="panel-body">
+<div class="screen">
     {{#blocks}}
 
     {{# type === 'ask' }}
@@ -10,8 +9,23 @@
     <choice></choice>
     {{/}}
 
-    {{/blockSets}}
+    {{# type === 'userdialsin' }}
+    <userdialsin></userdialsin>
+    {{/}}
+    
+    {{# type === 'userreplies' }}
+    <userreplies></userreplies>
+    {{/}}
+    
+    {{# type === 'scheduled' }}
+    <scheduled></scheduled>
+    {{/}}
+
+    {{# type === 'manual' }}
+    <manual></manual>
+    {{/}}
+
+    {{/blocks}}
 
     <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">Add block</button>
-  </div>
 </div>

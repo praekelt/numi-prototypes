@@ -16,6 +16,10 @@ module.exports = Ractive.extend({
   },
   components: {
     ask: require('../../blocks/ask'),
-    choice: require('../../blocks/choice')
+    choice: require('../../blocks/choice'),
+    userdialsin: require('../../blocks/userdialsin'),
+    userreplies: require('../../blocks/userreplies'),
+    scheduled: require('../../blocks/scheduled'),
+    manual: require('../../blocks/manual'),
   }
 });
