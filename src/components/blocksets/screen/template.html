@@ -25,6 +25,26 @@
     <manual></manual>
     {{/}}
 
+    {{# type === 'validatecliniccode' }}
+    <validatecliniccode></validatecliniccode>
+    {{/}}
+
+    {{# type === 'shownext9months' }}
+    <shownext9months></shownext9months>
+    {{/}}
+
+    {{# type === 'standardmessageset' }}
+    <standardmessageset></standardmessageset>
+    {{/}}
+
+    {{# type === 'latermessageset' }}
+    <latermessageset></latermessageset>
+    {{/}}
+    
+    {{# type === 'acceleratedmessageset' }}
+    <acceleratedmessageset></acceleratedmessageset>
+    {{/}}
+
     {{/blocks}}
 
     <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">Add block</button>

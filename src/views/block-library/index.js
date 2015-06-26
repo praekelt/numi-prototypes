@@ -14,8 +14,7 @@ module.exports = Library.extend({
           title: 'Choice',
           type: 'choice'
         }]
-      },
-      {
+      }, {
         title: 'Events',
         blocks: [{
           title: 'User dials in',
@@ -29,6 +28,27 @@ module.exports = Library.extend({
         }, {
           title: 'Manual',
           type: 'manual'
+        }]
+      }, {
+        title: 'Custom components',
+        blocks: [{
+          title: 'Validate Clinic Code',
+          type: 'validatecliniccode'
+        }, {
+          title: 'Show next 9 months',
+          type: 'shownext9months'
+        }]
+      }, {
+        title: 'Message sets',
+        blocks: [{
+          title: 'Standard Message Set',
+          type: 'standardmessageset'
+        }, {
+          title: 'Later Message Set',
+          type: 'latermessageset'
+        }, {
+          title: 'Accelerated MessageSet',
+          type: 'acceleratedmessageset'
         }]
       }]
     };

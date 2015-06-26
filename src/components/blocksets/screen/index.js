@@ -21,5 +21,10 @@ module.exports = Ractive.extend({
     userreplies: require('../../blocks/userreplies'),
     scheduled: require('../../blocks/scheduled'),
     manual: require('../../blocks/manual'),
+    validatecliniccode: require('../../blocks/validatecliniccode'),
+    shownext9months: require('../../blocks/shownext9months'),
+    standardmessageset: require('../../blocks/standardmessageset'),
+    latermessageset: require('../../blocks/latermessageset'),
+    acceleratedmessageset: require('../../blocks/acceleratedmessageset'),
   }
 });
