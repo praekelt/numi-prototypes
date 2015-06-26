@@ -27313,6 +27313,7 @@
 	    return {
 	      types: [{
 	        title: 'Interactions',
+	        name: 'interactions',
 	        blocks: [{
 	          title: 'Ask',
 	          type: 'ask'
@@ -27322,6 +27323,7 @@
 	        }]
 	      }, {
 	        title: 'Events',
+	        name: 'events',
 	        blocks: [{
 	          title: 'User dials in',
 	          type: 'userdialsin'
@@ -27337,6 +27339,7 @@
 	        }]
 	      }, {
 	        title: 'Custom components',
+	        name: 'custom-components',
 	        blocks: [{
 	          title: 'Validate Clinic Code',
 	          type: 'validatecliniccode'
@@ -27346,6 +27349,7 @@
 	        }]
 	      }, {
 	        title: 'Message sets',
+	        name: 'message-sets',
 	        blocks: [{
 	          title: 'Standard Message Set',
 	          type: 'standardmessageset'
@@ -27384,7 +27388,7 @@
 /* 19 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Library"]}," ",{"t":4,"f":[{"t":7,"e":"h2","f":[{"t":2,"r":"title"}]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-library"},"v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}],"r":"blocks"}],"r":"types"}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Library"]}," ",{"t":7,"e":"div","a":{"class":"panel-group","id":"accordion","role":"tablist","aria-multiselectable":"true"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"h2","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":["#collapse",{"t":2,"r":"name"}],"aria-expanded":"true","aria-controls":["collapse",{"t":2,"r":"name"}]},"f":[{"t":2,"r":"title"}]}]}]}," ",{"t":7,"e":"div","a":{"id":["collapse",{"t":2,"r":"name"}],"class":"panel-collapse collapse in","role":"tabpanel","aria-labelledby":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-library"},"v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}],"r":"blocks"}]}]}]}],"r":"types"}]}]};
 
 /***/ },
 /* 20 */

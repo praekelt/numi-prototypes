@@ -7,6 +7,7 @@ module.exports = Library.extend({
     return {
       types: [{
         title: 'Interactions',
+        name: 'interactions',
         blocks: [{
           title: 'Ask',
           type: 'ask'
@@ -16,6 +17,7 @@ module.exports = Library.extend({
         }]
       }, {
         title: 'Events',
+        name: 'events',
         blocks: [{
           title: 'User dials in',
           type: 'userdialsin'
@@ -31,6 +33,7 @@ module.exports = Library.extend({
         }]
       }, {
         title: 'Custom components',
+        name: 'custom-components',
         blocks: [{
           title: 'Validate Clinic Code',
           type: 'validatecliniccode'
@@ -40,6 +43,7 @@ module.exports = Library.extend({
         }]
       }, {
         title: 'Message sets',
+        name: 'message-sets',
         blocks: [{
           title: 'Standard Message Set',
           type: 'standardmessageset'
