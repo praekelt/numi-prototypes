@@ -14,6 +14,9 @@ module.exports = Library.extend({
         }, {
           title: 'Choice',
           type: 'choice'
+        }, {
+          title: 'End',
+          type: 'end'
         }]
       }, {
         title: 'Events',
