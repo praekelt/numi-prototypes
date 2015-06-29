@@ -27416,7 +27416,7 @@
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Choice"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control"}}," "]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Choice"]}," ",{"t":7,"e":"input","a":{"class":"form-control"}}]}," ",{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"form","a":{"class":"form-inline"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"label","f":["Save as ",{"t":7,"e":"input","a":{"type":"text","class":"form-control"}}]}]}]}]}]}]};
 
 /***/ },
 /* 23 */
