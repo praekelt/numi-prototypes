@@ -1,14 +1,30 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <p class="nm-block-title">Choice</p>
-    <input class="form-control" />
+    <div class="form-group">
+      <label for="choice-text">Text</label>
+      <textarea class="form-control" id="choice-text" name="choice-text"></textarea>
+    </div>
   </div>
   <div class="panel-body">
-    <form class="form-inline">
     <div class="form-group">
-      <label>Save as
-        <input type="text" class="form-control">
-      </label>
+      <form>
+        <ol>
+          <li>
+            <label for="choice-text-1">Choice</label>
+            <input type="text" id="choice-text-1" name="choice-text-1" class="form-control">
+          </li>
+        </ol>
+      </form>
+    </div>
+  </div>
+  <div class="panel-body">
+    <button class="btn btn-default btn-block nm-placeholder">Add choice</button>
+  </div>
+  <div class="panel-footer">
+    <div class="form-group">
+      <label for="ask-name">Question name</label>
+        <input type="text" id="ask-text" name="ask-text" class="form-control" />
     </div>
   </div>
 </div>
