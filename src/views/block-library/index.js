@@ -25,8 +25,8 @@ module.exports = Library.extend({
           title: 'User dials in',
           type: 'userdialsin'
         }, {
-          title: 'User replies',
-          type: 'userreplies'
+          title: 'User sends message',
+          type: 'usersendsmessage'
         }, {
           title: 'Scheduled',
           type: 'scheduled'

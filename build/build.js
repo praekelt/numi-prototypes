@@ -27238,8 +27238,7 @@
 	    ask: __webpack_require__(19),
 	    choice: __webpack_require__(21),
 	    end: __webpack_require__(23),
-	    userdialsin: __webpack_require__(25),
-	    userreplies: __webpack_require__(27),
+	    usersendsmessage: __webpack_require__(45),
 	    scheduled: __webpack_require__(29),
 	    manual: __webpack_require__(31),
 	    validatecliniccode: __webpack_require__(33),
@@ -27319,8 +27318,8 @@
 	          title: 'User dials in',
 	          type: 'userdialsin'
 	        }, {
-	          title: 'User replies',
-	          type: 'userreplies'
+	          title: 'User sends message',
+	          type: 'usersendsmessage'
 	        }, {
 	          title: 'Scheduled',
 	          type: 'scheduled'
@@ -27385,7 +27384,7 @@
 /* 18 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"screen"},"f":[{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"ask"}],"x":{"r":["type"],"s":"_0===\"ask\""}}," ",{"t":4,"f":[{"t":7,"e":"choice"}],"x":{"r":["type"],"s":"_0===\"choice\""}}," ",{"t":4,"f":[{"t":7,"e":"end"}],"x":{"r":["type"],"s":"_0===\"end\""}}," ",{"t":4,"f":[{"t":7,"e":"userdialsin"}],"x":{"r":["type"],"s":"_0===\"userdialsin\""}}," ",{"t":4,"f":[{"t":7,"e":"userreplies"}],"x":{"r":["type"],"s":"_0===\"userreplies\""}}," ",{"t":4,"f":[{"t":7,"e":"scheduled"}],"x":{"r":["type"],"s":"_0===\"scheduled\""}}," ",{"t":4,"f":[{"t":7,"e":"manual"}],"x":{"r":["type"],"s":"_0===\"manual\""}}," ",{"t":4,"f":[{"t":7,"e":"validatecliniccode"}],"x":{"r":["type"],"s":"_0===\"validatecliniccode\""}}," ",{"t":4,"f":[{"t":7,"e":"shownext9months"}],"x":{"r":["type"],"s":"_0===\"shownext9months\""}}," ",{"t":4,"f":[{"t":7,"e":"standardmessageset"}],"x":{"r":["type"],"s":"_0===\"standardmessageset\""}}," ",{"t":4,"f":[{"t":7,"e":"latermessageset"}],"x":{"r":["type"],"s":"_0===\"latermessageset\""}}," ",{"t":4,"f":[{"t":7,"e":"acceleratedmessageset"}],"x":{"r":["type"],"s":"_0===\"acceleratedmessageset\""}}],"r":"blocks"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"screen"},"f":[{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"ask"}],"x":{"r":["type"],"s":"_0===\"ask\""}}," ",{"t":4,"f":[{"t":7,"e":"choice"}],"x":{"r":["type"],"s":"_0===\"choice\""}}," ",{"t":4,"f":[{"t":7,"e":"end"}],"x":{"r":["type"],"s":"_0===\"end\""}}," ",{"t":4,"f":[{"t":7,"e":"userdialsin"}],"x":{"r":["type"],"s":"_0===\"userdialsin\""}}," ",{"t":4,"f":[{"t":7,"e":"usersendsmessage"}],"x":{"r":["type"],"s":"_0===\"usersendsmessage\""}}," ",{"t":4,"f":[{"t":7,"e":"scheduled"}],"x":{"r":["type"],"s":"_0===\"scheduled\""}}," ",{"t":4,"f":[{"t":7,"e":"manual"}],"x":{"r":["type"],"s":"_0===\"manual\""}}," ",{"t":4,"f":[{"t":7,"e":"validatecliniccode"}],"x":{"r":["type"],"s":"_0===\"validatecliniccode\""}}," ",{"t":4,"f":[{"t":7,"e":"shownext9months"}],"x":{"r":["type"],"s":"_0===\"shownext9months\""}}," ",{"t":4,"f":[{"t":7,"e":"standardmessageset"}],"x":{"r":["type"],"s":"_0===\"standardmessageset\""}}," ",{"t":4,"f":[{"t":7,"e":"latermessageset"}],"x":{"r":["type"],"s":"_0===\"latermessageset\""}}," ",{"t":4,"f":[{"t":7,"e":"acceleratedmessageset"}],"x":{"r":["type"],"s":"_0===\"acceleratedmessageset\""}}],"r":"blocks"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]}]};
 
 /***/ },
 /* 19 */
@@ -27442,42 +27441,10 @@
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["End"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control"}}," "]}]}]};
 
 /***/ },
-/* 25 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Ractive = __webpack_require__(11);
-
-
-	module.exports = Ractive.extend({
-	  template: __webpack_require__(26)
-	});
-
-
-/***/ },
-/* 26 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["User Dials In"]}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":7,"e":"button","a":{"type":"submit","class":"btn btn-default btn-block"},"f":["*120*123#"]}," ",{"t":7,"e":"button","a":{"type":"submit","class":"btn btn-default btn-block","disabled":"disabled"},"f":["*120*124#"]}," ",{"t":7,"e":"button","a":{"type":"submit","class":"btn btn-default btn-block"},"f":["*120*789#"]}," ",{"t":7,"e":"button","a":{"type":"submit","class":"btn btn-default btn-block"},"f":["123456"]}," ",{"t":7,"e":"button","a":{"type":"submit","class":"btn btn-default btn-block"},"f":["@motherlinker"]}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"f":["+ Add channel"]}]}]}]};
-
-/***/ },
-/* 27 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Ractive = __webpack_require__(11);
-
-
-	module.exports = Ractive.extend({
-	  template: __webpack_require__(28)
-	});
-
-
-/***/ },
-/* 28 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["User Replies"]}," "]}]}]};
-
-/***/ },
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
 /* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -27620,6 +27587,24 @@
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[]};
+
+/***/ },
+/* 45 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Ractive = __webpack_require__(11);
+
+
+	module.exports = Ractive.extend({
+	  template: __webpack_require__(46)
+	});
+
+
+/***/ },
+/* 46 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["User sends message"]}," "]}]}]};
 
 /***/ }
 /******/ ]);
