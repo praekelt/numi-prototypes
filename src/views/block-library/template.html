@@ -1,6 +1,25 @@
 <h1 class="page-header">Library</h1>
 
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+{{#events}}
+<div class="panel panel-default">
+  <div class="panel-heading" role="tab" id="heading{{name}}">
+        <h2 class="panel-title">
+          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{name}}" aria-expanded="true" aria-controls="collapse{{name}}">
+            {{title}}
+          </a>
+        </h2>
+    </div>
+    <div id="collapse{{name}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading{{name}}">
+      <div class="panel-body">
+        {{#blocks}}
+        <button {{#disableEvents}}disabled{{/disableEvents}} class="btn btn-default btn-library" on-click="addBlock(type)">{{title}}</button>
+        {{/blocks}}
+      </div>
+    </div>
+</div>
+{{/events}}
+
 {{#types}}
 <div class="panel panel-default">
     <div class="panel-heading" role="tab" id="heading{{name}}">

@@ -49,7 +49,7 @@
 	var $ = __webpack_require__(5);
 	var page = __webpack_require__(6);
 	var CollectionEdit = __webpack_require__(10);
-	var pg = __webpack_require__(14);
+	var pg = __webpack_require__(16);
 
 
 	// make already existing collections here
@@ -10578,7 +10578,7 @@
 	  },
 	  components: {
 	    screen: __webpack_require__(13),
-	    filter: __webpack_require__(43)
+	    filter: __webpack_require__(40)
 	  }
 	});
 
@@ -27220,38 +27220,62 @@
 
 	var $ = __webpack_require__(5);
 	var Ractive = __webpack_require__(11);
-	var pg = __webpack_require__(14);
-	var BlockLibrary = __webpack_require__(15);
+	var pg = __webpack_require__(16);
+	var BlockLibrary = __webpack_require__(17);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(18),
+	  template: __webpack_require__(19),
 	  data: function() {
 	    return {blocks: []};
 	  },
 	  addBlock: function() {
 	    var library = BlockLibrary({el: $('<div>')});
 	    library.set('source', this);
+	    if (this.hasEvent()) library.set('disableEvents', true);
 	    pg.push(library.el);
 	  },
+	  hasEvent: function() {
+	    return !!this.get('blocks')
+	      .filter(BlockLibrary.isEvent)
+	      .length;
+	  },
 	  components: {
-	    ask: __webpack_require__(19),
-	    choice: __webpack_require__(21),
-	    end: __webpack_require__(23),
-	    usersendsmessage: __webpack_require__(45),
-	    scheduled: __webpack_require__(29),
-	    manual: __webpack_require__(31),
-	    validatecliniccode: __webpack_require__(33),
-	    shownext9months: __webpack_require__(35),
-	    standardmessageset: __webpack_require__(37),
-	    latermessageset: __webpack_require__(39),
-	    acceleratedmessageset: __webpack_require__(41),
+	    ask: __webpack_require__(20),
+	    choice: __webpack_require__(22),
+	    end: __webpack_require__(24),
+	    usersendsmessage: __webpack_require__(14),
+	    scheduled: __webpack_require__(26),
+	    manual: __webpack_require__(28),
+	    validatecliniccode: __webpack_require__(30),
+	    shownext9months: __webpack_require__(32),
+	    standardmessageset: __webpack_require__(34),
+	    latermessageset: __webpack_require__(36),
+	    acceleratedmessageset: __webpack_require__(38),
 	  }
 	});
 
 
 /***/ },
 /* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Ractive = __webpack_require__(11);
+
+
+	module.exports = Ractive.extend({
+	  template: __webpack_require__(15)
+	});
+
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["User sends message"]}," "]}]}]};
+
+/***/ },
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(5);
@@ -27288,85 +27312,23 @@
 
 
 /***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Library = __webpack_require__(16);
-
-
-	// TODO something similar to this for filters
-	module.exports = Library.extend({
-	  data: function() {
-	    return {
-	      types: [{
-	        title: 'Interactions',
-	        name: 'interactions',
-	        blocks: [{
-	          title: 'Ask',
-	          type: 'ask'
-	        }, {
-	          title: 'Choice',
-	          type: 'choice'
-	        }, {
-	          title: 'End',
-	          type: 'end'
-	        }]
-	      }, {
-	        title: 'Events',
-	        name: 'events',
-	        blocks: [{
-	          title: 'User dials in',
-	          type: 'userdialsin'
-	        }, {
-	          title: 'User sends message',
-	          type: 'usersendsmessage'
-	        }, {
-	          title: 'Scheduled',
-	          type: 'scheduled'
-	        }, {
-	          title: 'Manual',
-	          type: 'manual'
-	        }]
-	      }, {
-	        title: 'Custom components',
-	        name: 'custom-components',
-	        blocks: [{
-	          title: 'Validate Clinic Code',
-	          type: 'validatecliniccode'
-	        }, {
-	          title: 'Show next 9 months',
-	          type: 'shownext9months'
-	        }]
-	      }, {
-	        title: 'Message sets',
-	        name: 'message-sets',
-	        blocks: [{
-	          title: 'Standard Message Set',
-	          type: 'standardmessageset'
-	        }, {
-	          title: 'Later Message Set',
-	          type: 'latermessageset'
-	        }, {
-	          title: 'Accelerated MessageSet',
-	          type: 'acceleratedmessageset'
-	        }]
-	      }]
-	    };
-	  }
-	});
-
-
-/***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Ractive = __webpack_require__(11);
-	var pg = __webpack_require__(14);
+	var pg = __webpack_require__(16);
 
 
 	// TODO something similar to this for filters
-	module.exports = Ractive.extend({
-	  template: __webpack_require__(17),
+	var BlockLibrary = Ractive.extend({
+	  template: __webpack_require__(18),
+	  data: function() {
+	    return {
+	      events: BlockLibrary.events,
+	      types: BlockLibrary.types,
+	      disableEvents: false
+	    };
+	  },
 	  addBlock: function(type) {
 	    this.get('source').push('blocks', {type: type});
 	    pg.pop();
@@ -27374,237 +27336,286 @@
 	});
 
 
-/***/ },
-/* 17 */
-/***/ function(module, exports) {
+	BlockLibrary.events = {
+	  title: 'Events',
+	  name: 'events',
+	  blocks: [{
+	    title: 'User dials in',
+	    type: 'userdialsin'
+	  }, {
+	    title: 'User sends message',
+	    type: 'usersendsmessage'
+	  }, {
+	    title: 'Scheduled',
+	    type: 'scheduled'
+	  }, {
+	    title: 'Manual',
+	    type: 'manual'
+	  }]
+	};
 
-	module.exports={"v":3,"t":[{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Library"]}," ",{"t":7,"e":"div","a":{"class":"panel-group","id":"accordion","role":"tablist","aria-multiselectable":"true"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"h2","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":["#collapse",{"t":2,"r":"name"}],"aria-expanded":"true","aria-controls":["collapse",{"t":2,"r":"name"}]},"f":[{"t":2,"r":"title"}]}]}]}," ",{"t":7,"e":"div","a":{"id":["collapse",{"t":2,"r":"name"}],"class":"panel-collapse collapse in","role":"tabpanel","aria-labelledby":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-library"},"v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}],"r":"blocks"}]}]}]}],"r":"types"}]}]};
+
+	BlockLibrary.types = [{
+	  title: 'Interactions',
+	  name: 'interactions',
+	  blocks: [{
+	    title: 'Ask',
+	    type: 'ask'
+	  }, {
+	    title: 'Choice',
+	    type: 'choice'
+	  }, {
+	    title: 'End',
+	    type: 'end'
+	  }]
+	}, {
+	  title: 'Custom components',
+	  name: 'custom-components',
+	  blocks: [{
+	    title: 'Validate Clinic Code',
+	    type: 'validatecliniccode'
+	  }, {
+	    title: 'Show next 9 months',
+	    type: 'shownext9months'
+	  }]
+	}, {
+	  title: 'Message sets',
+	  name: 'message-sets',
+	  blocks: [{
+	    title: 'Standard Message Set',
+	    type: 'standardmessageset'
+	  }, {
+	    title: 'Later Message Set',
+	    type: 'latermessageset'
+	  }, {
+	    title: 'Accelerated MessageSet',
+	    type: 'acceleratedmessageset'
+	  }]
+	}];
+
+
+	BlockLibrary.isEvent = function(block) {
+	  return !!BlockLibrary.events
+	    .blocks
+	    .filter(function(d) {
+	      return d.type === block.type;
+	    })
+	    .length;
+	};
+
+
+	module.exports = BlockLibrary;
+
 
 /***/ },
 /* 18 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"screen"},"f":[{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"ask"}],"x":{"r":["type"],"s":"_0===\"ask\""}}," ",{"t":4,"f":[{"t":7,"e":"choice"}],"x":{"r":["type"],"s":"_0===\"choice\""}}," ",{"t":4,"f":[{"t":7,"e":"end"}],"x":{"r":["type"],"s":"_0===\"end\""}}," ",{"t":4,"f":[{"t":7,"e":"userdialsin"}],"x":{"r":["type"],"s":"_0===\"userdialsin\""}}," ",{"t":4,"f":[{"t":7,"e":"usersendsmessage"}],"x":{"r":["type"],"s":"_0===\"usersendsmessage\""}}," ",{"t":4,"f":[{"t":7,"e":"scheduled"}],"x":{"r":["type"],"s":"_0===\"scheduled\""}}," ",{"t":4,"f":[{"t":7,"e":"manual"}],"x":{"r":["type"],"s":"_0===\"manual\""}}," ",{"t":4,"f":[{"t":7,"e":"validatecliniccode"}],"x":{"r":["type"],"s":"_0===\"validatecliniccode\""}}," ",{"t":4,"f":[{"t":7,"e":"shownext9months"}],"x":{"r":["type"],"s":"_0===\"shownext9months\""}}," ",{"t":4,"f":[{"t":7,"e":"standardmessageset"}],"x":{"r":["type"],"s":"_0===\"standardmessageset\""}}," ",{"t":4,"f":[{"t":7,"e":"latermessageset"}],"x":{"r":["type"],"s":"_0===\"latermessageset\""}}," ",{"t":4,"f":[{"t":7,"e":"acceleratedmessageset"}],"x":{"r":["type"],"s":"_0===\"acceleratedmessageset\""}}],"r":"blocks"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Library"]}," ",{"t":7,"e":"div","a":{"class":"panel-group","id":"accordion","role":"tablist","aria-multiselectable":"true"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"h2","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":["#collapse",{"t":2,"r":"name"}],"aria-expanded":"true","aria-controls":["collapse",{"t":2,"r":"name"}]},"f":[{"t":2,"r":"title"}]}]}]}," ",{"t":7,"e":"div","a":{"id":["collapse",{"t":2,"r":"name"}],"class":"panel-collapse collapse in","role":"tabpanel","aria-labelledby":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":4,"f":[{"t":7,"e":"button","m":[{"t":4,"f":["disabled"],"r":"disableEvents"}],"a":{"class":"btn btn-default btn-library"},"v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}],"r":"blocks"}]}]}]}],"r":"events"},{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"h2","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":["#collapse",{"t":2,"r":"name"}],"aria-expanded":"true","aria-controls":["collapse",{"t":2,"r":"name"}]},"f":[{"t":2,"r":"title"}]}]}]}," ",{"t":7,"e":"div","a":{"id":["collapse",{"t":2,"r":"name"}],"class":"panel-collapse collapse in","role":"tabpanel","aria-labelledby":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-library"},"v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}],"r":"blocks"}]}]}]}],"r":"types"}]}]};
 
 /***/ },
 /* 19 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"screen"},"f":[{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"ask"}],"x":{"r":["type"],"s":"_0===\"ask\""}}," ",{"t":4,"f":[{"t":7,"e":"choice"}],"x":{"r":["type"],"s":"_0===\"choice\""}}," ",{"t":4,"f":[{"t":7,"e":"end"}],"x":{"r":["type"],"s":"_0===\"end\""}}," ",{"t":4,"f":[{"t":7,"e":"userdialsin"}],"x":{"r":["type"],"s":"_0===\"userdialsin\""}}," ",{"t":4,"f":[{"t":7,"e":"usersendsmessage"}],"x":{"r":["type"],"s":"_0===\"usersendsmessage\""}}," ",{"t":4,"f":[{"t":7,"e":"scheduled"}],"x":{"r":["type"],"s":"_0===\"scheduled\""}}," ",{"t":4,"f":[{"t":7,"e":"manual"}],"x":{"r":["type"],"s":"_0===\"manual\""}}," ",{"t":4,"f":[{"t":7,"e":"validatecliniccode"}],"x":{"r":["type"],"s":"_0===\"validatecliniccode\""}}," ",{"t":4,"f":[{"t":7,"e":"shownext9months"}],"x":{"r":["type"],"s":"_0===\"shownext9months\""}}," ",{"t":4,"f":[{"t":7,"e":"standardmessageset"}],"x":{"r":["type"],"s":"_0===\"standardmessageset\""}}," ",{"t":4,"f":[{"t":7,"e":"latermessageset"}],"x":{"r":["type"],"s":"_0===\"latermessageset\""}}," ",{"t":4,"f":[{"t":7,"e":"acceleratedmessageset"}],"x":{"r":["type"],"s":"_0===\"acceleratedmessageset\""}}],"r":"blocks"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]}]};
+
+/***/ },
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Ractive = __webpack_require__(11);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(20)
+	  template: __webpack_require__(21)
 	});
 
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Ask"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"label","a":{"for":"ask-text"},"f":["Text"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control","id":"ask-text","name":"ask-text"}}]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"label","a":{"for":"ask-name"},"f":["Question name"]}," ",{"t":7,"e":"input","a":{"type":"text","id":"ask-text","name":"ask-text","class":"form-control"}}]}," "]}]}]};
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Ractive = __webpack_require__(11);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(22)
+	  template: __webpack_require__(23)
 	});
 
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Choice"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"label","a":{"for":"choice-text"},"f":["Text"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control","id":"choice-text","name":"choice-text"}}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"form","f":[{"t":7,"e":"ol","f":[{"t":7,"e":"li","f":[{"t":7,"e":"label","a":{"for":"choice-text-1"},"f":["Choice"]}," ",{"t":7,"e":"input","a":{"type":"text","id":"choice-text-1","name":"choice-text-1","class":"form-control"}}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"f":["Links to ▶"]}]}," "]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"f":["+ Add choice"]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"label","a":{"for":"ask-name"},"f":["Question name"]}," ",{"t":7,"e":"input","a":{"type":"text","id":"ask-text","name":"ask-text","class":"form-control"}}]}]}]}]};
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Ractive = __webpack_require__(11);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(24)
+	  template: __webpack_require__(25)
 	});
 
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["End"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control"}}," "]}]}]};
 
 /***/ },
-/* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Ractive = __webpack_require__(11);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(30)
+	  template: __webpack_require__(27)
 	});
 
 
 /***/ },
-/* 30 */
+/* 27 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Scheduled"]}," "]}]}]};
 
 /***/ },
-/* 31 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Ractive = __webpack_require__(11);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(32)
+	  template: __webpack_require__(29)
 	});
 
 
 /***/ },
-/* 32 */
+/* 29 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Manual"]}," "]}]}]};
 
 /***/ },
-/* 33 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Ractive = __webpack_require__(11);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(34)
+	  template: __webpack_require__(31)
 	});
 
 
 /***/ },
-/* 34 */
+/* 31 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Validate Clinic code"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"form","f":[{"t":7,"e":"ul","a":{"class":"nav nav-stacked"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"label","a":{"for":"choice-text-1"},"f":["Validation Pass"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"f":["Links to ▶"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"label","a":{"for":"choice-text-1"},"f":["Validation Fail"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"f":["Links to ▶"]}]}]}]}]}]}]}]};
 
 /***/ },
-/* 35 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Ractive = __webpack_require__(11);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(36)
+	  template: __webpack_require__(33)
 	});
 
 
 /***/ },
-/* 36 */
+/* 33 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Show next 9 months"]}," "]}]}]};
 
 /***/ },
-/* 37 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Ractive = __webpack_require__(11);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(38)
+	  template: __webpack_require__(35)
 	});
 
 
 /***/ },
-/* 38 */
+/* 35 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Send standard message set"]}," "]}]}]};
 
 /***/ },
-/* 39 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Ractive = __webpack_require__(11);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(40)
+	  template: __webpack_require__(37)
 	});
 
 
 /***/ },
-/* 40 */
+/* 37 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Send later message set"]}," "]}]}]};
 
 /***/ },
-/* 41 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Ractive = __webpack_require__(11);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(42)
+	  template: __webpack_require__(39)
 	});
 
 
 /***/ },
-/* 42 */
+/* 39 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Send accelerated message set"]}," "]}]}]};
 
 /***/ },
-/* 43 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Ractive = __webpack_require__(11);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(44)
+	  template: __webpack_require__(41)
 	});
 
 
 /***/ },
-/* 44 */
+/* 41 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[]};
-
-/***/ },
-/* 45 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Ractive = __webpack_require__(11);
-
-
-	module.exports = Ractive.extend({
-	  template: __webpack_require__(46)
-	});
-
-
-/***/ },
-/* 46 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["User sends message"]}," "]}]}]};
 
 /***/ }
 /******/ ]);

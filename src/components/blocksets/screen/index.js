@@ -12,7 +12,13 @@ module.exports = Ractive.extend({
   addBlock: function() {
     var library = BlockLibrary({el: $('<div>')});
     library.set('source', this);
+    if (this.hasEvent()) library.set('disableEvents', true);
     pg.push(library.el);
+  },
+  hasEvent: function() {
+    return !!this.get('blocks')
+      .filter(BlockLibrary.isEvent)
+      .length;
   },
   components: {
     ask: require('../../blocks/ask'),
