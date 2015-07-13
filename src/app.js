@@ -39,3 +39,8 @@ function makeCollection(data) {
     })
   };
 }
+
+
+window.addEventListener('beforeunload', function(e) {
+  e.returnValue = "Changing the page will reset the prototype.";
+});

@@ -87,6 +87,11 @@
 	}
 
 
+	window.addEventListener('beforeunload', function(e) {
+	  e.returnValue = "Changing the page will reset the prototype.";
+	});
+
+
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
