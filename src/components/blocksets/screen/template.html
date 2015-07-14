@@ -1,58 +1,60 @@
-<div class="screen">
+<div class="reorderable screen">
     {{#blocks}}
+    <div decorator='sortable'>
 
-    {{# type === 'ask' }}
-    <ask></ask>
-    {{/}}
+        {{# type === 'ask' }}
+        <ask></ask>
+        {{/}}
 
-    {{# type === 'choice' }}
-    <choice></choice>
-    {{/}}
+        {{# type === 'choice' }}
+        <choice></choice>
+        {{/}}
 
-    {{# type === 'end' }}
-    <end></end>
-    {{/}}
+        {{# type === 'end' }}
+        <end></end>
+        {{/}}
 
-    {{# type === 'saveas' }}
-    <saveas></saveas>
-    {{/}}
+        {{# type === 'saveas' }}
+        <saveas></saveas>
+        {{/}}
 
-    {{# type === 'userdialsin' }}
-    <userdialsin></userdialsin>
-    {{/}}
-    
-    {{# type === 'usersendsmessage' }}
-    <usersendsmessage></usersendsmessage>
-    {{/}}
-    
-    {{# type === 'scheduled' }}
-    <scheduled></scheduled>
-    {{/}}
+        {{# type === 'userdialsin' }}
+        <userdialsin></userdialsin>
+        {{/}}
+        
+        {{# type === 'usersendsmessage' }}
+        <usersendsmessage></usersendsmessage>
+        {{/}}
+        
+        {{# type === 'scheduled' }}
+        <scheduled></scheduled>
+        {{/}}
 
-    {{# type === 'manual' }}
-    <manual></manual>
-    {{/}}
+        {{# type === 'manual' }}
+        <manual></manual>
+        {{/}}
 
-    {{# type === 'validatecliniccode' }}
-    <validatecliniccode></validatecliniccode>
-    {{/}}
+        {{# type === 'validatecliniccode' }}
+        <validatecliniccode></validatecliniccode>
+        {{/}}
 
-    {{# type === 'shownext9months' }}
-    <shownext9months></shownext9months>
-    {{/}}
+        {{# type === 'shownext9months' }}
+        <shownext9months></shownext9months>
+        {{/}}
 
-    {{# type === 'standardmessageset' }}
-    <standardmessageset></standardmessageset>
-    {{/}}
+        {{# type === 'standardmessageset' }}
+        <standardmessageset></standardmessageset>
+        {{/}}
 
-    {{# type === 'latermessageset' }}
-    <latermessageset></latermessageset>
-    {{/}}
-    
-    {{# type === 'acceleratedmessageset' }}
-    <acceleratedmessageset></acceleratedmessageset>
-    {{/}}
+        {{# type === 'latermessageset' }}
+        <latermessageset></latermessageset>
+        {{/}}
+        
+        {{# type === 'acceleratedmessageset' }}
+        <acceleratedmessageset></acceleratedmessageset>
+        {{/}}
 
+    </div>
     {{/blocks}}
 
     <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+ Add block</button>
