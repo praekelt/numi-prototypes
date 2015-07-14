@@ -27244,6 +27244,7 @@
 	    ask: __webpack_require__(20),
 	    choice: __webpack_require__(22),
 	    end: __webpack_require__(24),
+	    userdialsin: __webpack_require__(42),
 	    usersendsmessage: __webpack_require__(14),
 	    scheduled: __webpack_require__(26),
 	    manual: __webpack_require__(28),
@@ -27616,6 +27617,24 @@
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[]};
+
+/***/ },
+/* 42 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Ractive = __webpack_require__(11);
+
+
+	module.exports = Ractive.extend({
+	  template: __webpack_require__(43)
+	});
+
+
+/***/ },
+/* 43 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["User Dials In"]}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":7,"e":"button","a":{"type":"submit","class":"btn btn-default btn-block"},"f":["*120*123#"]}," ",{"t":7,"e":"button","a":{"type":"submit","class":"btn btn-default btn-block","disabled":"disabled"},"f":["*120*124#"]}," ",{"t":7,"e":"button","a":{"type":"submit","class":"btn btn-default btn-block"},"f":["*120*789#"]}," ",{"t":7,"e":"button","a":{"type":"submit","class":"btn btn-default btn-block"},"f":["123456"]}," ",{"t":7,"e":"button","a":{"type":"submit","class":"btn btn-default btn-block"},"f":["@motherlinker"]}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"f":["+ Add channel"]}]}]}]};
 
 /***/ }
 /******/ ]);
