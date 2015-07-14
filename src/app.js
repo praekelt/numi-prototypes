@@ -1,7 +1,6 @@
 window.jQuery = require('jquery');
 require('./app.scss');
 require('../bootstrap/js/bootstrap.min.js');
-require('ractive-decorators-sortable');
 
 var $ = require('jquery');
 var page = require('page');
