@@ -50,48 +50,52 @@
 
 	var $ = __webpack_require__(1);
 	var page = __webpack_require__(7);
+	var Dashboard = __webpack_require__(49);
 	var CollectionEdit = __webpack_require__(11);
 	var pg = __webpack_require__(16);
 
 
-	// make already existing collections here
-	var collections = {
-	  'collection1': makeCollection({name: 'Collection 1'})
-	};
+	var dashboard = Dashboard({el: $('<div>')});
 
+	addCollection({
+	  id: 'collection1',
+	  name: 'Collection 1'
+	});
 
 	page.base('/numi-prototypes');
 
 
-	// TODO change this to go to a campaign view once we have multiple collections
 	page('/', function(ctx, next) {
-	  pg.push(collections.collection1.edit.el);
+	  pg.push(dashboard.el);
 	});
 
 
 	page('/collections/:id/edit', function(ctx, next) {
-	  pg.push(collections[ctx.params.id].edit.el);
+	  pg.push(dashboard
+	    .get('collectionViews')
+	    .filter(function(col) {
+	      return col.get('id') === ctx.params.id;
+	    })
+	    [0]
+	    .el);
 	});
 
 
 	page();
 
 
-	function makeCollection(data) {
-	  return {
-	    edit: CollectionEdit({
-	      el: $('<div>'),
-	      data: {
-	        name: 'Collection 1'
-	      }
-	    })
-	  };
-	}
-
 
 	window.addEventListener('beforeunload', function(e) {
 	  e.returnValue = "Changing the page will reset the prototype.";
 	});
+
+
+	function addCollection(data) {
+	  dashboard.push('collectionViews', CollectionEdit({
+	    el: $('<div>'),
+	    data: data
+	  }));
+	}
 
 
 /***/ },
@@ -27723,6 +27727,38 @@
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[]};
+
+/***/ },
+/* 49 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Ractive = __webpack_require__(12);
+
+
+	module.exports = Ractive.extend({
+	  template: __webpack_require__(50),
+	  data: function()  {
+	    return {collectionViews: []};
+	  },
+	  computed: {
+	    collections: function() {
+	      return this.get('collectionViews')
+	        .map(function(coll) {
+	          return {
+	            id: coll.get('id'),
+	            name: coll.get('name')
+	          };
+	        });
+	    }
+	  }
+	});
+
+
+/***/ },
+/* 50 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Collections"]}," ",{"t":4,"f":[{"t":7,"e":"a","a":{"href":["./collections/",{"t":2,"r":"id"},"/edit"]},"f":[{"t":2,"r":"name"}]}],"r":"collections"}]};
 
 /***/ }
 /******/ ]);

@@ -4,45 +4,49 @@ require('../bootstrap/js/bootstrap.min.js');
 
 var $ = require('jquery');
 var page = require('page');
+var Dashboard = require('./views/dashboard');
 var CollectionEdit = require('./views/collection-edit');
 var pg = require('./pg');
 
 
-// make already existing collections here
-var collections = {
-  'collection1': makeCollection({name: 'Collection 1'})
-};
+var dashboard = Dashboard({el: $('<div>')});
 
+addCollection({
+  id: 'collection1',
+  name: 'Collection 1'
+});
 
 page.base('/numi-prototypes');
 
 
-// TODO change this to go to a campaign view once we have multiple collections
 page('/', function(ctx, next) {
-  pg.push(collections.collection1.edit.el);
+  pg.push(dashboard.el);
 });
 
 
 page('/collections/:id/edit', function(ctx, next) {
-  pg.push(collections[ctx.params.id].edit.el);
+  pg.push(dashboard
+    .get('collectionViews')
+    .filter(function(col) {
+      return col.get('id') === ctx.params.id;
+    })
+    [0]
+    .el);
 });
 
 
 page();
 
 
-function makeCollection(data) {
-  return {
-    edit: CollectionEdit({
-      el: $('<div>'),
-      data: {
-        name: 'Collection 1'
-      }
-    })
-  };
-}
-
 
 window.addEventListener('beforeunload', function(e) {
   e.returnValue = "Changing the page will reset the prototype.";
 });
+
+
+function addCollection(data) {
+  dashboard.push('collectionViews', CollectionEdit({
+    el: $('<div>'),
+    data: data
+  }));
+}
