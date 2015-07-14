@@ -50,6 +50,9 @@ BlockLibrary.types = [{
   }, {
     title: 'End',
     type: 'end'
+  }, {
+    title: 'Save As',
+    type: 'saveas'
   }]
 }, {
   title: 'Custom components',

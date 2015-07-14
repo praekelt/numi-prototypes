@@ -24,6 +24,7 @@ module.exports = Ractive.extend({
     ask: require('../../blocks/ask'),
     choice: require('../../blocks/choice'),
     end: require('../../blocks/end'),
+    end: require('../../blocks/saveas'),
     userdialsin: require('../../blocks/userdialsin'),
     usersendsmessage: require('../../blocks/usersendsmessage'),
     scheduled: require('../../blocks/scheduled'),
