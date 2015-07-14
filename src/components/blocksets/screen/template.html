@@ -1,6 +1,5 @@
-<div class="reorderable screen">
+<div class="screen" class="sortable-blocks">
     {{#blocks}}
-    <div decorator='sortable'>
 
         {{# type === 'ask' }}
         <ask></ask>
@@ -54,7 +53,6 @@
         <acceleratedmessageset></acceleratedmessageset>
         {{/}}
 
-    </div>
     {{/blocks}}
 
     <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+ Add block</button>

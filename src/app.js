@@ -3,11 +3,11 @@ require('./app.scss');
 require('../bootstrap/js/bootstrap.min.js');
 
 var $ = require('jquery');
+var jqui = require('jquery-ui');
 var page = require('page');
 var Dashboard = require('./views/dashboard');
 var CollectionEdit = require('./views/collection-edit');
 var pg = require('./pg');
-
 
 var dashboard = Dashboard({el: $('<div>')});
 
@@ -32,6 +32,7 @@ page('/collections/:id/edit', function(ctx, next) {
     })
     [0]
     .el);
+  $('.sortable-blocks').sortable();
 });
 
 
