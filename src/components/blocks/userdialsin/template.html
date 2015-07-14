@@ -2,15 +2,12 @@
   <div class="panel-body">
     <p class="nm-block-title">When user dials in on</p>
   
-    <!-- This list should be on a separate screen. -->
-    <div class="list-group">
-      <button type="submit" class="btn btn-default btn-block">*120*123#</button>
-      <button type="submit" class="btn btn-default btn-block" disabled="disabled">*120*124#</button>
-      <button type="submit" class="btn btn-default btn-block">*120*789#</button>
-      <button type="submit" class="btn btn-default btn-block">123456</button>
-      <button type="submit" class="btn btn-default btn-block">@motherlinker</button>
-    </div>
+    {{#channel}}
+    <button class="btn btn-default btn-block" on-click="chooseChannel()">{{channel}}</button>
+    {{/channel}}
 
-    <button class="btn btn-default btn-block nm-placeholder">+ Add channel</button>
+    {{^channel}}
+    <button class="btn btn-default btn-block nm-placeholder" on-click="chooseChannel()">Choose channel</button>
+    {{/channel}}
   </div>
 </div>
