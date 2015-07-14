@@ -5,6 +5,7 @@
   "main": "src/main.js",
   "dependencies": {
     "jquery": "^2.1.4",
+    "lodash": "^3.10.0",
     "page": "^1.6.3",
     "pagejs": "0.0.1-alpha",
     "ractive": "^0.7.3",
