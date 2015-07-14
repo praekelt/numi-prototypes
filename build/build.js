@@ -47,7 +47,7 @@
 	window.jQuery = __webpack_require__(1);
 	__webpack_require__(2);
 	__webpack_require__(6);
-	__webpack_require__(7);
+	__webpack_require__(53);
 
 	var $ = __webpack_require__(1);
 	var page = __webpack_require__(10);
@@ -9346,7 +9346,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(4)();
-	exports.push([module.id, "html {\n  background-color: #333;\n  max-width: 320px;\n  margin: 0 auto; }\n\nbody {\n  background-color: #fff; }\n\n.nm-page {\n  padding: 1em; }\n\n.nm-placeholder {\n  border-style: dashed; }\n\n.nm-block-title {\n  font-weight: bold;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  color: #666; }\n\n.btn-library {\n  margin: 0.5em; }\n\n.screen {\n  padding-bottom: 3em;\n  border-bottom: solid 1px #333;\n  margin-bottom: 3em; }\n", ""]);
+	exports.push([module.id, "html {\n  background-color: #333;\n  max-width: 320px;\n  margin: 0 auto; }\n\nbody {\n  background-color: #fff; }\n\n.nm-page {\n  padding: 1em; }\n\n.nm-placeholder {\n  border-style: dashed; }\n\n.nm-block-title {\n  font-weight: bold;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  color: #666; }\n\n.btn-library {\n  margin: 0.5em; }\n\n.screen {\n  padding-bottom: 3em;\n  border-bottom: solid 1px #333;\n  margin-bottom: 3em; }\n\n.page-header {\n  margin-top: 0; }\n", ""]);
 
 /***/ },
 /* 4 */
@@ -9647,217 +9647,7 @@
 	this.addAriaAndCollapsedClass(e(n),n)},this)).end()},o.prototype.addAriaAndCollapsedClass=function(t,e){var i=t.hasClass("in");t.attr("aria-expanded",i),e.toggleClass("collapsed",!i).attr("aria-expanded",i)};var n=t.fn.collapse;t.fn.collapse=i,t.fn.collapse.Constructor=o,t.fn.collapse.noConflict=function(){return t.fn.collapse=n,this},t(document).on("click.bs.collapse.data-api",'[data-toggle="collapse"]',function(o){var n=t(this);n.attr("data-target")||o.preventDefault();var s=e(n),a=s.data("bs.collapse"),r=a?"toggle":n.data();i.call(s,r)})}(jQuery),+function(t){"use strict";function e(i,o){this.$body=t(document.body),this.$scrollElement=t(t(i).is(document.body)?window:i),this.options=t.extend({},e.DEFAULTS,o),this.selector=(this.options.target||"")+" .nav li > a",this.offsets=[],this.targets=[],this.activeTarget=null,this.scrollHeight=0,this.$scrollElement.on("scroll.bs.scrollspy",t.proxy(this.process,this)),this.refresh(),this.process()}function i(i){return this.each(function(){var o=t(this),n=o.data("bs.scrollspy"),s="object"==typeof i&&i;n||o.data("bs.scrollspy",n=new e(this,s)),"string"==typeof i&&n[i]()})}e.VERSION="3.3.4",e.DEFAULTS={offset:10},e.prototype.getScrollHeight=function(){return this.$scrollElement[0].scrollHeight||Math.max(this.$body[0].scrollHeight,document.documentElement.scrollHeight)},e.prototype.refresh=function(){var e=this,i="offset",o=0;this.offsets=[],this.targets=[],this.scrollHeight=this.getScrollHeight(),t.isWindow(this.$scrollElement[0])||(i="position",o=this.$scrollElement.scrollTop()),this.$body.find(this.selector).map(function(){var e=t(this),n=e.data("target")||e.attr("href"),s=/^#./.test(n)&&t(n);return s&&s.length&&s.is(":visible")&&[[s[i]().top+o,n]]||null}).sort(function(t,e){return t[0]-e[0]}).each(function(){e.offsets.push(this[0]),e.targets.push(this[1])})},e.prototype.process=function(){var t,e=this.$scrollElement.scrollTop()+this.options.offset,i=this.getScrollHeight(),o=this.options.offset+i-this.$scrollElement.height(),n=this.offsets,s=this.targets,a=this.activeTarget;if(this.scrollHeight!=i&&this.refresh(),e>=o)return a!=(t=s[s.length-1])&&this.activate(t);if(a&&e<n[0])return this.activeTarget=null,this.clear();for(t=n.length;t--;)a!=s[t]&&e>=n[t]&&(void 0===n[t+1]||e<n[t+1])&&this.activate(s[t])},e.prototype.activate=function(e){this.activeTarget=e,this.clear();var i=this.selector+'[data-target="'+e+'"],'+this.selector+'[href="'+e+'"]',o=t(i).parents("li").addClass("active");o.parent(".dropdown-menu").length&&(o=o.closest("li.dropdown").addClass("active")),o.trigger("activate.bs.scrollspy")},e.prototype.clear=function(){t(this.selector).parentsUntil(this.options.target,".active").removeClass("active")};var o=t.fn.scrollspy;t.fn.scrollspy=i,t.fn.scrollspy.Constructor=e,t.fn.scrollspy.noConflict=function(){return t.fn.scrollspy=o,this},t(window).on("load.bs.scrollspy.data-api",function(){t('[data-spy="scroll"]').each(function(){var e=t(this);i.call(e,e.data())})})}(jQuery),+function(t){"use strict";function e(){var t=document.createElement("bootstrap"),e={WebkitTransition:"webkitTransitionEnd",MozTransition:"transitionend",OTransition:"oTransitionEnd otransitionend",transition:"transitionend"};for(var i in e)if(void 0!==t.style[i])return{end:e[i]};return!1}t.fn.emulateTransitionEnd=function(e){var i=!1,o=this;t(this).one("bsTransitionEnd",function(){i=!0});var n=function(){i||t(o).trigger(t.support.transition.end)};return setTimeout(n,e),this},t(function(){t.support.transition=e(),t.support.transition&&(t.event.special.bsTransitionEnd={bindType:t.support.transition.end,delegateType:t.support.transition.end,handle:function(e){return t(e.target).is(this)?e.handleObj.handler.apply(this,arguments):void 0}})})}(jQuery);
 
 /***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
-
-		Sortable decorator plugin for Ractive.js
-		========================================
-
-		Version 0.1.0. Copyright 2013 @rich_harris, MIT licensed.
-
-		This plugin adds a 'sortable' decorator to Ractive, which enables
-		elements that correspond to array members to be re-ordered using
-		the HTML5 drag and drop API. Doing so will update the order
-		of the array.
-
-		==========================
-
-		Troubleshooting: If you're using a module system in your app (AMD or
-		something more nodey) then you may need to change the paths below,
-		where it says `require( 'ractive' )` or `define([ 'Ractive' ]...)`.
-
-		==========================
-
-		Usage: Include this file on your page below Ractive, e.g:
-
-		    <script src='lib/Ractive.js'></script>
-		    <script src='lib/Ractive-sortable.js'></script>
-
-		Or, if you're using a module loader, require this module:
-
-		    define( function ( require ) {
-		      var Ractive = require( 'Ractive' );
-
-		      // requiring the plugin will 'activate' it - no need to use
-		      // the return value
-		      require( 'Ractive-sortable' );
-		    });
-
-		Then use the decorator like so:
-
-		    <!-- template -->
-		    <ul>
-		      {{#list}}
-		        <li decorator='sortable'>{{.}}</li>
-		      {{/list}}
-		    </ul>
-
-		    var ractive = new Ractive({
-		      el: myContainer,
-		      template: myTemplate,
-		      data: { list: [ 'Firefox', 'Chrome', 'Internet Explorer', 'Opera', 'Safari', 'Maxthon' ] }
-		    });
-		
-		When the user drags the source element over a target element, the
-		target element will have a class name added to it. This allows you
-		to render the target differently (e.g. hide the text, add a dashed
-		border, whatever). By default this class name is 'droptarget'.
-		
-		You can configure the class name like so:
-
-		    Ractive.decorators.sortable.targetClass = 'aDifferentClassName';
-			
-		PS for an entertaining rant about the drag and drop API, visit
-		http://www.quirksmode.org/blog/archives/2009/09/the_html5_drag.html
-
-	*/
-
-	(function ( global, factory ) {
-
-		'use strict';
-
-		// Common JS (i.e. browserify) environment
-		if ( typeof module !== 'undefined' && module.exports && "function" === 'function' ) {
-			factory( __webpack_require__( 8 ) );
-		}
-
-		// AMD?
-		else if ( true ) {
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(9) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-		}
-
-		// browser global
-		else if ( global.Ractive ) {
-			factory( global.Ractive );
-		}
-
-		else {
-			throw new Error( 'Could not find Ractive! It must be loaded before the Ractive-sortable plugin' );
-		}
-
-	}( typeof window !== 'undefined' ? window : this, function ( Ractive ) {
-
-		'use strict';
-
-		var sortable,
-			ractive,
-			sourceKeypath,
-			sourceArray,
-			sourceIndex,
-			dragstartHandler,
-			dragenterHandler,
-			removeTargetClass,
-			preventDefault,
-			errorMessage;
-
-		sortable = function ( node ) {
-			node.draggable = true;
-
-			node.addEventListener( 'dragstart', dragstartHandler, false );
-			node.addEventListener( 'dragenter', dragenterHandler, false );
-			node.addEventListener( 'dragleave', removeTargetClass, false );
-			node.addEventListener( 'drop', removeTargetClass, false );
-
-			// necessary to prevent animation where ghost element returns
-			// to its (old) home
-			node.addEventListener( 'dragover', preventDefault, false );
-
-			return {
-				teardown: function () {
-					node.removeEventListener( 'dragstart', dragstartHandler, false );
-					node.removeEventListener( 'dragenter', dragenterHandler, false );
-					node.removeEventListener( 'dragleave', removeTargetClass, false );
-					node.removeEventListener( 'drop', removeTargetClass, false );
-					node.removeEventListener( 'dragover', preventDefault, false );
-				}
-			};
-		};
-
-		sortable.targetClass = 'droptarget';
-
-		errorMessage = 'The sortable decorator only works with elements that correspond to array members';
-
-		dragstartHandler = function ( event ) {
-			var storage = this._ractive, lastDotIndex;
-
-			sourceKeypath = storage.keypath;
-
-			// this decorator only works with array members!
-			lastDotIndex = sourceKeypath.lastIndexOf( '.' );
-
-			if ( lastDotIndex === -1 ) {
-				throw new Error( errorMessage );
-			}
-
-			sourceArray = sourceKeypath.substr( 0, lastDotIndex );
-			sourceIndex = +( sourceKeypath.substring( lastDotIndex + 1 ) );
-
-			if ( isNaN( sourceIndex ) ) {
-				throw new Error( errorMessage );
-			}
-
-			event.dataTransfer.setData( 'foo', true ); // enables dragging in FF. go figure
-			
-			// keep a reference to the Ractive instance that 'owns' this data and this element
-			ractive = storage.root;
-		};
-
-		dragenterHandler = function () {
-			var targetKeypath, lastDotIndex, targetArray, targetIndex, array, source;
-
-			// If we strayed into someone else's territory, abort
-			if ( this._ractive.root !== ractive ) {
-				return;
-			}
-
-			targetKeypath = this._ractive.keypath;
-
-			// this decorator only works with array members!
-			lastDotIndex = targetKeypath.lastIndexOf( '.' );
-
-			if ( lastDotIndex === -1 ) {
-				throw new Error( errorMessage );
-			}
-
-			targetArray = targetKeypath.substr( 0, lastDotIndex );
-			targetIndex = +( targetKeypath.substring( lastDotIndex + 1 ) );
-
-			// if we're dealing with a different array, abort
-			if ( targetArray !== sourceArray ) {
-				return;
-			}
-
-			// if it's the same index, add droptarget class then abort
-			if ( targetIndex === sourceIndex ) {
-				this.classList.add( sortable.targetClass );
-				return;
-			}
-
-			array = ractive.get( sourceArray );
-
-			// remove source from array
-			source = array.splice( sourceIndex, 1 )[0];
-
-			// the target index is now the source index...
-			sourceIndex = targetIndex;
-
-			// add source back to array in new location
-			array.splice( sourceIndex, 0, source );
-		};
-
-		removeTargetClass = function () {
-			this.classList.remove( sortable.targetClass );
-		};
-
-		preventDefault = function ( event ) { event.preventDefault(); };
-
-		Ractive.decorators.sortable = sortable;
-
-	}));
-
-/***/ },
+/* 7 */,
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -44076,7 +43866,7 @@
 /* 15 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Collections"]}," ",{"t":4,"f":[{"t":7,"e":"a","a":{"href":["./collections/",{"t":2,"r":"id"},"/edit"]},"f":[{"t":2,"r":"name"}]}],"r":"collections"}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","a":{"class":"active"},"f":["Home"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Collections"]}," ",{"t":4,"f":[{"t":7,"e":"a","a":{"href":["./collections/",{"t":2,"r":"id"},"/edit"]},"f":[{"t":2,"r":"name"}]}],"r":"collections"}]};
 
 /***/ },
 /* 16 */
@@ -44104,7 +43894,7 @@
 /* 17 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"h1","a":{"class":"page-header"},"f":[{"t":7,"e":"small","f":["Campaign"]}," ",{"t":7,"e":"br"}," ",{"t":2,"r":"name"}]}," ",{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"screen"}],"x":{"r":["type"],"s":"_0===\"screen\""}},{"t":4,"f":[{"t":7,"e":"filter"}],"x":{"r":["type"],"s":"_0===\"filter\""}}],"r":"blockSets"},{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addScreen","a":{"r":[],"s":"[]"}}},"f":["+ Add screen"]}," "]};
+	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Collection1"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":[{"t":7,"e":"small","f":["Campaign"]}," ",{"t":7,"e":"br"}," ",{"t":2,"r":"name"}]}," ",{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"screen"}],"x":{"r":["type"],"s":"_0===\"screen\""}},{"t":4,"f":[{"t":7,"e":"filter"}],"x":{"r":["type"],"s":"_0===\"filter\""}}],"r":"blockSets"},{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addScreen","a":{"r":[],"s":"[]"}}},"f":["+ Add screen"]}," "]};
 
 /***/ },
 /* 18 */
@@ -44244,7 +44034,7 @@
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Choose channel"]}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"type":"submit","class":"btn btn-default btn-block"},"v":{"click":{"m":"choose","a":{"r":["name"],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}],"r":"channels"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"f":["+ Add channel"]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/collections/collection1/edit"},"f":["Collection1"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Choose channel"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Choose channel"]}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"type":"submit","class":"btn btn-default btn-block"},"v":{"click":{"m":"choose","a":{"r":["name"],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}],"r":"channels"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"f":["+ Add channel"]}]};
 
 /***/ },
 /* 23 */
@@ -44355,7 +44145,7 @@
 /* 25 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Library"]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel-group","id":["accordion",{"t":2,"r":"name"}],"role":"tablist","aria-multiselectable":"true"},"f":[{"t":7,"e":"div","a":{"class":"panel panel-default "},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"h2","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":["#collapse",{"t":2,"r":"name"}],"aria-expanded":"true","aria-controls":["collapse",{"t":2,"r":"name"}]},"f":[{"t":2,"r":"title"}]}]}]}," ",{"t":7,"e":"div","a":{"id":["collapse",{"t":2,"r":"name"}],"class":["panel-collapse collapse ",{"t":4,"f":["in"],"n":51,"r":"disableEvents"}],"role":"tabpanel","aria-labelledby":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"alert alert-info","role":"alert"},"f":["This collection already has an event"]}],"r":"disableEvents"}," ",{"t":4,"f":[{"t":7,"e":"button","m":[{"t":4,"f":["disabled"],"r":"disableEvents"}],"a":{"class":"btn btn-default btn-library"},"v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}],"r":"blocks"}]}]}]}]}],"r":"events"},{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel-group","id":["accordion",{"t":2,"r":"name"}],"role":"tablist","aria-multiselectable":"true"},"f":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"h2","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":["#collapse",{"t":2,"r":"name"}],"aria-expanded":"true","aria-controls":["collapse",{"t":2,"r":"name"}]},"f":[{"t":2,"r":"title"}]}]}]}," ",{"t":7,"e":"div","a":{"id":["collapse",{"t":2,"r":"name"}],"class":"panel-collapse collapse in","role":"tabpanel","aria-labelledby":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-library"},"v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}],"r":"blocks"}]}]}]}]}],"r":"types"}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/collections/collection1/edit"},"f":["Collection1"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Library"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Library"]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel-group","id":["accordion",{"t":2,"r":"name"}],"role":"tablist","aria-multiselectable":"true"},"f":[{"t":7,"e":"div","a":{"class":"panel panel-default "},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"h2","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":["#collapse",{"t":2,"r":"name"}],"aria-expanded":"true","aria-controls":["collapse",{"t":2,"r":"name"}]},"f":[{"t":2,"r":"title"}]}]}]}," ",{"t":7,"e":"div","a":{"id":["collapse",{"t":2,"r":"name"}],"class":["panel-collapse collapse ",{"t":4,"f":["in"],"n":51,"r":"disableEvents"}],"role":"tabpanel","aria-labelledby":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"alert alert-info","role":"alert"},"f":["This collection already has an event"]}],"r":"disableEvents"}," ",{"t":4,"f":[{"t":7,"e":"button","m":[{"t":4,"f":["disabled"],"r":"disableEvents"}],"a":{"class":"btn btn-default btn-library"},"v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}],"r":"blocks"}]}]}]}]}],"r":"events"},{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel-group","id":["accordion",{"t":2,"r":"name"}],"role":"tablist","aria-multiselectable":"true"},"f":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"h2","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":["#collapse",{"t":2,"r":"name"}],"aria-expanded":"true","aria-controls":["collapse",{"t":2,"r":"name"}]},"f":[{"t":2,"r":"title"}]}]}]}," ",{"t":7,"e":"div","a":{"id":["collapse",{"t":2,"r":"name"}],"class":"panel-collapse collapse in","role":"tabpanel","aria-labelledby":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-library"},"v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}],"r":"blocks"}]}]}]}]}],"r":"types"}]};
 
 /***/ },
 /* 26 */
@@ -44596,6 +44386,217 @@
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[]};
+
+/***/ },
+/* 53 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
+
+		Sortable decorator plugin for Ractive.js
+		========================================
+
+		Version 0.1.0. Copyright 2013 @rich_harris, MIT licensed.
+
+		This plugin adds a 'sortable' decorator to Ractive, which enables
+		elements that correspond to array members to be re-ordered using
+		the HTML5 drag and drop API. Doing so will update the order
+		of the array.
+
+		==========================
+
+		Troubleshooting: If you're using a module system in your app (AMD or
+		something more nodey) then you may need to change the paths below,
+		where it says `require( 'ractive' )` or `define([ 'Ractive' ]...)`.
+
+		==========================
+
+		Usage: Include this file on your page below Ractive, e.g:
+
+		    <script src='lib/Ractive.js'></script>
+		    <script src='lib/Ractive-sortable.js'></script>
+
+		Or, if you're using a module loader, require this module:
+
+		    define( function ( require ) {
+		      var Ractive = require( 'Ractive' );
+
+		      // requiring the plugin will 'activate' it - no need to use
+		      // the return value
+		      require( 'Ractive-sortable' );
+		    });
+
+		Then use the decorator like so:
+
+		    <!-- template -->
+		    <ul>
+		      {{#list}}
+		        <li decorator='sortable'>{{.}}</li>
+		      {{/list}}
+		    </ul>
+
+		    var ractive = new Ractive({
+		      el: myContainer,
+		      template: myTemplate,
+		      data: { list: [ 'Firefox', 'Chrome', 'Internet Explorer', 'Opera', 'Safari', 'Maxthon' ] }
+		    });
+		
+		When the user drags the source element over a target element, the
+		target element will have a class name added to it. This allows you
+		to render the target differently (e.g. hide the text, add a dashed
+		border, whatever). By default this class name is 'droptarget'.
+		
+		You can configure the class name like so:
+
+		    Ractive.decorators.sortable.targetClass = 'aDifferentClassName';
+			
+		PS for an entertaining rant about the drag and drop API, visit
+		http://www.quirksmode.org/blog/archives/2009/09/the_html5_drag.html
+
+	*/
+
+	(function ( global, factory ) {
+
+		'use strict';
+
+		// Common JS (i.e. browserify) environment
+		if ( typeof module !== 'undefined' && module.exports && "function" === 'function' ) {
+			factory( __webpack_require__( 8 ) );
+		}
+
+		// AMD?
+		else if ( true ) {
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(9) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		}
+
+		// browser global
+		else if ( global.Ractive ) {
+			factory( global.Ractive );
+		}
+
+		else {
+			throw new Error( 'Could not find Ractive! It must be loaded before the Ractive-sortable plugin' );
+		}
+
+	}( typeof window !== 'undefined' ? window : this, function ( Ractive ) {
+
+		'use strict';
+
+		var sortable,
+			ractive,
+			sourceKeypath,
+			sourceArray,
+			sourceIndex,
+			dragstartHandler,
+			dragenterHandler,
+			removeTargetClass,
+			preventDefault,
+			errorMessage;
+
+		sortable = function ( node ) {
+			node.draggable = true;
+
+			node.addEventListener( 'dragstart', dragstartHandler, false );
+			node.addEventListener( 'dragenter', dragenterHandler, false );
+			node.addEventListener( 'dragleave', removeTargetClass, false );
+			node.addEventListener( 'drop', removeTargetClass, false );
+
+			// necessary to prevent animation where ghost element returns
+			// to its (old) home
+			node.addEventListener( 'dragover', preventDefault, false );
+
+			return {
+				teardown: function () {
+					node.removeEventListener( 'dragstart', dragstartHandler, false );
+					node.removeEventListener( 'dragenter', dragenterHandler, false );
+					node.removeEventListener( 'dragleave', removeTargetClass, false );
+					node.removeEventListener( 'drop', removeTargetClass, false );
+					node.removeEventListener( 'dragover', preventDefault, false );
+				}
+			};
+		};
+
+		sortable.targetClass = 'droptarget';
+
+		errorMessage = 'The sortable decorator only works with elements that correspond to array members';
+
+		dragstartHandler = function ( event ) {
+			var storage = this._ractive, lastDotIndex;
+
+			sourceKeypath = storage.keypath;
+
+			// this decorator only works with array members!
+			lastDotIndex = sourceKeypath.lastIndexOf( '.' );
+
+			if ( lastDotIndex === -1 ) {
+				throw new Error( errorMessage );
+			}
+
+			sourceArray = sourceKeypath.substr( 0, lastDotIndex );
+			sourceIndex = +( sourceKeypath.substring( lastDotIndex + 1 ) );
+
+			if ( isNaN( sourceIndex ) ) {
+				throw new Error( errorMessage );
+			}
+
+			event.dataTransfer.setData( 'foo', true ); // enables dragging in FF. go figure
+			
+			// keep a reference to the Ractive instance that 'owns' this data and this element
+			ractive = storage.root;
+		};
+
+		dragenterHandler = function () {
+			var targetKeypath, lastDotIndex, targetArray, targetIndex, array, source;
+
+			// If we strayed into someone else's territory, abort
+			if ( this._ractive.root !== ractive ) {
+				return;
+			}
+
+			targetKeypath = this._ractive.keypath;
+
+			// this decorator only works with array members!
+			lastDotIndex = targetKeypath.lastIndexOf( '.' );
+
+			if ( lastDotIndex === -1 ) {
+				throw new Error( errorMessage );
+			}
+
+			targetArray = targetKeypath.substr( 0, lastDotIndex );
+			targetIndex = +( targetKeypath.substring( lastDotIndex + 1 ) );
+
+			// if we're dealing with a different array, abort
+			if ( targetArray !== sourceArray ) {
+				return;
+			}
+
+			// if it's the same index, add droptarget class then abort
+			if ( targetIndex === sourceIndex ) {
+				this.classList.add( sortable.targetClass );
+				return;
+			}
+
+			array = ractive.get( sourceArray );
+
+			// remove source from array
+			source = array.splice( sourceIndex, 1 )[0];
+
+			// the target index is now the source index...
+			sourceIndex = targetIndex;
+
+			// add source back to array in new location
+			array.splice( sourceIndex, 0, source );
+		};
+
+		removeTargetClass = function () {
+			this.classList.remove( sortable.targetClass );
+		};
+
+		preventDefault = function ( event ) { event.preventDefault(); };
+
+		Ractive.decorators.sortable = sortable;
+
+	}));
 
 /***/ }
 /******/ ]);
