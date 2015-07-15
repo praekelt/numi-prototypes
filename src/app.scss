@@ -46,3 +46,9 @@ body {
 .custom-component {
   border-color: #666;
 }
+
+.text-left {
+  .btn {
+    text-align: left;
+  }
+}
