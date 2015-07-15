@@ -6,8 +6,10 @@
 <h1 class="page-header">Collections</h1>
 
 {{#collections}}
-<p>
-  <a href="./collections/{{id}}/edit">{{name}}</a>
-  {{eventPreview}}
-  </p>
+<div class="panel panel-default text-left">
+  {{#eventPreview}}
+  <div class="panel-heading">{{eventPreview}}</div>      
+  {{/eventPreview}}
+  <a href="./collections/{{id}}/edit" class="btn btn-link btn-block">{{name}}</a>
+</div> 
 {{/collections}}
