@@ -1,10 +1,10 @@
 var $ = require('jquery');
-var Ractive = require('ractive');
+var Base = require('../base');
 var pg = require('../../../pg');
 var BlockLibrary = require('../../../views/block-library');
 
 
-module.exports = Ractive.extend({
+module.exports = Base.extend({
   template: require('./template.html'),
   data: function() {
     return {blocks: []};

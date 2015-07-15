@@ -10,15 +10,15 @@
 </h1>
 
 {{#blockSets}}
+<div>
+  {{# type === 'screen' }}
+  <screen></screen>
+  {{/}}
 
-{{# type === 'screen' }}
-<screen></screen>
-{{/}}
-
-{{# type === 'filter' }}
-<filter></filter>
-{{/}}
-
+  {{# type === 'filter' }}
+  <filter></filter>
+  {{/}}
+</div>
 {{/blockSets}}
 
 <button class="btn btn-default btn-block nm-placeholder" on-click="addScreen()">+ Add screen</button>
