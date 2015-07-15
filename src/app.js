@@ -11,6 +11,7 @@ var CollectionEdit = require('./views/collection-edit');
 var pg = require('./pg');
 
 var dashboard = Dashboard({el: $('<div>')});
+var collections = {};
 
 dashboard.push('collections', {
   id: 'collection1',
@@ -26,11 +27,12 @@ page('/', function(ctx, next) {
 
 
 page('/collections/:id/edit', function(ctx, next) {
-  var coll = CollectionEdit({
+  var coll = collections[ctx.params.id] || CollectionEdit({
     el: $('<div>'),
-    data: _.find(dashboard.get('collections'), {id: 'collection1'})
+    data: _.find(dashboard.get('collections'), {id: ctx.params.id})
   });
 
+  collections[ctx.params.id] = coll;
   pg.push(coll.el);
 });
 
