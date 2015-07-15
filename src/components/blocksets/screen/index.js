@@ -17,7 +17,9 @@ module.exports = Ractive.extend({
   },
   hasEvent: function() {
     return !!this.get('blocks')
-      .filter(BlockLibrary.isEvent)
+      .filter(function(d) {
+        return BlockLibrary.isEvent(d.type);
+      })
       .length;
   },
   oncomplete: function() {

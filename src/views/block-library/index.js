@@ -80,11 +80,11 @@ BlockLibrary.types = [{
 }];
 
 
-BlockLibrary.isEvent = function(block) {
+BlockLibrary.isEvent = function(type) {
   return !!BlockLibrary.events
     .blocks
     .filter(function(d) {
-      return d.type === block.type;
+      return d.type === type;
     })
     .length;
 };

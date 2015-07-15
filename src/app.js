@@ -10,29 +10,35 @@ var Dashboard = require('./views/dashboard');
 var CollectionEdit = require('./views/collection-edit');
 var pg = require('./pg');
 
-var dashboard = Dashboard({el: $('<div>')});
-var collections = {};
-
-dashboard.push('collections', {
-  id: 'collection1',
-  name: 'Collection 1'
+var dashboard = Dashboard({
+  el: $('<div>'),
+  data: {collectionViews: []}
 });
+
+
+dashboard.push('collectionViews', CollectionEdit({
+  el: $('<div>'),
+  data: {
+    id: 'collection1',
+    name: 'Collection 1'
+  }
+}));
+
 
 page.base('/numi-prototypes');
 
 
 page('/', function(ctx, next) {
+  dashboard.update();
   pg.push(dashboard.el);
 });
 
 
 page('/collections/:id/edit', function(ctx, next) {
-  var coll = collections[ctx.params.id] || CollectionEdit({
-    el: $('<div>'),
-    data: _.find(dashboard.get('collections'), {id: ctx.params.id})
+  var coll = _.find(dashboard.get('collectionViews'), function(c) {
+    return c.get('id') === ctx.params.id;
   });
 
-  collections[ctx.params.id] = coll;
   pg.push(coll.el);
 });
 
