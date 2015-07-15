@@ -37978,7 +37978,7 @@
 
 	module.exports = Ractive.extend({
 	  template: __webpack_require__(16),
-	  data: {
+	  computed: {
 	    collections: function() {
 	      return this.get('collectionViews')
 	        .map(function(c) {
@@ -54622,7 +54622,7 @@
 /* 16 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","a":{"class":"active"},"f":["Home"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Collections"]}," ",{"t":4,"f":[{"t":7,"e":"p","f":[{"t":7,"e":"a","a":{"href":["./collections/",{"t":2,"r":"id"},"/edit"]},"f":[{"t":2,"r":"name"}]}," ",{"t":2,"r":"eventPreview"}]}],"x":{"r":["collections"],"s":"_0()"}}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","a":{"class":"active"},"f":["Home"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Collections"]}," ",{"t":4,"f":[{"t":7,"e":"p","f":[{"t":7,"e":"a","a":{"href":["./collections/",{"t":2,"r":"id"},"/edit"]},"f":[{"t":2,"r":"name"}]}," ",{"t":2,"r":"eventPreview"}]}],"r":"collections"}]};
 
 /***/ },
 /* 17 */
