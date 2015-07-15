@@ -24348,7 +24348,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(5)();
-	exports.push([module.id, "html {\n  background-color: #333;\n  max-width: 320px;\n  margin: 0 auto; }\n\nbody {\n  background-color: #fff; }\n\n.nm-page {\n  padding: 1em; }\n\n.nm-placeholder {\n  border-style: dashed; }\n\n.nm-block-title {\n  font-weight: bold;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  color: #666; }\n\n.btn-library {\n  margin: 0.5em; }\n\n.screen {\n  padding-bottom: 3em;\n  border-bottom: solid 1px #333;\n  margin-bottom: 3em; }\n\n.page-header {\n  margin-top: 0; }\n\n.sortable-blocks .nm-block-title:hover {\n  cursor: move; }\n", ""]);
+	exports.push([module.id, "html {\n  background-color: #333;\n  max-width: 30em;\n  margin: 0 auto; }\n\nbody {\n  background-color: #fff; }\n\n.nm-page {\n  padding: 1em; }\n\n.nm-placeholder {\n  border-style: dashed; }\n\n.nm-block-title {\n  font-weight: bold;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  color: #666; }\n\n.btn-library {\n  margin: 0.5em; }\n\n.screen {\n  padding-bottom: 3em;\n  border-bottom: solid 1px #333;\n  margin-bottom: 3em; }\n\n.page-header {\n  margin-top: 0; }\n\n.sortable-blocks .nm-block-title:hover {\n  cursor: move; }\n\n.custom-component {\n  border-color: #666; }\n", ""]);
 
 /***/ },
 /* 5 */
@@ -55039,7 +55039,7 @@
 /* 43 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Validate Clinic code"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"form","f":[{"t":7,"e":"ul","a":{"class":"nav nav-stacked"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"label","a":{"for":"choice-text-1"},"f":["Validation Pass"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"f":["Links to ▶"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"label","a":{"for":"choice-text-1"},"f":["Validation Fail"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"f":["Links to ▶"]}]}]}]}]}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default custom-component"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Validate Clinic code"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"form","f":[{"t":7,"e":"ul","a":{"class":"nav nav-stacked"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"label","a":{"for":"choice-text-1"},"f":["Validation Pass"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"f":["Links to ▶"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"label","a":{"for":"choice-text-1"},"f":["Validation Fail"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"f":["Links to ▶"]}]}]}]}]}]}]}]};
 
 /***/ },
 /* 44 */
@@ -55057,7 +55057,7 @@
 /* 45 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Show next 9 months"]}," "]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default custom-component"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Show next 9 months"]}," Use the ",{"t":7,"e":"code","f":["[next 9 months]"]}," placeholder in your message."]}]}]};
 
 /***/ },
 /* 46 */
