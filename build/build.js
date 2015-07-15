@@ -45,18 +45,19 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	window.jQuery = __webpack_require__(2);
+	__webpack_require__(1);
 	__webpack_require__(3);
 	__webpack_require__(7);
 
 	var _ = __webpack_require__(8);
 	var $ = __webpack_require__(2);
-	var jqui = __webpack_require__(1);
 	var page = __webpack_require__(10);
 	var Dashboard = __webpack_require__(14);
 	var CollectionEdit = __webpack_require__(17);
 	var pg = __webpack_require__(21);
 
 	var dashboard = Dashboard({el: $('<div>')});
+	var collections = {};
 
 	dashboard.push('collections', {
 	  id: 'collection1',
@@ -72,11 +73,12 @@
 
 
 	page('/collections/:id/edit', function(ctx, next) {
-	  var coll = CollectionEdit({
+	  var coll = collections[ctx.params.id] || CollectionEdit({
 	    el: $('<div>'),
-	    data: _.find(dashboard.get('collections'), {id: 'collection1'})
+	    data: _.find(dashboard.get('collections'), {id: ctx.params.id})
 	  });
 
+	  collections[ctx.params.id] = coll;
 	  pg.push(coll.el);
 	});
 
