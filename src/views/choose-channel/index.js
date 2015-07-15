@@ -15,6 +15,17 @@ module.exports = Ractive.extend({
       ]
     };
   },
+  computed: {
+    collection: function() {
+      var screen = this.get('source');
+      if (!screen) return null;
+
+      return {
+        id: screen.parent.get('id'),
+        name: screen.parent.get('name')
+      };
+    }
+  },
   choose: function(channel) {
     this.get('source').set('channel', channel);
     pg.pop();

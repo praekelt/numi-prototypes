@@ -6,10 +6,19 @@ var NewCollection = require('../new-collection');
 
 module.exports = Ractive.extend({
   template: require('./template.html'),
-  data: function()  {
-    return {
-      collections: dashboard.get('collections')
-    };
+  computed: {
+    collection: function() {
+      var screen = this.get('source');
+      if (!screen) return null;
+
+      return {
+        id: screen.parent.get('id'),
+        name: screen.parent.get('name')
+      };
+    },
+    collections: function() {
+      return dashboard.get('collections');
+    }
   },
   choose: function(collection) {
     this.get('source').set('collection', collection);

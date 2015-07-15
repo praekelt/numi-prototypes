@@ -12,6 +12,17 @@ var BlockLibrary = Ractive.extend({
       disableEvents: false
     };
   },
+  computed: {
+    collection: function() {
+      var screen = this.get('source');
+      if (!screen) return null;
+
+      return {
+        id: screen.parent.get('id'),
+        name: screen.parent.get('name')
+      };
+    }
+  },
   addBlock: function(type) {
     this.get('source').push('blocks', {type: type});
     pg.pop();
