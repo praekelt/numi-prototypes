@@ -11,11 +11,10 @@
         <!-- Lets users choose the "routing" -->
         <br/>
 
-        <label for="choice-text">Links to</label>
         {{#collection}}
         <label>Links to</label>
         <button class="btn btn-default btn-block" on-click="chooseCollection()">{{name}}</button>
-        <p class="text-right"><a href="">View collection</a></p>
+        <p class="text-right"><a href="../../collections/{{id}}/edit">View collection</a></p>
         {{/collection}}
 
         {{^collection}}
