@@ -10,11 +10,14 @@
         <br/>
 
         {{#collection}}
-        <button class="btn btn-default btn-block" on-click="chooseCollection()">Links to ▶ {{name}}</button>
+        <label>Links to</label>
+        <button class="btn btn-default btn-block" on-click="chooseCollection()">{{name}}</button>
+        <p class="text-right"><a href="">View collection</a></p>
         {{/collection}}
 
         {{^collection}}
-        <button class="btn btn-default btn-block nm-placeholder" on-click="chooseCollection()">Links to ▶</button>
+        <label>Links to</label>
+        <button class="btn btn-default btn-block nm-placeholder" on-click="chooseCollection()">Choose collection</button>
         {{/collection}}
     </div>
   </div>
