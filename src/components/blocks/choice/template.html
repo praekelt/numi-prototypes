@@ -9,12 +9,13 @@
         <!-- Lets users choose the "routing" -->
         <br/>
 
+        <label for="choice-text">Links to</label>
         {{#collection}}
-        <button class="btn btn-default btn-block" on-click="chooseCollection()">Links to ▶ {{name}}</button>
+        <button class="btn btn-default btn-block" on-click="chooseCollection()"> {{name}}</button>
         {{/collection}}
 
         {{^collection}}
-        <button class="btn btn-default btn-block nm-placeholder" on-click="chooseCollection()">Links to ▶</button>
+        <button class="btn btn-default btn-block nm-placeholder" on-click="chooseCollection()">Choose collection</button>
         {{/collection}}
     </div>
   </div>
