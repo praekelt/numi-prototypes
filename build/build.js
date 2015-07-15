@@ -56,7 +56,7 @@
 	var CollectionEdit = __webpack_require__(17);
 	var pg = __webpack_require__(20);
 
-	var dashboard = Dashboard({
+	window.dashboard = Dashboard({
 	  el: $('<div>'),
 	  data: {collectionViews: []}
 	});
@@ -96,6 +96,9 @@
 	window.addEventListener('beforeunload', function(e) {
 	  e.returnValue = "Changing the page will reset the prototype.";
 	});
+
+
+	exports.dashboard = dashboard;
 
 
 /***/ },
@@ -54661,7 +54664,7 @@
 	  },
 	  components: {
 	    screen: __webpack_require__(22),
-	    filter: __webpack_require__(52)
+	    filter: __webpack_require__(54)
 	  }
 	});
 
@@ -54850,17 +54853,17 @@
 	  components: {
 	    ask: __webpack_require__(28),
 	    choice: __webpack_require__(30),
-	    end: __webpack_require__(32),
-	    saveas: __webpack_require__(34),
+	    end: __webpack_require__(34),
+	    saveas: __webpack_require__(36),
 	    userdialsin: __webpack_require__(23),
-	    usersendsmessage: __webpack_require__(36),
-	    scheduled: __webpack_require__(38),
-	    manual: __webpack_require__(40),
-	    validatecliniccode: __webpack_require__(42),
-	    shownext9months: __webpack_require__(44),
-	    standardmessageset: __webpack_require__(46),
-	    latermessageset: __webpack_require__(48),
-	    acceleratedmessageset: __webpack_require__(50),
+	    usersendsmessage: __webpack_require__(38),
+	    scheduled: __webpack_require__(40),
+	    manual: __webpack_require__(42),
+	    validatecliniccode: __webpack_require__(44),
+	    shownext9months: __webpack_require__(46),
+	    standardmessageset: __webpack_require__(48),
+	    latermessageset: __webpack_require__(50),
+	    acceleratedmessageset: __webpack_require__(52),
 	  }
 	});
 
@@ -54959,37 +54962,55 @@
 /* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var $ = __webpack_require__(1);
 	var Ractive = __webpack_require__(15);
+	var ChooseCollection = __webpack_require__(31);
+	var pg = __webpack_require__(20);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(31)
+	  template: __webpack_require__(33),
+	  chooseCollection: function() {
+	    var colls = ChooseCollection({el: $('<div>')});
+	    colls.set('source', this);
+	    pg.push(colls.el);
+	  },
 	});
 
 
 /***/ },
 /* 31 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Choice"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"form","f":[{"t":7,"e":"label","a":{"for":"choice-text"},"f":["Text"]}," ",{"t":7,"e":"input","a":{"type":"text","id":"choice-text","name":"choice-text","class":"form-control"}}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"f":["Links to ▶"]}]}]}]}]}]};
-
-/***/ },
-/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Ractive = __webpack_require__(15);
+	var pg = __webpack_require__(20);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(33)
+	  template: __webpack_require__(32),
+	  data: function()  {
+	    return {
+	      collections: dashboard.get('collections')
+	    };
+	  },
+	  choose: function(collection) {
+	    this.get('source').set('collection', collection);
+	    pg.pop();
+	  }
 	});
 
+
+/***/ },
+/* 32 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/collections/collection1/edit"},"f":["Collection1"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Choose channel"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Choose channel"]}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"type":"submit","class":"btn btn-default btn-block"},"v":{"click":{"m":"choose","a":{"r":["name"],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}],"r":"collections"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"f":["+ Add collection"]}]};
 
 /***/ },
 /* 33 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["End"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control"}}," "]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Choice"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"label","a":{"for":"choice-text"},"f":["Text"]}," ",{"t":7,"e":"input","a":{"type":"text","id":"choice-text","name":"choice-text","class":"form-control"}}," ",{"t":7,"e":"br"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseCollection","a":{"r":[],"s":"[]"}}},"f":["Links to ▶ ",{"t":2,"r":"name"}]}],"r":"collection"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseCollection","a":{"r":[],"s":"[]"}}},"f":["Links to ▶"]}],"n":51,"r":"collection"}]}]}]}]};
 
 /***/ },
 /* 34 */
@@ -55007,7 +55028,7 @@
 /* 35 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"label","a":{"for":"save-as"},"f":["Save As"]}," ",{"t":7,"e":"input","a":{"type":"text","id":"save-as","name":"save-as","class":"form-control"}}]}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["End"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control"}}," "]}]}]};
 
 /***/ },
 /* 36 */
@@ -55025,7 +55046,7 @@
 /* 37 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["When user sends a message to"]}," "]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"label","a":{"for":"save-as"},"f":["Save As"]}," ",{"t":7,"e":"input","a":{"type":"text","id":"save-as","name":"save-as","class":"form-control"}}]}]}]}]};
 
 /***/ },
 /* 38 */
@@ -55043,7 +55064,7 @@
 /* 39 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Scheduled"]}," "]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["When user sends a message to"]}," "]}]}]};
 
 /***/ },
 /* 40 */
@@ -55061,7 +55082,7 @@
 /* 41 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Manual"]}," "]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Scheduled"]}," "]}]}]};
 
 /***/ },
 /* 42 */
@@ -55079,7 +55100,7 @@
 /* 43 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default custom-component"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Validate Clinic code"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"form","f":[{"t":7,"e":"ul","a":{"class":"nav nav-stacked"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"label","a":{"for":"choice-text-1"},"f":["Validation Pass"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"f":["Links to ▶"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"label","a":{"for":"choice-text-1"},"f":["Validation Fail"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"f":["Links to ▶"]}]}]}]}]}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Manual"]}," "]}]}]};
 
 /***/ },
 /* 44 */
@@ -55097,7 +55118,7 @@
 /* 45 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default custom-component"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Show next 9 months"]}," Use the ",{"t":7,"e":"code","f":["[next 9 months]"]}," placeholder in your message."]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default custom-component"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Validate Clinic code"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"form","f":[{"t":7,"e":"ul","a":{"class":"nav nav-stacked"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"label","a":{"for":"choice-text-1"},"f":["Validation Pass"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"f":["Links to ▶"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"label","a":{"for":"choice-text-1"},"f":["Validation Fail"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"f":["Links to ▶"]}]}]}]}]}]}]}]};
 
 /***/ },
 /* 46 */
@@ -55115,7 +55136,7 @@
 /* 47 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Send standard message set"]}," "]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default custom-component"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Show next 9 months"]}," Use the ",{"t":7,"e":"code","f":["[next 9 months]"]}," placeholder in your message."]}]}]};
 
 /***/ },
 /* 48 */
@@ -55133,7 +55154,7 @@
 /* 49 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Send later message set"]}," "]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Send standard message set"]}," "]}]}]};
 
 /***/ },
 /* 50 */
@@ -55151,7 +55172,7 @@
 /* 51 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Send accelerated message set"]}," "]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Send later message set"]}," "]}]}]};
 
 /***/ },
 /* 52 */
@@ -55167,6 +55188,24 @@
 
 /***/ },
 /* 53 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Send accelerated message set"]}," "]}]}]};
+
+/***/ },
+/* 54 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Ractive = __webpack_require__(15);
+
+
+	module.exports = Ractive.extend({
+	  template: __webpack_require__(55)
+	});
+
+
+/***/ },
+/* 55 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[]};

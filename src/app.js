@@ -10,7 +10,7 @@ var Dashboard = require('./views/dashboard');
 var CollectionEdit = require('./views/collection-edit');
 var pg = require('./pg');
 
-var dashboard = Dashboard({
+window.dashboard = Dashboard({
   el: $('<div>'),
   data: {collectionViews: []}
 });
@@ -50,3 +50,6 @@ page();
 window.addEventListener('beforeunload', function(e) {
   e.returnValue = "Changing the page will reset the prototype.";
 });
+
+
+exports.dashboard = dashboard;

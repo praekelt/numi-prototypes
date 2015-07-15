@@ -3,14 +3,19 @@
     <p class="nm-block-title">Choice</p>
 
     <div class="form-group">
-      <form>
         <label for="choice-text">Text</label>
         <input type="text" id="choice-text" name="choice-text" class="form-control">
 
         <!-- Lets users choose the "routing" -->
         <br/>
-        <button class="btn btn-default btn-block nm-placeholder">Links to ▶</button>
-      </form>
+
+        {{#collection}}
+        <button class="btn btn-default btn-block" on-click="chooseCollection()">Links to ▶ {{name}}</button>
+        {{/collection}}
+
+        {{^collection}}
+        <button class="btn btn-default btn-block nm-placeholder" on-click="chooseCollection()">Links to ▶</button>
+        {{/collection}}
     </div>
   </div>
 </div>
