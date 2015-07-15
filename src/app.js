@@ -1,10 +1,10 @@
 window.jQuery = require('jquery');
+require('jquery-ui');
 require('./app.scss');
 require('../bootstrap/js/bootstrap.min.js');
 
 var _ = require('lodash');
 var $ = require('jquery');
-var jqui = require('jquery-ui');
 var page = require('page');
 var Dashboard = require('./views/dashboard');
 var CollectionEdit = require('./views/collection-edit');

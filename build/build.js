@@ -45,12 +45,12 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	window.jQuery = __webpack_require__(2);
+	__webpack_require__(1);
 	__webpack_require__(3);
 	__webpack_require__(7);
 
 	var _ = __webpack_require__(8);
 	var $ = __webpack_require__(2);
-	var jqui = __webpack_require__(1);
 	var page = __webpack_require__(10);
 	var Dashboard = __webpack_require__(14);
 	var CollectionEdit = __webpack_require__(17);
