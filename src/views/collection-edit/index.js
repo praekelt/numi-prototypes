@@ -25,7 +25,6 @@ module.exports = Ractive.extend({
       })
       .value();
 
-    console.log(event);
     return event
       ? event.preview() || ''
       : '';

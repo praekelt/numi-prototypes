@@ -54655,7 +54655,6 @@
 	      })
 	      .value();
 
-	    console.log(event);
 	    return event
 	      ? event.preview() || ''
 	      : '';
