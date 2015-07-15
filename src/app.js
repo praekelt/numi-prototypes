@@ -7,22 +7,11 @@ var _ = require('lodash');
 var $ = require('jquery');
 var page = require('page');
 var Dashboard = require('./views/dashboard');
-var CollectionEdit = require('./views/collection-edit');
 var pg = require('./pg');
 
-window.dashboard = Dashboard({
-  el: $('<div>'),
-  data: {collectionViews: []}
-});
 
-
-dashboard.push('collectionViews', CollectionEdit({
-  el: $('<div>'),
-  data: {
-    id: 'collection1',
-    name: 'Collection 1'
-  }
-}));
+window.dashboard = Dashboard({el: $('<div>')});
+dashboard.addCollection('Collection 1');
 
 
 page.base('/numi-prototypes');
