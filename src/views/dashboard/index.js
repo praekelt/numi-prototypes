@@ -2,6 +2,8 @@ var $ = require('jquery');
 var _ = require('lodash');
 var Ractive = require('ractive');
 var CollectionEdit = require('../collection-edit');
+var NewCollection = require('../new-collection');
+var pg = require('../../pg');
 
 
 module.exports = Ractive.extend({
@@ -20,6 +22,11 @@ module.exports = Ractive.extend({
 
     this.push('collectionViews', coll);
     return coll;
+  },
+  newCollection: function() {
+    var newColl = NewCollection({el: $('<div>')});
+    pg.pop();
+    pg.push(newColl.el);
   },
   computed: {
     collections: function() {
