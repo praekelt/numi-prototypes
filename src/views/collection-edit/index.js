@@ -1,4 +1,3 @@
-var $ = require('jquery');
 var Ractive = require('ractive');
 
 
