@@ -32,7 +32,6 @@ page('/collections/:id/edit', function(ctx, next) {
   });
 
   pg.push(coll.el);
-  $('.sortable-blocks').sortable();
 });
 
 

@@ -20,6 +20,11 @@ module.exports = Ractive.extend({
       .filter(BlockLibrary.isEvent)
       .length;
   },
+  oncomplete: function() {
+    $(this.el)
+      .find('.sortable-blocks')
+      .sortable();
+  },
   components: {
     ask: require('../../blocks/ask'),
     choice: require('../../blocks/choice'),
