@@ -1,6 +1,6 @@
-var Ractive = require('ractive');
+var Base = require('../base');
 
 
-module.exports = Ractive.extend({
+module.exports = Base.extend({
   template: require('./template.html')
 });

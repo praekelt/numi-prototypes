@@ -1,6 +1,6 @@
 <div class="screen sortable-blocks">
     {{#blocks}}
-
+    <div>
         {{# type === 'ask' }}
         <ask></ask>
         {{/}}
@@ -53,6 +53,7 @@
         <acceleratedmessageset></acceleratedmessageset>
         {{/}}
 
+    </div>
     {{/blocks}}
 
     <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+ Add block</button>

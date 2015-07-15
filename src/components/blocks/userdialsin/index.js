@@ -1,10 +1,10 @@
 var $ = require('jquery');
-var Ractive = require('ractive');
+var Base = require('../base');
 var pg = require('../../../pg');
 var ChooseChannel = require('../../../views/choose-channel');
 
 
-module.exports = Ractive.extend({
+module.exports = Base.extend({
   template: require('./template.html'),
   data: function() {
     return {channel: null};
