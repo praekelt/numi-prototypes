@@ -7,7 +7,7 @@ module.exports = Ractive.extend({
   data: function()  {
     return {filters: dashboard.get('filters')};
   },
-  save: function(filterection) {
+  save: function() {
     var filter = dashboard.addFilter(this.get('name'));
 
     if (this.get('chooser')) this.get('chooser').setChoice({
