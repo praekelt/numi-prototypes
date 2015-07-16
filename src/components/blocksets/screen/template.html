@@ -1,8 +1,8 @@
-<div class="screen sortable-blocks">
+<div class="screen">
     <button type="button" class="close close-screen" on-click="destroy()"><span><span class="close-screen-text">remove section</span>&times;</span></button>
 
+    <div class="sortable-blocks">
     {{#blocks}}
-    <div>
         {{# type === 'ask' }}
         <ask></ask>
         {{/}}
@@ -55,8 +55,8 @@
         <acceleratedmessageset></acceleratedmessageset>
         {{/}}
 
-    </div>
     {{/blocks}}
+    </div>
 
     <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+ Add block</button>
 </div>
