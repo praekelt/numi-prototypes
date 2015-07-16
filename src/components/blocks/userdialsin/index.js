@@ -15,6 +15,8 @@ module.exports = Base.extend({
     pg.push(channels.el);
   },
   preview: function() {
-    return "When the user dials in on " + this.get('channel');
+    return this.get('channel')
+      ? "When the user dials in on " + this.get('channel')
+      : null;
   }
 });
