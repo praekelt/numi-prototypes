@@ -29,3 +29,12 @@
   </div>
 </div>
 
+<div class="sortable-blocks">
+{{#conditions}}
+  {{# type === 'lte' }}
+  <lte></lte>
+  {{/}}
+{{/conditions}}
+</div>
+
+<button class="btn btn-default btn-block nm-placeholder" on-click="addCondition()">+ Add condition</button>

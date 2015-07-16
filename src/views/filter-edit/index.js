@@ -1,32 +1,20 @@
-var _ = require('lodash');
-var BlockLibrary = require('../block-library');
+var $ = require('jquery');
 var Ractive = require('ractive');
+var pg = require('../../pg');
+var ConditionLibrary = require('../condition-library');
 
 
 module.exports = Ractive.extend({
   template: require('./template.html'),
   data: function() {
-    return {blockSets: []};
+    return {conditions: []};
   },
-  addScreen: function() {
-    this.push('blockSets', {type: 'screen'});
+  addCondition: function() {
+    var library = ConditionLibrary({el: $('<div>')});
+    library.set('filter', this);
+    pg.push(library.el);
   },
-  previewEvent: function() {
-    var event = _.chain(this.findAllComponents())
-      .filter(function(c) {
-        return c.get('type') == 'screen';
-      })
-      .map(function(c) {
-        return c.findAllComponents();
-      })
-      .flatten()
-      .find(function(c) {
-        return BlockLibrary.isEvent(c.get('type'));
-      })
-      .value();
-
-    return event
-      ? event.preview() || ''
-      : '';
+  components: {
+    lte: require('../../components/conditions/lte'),
   }
 });
