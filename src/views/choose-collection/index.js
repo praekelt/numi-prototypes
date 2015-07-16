@@ -20,12 +20,16 @@ module.exports = Ractive.extend({
       return dashboard.get('collections');
     }
   },
-  choose: function(collection) {
+  setChoice: function(collection) {
     this.get('source').set(this.get('fieldName') || 'collection', collection);
+  },
+  choose: function(collection) {
+    this.setChoice(collection);
     pg.pop();
   },
   newCollection: function() {
     var newColl = NewCollection({el: $('<div>')});
+    newColl.set('chooser', this);
     pg.pop();
     pg.push(newColl.el);
   }

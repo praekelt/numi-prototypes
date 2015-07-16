@@ -55064,12 +55064,16 @@
 	      return dashboard.get('collections');
 	    }
 	  },
-	  choose: function(collection) {
+	  setChoice: function(collection) {
 	    this.get('source').set(this.get('fieldName') || 'collection', collection);
+	  },
+	  choose: function(collection) {
+	    this.setChoice(collection);
 	    pg.pop();
 	  },
 	  newCollection: function() {
 	    var newColl = NewCollection({el: $('<div>')});
+	    newColl.set('chooser', this);
 	    pg.pop();
 	    pg.push(newColl.el);
 	  }
@@ -55091,9 +55095,16 @@
 	      collections: dashboard.get('collections')
 	    };
 	  },
-	  save: function(collection) {
+	  save: function() {
+	    var coll = dashboard.addCollection(this.get('name'));
+
+	    if (this.get('chooser')) this.get('chooser').setChoice({
+	      id: coll.get('id'),
+	      name: coll.get('name')
+	    });
+
 	    pg.pop();
-	    pg.push(dashboard.addCollection(this.get('name')).el);
+	    pg.push(coll.el);
 	  }
 	});
 
