@@ -5,6 +5,13 @@
 
 <h1 class="page-header">Collections</h1>
 
+{{^collections}}
+<div class="alert alert-info" role="alert">
+  <p><strong>Collections</strong> are groups of content: combine them to make <strong>Campaigns</strong>.</p>
+  <p>Add a collection to get started.</p>
+  </div>
+{{/collections}}
+
 {{#collections}}
 <div class="panel panel-default text-left">
   {{#eventPreview}}

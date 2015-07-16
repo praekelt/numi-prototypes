@@ -11,8 +11,6 @@ var pg = require('./pg');
 
 
 window.dashboard = Dashboard({el: $('<div>')});
-dashboard.addCollection('Collection 1');
-
 
 page.base('/numi-prototypes');
 
