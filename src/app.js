@@ -17,8 +17,8 @@ page.base('/numi-prototypes');
 
 page('/', function(ctx, next) {
   dashboard.update();
-  //pg.push(dashboard.el);
-  pg.push(dashboard.addFilter('Filter 1').el);
+  pg.push(dashboard.el);
+  // pg.push(dashboard.addFilter('Filter 1').el);
 });
 
 

@@ -48,6 +48,10 @@
           {{#blocks}}
           <button class="btn btn-default btn-library" on-click="addBlock(type)">{{title}}</button>
           {{/blocks}}
+
+          {{# name === 'filters' }}
+          <button class="btn btn-default btn-library nm-placeholder" on-click="addBlock(type)">+ Add filter</button>
+          {{/}}
         </div>
       </div>
   </div>

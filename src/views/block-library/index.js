@@ -66,11 +66,14 @@ BlockLibrary.types = [{
     type: 'saveas'
   }]
 }, {
-  title: 'Control (needs a better name)',
-  name: 'control',
+  title: 'Filters',
+  name: 'filters',
   blocks: [{
-    title: 'Filter',
-    type: 'filter'
+    title: 'Gestation < 30 weeks',
+    type: 'gestationlessthan30'
+  }, {
+    title: 'Gestation is a weird word',
+    type: 'gestationweird'
   }]
 }, {
   title: 'Custom components',
