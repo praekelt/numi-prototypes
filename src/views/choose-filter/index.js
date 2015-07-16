@@ -7,15 +7,6 @@ var NewFilter = require('../new-filter');
 module.exports = Ractive.extend({
   template: require('./template.html'),
   computed: {
-    filter: function() {
-      var screen = this.get('source');
-      if (!screen) return null;
-
-      return {
-        id: screen.parent.get('id'),
-        name: screen.parent.get('name')
-      };
-    },
     filters: function() {
       return dashboard.get('filters');
     }
