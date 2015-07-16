@@ -72,3 +72,25 @@ button.close-screen {
   top: -2px;
   left: -4px;
 }
+
+.panel-title {
+  a {
+    display: block;
+  }
+}
+
+[data-toggle="collapse"] {
+  position: relative;
+  &:before {
+    content: "▼";
+    position: absolute;
+    right: 0;
+  }
+  &.collapsed {
+    &:before {
+    content: "▲";
+    position: absolute;
+    right: 0;
+    }
+  }
+}
