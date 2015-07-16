@@ -45,7 +45,7 @@ module.exports = Ractive.extend({
     pg.push(newColl.el);
   },
   computed: {
-    filter: function() {
+    filters: function() {
       return this.get('filterViews')
         .map(function(c) {
           return {
