@@ -1,7 +1,7 @@
 var $ = require('jquery');
 var Base = require('../base');
-var ChooseCollection = require('../../../views/choose-collection');
 var pg = require('../../../pg');
+var ChooseCollection = require('../../../views/choose-collection');
 
 
 module.exports = Base.extend({

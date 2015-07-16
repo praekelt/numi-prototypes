@@ -5,19 +5,31 @@
     <p class="nm-block-title">Validate Clinic code</p>
       
     <div class="form-group">
-      <form>
-        <ul class="nav nav-stacked">
-          <li>
-            <label for="choice-text-1">Validation Pass</label>
-            <button class="btn btn-default btn-block nm-placeholder">Links to ▶</button>
-          </li>
-          <li>
-            <label for="choice-text-1">Validation Fail</label>
-            <button class="btn btn-default btn-block nm-placeholder">Links to ▶</button>
-          </li>
-          
-        </ul>
-      </form>
+      <ul class="nav nav-stacked">
+        <li>
+          <label for="choice-text-1">Validation Pass</label>
+          {{#passCollection}}
+          <button class="btn btn-default btn-block" on-click="choosePassCollection()">{{name}}</button>
+          <p class="text-right"><a href="../../collections/{{id}}/edit">View collection</a></p>
+          {{/passCollection}}
+
+          {{^passCollection}}
+          <button class="btn btn-default btn-block nm-placeholder" on-click="choosePassCollection()">Choose collection</button>
+          {{/passCollection}}
+        </li>
+        <li>
+          <label for="choice-text-1">Validation Fail</label>
+          {{#failCollection}}
+          <button class="btn btn-default btn-block" on-click="chooseFailCollection()">{{name}}</button>
+          <p class="text-right"><a href="../../collections/{{id}}/edit">View collection</a></p>
+          {{/failCollection}}
+
+          {{^failCollection}}
+          <button class="btn btn-default btn-block nm-placeholder" on-click="chooseFailCollection()">Choose collection</button>
+          {{/failCollection}}
+        </li>
+        
+      </ul>
     </div>
   </div>
 </div>

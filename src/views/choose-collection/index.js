@@ -21,7 +21,7 @@ module.exports = Ractive.extend({
     }
   },
   choose: function(collection) {
-    this.get('source').set('collection', collection);
+    this.get('source').set(this.get('fieldName') || 'collection', collection);
     pg.pop();
   },
   newCollection: function() {
