@@ -30,6 +30,15 @@ page('/collections/:id/edit', function(ctx, next) {
 });
 
 
+page('/filters/:id/edit', function(ctx, next) {
+  var filter = _.find(dashboard.get('filterViews'), function(c) {
+    return c.get('id') === ctx.params.id;
+  });
+
+  pg.push(filter.el);
+});
+
+
 page();
 
 

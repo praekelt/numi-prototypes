@@ -28,8 +28,5 @@ module.exports = Ractive.extend({
     return event
       ? event.preview() || ''
       : '';
-  },
-  components: {
-    screen: require('../../components/blocksets/screen')
   }
 });

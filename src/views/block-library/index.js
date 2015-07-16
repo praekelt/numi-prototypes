@@ -66,6 +66,13 @@ BlockLibrary.types = [{
     type: 'saveas'
   }]
 }, {
+  title: 'Control (needs a better name)',
+  name: 'control',
+  blocks: [{
+    title: 'Filter',
+    type: 'filter'
+  }]
+}, {
   title: 'Custom components',
   name: 'custom-components',
   blocks: [{
