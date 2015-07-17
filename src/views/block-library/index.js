@@ -92,6 +92,9 @@ BlockLibrary.types = [{
   }, {
     title: 'Save Answer',
     type: 'saveas'
+  }, {
+    title: 'Add label (needs better group)',
+    type: 'label'
   }]
 }, {
   title: 'Custom components',

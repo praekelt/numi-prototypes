@@ -63,7 +63,7 @@ ConditionLibrary.types = [{
     type: 'has'
   }, {
     title: 'Does not have label',
-    type: 'not-have'
+    type: 'nothas'
   }]
 }, {
   title: 'Numbers',

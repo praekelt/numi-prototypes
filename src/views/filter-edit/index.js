@@ -19,6 +19,7 @@ module.exports = Ractive.extend({
   },
   components: {
     lte: require('../../components/conditions/lte'),
+    nothas: require('../../components/conditions/nothas'),
     filter: require('../../components/conditions/filter')
   }
 });

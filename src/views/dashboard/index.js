@@ -12,6 +12,7 @@ module.exports = Ractive.extend({
   data: function() {
     return {
       values: [],
+      labels: [],
       filterViews: [],
       collectionViews: []
     };
@@ -49,6 +50,11 @@ module.exports = Ractive.extend({
     var i = this.get('values').indexOf(oldVal);
     if (i < 0) this.push('values', newVal);
     else this.splice('values', i, 1, newVal);
+  },
+  updateLabel: function(oldLabel, newLabel) {
+    var i = this.get('labels').indexOf(oldLabel);
+    if (i < 0) this.push('labels', newLabel);
+    else this.splice('labels', i, 1, newLabel);
   },
   computed: {
     filters: function() {

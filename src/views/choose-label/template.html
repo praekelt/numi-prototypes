@@ -1,0 +1,13 @@
+<ol class="breadcrumb">
+  <li><a href="/numi-prototypes/">Home</a></li>
+  <li><a href="/numi-prototypes/{{parent.type}}/{{parent.id}}/edit">{{parent.name}}</a></li>
+  <li class="active">Choose label</li>
+</ol>
+
+<h1 class="page-header">Choose label</h1>
+
+<div class="list-group">
+  {{#labels}}
+  <button type="submit" class="btn btn-default btn-block" on-click="choose(this)">{{this}}</button>
+  {{/labels}}
+</div>
