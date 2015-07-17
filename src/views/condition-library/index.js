@@ -56,18 +56,18 @@ var ConditionLibrary = Ractive.extend({
 
 
 ConditionLibrary.types = [{
-  title: 'Checks',
-  name: 'checks',
+  title: 'Labels',
+  name: 'labels',
   blocks: [{
-    title: 'Has',
+    title: 'Has label',
     type: 'has'
   }, {
-    title: 'Does not have',
+    title: 'Does not have label',
     type: 'not-have'
   }]
 }, {
-  title: 'Comparison',
-  name: 'comparison',
+  title: 'Numbers',
+  name: 'numbers',
   blocks: [{
     title: 'Less than',
     type: 'lt'
