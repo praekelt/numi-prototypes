@@ -11,6 +11,7 @@ module.exports = Ractive.extend({
   template: require('./template.html'),
   data: function() {
     return {
+      values: [],
       filterViews: [],
       collectionViews: []
     };
@@ -43,6 +44,11 @@ module.exports = Ractive.extend({
     var newColl = NewCollection({el: $('<div>')});
     pg.pop();
     pg.push(newColl.el);
+  },
+  updateValue: function(oldVal, newVal) {
+    var i = this.get('values').indexOf(oldVal);
+    if (i < 0) this.push('values', newVal);
+    else this.splice('values', i, 1, newVal);
   },
   computed: {
     filters: function() {
