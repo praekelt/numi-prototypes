@@ -64,5 +64,10 @@ module.exports = Ractive.extend({
           };
         });
     }
-  }
+  },
+  oncomplete: function() {
+    $(this.el)
+      .find('.sortable-blocks')
+      .sortable();
+  },
 });

@@ -13,13 +13,15 @@
   </div>
 {{/collections}}
 
-{{#collections}}
-<div class="panel panel-default text-left">
-  {{#eventPreview}}
-  <div class="panel-heading">{{eventPreview}}</div>      
-  {{/eventPreview}}
-  <a href="./collections/{{id}}/edit" class="btn btn-link btn-block">{{name}}</a>
-</div> 
-{{/collections}}
+<div class="sortable-blocks">
+  {{#collections}}
+  <div class="panel panel-default text-left">
+    {{#eventPreview}}
+    <div class="panel-heading">{{eventPreview}}</div>      
+    {{/eventPreview}}
+    <a href="./collections/{{id}}/edit" class="btn btn-link btn-block">{{name}}</a>
+  </div> 
+  {{/collections}}
+</div>
 
 <button class="btn btn-default btn-block nm-placeholder" on-click="newCollection()">+ Add collection</button>
