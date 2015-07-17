@@ -26,3 +26,24 @@
   </div>
 </div>
 {{/types}}
+
+<div class="panel-group" id="accordionfilters" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="headingfilters">
+          <h2 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{id}}" aria-expanded="true" aria-controls="collapsefilters">
+              Filters
+            </a>
+          </h2>
+      </div>
+      <div id="collapsefilters" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingfilters">
+        <div class="panel-body">
+          {{#filters}}
+          <button class="btn btn-default btn-library" on-click="addFilter(this)">{{name}}</button>
+          {{/filters}}
+
+          <button class="btn btn-default btn-library nm-placeholder" on-click="newFilter()">+ Add filter</button>
+        </div>
+      </div>
+  </div>
+</div>

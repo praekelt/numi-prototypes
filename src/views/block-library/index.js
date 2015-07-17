@@ -33,17 +33,22 @@ var BlockLibrary = Ractive.extend({
     this.get('source').push('blocks', {type: type});
     pg.pop();
   },
-  addFilter: function()  {
+  addFilter: function(filter) {
+    this.get('source').push('blocks', {
+      type: 'filter',
+      filter: filter
+    });
+
+    pg.pop();
+  },
+  newFilter: function()  {
     var newFilter = NewFilter({el: $('<div>')});
     var self = this;
 
     newFilter.on('created', function(filter) {
-      self.get('source').push('blocks', {
-        type: 'filter',
-        filter: {
-          id: filter.get('id'),
-          name: filter.get('name')
-        }
+      self.addFilter({
+        id: filter.get('id'),
+        name: filter.get('name')
       });
     });
 

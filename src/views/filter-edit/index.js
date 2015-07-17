@@ -10,11 +10,15 @@ module.exports = Ractive.extend({
     return {conditions: []};
   },
   addCondition: function() {
-    var library = ConditionLibrary({el: $('<div>')});
-    library.set('filter', this);
+    var library = ConditionLibrary({
+      el: $('<div>'),
+      data: {filter: this}
+    });
+
     pg.push(library.el);
   },
   components: {
     lte: require('../../components/conditions/lte'),
+    filter: require('../../components/conditions/filter')
   }
 });

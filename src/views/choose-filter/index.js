@@ -8,14 +8,17 @@ module.exports = Ractive.extend({
   template: require('./template.html'),
   computed: {
     filters: function() {
-      return dashboard.get('filters');
+      var filter = this.get('filter');
+      if (!filter) return dashboard.get('filters');
+
+      return dashboard.get('filters')
+        .filter(function(otherFilter) {
+          return filter.get('id') !== otherFilter.id;
+        });
     }
   },
   setChoice: function(filter) {
-    this.get('source').set(this.get('fieldName') || 'filter', {
-      id: filter.get('id'),
-      name: filter.get('name')
-    });
+    this.get('source').set(this.get('fieldName') || 'filter', filter);
   },
   choose: function(filter) {
     this.setChoice(filter);
