@@ -11,7 +11,12 @@ module.exports = Base.extend({
       el: $('<div>'),
       data: {
         source: this,
-        filter: this.parent
+        filter: this.parent,
+        parent: {
+          type: 'filters',
+          id: this.parent.get('id'),
+          name: this.parent.get('name')
+        }
       }
     });
 

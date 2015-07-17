@@ -9,7 +9,14 @@ module.exports = Base.extend({
   chooseFilter: function() {
     var filters = ChooseFilter({
       el: $('<div>'),
-      data: {source: this}
+      data: {
+        source: this,
+        parent: {
+          type: 'collections',
+          id: this.parent.get('id'),
+          name: this.parent.get('name')
+        }
+      }
     });
 
     pg.push(filters.el);
