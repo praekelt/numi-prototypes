@@ -1,5 +1,7 @@
+var $ = require('jquery');
 var Ractive = require('ractive');
 var pg = require('../../pg');
+var NewFilter = require('../new-filter');
 
 
 // TODO something similar to this for filters
@@ -21,11 +23,19 @@ var BlockLibrary = Ractive.extend({
         id: screen.parent.get('id'),
         name: screen.parent.get('name')
       };
+    },
+    filters: function() {
+      dashboard.update();
+      return dashboard.get('filters');
     }
   },
   addBlock: function(type) {
     this.get('source').push('blocks', {type: type});
     pg.pop();
+  },
+  addFilter: function()  {
+    pg.pop();
+    pg.push(NewFilter({el: $('<div>')}).el);
   }
 });
 
@@ -64,16 +74,6 @@ BlockLibrary.types = [{
   }, {
     title: 'Save As',
     type: 'saveas'
-  }]
-}, {
-  title: 'Filters',
-  name: 'filters',
-  blocks: [{
-    title: 'Gestation < 30 weeks',
-    type: 'gestationlessthan30'
-  }, {
-    title: 'Gestation is a weird word',
-    type: 'gestationweird'
   }]
 }, {
   title: 'Custom components',
