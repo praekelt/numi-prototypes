@@ -18,6 +18,12 @@ var ConditionLibrary = Ractive.extend({
         .filter(function(otherFilter) {
           return otherFilter.id !== filter.get('id');
         });
+    },
+    filterId: function() {
+      return this.get('filter').get('id');
+    },
+    filterName: function() {
+      return this.get('filter').get('name');
     }
   },
   addCondition: function(type) {
