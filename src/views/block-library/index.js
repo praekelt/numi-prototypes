@@ -90,7 +90,7 @@ BlockLibrary.types = [{
     title: 'End',
     type: 'end'
   }, {
-    title: 'Save As',
+    title: 'Save Answer',
     type: 'saveas'
   }]
 }, {
