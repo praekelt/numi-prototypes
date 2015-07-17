@@ -9,6 +9,8 @@ module.exports = Ractive.extend({
   },
   save: function() {
     var filter = dashboard.addFilter(this.get('name'));
+    this.fire('created', filter);
+
     pg.pop();
     pg.push(filter.el);
   }
