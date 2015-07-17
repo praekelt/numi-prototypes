@@ -11,8 +11,11 @@ module.exports = Ractive.extend({
       return dashboard.get('filters');
     }
   },
-  setChoice: function(collection) {
-    this.get('source').set(this.get('fieldName') || 'filter', collection);
+  setChoice: function(filter) {
+    this.get('source').set(this.get('fieldName') || 'filter', {
+      id: filter.get('id'),
+      name: filter.get('name')
+    });
   },
   choose: function(filter) {
     this.setChoice(filter);
@@ -20,7 +23,12 @@ module.exports = Ractive.extend({
   },
   newFilter: function() {
     var newFilter = NewFilter({el: $('<div>')});
-    newFilter.set('chooser', this);
+    var self = this;
+
+    newFilter.on('created', function(filter) {
+      self.setChoice(filter);
+    });
+
     pg.pop();
     pg.push(newFilter.el);
   }
