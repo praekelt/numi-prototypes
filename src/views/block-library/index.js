@@ -89,6 +89,9 @@ BlockLibrary.types = [{
   }, {
     title: 'End',
     type: 'end'
+  }, {
+    title: 'Send',
+    type: 'send'
   }]
 }, {
   title: 'User data',
