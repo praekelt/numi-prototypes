@@ -47,8 +47,20 @@
 
 <div class="sortable-blocks">
 {{#conditions}}
+  {{# type === 'teq' }}
+  <teq></teq>
+  {{/}}
+
+  {{# type === 'tneq' }}
+  <tneq></tneq>
+  {{/}}
+
   {{# type === 'eq' }}
   <eq></eq>
+  {{/}}
+
+  {{# type === 'neq' }}
+  <neq></neq>
   {{/}}
 
   {{# type === 'lt' }}
