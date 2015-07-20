@@ -89,11 +89,15 @@ BlockLibrary.types = [{
   }, {
     title: 'End',
     type: 'end'
-  }, {
+  }]
+}, {
+  title: 'User data',
+  name: 'user-data',
+  blocks: [{
     title: 'Save Answer',
     type: 'saveas'
   }, {
-    title: 'Add label (needs better group)',
+    title: 'Add label',
     type: 'label'
   }]
 }, {
