@@ -12,7 +12,7 @@ module.exports = Base.extend({
   chooseChannel: function() {
     var channels = ChooseChannel({el: $('<div>')});
     channels.set('source', this);
-    pg.push(channels.el);
+    pg.push(channels);
   },
   preview: function() {
     return this.get('channel')

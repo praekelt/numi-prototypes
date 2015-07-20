@@ -19,6 +19,6 @@ module.exports = Base.extend({
       }
     });
 
-    pg.push(values.el);
+    pg.push(values);
   }
 });

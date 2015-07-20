@@ -44,7 +44,7 @@ module.exports = Ractive.extend({
   newCollection: function() {
     var newColl = NewCollection({el: $('<div>')});
     pg.pop();
-    pg.push(newColl.el);
+    pg.push(newColl);
   },
   updateValue: function(oldVal, newVal) {
     var i = this.get('values').indexOf(oldVal);

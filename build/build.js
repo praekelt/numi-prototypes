@@ -63,8 +63,8 @@
 
 	page('/', function(ctx, next) {
 	  dashboard.update();
-	  pg.push(dashboard.el);
-	  // pg.push(dashboard.addFilter('Filter 1').el);
+	  pg.push(dashboard);
+	  // pg.push(dashboard);
 	});
 
 
@@ -73,7 +73,7 @@
 	    return c.get('id') === ctx.params.id;
 	  });
 
-	  pg.push(coll.el);
+	  pg.push(coll);
 	});
 
 
@@ -82,7 +82,7 @@
 	    return c.get('id') === ctx.params.id;
 	  });
 
-	  pg.push(filter.el);
+	  pg.push(filter);
 	});
 
 
@@ -38019,7 +38019,7 @@
 	  newCollection: function() {
 	    var newColl = NewCollection({el: $('<div>')});
 	    pg.pop();
-	    pg.push(newColl.el);
+	    pg.push(newColl);
 	  },
 	  updateValue: function(oldVal, newVal) {
 	    var i = this.get('values').indexOf(oldVal);
@@ -38177,7 +38177,7 @@
 	    });
 
 	    pg.pop();
-	    pg.push(newFilter.el);
+	    pg.push(newFilter);
 	  }
 	});
 
@@ -54894,24 +54894,25 @@
 	var stack = [];
 
 
-	function push(el) {
+	function push(view) {
 	  stack.push($('.nm-curr-pg'));
-	  switchTo(el);
+	  switchTo(view);
 	}
 
 
 	function pop() {
-	  var el = stack.pop();
-	  if (el) switchTo(el);
+	  var view = stack.pop();
+	  if (view) switchTo(view);
+	  return view;
 	}
 
 
-	function switchTo(el) {
+	function switchTo(view) {
 	  $('.nm-curr-pg')
 	    .removeClass('nm-curr-pg')
 	    .detach();
 	  
-	  $(el)
+	  $(view.el)
 	    .addClass('nm-curr-pg')
 	    .appendTo('#app');
 	}
@@ -54939,7 +54940,7 @@
 	    this.fire('created', filter);
 
 	    pg.pop();
-	    pg.push(filter.el);
+	    pg.push(filter);
 	  }
 	});
 
@@ -54981,7 +54982,7 @@
 	    var library = BlockLibrary({el: $('<div>')});
 	    library.set('source', this);
 	    if (this.hasEvent()) library.set('disableEvents', true);
-	    pg.push(library.el);
+	    pg.push(library);
 	  },
 	  hasEvent: function() {
 	    return !!this.get('blocks')
@@ -55033,7 +55034,7 @@
 	  chooseChannel: function() {
 	    var channels = ChooseChannel({el: $('<div>')});
 	    channels.set('source', this);
-	    pg.push(channels.el);
+	    pg.push(channels);
 	  },
 	  preview: function() {
 	    return this.get('channel')
@@ -55163,7 +55164,7 @@
 	  chooseCollection: function() {
 	    var colls = ChooseCollection({el: $('<div>')});
 	    colls.set('source', this);
-	    pg.push(colls.el);
+	    pg.push(colls);
 	  }
 	});
 
@@ -55205,7 +55206,7 @@
 	    var newColl = NewCollection({el: $('<div>')});
 	    newColl.set('chooser', this);
 	    pg.pop();
-	    pg.push(newColl.el);
+	    pg.push(newColl);
 	  }
 	});
 
@@ -55234,7 +55235,7 @@
 	    });
 
 	    pg.pop();
-	    pg.push(coll.el);
+	    pg.push(coll);
 	  }
 	});
 
@@ -55409,13 +55410,13 @@
 	    var colls = ChooseCollection({el: $('<div>')});
 	    colls.set('source', this);
 	    colls.set('fieldName', 'passCollection');
-	    pg.push(colls.el);
+	    pg.push(colls);
 	  },
 	  chooseFailCollection: function() {
 	    var colls = ChooseCollection({el: $('<div>')});
 	    colls.set('source', this);
 	    colls.set('fieldName', 'failCollection');
-	    pg.push(colls.el);
+	    pg.push(colls);
 	  }
 	});
 
@@ -55523,7 +55524,7 @@
 	      }
 	    });
 
-	    pg.push(filters.el);
+	    pg.push(filters);
 	  }
 	});
 
@@ -55567,7 +55568,7 @@
 	    });
 
 	    pg.pop();
-	    pg.push(newFilter.el);
+	    pg.push(newFilter);
 	  }
 	});
 
@@ -55621,7 +55622,7 @@
 	      data: {filter: this}
 	    });
 
-	    pg.push(library.el);
+	    pg.push(library);
 	  },
 	  components: {
 	    lte: __webpack_require__(69),
@@ -55693,7 +55694,7 @@
 	    });
 
 	    pg.pop();
-	    pg.push(newFilter.el);
+	    pg.push(newFilter);
 	  }
 	});
 
@@ -55755,7 +55756,7 @@
 	      }
 	    });
 
-	    pg.push(values.el);
+	    pg.push(values);
 	  }
 	});
 
@@ -55838,7 +55839,7 @@
 	      }
 	    });
 
-	    pg.push(labels.el);
+	    pg.push(labels);
 	  }
 	});
 
@@ -55907,7 +55908,7 @@
 	      }
 	    });
 
-	    pg.push(filters.el);
+	    pg.push(filters);
 	  }
 	});
 

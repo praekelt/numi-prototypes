@@ -13,7 +13,7 @@ module.exports = Base.extend({
     var library = BlockLibrary({el: $('<div>')});
     library.set('source', this);
     if (this.hasEvent()) library.set('disableEvents', true);
-    pg.push(library.el);
+    pg.push(library);
   },
   hasEvent: function() {
     return !!this.get('blocks')

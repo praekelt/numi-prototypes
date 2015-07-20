@@ -10,12 +10,12 @@ module.exports = Base.extend({
     var colls = ChooseCollection({el: $('<div>')});
     colls.set('source', this);
     colls.set('fieldName', 'passCollection');
-    pg.push(colls.el);
+    pg.push(colls);
   },
   chooseFailCollection: function() {
     var colls = ChooseCollection({el: $('<div>')});
     colls.set('source', this);
     colls.set('fieldName', 'failCollection');
-    pg.push(colls.el);
+    pg.push(colls);
   }
 });

@@ -53,7 +53,7 @@ var BlockLibrary = Ractive.extend({
     });
 
     pg.pop();
-    pg.push(newFilter.el);
+    pg.push(newFilter);
   }
 });
 
