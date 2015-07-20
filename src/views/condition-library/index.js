@@ -50,7 +50,7 @@ var ConditionLibrary = Ractive.extend({
     });
 
     pg.pop();
-    pg.push(newFilt);
+    pg.push(newFilter.el);
   }
 });
 

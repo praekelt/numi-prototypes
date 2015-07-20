@@ -4,24 +4,24 @@ var $ = require('jquery');
 var stack = [];
 
 
-function push(view) {
+function push(el) {
   stack.push($('.nm-curr-pg'));
-  switchTo(view);
+  switchTo(el);
 }
 
 
 function pop() {
-  var view = stack.pop();
-  if (view) switchTo(view.el);
+  var el = stack.pop();
+  if (el) switchTo(el);
 }
 
 
-function switchTo(view) {
+function switchTo(el) {
   $('.nm-curr-pg')
     .removeClass('nm-curr-pg')
     .detach();
   
-  $(view.el)
+  $(el)
     .addClass('nm-curr-pg')
     .appendTo('#app');
 }

@@ -17,7 +17,7 @@ page.base('/numi-prototypes');
 
 page('/', function(ctx, next) {
   dashboard.update();
-  pg.push(dashboard);
+  pg.push(dashboard.el);
   // pg.push(dashboard.addFilter('Filter 1').el);
 });
 
@@ -27,7 +27,7 @@ page('/collections/:id/edit', function(ctx, next) {
     return c.get('id') === ctx.params.id;
   });
 
-  pg.push(coll);
+  pg.push(coll.el);
 });
 
 
@@ -36,7 +36,7 @@ page('/filters/:id/edit', function(ctx, next) {
     return c.get('id') === ctx.params.id;
   });
 
-  pg.push(filter);
+  pg.push(filter.el);
 });
 
 

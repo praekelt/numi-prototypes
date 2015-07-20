@@ -12,6 +12,6 @@ module.exports = Ractive.extend({
     this.fire('created', filter);
 
     pg.pop();
-    pg.push(filt);
+    pg.push(filter.el);
   }
 });
