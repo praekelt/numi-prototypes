@@ -55,7 +55,7 @@ module.exports = Ractive.extend({
       })
       .value();
 
-    return event
+    return event && typeof event.preview == 'function'
       ? event.preview() || ''
       : '';
   },
