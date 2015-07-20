@@ -41,8 +41,8 @@ module.exports = Ractive.extend({
     this.set('name', this.get('nameBackup'));
     this.hideRename();
   },
-  previewEvent: function() {
-    var event = _.chain(this.findAllComponents())
+  getEvent: function() {
+    return _.chain(this.findAllComponents())
       .filter(function(c) {
         return c.get('type') == 'screen';
       })
@@ -54,6 +54,12 @@ module.exports = Ractive.extend({
         return BlockLibrary.isEvent(c.get('type'));
       })
       .value();
+  },
+  hasEvent: function() {
+    return !!this.getEvent();
+  },
+  previewEvent: function() {
+    var event = this.getEvent();
 
     return event && typeof event.preview == 'function'
       ? event.preview() || ''

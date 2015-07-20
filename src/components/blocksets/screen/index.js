@@ -12,15 +12,8 @@ module.exports = Base.extend({
   addBlock: function() {
     var library = BlockLibrary({el: $('<div>')});
     library.set('source', this);
-    if (this.hasEvent()) library.set('disableEvents', true);
+    if (this.parent.hasEvent()) library.set('disableEvents', true);
     pg.push(library);
-  },
-  hasEvent: function() {
-    return !!this.get('blocks')
-      .filter(function(d) {
-        return BlockLibrary.isEvent(d.type);
-      })
-      .length;
   },
   oncomplete: function() {
     $(this.el)
