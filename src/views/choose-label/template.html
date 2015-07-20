@@ -6,6 +6,12 @@
 
 <h1 class="page-header">Choose label</h1>
 
+{{^labels}}
+<div class="alert alert-info" role="alert">
+  <p>Add some <code>Label</code> blocks to your collection and they will appear here.</p>
+</div>
+{{/labels}}
+
 <div class="list-group">
   {{#labels}}
   <button type="submit" class="btn btn-default btn-block" on-click="choose(this)">{{this}}</button>
