@@ -113,19 +113,6 @@ BlockLibrary.types = [{
     title: 'Show next 9 months',
     type: 'shownext9months'
   }]
-}, {
-  title: 'Message sets',
-  name: 'message-sets',
-  blocks: [{
-    title: 'Standard Message Set',
-    type: 'standardmessageset'
-  }, {
-    title: 'Later Message Set',
-    type: 'latermessageset'
-  }, {
-    title: 'Accelerated MessageSet',
-    type: 'acceleratedmessageset'
-  }]
 }];
 
 
