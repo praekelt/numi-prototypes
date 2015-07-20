@@ -46,8 +46,16 @@
 
 <div class="sortable-blocks">
 {{#conditions}}
+  {{# type === 'lt' }}
+  <lt></lt>
+  {{/}}
+
   {{# type === 'lte' }}
   <lte></lte>
+  {{/}}
+
+  {{# type === 'has' }}
+  <has></has>
   {{/}}
 
   {{# type === 'nothas' }}
