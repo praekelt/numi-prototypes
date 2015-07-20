@@ -6,6 +6,12 @@
 
 <h1 class="page-header">Choose answer</h1>
 
+{{^values}}
+<div class="alert alert-info" role="alert">
+  <p>Add some <code>Save Answer As</code> blocks to your collection and they will appear here.</p>
+</div>
+{{/values}}
+
 <div class="list-group">
   {{#values}}
   <button type="submit" class="btn btn-default btn-block" on-click="choose(this)">{{this}}</button>
