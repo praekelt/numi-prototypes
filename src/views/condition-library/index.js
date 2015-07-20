@@ -69,11 +69,20 @@ ConditionLibrary.types = [{
   title: 'Numbers',
   name: 'numbers',
   blocks: [{
+    title: 'Equals',
+    type: 'eq'
+  }, {
     title: 'Less than',
     type: 'lt'
   }, {
     title: 'Less than or equal to',
     type: 'lte'
+  }, {
+    title: 'Greater than',
+    type: 'gt'
+  }, {
+    title: 'Greater than or equal to',
+    type: 'gte'
   }]
 }];
 

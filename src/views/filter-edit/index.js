@@ -47,6 +47,9 @@ module.exports = Ractive.extend({
     pg.push(library);
   },
   components: {
+    eq: require('../../components/conditions/eq'),
+    gt: require('../../components/conditions/gt'),
+    gte: require('../../components/conditions/gte'),
     lt: require('../../components/conditions/lt'),
     lte: require('../../components/conditions/lte'),
     has: require('../../components/conditions/has'),

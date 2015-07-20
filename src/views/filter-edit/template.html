@@ -46,12 +46,24 @@
 
 <div class="sortable-blocks">
 {{#conditions}}
+  {{# type === 'eq' }}
+  <eq></eq>
+  {{/}}
+
   {{# type === 'lt' }}
   <lt></lt>
   {{/}}
 
   {{# type === 'lte' }}
   <lte></lte>
+  {{/}}
+
+  {{# type === 'gt' }}
+  <gt></gt>
+  {{/}}
+
+  {{# type === 'gte' }}
+  <gte></gte>
   {{/}}
 
   {{# type === 'has' }}
