@@ -9,6 +9,6 @@ module.exports = Base.extend({
   chooseCollection: function() {
     var colls = ChooseCollection({el: $('<div>')});
     colls.set('source', this);
-    pg.push(colls.el);
+    pg.push(co);
   }
 });

@@ -18,6 +18,6 @@ module.exports = Ractive.extend({
     });
 
     pg.pop();
-    pg.push(coll.el);
+    pg.push(co);
   }
 });

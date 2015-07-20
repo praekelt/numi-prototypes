@@ -31,6 +31,6 @@ module.exports = Ractive.extend({
     var newColl = NewCollection({el: $('<div>')});
     newColl.set('chooser', this);
     pg.pop();
-    pg.push(newColl.el);
+    pg.push(newCo);
   }
 });

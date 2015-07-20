@@ -31,7 +31,7 @@ module.exports = Ractive.extend({
       data: {filter: this}
     });
 
-    pg.push(library.el);
+    pg.push(libra);
   },
   components: {
     lte: require('../../components/conditions/lte'),
