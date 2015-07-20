@@ -5,15 +5,21 @@ var stack = [];
 
 
 function push(view) {
-  stack.push($('.nm-curr-pg'));
+  stack.push(view);
   switchTo(view);
 }
 
 
 function pop() {
-  var view = stack.pop();
+  stack.pop()
+  var view = peek();
   if (view) switchTo(view);
   return view;
+}
+
+
+function peek() {
+  return stack.slice(-1)[0];
 }
 
 
@@ -30,3 +36,4 @@ function switchTo(view) {
 
 exports.push = push;
 exports.pop = pop;
+exports.peek = peek;
