@@ -2,6 +2,7 @@ var $ = require('jquery');
 var _ = require('lodash');
 var BlockLibrary = require('../block-library');
 var Ractive = require('ractive');
+var hist = require('../../hist');
 
 
 module.exports = Ractive.extend({
@@ -9,8 +10,20 @@ module.exports = Ractive.extend({
   data: function() {
     return {blockSets: []};
   },
+  computed: {
+    href: function() {
+      return ['/numi-prototypes/collections', this.get('id'), 'edit'].join('/');
+    },
+    histName: function() {
+      return ['collection', this.get('name')].join(' ');
+    },
+    prev: function() {
+      return hist.pop();
+    }
+  },
   onrender: function() {
     $(this.find('.nm-rename')).hide();
+    hist.push(this);
   },
   addScreen: function() {
     this.push('blockSets', {type: 'screen'});

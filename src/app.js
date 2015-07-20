@@ -8,6 +8,7 @@ var $ = require('jquery');
 var page = require('page');
 var Dashboard = require('./views/dashboard');
 var pg = require('./pg');
+var hist = require('./hist');
 
 
 window.dashboard = Dashboard({el: $('<div>')});
@@ -16,9 +17,9 @@ page.base('/numi-prototypes');
 
 
 page('/', function(ctx, next) {
+  hist.clear();
   dashboard.update();
   pg.push(dashboard);
-  // pg.push(dashboard);
 });
 
 
