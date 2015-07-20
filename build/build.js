@@ -66,7 +66,6 @@
 	  hist.clear();
 	  dashboard.update();
 	  pg.push(dashboard);
-	  //pg.push(dashboard.addFilter('Filter 1'));
 	});
 
 
