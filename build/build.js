@@ -24356,7 +24356,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(5)();
-	exports.push([module.id, "@charset \"UTF-8\";\nhtml {\n  background-color: #333;\n  max-width: 30em;\n  margin: 0 auto; }\n\nbody {\n  background-color: #fff; }\n\n.nm-page {\n  padding: 1em; }\n\n.nm-placeholder {\n  border-style: dashed; }\n\n.nm-block-title {\n  font-weight: bold;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  color: #666; }\n\n.btn-library {\n  margin: 0.5em; }\n\n.screen {\n  padding-bottom: 2em;\n  border-bottom: solid 1px #666;\n  margin-bottom: 2em; }\n\n.page-header {\n  margin-top: 0; }\n\n.sortable-blocks .nm-block-title:hover {\n  cursor: move; }\n\n.custom-component {\n  border-color: #666; }\n\n.text-left .btn {\n  text-align: left; }\n\n.panel {\n  clear: both; }\n  .panel .close {\n    position: relative;\n    top: -15px;\n    right: -10px; }\n\nbutton.close-screen {\n  margin-bottom: 1em; }\n\n.close-screen-text {\n  font-size: small;\n  position: relative;\n  top: -2px;\n  left: -4px; }\n\n.panel-title a {\n  display: block; }\n\n[data-toggle=\"collapse\"] {\n  position: relative; }\n  [data-toggle=\"collapse\"]:before {\n    content: \"▼\";\n    position: absolute;\n    right: 0; }\n  [data-toggle=\"collapse\"].collapsed:before {\n    content: \"▲\";\n    position: absolute;\n    right: 0; }\n", ""]);
+	exports.push([module.id, "@charset \"UTF-8\";\nhtml {\n  background-color: #333;\n  max-width: 30em;\n  margin: 0 auto; }\n\nbody {\n  background-color: #fff; }\n\n.nm-page {\n  padding: 1em; }\n\n.nm-placeholder {\n  border-style: dashed; }\n\n.nm-block-title {\n  font-weight: bold;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  color: #666; }\n\n.btn-library {\n  margin: 0.5em; }\n\n.screen {\n  padding-bottom: 2em;\n  border-bottom: solid 1px #666;\n  margin-bottom: 2em; }\n\n.page-header {\n  margin-top: 0; }\n\n.sortable-blocks .nm-block-title:hover {\n  cursor: move; }\n\n.panel-highlighted {\n  border-color: #666; }\n\n.text-left .btn {\n  text-align: left; }\n\n.panel {\n  clear: both; }\n  .panel .close {\n    position: relative;\n    top: -15px;\n    right: -10px; }\n\nbutton.close-screen {\n  margin-bottom: 1em; }\n\n.close-screen-text {\n  font-size: small;\n  position: relative;\n  top: -2px;\n  left: -4px; }\n\n.panel-title a {\n  display: block; }\n\n[data-toggle=\"collapse\"] {\n  position: relative; }\n  [data-toggle=\"collapse\"]:before {\n    content: \"▼\";\n    position: absolute;\n    right: 0; }\n  [data-toggle=\"collapse\"].collapsed:before {\n    content: \"▲\";\n    position: absolute;\n    right: 0; }\n", ""]);
 
 /***/ },
 /* 5 */
@@ -37975,7 +37975,7 @@
 
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(8);
-	var Ractive = __webpack_require__(17);
+	var Ractive = __webpack_require__(16);
 	var FilterEdit = __webpack_require__(65);
 	var CollectionEdit = __webpack_require__(15);
 	var NewCollection = __webpack_require__(35);
@@ -38066,8 +38066,8 @@
 
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(8);
-	var BlockLibrary = __webpack_require__(16);
-	var Ractive = __webpack_require__(17);
+	var BlockLibrary = __webpack_require__(17);
+	var Ractive = __webpack_require__(16);
 
 
 	module.exports = Ractive.extend({
@@ -38120,147 +38120,6 @@
 
 /***/ },
 /* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(1);
-	var Ractive = __webpack_require__(17);
-	var pg = __webpack_require__(18);
-	var NewFilter = __webpack_require__(19);
-
-
-	// TODO something similar to this for filters
-	var BlockLibrary = Ractive.extend({
-	  template: __webpack_require__(21),
-	  data: function() {
-	    return {
-	      events: BlockLibrary.events,
-	      types: BlockLibrary.types,
-	      disableEvents: false
-	    };
-	  },
-	  computed: {
-	    collection: function() {
-	      var screen = this.get('source');
-	      if (!screen) return null;
-
-	      return {
-	        id: screen.parent.get('id'),
-	        name: screen.parent.get('name')
-	      };
-	    },
-	    filters: function() {
-	      dashboard.update();
-	      return dashboard.get('filters');
-	    }
-	  },
-	  addBlock: function(type) {
-	    this.get('source').push('blocks', {type: type});
-	    pg.pop();
-	  },
-	  addFilter: function(filter) {
-	    this.get('source').push('blocks', {
-	      type: 'filter',
-	      filter: filter
-	    });
-
-	    pg.pop();
-	  },
-	  newFilter: function()  {
-	    var newFilter = NewFilter({el: $('<div>')});
-	    var self = this;
-
-	    newFilter.on('created', function(filter) {
-	      self.addFilter({
-	        id: filter.get('id'),
-	        name: filter.get('name')
-	      });
-	    });
-
-	    pg.pop();
-	    pg.push(newFilter);
-	  }
-	});
-
-
-	BlockLibrary.events = {
-	  title: 'Events',
-	  name: 'events',
-	  blocks: [{
-	    title: 'User dials in',
-	    type: 'userdialsin'
-	  }, {
-	    title: 'User sends message',
-	    type: 'usersendsmessage'
-	  }, {
-	    title: 'Scheduled',
-	    type: 'scheduled'
-	  }, {
-	    title: 'Manual',
-	    type: 'manual'
-	  }]
-	};
-
-
-	BlockLibrary.types = [{
-	  title: 'Interactions',
-	  name: 'interactions',
-	  blocks: [{
-	    title: 'Ask',
-	    type: 'ask'
-	  }, {
-	    title: 'Choice',
-	    type: 'choice'
-	  }, {
-	    title: 'End',
-	    type: 'end'
-	  }, {
-	    title: 'Save Answer',
-	    type: 'saveas'
-	  }, {
-	    title: 'Add label (needs better group)',
-	    type: 'label'
-	  }]
-	}, {
-	  title: 'Custom components',
-	  name: 'custom-components',
-	  blocks: [{
-	    title: 'Validate Clinic Code',
-	    type: 'validatecliniccode'
-	  }, {
-	    title: 'Show next 9 months',
-	    type: 'shownext9months'
-	  }]
-	}, {
-	  title: 'Message sets',
-	  name: 'message-sets',
-	  blocks: [{
-	    title: 'Standard Message Set',
-	    type: 'standardmessageset'
-	  }, {
-	    title: 'Later Message Set',
-	    type: 'latermessageset'
-	  }, {
-	    title: 'Accelerated MessageSet',
-	    type: 'acceleratedmessageset'
-	  }]
-	}];
-
-
-	BlockLibrary.isEvent = function(type) {
-	  return !!BlockLibrary.events
-	    .blocks
-	    .filter(function(d) {
-	      return d.type === type;
-	    })
-	    .length;
-	};
-
-
-	module.exports = BlockLibrary;
-
-
-/***/ },
-/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -54885,6 +54744,147 @@
 
 
 /***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $ = __webpack_require__(1);
+	var Ractive = __webpack_require__(16);
+	var pg = __webpack_require__(18);
+	var NewFilter = __webpack_require__(19);
+
+
+	// TODO something similar to this for filters
+	var BlockLibrary = Ractive.extend({
+	  template: __webpack_require__(21),
+	  data: function() {
+	    return {
+	      events: BlockLibrary.events,
+	      types: BlockLibrary.types,
+	      disableEvents: false
+	    };
+	  },
+	  computed: {
+	    collection: function() {
+	      var screen = this.get('source');
+	      if (!screen) return null;
+
+	      return {
+	        id: screen.parent.get('id'),
+	        name: screen.parent.get('name')
+	      };
+	    },
+	    filters: function() {
+	      dashboard.update();
+	      return dashboard.get('filters');
+	    }
+	  },
+	  addBlock: function(type) {
+	    this.get('source').push('blocks', {type: type});
+	    pg.pop();
+	  },
+	  addFilter: function(filter) {
+	    this.get('source').push('blocks', {
+	      type: 'filter',
+	      filter: filter
+	    });
+
+	    pg.pop();
+	  },
+	  newFilter: function()  {
+	    var newFilter = NewFilter({el: $('<div>')});
+	    var self = this;
+
+	    newFilter.on('created', function(filter) {
+	      self.addFilter({
+	        id: filter.get('id'),
+	        name: filter.get('name')
+	      });
+	    });
+
+	    pg.pop();
+	    pg.push(newFilter);
+	  }
+	});
+
+
+	BlockLibrary.events = {
+	  title: 'Events',
+	  name: 'events',
+	  blocks: [{
+	    title: 'User dials in',
+	    type: 'userdialsin'
+	  }, {
+	    title: 'User sends message',
+	    type: 'usersendsmessage'
+	  }, {
+	    title: 'Scheduled',
+	    type: 'scheduled'
+	  }, {
+	    title: 'Manual',
+	    type: 'manual'
+	  }]
+	};
+
+
+	BlockLibrary.types = [{
+	  title: 'Interactions',
+	  name: 'interactions',
+	  blocks: [{
+	    title: 'Ask',
+	    type: 'ask'
+	  }, {
+	    title: 'Choice',
+	    type: 'choice'
+	  }, {
+	    title: 'End',
+	    type: 'end'
+	  }, {
+	    title: 'Save Answer',
+	    type: 'saveas'
+	  }, {
+	    title: 'Add label (needs better group)',
+	    type: 'label'
+	  }]
+	}, {
+	  title: 'Custom components',
+	  name: 'custom-components',
+	  blocks: [{
+	    title: 'Validate Clinic Code',
+	    type: 'validatecliniccode'
+	  }, {
+	    title: 'Show next 9 months',
+	    type: 'shownext9months'
+	  }]
+	}, {
+	  title: 'Message sets',
+	  name: 'message-sets',
+	  blocks: [{
+	    title: 'Standard Message Set',
+	    type: 'standardmessageset'
+	  }, {
+	    title: 'Later Message Set',
+	    type: 'latermessageset'
+	  }, {
+	    title: 'Accelerated MessageSet',
+	    type: 'acceleratedmessageset'
+	  }]
+	}];
+
+
+	BlockLibrary.isEvent = function(type) {
+	  return !!BlockLibrary.events
+	    .blocks
+	    .filter(function(d) {
+	      return d.type === type;
+	    })
+	    .length;
+	};
+
+
+	module.exports = BlockLibrary;
+
+
+/***/ },
 /* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -54933,7 +54933,7 @@
 /* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Ractive = __webpack_require__(17);
+	var Ractive = __webpack_require__(16);
 	var pg = __webpack_require__(18);
 
 
@@ -54977,7 +54977,7 @@
 	var $ = __webpack_require__(1);
 	var Base = __webpack_require__(29);
 	var pg = __webpack_require__(18);
-	var BlockLibrary = __webpack_require__(16);
+	var BlockLibrary = __webpack_require__(17);
 
 
 	module.exports = Base.extend({
@@ -55056,7 +55056,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Ractive = __webpack_require__(17);
+	var Ractive = __webpack_require__(16);
 
 
 	module.exports = Ractive.extend({
@@ -55070,7 +55070,7 @@
 /* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Ractive = __webpack_require__(17);
+	var Ractive = __webpack_require__(16);
 	var pg = __webpack_require__(18);
 
 
@@ -55122,7 +55122,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Ractive = __webpack_require__(17);
+	var Ractive = __webpack_require__(16);
 
 
 	module.exports = Ractive.extend({
@@ -55181,7 +55181,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Ractive = __webpack_require__(17);
+	var Ractive = __webpack_require__(16);
 	var pg = __webpack_require__(18);
 	var NewCollection = __webpack_require__(35);
 
@@ -55222,7 +55222,7 @@
 /* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Ractive = __webpack_require__(17);
+	var Ractive = __webpack_require__(16);
 	var pg = __webpack_require__(18);
 
 
@@ -55432,7 +55432,7 @@
 /* 52 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default custom-component"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Validate Clinic code"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"ul","a":{"class":"nav nav-stacked"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"label","a":{"for":"choice-text-1"},"f":["Validation Pass"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"choosePassCollection","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"p","a":{"class":"text-right"},"f":[{"t":7,"e":"a","a":{"href":["../../collections/",{"t":2,"r":"id"},"/edit"]},"f":["View collection"]}]}],"r":"passCollection"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"choosePassCollection","a":{"r":[],"s":"[]"}}},"f":["Choose collection"]}],"n":51,"r":"passCollection"}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"label","a":{"for":"choice-text-1"},"f":["Validation Fail"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseFailCollection","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"p","a":{"class":"text-right"},"f":[{"t":7,"e":"a","a":{"href":["../../collections/",{"t":2,"r":"id"},"/edit"]},"f":["View collection"]}]}],"r":"failCollection"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseFailCollection","a":{"r":[],"s":"[]"}}},"f":["Choose collection"]}],"n":51,"r":"failCollection"}]}]}]}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Validate Clinic code"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"ul","a":{"class":"nav nav-stacked"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"label","a":{"for":"choice-text-1"},"f":["Validation Pass"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"choosePassCollection","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"p","a":{"class":"text-right"},"f":[{"t":7,"e":"a","a":{"href":["../../collections/",{"t":2,"r":"id"},"/edit"]},"f":["View collection"]}]}],"r":"passCollection"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"choosePassCollection","a":{"r":[],"s":"[]"}}},"f":["Choose collection"]}],"n":51,"r":"passCollection"}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"label","a":{"for":"choice-text-1"},"f":["Validation Fail"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseFailCollection","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"p","a":{"class":"text-right"},"f":[{"t":7,"e":"a","a":{"href":["../../collections/",{"t":2,"r":"id"},"/edit"]},"f":["View collection"]}]}],"r":"failCollection"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseFailCollection","a":{"r":[],"s":"[]"}}},"f":["Choose collection"]}],"n":51,"r":"failCollection"}]}]}]}]}]}]};
 
 /***/ },
 /* 53 */
@@ -55450,7 +55450,7 @@
 /* 54 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default custom-component"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Show next 9 months"]}," Use the ",{"t":7,"e":"code","f":["[next 9 months]"]}," placeholder in your message."]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Show next 9 months"]}," Use the ",{"t":7,"e":"code","f":["[next 9 months]"]}," placeholder in your message."]}]}]};
 
 /***/ },
 /* 55 */
@@ -55541,7 +55541,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Ractive = __webpack_require__(17);
+	var Ractive = __webpack_require__(16);
 	var pg = __webpack_require__(18);
 	var NewFilter = __webpack_require__(19);
 
@@ -55597,7 +55597,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Ractive = __webpack_require__(17);
+	var Ractive = __webpack_require__(16);
 	var pg = __webpack_require__(18);
 	var ConditionLibrary = __webpack_require__(67);
 
@@ -55643,14 +55643,14 @@
 /* 66 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-name"},"f":[{"t":7,"e":"h1","a":{"class":"page-header"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"small","f":["Filter"]}," ",{"t":7,"e":"br"}," ",{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename well"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"input","a":{"class":"nm-rename-value","type":"text","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-success"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}," ",{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Match"]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-justified","data-toggle":"buttons"},"f":[{"t":7,"e":"label","a":{"class":"btn btn-default active"},"f":[{"t":7,"e":"input","a":{"type":"radio","name":"options","checked":0}}," All"]}," ",{"t":7,"e":"label","a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio","name":"options"}}," Any"]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["of the following"]}]}]}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"lte"}],"x":{"r":["type"],"s":"_0===\"lte\""}}," ",{"t":4,"f":[{"t":7,"e":"nothas"}],"x":{"r":["type"],"s":"_0===\"nothas\""}}," ",{"t":4,"f":[{"t":7,"e":"filter","a":{"filter":[{"t":2,"r":"filter"}]}}],"x":{"r":["type"],"s":"_0===\"filter\""}}],"r":"conditions"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addCondition","a":{"r":[],"s":"[]"}}},"f":["+ Add condition"]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-name"},"f":[{"t":7,"e":"h1","a":{"class":"page-header"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"small","f":["Filter"]}," ",{"t":7,"e":"br"}," ",{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename well"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"input","a":{"class":"nm-rename-value","type":"text","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-success"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}," ",{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Match"]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-justified","data-toggle":"buttons"},"f":[{"t":7,"e":"label","a":{"class":"btn btn-default active"},"f":[{"t":7,"e":"input","a":{"type":"radio","name":"options","checked":0}}," All"]}," ",{"t":7,"e":"label","a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio","name":"options"}}," Any"]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["of the following"]}]}]}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"lte"}],"x":{"r":["type"],"s":"_0===\"lte\""}}," ",{"t":4,"f":[{"t":7,"e":"nothas"}],"x":{"r":["type"],"s":"_0===\"nothas\""}}," ",{"t":4,"f":[{"t":7,"e":"filter","a":{"filter":[{"t":2,"r":"filter"}]}}],"x":{"r":["type"],"s":"_0===\"filter\""}}],"r":"conditions"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addCondition","a":{"r":[],"s":"[]"}}},"f":["+ Add condition"]}]};
 
 /***/ },
 /* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Ractive = __webpack_require__(17);
+	var Ractive = __webpack_require__(16);
 	var NewFilter = __webpack_require__(19);
 	var pg = __webpack_require__(18);
 
@@ -55773,7 +55773,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Ractive = __webpack_require__(17);
+	var Ractive = __webpack_require__(16);
 
 
 	module.exports = Ractive.extend({
@@ -55788,7 +55788,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Ractive = __webpack_require__(17);
+	var Ractive = __webpack_require__(16);
 	var pg = __webpack_require__(18);
 
 
@@ -55856,7 +55856,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Ractive = __webpack_require__(17);
+	var Ractive = __webpack_require__(16);
 	var pg = __webpack_require__(18);
 
 
