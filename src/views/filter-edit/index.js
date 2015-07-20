@@ -9,6 +9,22 @@ module.exports = Ractive.extend({
   data: function() {
     return {conditions: []};
   },
+  onrender: function() {
+    $(this.find('.nm-rename')).hide();
+  },
+  rename: function() {
+    this.set('nameBackup', this.get('name'));
+    $(this.find('.nm-name')).hide();
+    $(this.find('.nm-rename')).show();
+  },
+  hideRename: function() {
+    $(this.find('.nm-rename')).hide();
+    $(this.find('.nm-name')).show();
+  },
+  cancelRename: function() {
+    this.set('name', this.get('nameBackup'));
+    this.hideRename();
+  },
   addCondition: function() {
     var library = ConditionLibrary({
       el: $('<div>'),

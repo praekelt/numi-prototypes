@@ -3,11 +3,22 @@
   <li class="active">{{name}}</li>
 </ol>
 
-<h1 class="page-header">
-  <small>Filter</small>
-  <br/>
-  {{ name }}
-</h1>
+<div class="nm-name">
+  <h1 class="page-header" on-click="rename()">
+    <small>Filter</small>
+    <br/>
+    {{ name }}
+  </h1>
+</div>
+
+<div class="nm-rename well">
+  <div class="form-group">
+    <input class="nm-rename-value" type="text" value="{{ name }}" />
+  </div>
+
+  <button class="btn btn-sm btn-success" on-click="hideRename()">Save</button>
+  <button class="btn btn-sm btn-default" on-click="cancelRename()">Cancel</button>
+</div>
 
 <div class="panel panel-default">
   <div class="panel-body">
