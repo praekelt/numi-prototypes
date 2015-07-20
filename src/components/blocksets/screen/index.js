@@ -31,6 +31,7 @@ module.exports = Base.extend({
     ask: require('../../blocks/ask'),
     choice: require('../../blocks/choice'),
     end: require('../../blocks/end'),
+    send: require('../../blocks/send'),
     saveas: require('../../blocks/saveas'),
     lbl: require('../../blocks/label'),
     userdialsin: require('../../blocks/userdialsin'),

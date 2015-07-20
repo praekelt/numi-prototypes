@@ -55070,6 +55070,7 @@
 	    ask: __webpack_require__(32),
 	    choice: __webpack_require__(34),
 	    end: __webpack_require__(40),
+	    send: __webpack_require__(92),
 	    saveas: __webpack_require__(42),
 	    lbl: __webpack_require__(44),
 	    userdialsin: __webpack_require__(25),
@@ -56201,6 +56202,24 @@
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","a":{"class":"active"},"f":["Home"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Collections"]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Collections"]}," are groups of content: combine them to make ",{"t":7,"e":"strong","f":["Campaigns"]},"."]}," ",{"t":7,"e":"p","f":["Add a collection to get started."]}]}],"n":51,"r":"collections"},{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel panel-default text-left"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel-heading"},"f":[{"t":2,"r":"eventPreview"}]}],"r":"eventPreview"}," ",{"t":7,"e":"a","a":{"href":["./collections/",{"t":2,"r":"id"},"/edit"],"class":"btn btn-link btn-block"},"f":[{"t":2,"r":"name"}]}]}],"r":"collections"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"newCollection","a":{"r":[],"s":"[]"}}},"f":["+ Add collection"]}]};
+
+/***/ },
+/* 92 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Base = __webpack_require__(26);
+
+
+	module.exports = Base.extend({
+	  template: __webpack_require__(93)
+	});
+
+
+/***/ },
+/* 93 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Send"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control","rows":"3"}}," "]}]}]};
 
 /***/ }
 /******/ ]);
