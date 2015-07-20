@@ -32,8 +32,14 @@
 </div>
 {{/blockSets}}
 
-{{#blockSets}}
+{{#blockSets:i}}
 <div>
+  {{# i > 0 }}
+    {{#schedule}}
+    <p class="text-right" style="clear: right;">Sent after <strong>{{ frequency * i }} {{ interval }}</strong>.</p>
+    {{/schedule}}
+  {{/}}
+
   {{# type === 'screen' }}
   <screen></screen>
   {{/}}

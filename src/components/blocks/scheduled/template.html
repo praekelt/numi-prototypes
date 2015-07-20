@@ -5,20 +5,22 @@
     <p class="nm-block-title">Scheduled</p>
     <p>Move to the next <code>section</code> of the collection</p>
 
-    <label for="scheduled-frequency">every</label>
-    <input type="number" value="{{ scheduled-frequency }}" class="form-control" /><br />
+    <label for="scheduled-frequency">Every</label>
+    <input type="number" value="{{ frequency }}" class="form-control" /><br />
 
     <div class="btn-group btn-group-justified" data-toggle="buttons">
-      <label class="btn btn-default active">
-        <input type="radio" name="options" checked>
+      <label on-click="set('interval', 'days')"  class="btn btn-default active">
+        <input type="radio" checked>
         Days
       </label>
-      <label class="btn btn-default">
-        <input type="radio" name="options">
+
+      <label on-click="set('interval', 'weeks')" class="btn btn-default">
+        <input type="radio">
         Weeks
       </label> 
-      <label class="btn btn-default">
-        <input type="radio" name="options">
+
+      <label on-click="set('interval', 'months')" class="btn btn-default">
+        <input type="radio">
         Months
       </label>
     </div>
