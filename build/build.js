@@ -55451,6 +55451,7 @@
 /* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var $ = __webpack_require__(1);
 	var Base = __webpack_require__(28);
 
 
@@ -55468,6 +55469,10 @@
 	  onchange: function() {
 	    this.parent.parent.set('schedule.frequency', this.get('frequency'));
 	    this.parent.parent.set('schedule.interval', this.get('interval'));
+	  },
+	  destroy: function() {
+	    this.parent.parent.set('schedule', null);
+	    $(this.el).remove();
 	  }
 	});
 
