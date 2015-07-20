@@ -3,6 +3,10 @@
   <li class="active">{{name}}</li>
 </ol>
 
+{{#prev}}
+<a href="{{ href }}">Go back to {{name}}</a>
+{{/prev}}
+
 <div class="nm-name">
   <h1 class="page-header" on-click="rename()">
     <small>Collection</small>
