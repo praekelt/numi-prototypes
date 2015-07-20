@@ -20,7 +20,6 @@ page('/', function(ctx, next) {
   hist.clear();
   dashboard.update();
   pg.push(dashboard);
-  // pg.push(dashboard);
 });
 
 
