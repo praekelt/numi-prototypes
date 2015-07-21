@@ -25,9 +25,13 @@
   <button class="btn btn-sm btn-link" on-click="cancelRename()">Cancel</button>
 </div>
 
-{{#screen}}
-<screen></screen>
-{{/screen}}
+<div class="sortable-blocks">
+  {{# blocks }}
+  <block></block>
+  {{/ blocks }}
+
+  <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+ Add block</button>
+</div>
 
 <!-- TODO button for adding filters -->
 

@@ -16,12 +16,12 @@ var BlockLibrary = Ractive.extend({
   },
   computed: {
     collection: function() {
-      var screen = this.get('source');
-      if (!screen) return null;
+      var collection = this.get('collectionView');
+      if (!collection) return null;
 
       return {
-        id: screen.parent.get('id'),
-        name: screen.parent.get('name')
+        id: collection.get('id'),
+        name: collection.get('name')
       };
     },
     filters: function() {

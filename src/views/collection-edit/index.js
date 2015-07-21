@@ -3,12 +3,13 @@ var _ = require('lodash');
 var BlockLibrary = require('../block-library');
 var Ractive = require('ractive');
 var hist = require('../../hist');
+var pg = require('../../pg');
 
 
 module.exports = Ractive.extend({
   template: require('./template.html'),
   data: function() {
-    return {screen: {}};
+    return {blocks: []};
   },
   computed: {
     href: function() {
@@ -24,6 +25,11 @@ module.exports = Ractive.extend({
   onrender: function() {
     $(this.find('.nm-rename')).hide();
     hist.push(this);
+  },
+  oncomplete: function() {
+    $(this.el)
+      .find('.sortable-blocks')
+      .sortable();
   },
   rename: function() {
     this.set('nameBackup', this.get('name'));
@@ -62,7 +68,10 @@ module.exports = Ractive.extend({
       ? event.preview() || ''
       : '';
   },
-  components: {
-    screen: require('../../components/blocksets/screen')
+  addBlock: function() {
+    var library = BlockLibrary({el: $('<div>')});
+    library.set('source', this);
+    library.set('collectionView', this);
+    pg.push(library);
   }
 });

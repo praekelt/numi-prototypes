@@ -4,7 +4,7 @@ require('./app.scss');
 require('../bootstrap/js/bootstrap.min.js');
 
 var Ractive = require('ractive');
-Ractive.components.screen = require('./components/blocksets/screen');
+Ractive.components.block = require('./components/blocks/block');
 
 var _ = require('lodash');
 var $ = require('jquery');

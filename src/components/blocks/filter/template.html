@@ -14,9 +14,13 @@
       <button class="btn btn-default btn-block nm-placeholder" on-click="chooseFilter()">Choose filter</button>
       {{/ filter }}
 
-      {{# screen }}
-      <screen></screen>
-      {{/ screen }}
+      <div class="sortable-blocks">
+        {{# blocks }}
+        <block></block>
+        {{/ blocks }}
+
+        <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+ Add block</button>
+      </div>
     </div>
   </div>
 </div>
