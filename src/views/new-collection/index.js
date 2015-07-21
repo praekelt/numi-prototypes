@@ -6,7 +6,8 @@ module.exports = Ractive.extend({
   template: require('./template.html'),
   data: function()  {
     return {
-      collections: dashboard.get('collections')
+      collections: dashboard.get('collections'),
+      type: 'indirect'
     };
   },
   save: function() {
