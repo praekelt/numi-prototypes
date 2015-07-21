@@ -1,84 +1,14 @@
-<div class="screen">
-    <button type="button" class="close close-screen" on-click="destroy()"><span><span class="close-screen-text">remove section</span>&times;</span></button>
+<div class="sortable-blocks">
+{{#blocks}}
 
-    <div class="sortable-blocks">
-    {{#blocks}}
-
-    <!--
-    NOTE please don't remove this div, its needed for our duct-taped approach
-    to block removal.
-    -->
-    <div>
-        {{# type === 'ask' }}
-        <ask></ask>
-        {{/}}
-
-        {{# type === 'choice' }}
-        <choice></choice>
-        {{/}}
-
-        {{# type === 'end' }}
-        <end></end>
-        {{/}}
-
-        {{# type === 'send' }}
-        <send></send>
-        {{/}}
-
-        {{# type === 'saveas' }}
-        <saveas></saveas>
-        {{/}}
-
-        {{# type === 'label' }}
-        <lbl></lbl>
-        {{/}}
-
-        {{# type === 'userdialsin' }}
-        <userdialsin></userdialsin>
-        {{/}}
-        
-        {{# type === 'usersendsmessage' }}
-        <usersendsmessage></usersendsmessage>
-        {{/}}
-        
-        {{# type === 'scheduled' }}
-        <scheduled></scheduled>
-        {{/}}
-
-        {{# type === 'manual' }}
-        <manual></manual>
-        {{/}}
-
-        {{# type === 'validatecliniccode' }}
-        <validatecliniccode></validatecliniccode>
-        {{/}}
-
-        {{# type === 'shownext9months' }}
-        <shownext9months></shownext9months>
-        {{/}}
-
-        {{# type === 'standardmessageset' }}
-        <standardmessageset></standardmessageset>
-        {{/}}
-
-        {{# type === 'latermessageset' }}
-        <latermessageset></latermessageset>
-        {{/}}
-        
-        {{# type === 'acceleratedmessageset' }}
-        <acceleratedmessageset></acceleratedmessageset>
-        {{/}}
-
-        {{# type === 'calcweeks' }}
-        <calcweeks></calcweeks>
-        {{/}}
-
-        {{# type === 'filter' }}
-        <filter filter='{{filter}}'></filter>
-        {{/}}
-    </div>
-    {{/blocks}}
-    </div>
-
-    <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+ Add block</button>
+<!--
+NOTE please don't remove this div, its needed for our duct-taped approach
+to block removal.
+-->
+<div>
+  <block></block>
 </div>
+{{/blocks}}
+</div>
+
+<button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+ Add block</button>

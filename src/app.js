@@ -3,6 +3,9 @@ require('jquery-ui');
 require('./app.scss');
 require('../bootstrap/js/bootstrap.min.js');
 
+var Ractive = require('ractive');
+Ractive.components.screen = require('./components/blocksets/screen');
+
 var _ = require('lodash');
 var $ = require('jquery');
 var page = require('page');

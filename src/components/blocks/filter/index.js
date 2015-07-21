@@ -6,6 +6,11 @@ var ChooseFilter = require('../../../views/choose-filter');
 
 module.exports = Base.extend({
   template: require('./template.html'),
+  data: function() {
+    return {
+      screen: {}
+    };
+  },
   chooseFilter: function() {
     var filters = ChooseFilter({
       el: $('<div>'),
