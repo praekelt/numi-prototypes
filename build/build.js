@@ -54013,7 +54013,7 @@
 /* 27 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["New collection"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["New collection"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"label","a":{"for":"ask-text"},"f":["Name of collection"]}," ",{"t":7,"e":"input","a":{"type":"text","id":"choice-text","name":"choice-text","class":"form-control","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"label","f":["Run this collection"]}," ",{"t":7,"e":"div","a":{"class":"btn-group-vertical text-left","data-toggle":"buttons"},"f":[{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"type\",\"indirect\"]"}}},"a":{"class":"btn btn-default active"},"f":[{"t":7,"e":"input","a":{"type":"radio","checked":0}}," Via another collection"]}," ",{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"type\",\"session\"]"}}},"a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio"}}," When a user dials in"]}," ",{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"type\",\"message\"]"}}},"a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio"}}," When a user sends a message"]}," ",{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"type\",\"schedule\"]"}}},"a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio"}}," Using a schedule"]}]}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"save","a":{"r":[],"s":"[]"}}},"f":["Save"]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["New collection"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["New collection"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"label","a":{"for":"ask-text"},"f":["Name of collection"]}," ",{"t":7,"e":"input","a":{"type":"text","id":"choice-text","name":"choice-text","class":"form-control","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"label","f":["Run this collection"]}," ",{"t":7,"e":"div","a":{"class":"btn-group-vertical text-left","data-toggle":"buttons"},"f":[{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"type\",\"indirect\"]"}}},"a":{"class":"btn btn-default active"},"f":[{"t":7,"e":"input","a":{"type":"radio","checked":0}}," Via another collection"]}," ",{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"type\",\"session\"]"}}},"a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio"}}," When user dials in"]}," ",{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"type\",\"message\"]"}}},"a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio"}}," When user sends a message"]}," ",{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"type\",\"schedule\"]"}}},"a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio"}}," Using a schedule"]}]}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"save","a":{"r":[],"s":"[]"}}},"f":["Save"]}]};
 
 /***/ },
 /* 28 */
@@ -54283,6 +54283,8 @@
 	  template: __webpack_require__(48),
 	  data: function() {
 	    return {
+	      key: 'blocks',
+	      extra: {},
 	      events: BlockLibrary.events,
 	      types: BlockLibrary.types,
 	      disableEvents: false
@@ -54303,12 +54305,16 @@
 	      return dashboard.get('filters');
 	    }
 	  },
+	  _addBlock: function(d) {
+	    var key = this.get('key');
+	    this.get('source').push(key, d);
+	  },
 	  addBlock: function(type) {
-	    this.get('source').push('blocks', {type: type});
+	    this._addBlock({type: type});
 	    pg.pop();
 	  },
 	  addFilter: function(filter) {
-	    this.get('source').push('blocks', {
+	    this._addBlock({
 	      type: 'filter',
 	      filter: filter
 	    });
@@ -55919,11 +55925,48 @@
 /* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var $ = __webpack_require__(3);
 	var Base = __webpack_require__(75);
+	var pg = __webpack_require__(14);
+	var ChooseFilter = __webpack_require__(65);
+	var BlockLibrary = __webpack_require__(45);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(83)
+	  template: __webpack_require__(83),
+	  data: function() {
+	    return {
+	      frequency: 1,
+	      interval: 'day',
+	      sections: []
+	    };
+	  },
+	  chooseFilter: function() {
+	    pg.push(ChooseFilter({
+	      el: $('<div>'),
+	      data: {
+	        source: this,
+	        parent: {
+	          type: 'collections',
+	          id: this.get('id'),
+	          name: this.get('name')
+	        }
+	      }
+	    }));
+	  },
+	  addSection: function() {
+	    this.push('sections', []);
+	  },
+	  addBlock: function(sectionIdx) {
+	    var library = BlockLibrary({el: $('<div>')});
+	    library.set('key', 'sections.' + sectionIdx);
+	    library.set('source', this);
+	    library.set('collectionView', this);
+	    pg.push(library);
+	  },
+	  previewEvent: function() {
+	    return 'Every ' + this.get('frequency') + ' ' + this.get('interval') + 's';
+	  }
 	});
 
 
@@ -55931,7 +55974,7 @@
 /* 83 */
 /***/ function(module, exports) {
 
-	module.exports={"t":[],"v":3};
+	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":4,"f":[{"t":7,"e":"a","a":{"href":[{"t":2,"r":"href"}]},"f":["Go back to ",{"t":2,"r":"name"}]}],"r":"prev"},{"t":7,"e":"div","a":{"class":"nm-name"},"f":[{"t":7,"e":"h1","a":{"class":"page-header"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"small","f":["Collection"]}," ",{"t":7,"e":"br"}," ",{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename well"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"h1","a":{"class":"page-header","style":"margin-bottom: 0; padding-bottom: 0;"},"f":[{"t":7,"e":"small","f":["Collection"]}]}," ",{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}," ",{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Scheduled"]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Every"]}," ",{"t":7,"e":"input","a":{"type":"number","value":[{"t":2,"r":"frequency"}],"class":"form-control"}}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-justified","data-toggle":"buttons"},"f":[{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"interval\",\"day\"]"}}},"a":{"class":"btn btn-default active"},"f":[{"t":7,"e":"input","a":{"type":"radio","checked":0}}," Days"]}," ",{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"interval\",\"week\"]"}}},"a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio"}}," Weeks"]}," ",{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"interval\",\"month\"]"}}},"a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio"}}," Months"]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["With users matching the filter"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseFilter","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"p","a":{"class":"text-right"},"f":[{"t":7,"e":"a","a":{"href":["../../filters/",{"t":2,"r":"id"},"/edit"]},"f":["View filter"]}]}],"r":"filter"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseFilter","a":{"r":[],"s":"[]"}}},"f":["Choose filter"]}],"n":51,"r":"filter"}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Do the following"]}]}]}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"screen"},"f":[{"t":7,"e":"p","a":{"class":"text-right","style":"clear: right;"},"f":["On ",{"t":2,"r":"interval"}," ",{"t":7,"e":"strong","f":[{"t":2,"x":{"r":["frequency","i"],"s":"_0*(_1+1)"}}]},"."]}," ",{"t":4,"f":[{"t":7,"e":"block"}],"r":"."}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":["i"],"s":"[_0]"}}},"f":["+ Add block"]}]}],"i":"i","r":"sections"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addSection","a":{"r":[],"s":"[]"}}},"f":["+ Add blocks for ",{"t":2,"r":"interval"}," ",{"t":2,"x":{"r":["frequency","sections.length"],"s":"_0*(_1+1)"}}]}]}]};
 
 /***/ },
 /* 84 */

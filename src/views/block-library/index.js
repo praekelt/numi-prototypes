@@ -9,6 +9,8 @@ var BlockLibrary = Ractive.extend({
   template: require('./template.html'),
   data: function() {
     return {
+      key: 'blocks',
+      extra: {},
       events: BlockLibrary.events,
       types: BlockLibrary.types,
       disableEvents: false
@@ -29,12 +31,16 @@ var BlockLibrary = Ractive.extend({
       return dashboard.get('filters');
     }
   },
+  _addBlock: function(d) {
+    var key = this.get('key');
+    this.get('source').push(key, d);
+  },
   addBlock: function(type) {
-    this.get('source').push('blocks', {type: type});
+    this._addBlock({type: type});
     pg.pop();
   },
   addFilter: function(filter) {
-    this.get('source').push('blocks', {
+    this._addBlock({
       type: 'filter',
       filter: filter
     });
