@@ -91,7 +91,7 @@ BlockLibrary.types = [{
     type: 'send'
   }]
 }, {
-  title: 'User data',
+  title: 'User data actions',
   name: 'user-data',
   blocks: [{
     title: 'Save Answer',

@@ -24,6 +24,11 @@
           </p>
           {{/disableEvents}}
 
+          <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <p><strong>Events</strong> are used to start a set of messages, either by the user or by Vumi.</p>
+          </div>
+
           {{#blocks}}
           <button {{#disableEvents}}disabled{{/disableEvents}} class="btn btn-default btn-library" on-click="addBlock(type)">{{title}}</button>
           {{/blocks}}
@@ -46,10 +51,32 @@
       <div id="collapse{{name}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading{{name}}">
         <div class="panel-body">
 
+          {{# name === 'interactions'}}
+          <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <p><strong>Interactions</strong> are messages that will be displayed to the user. Combine them with <strong>Calculations</strong> and <strong>Placeholder</strong> to create complex Collections.</p>
+          </div>
+          {{/}}
+
+          {{# name === 'user-data'}}
+          <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <p><strong>User data actions</strong> are used with an <strong>Interaction</strong> to be able to use an answer later, or to categorise a user.</p>
+          </div>
+          {{/}}
+
+          {{# name === 'placeholders'}}
+          <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <p><strong>Placeholders</strong> are blocks of dynamically generated content that you can use inside an <strong>Interaction</strong> block.</p>
+            <p>Use them by putting their keyword inside square brackets like this: <code>[keyword]</code></p>
+          </div>
+          {{/}}
+
           {{# name === 'custom-components'}}
           <div class="alert alert-info alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <p><strong>Calculation blocks</strong> are written by developers to perform more complex actions on user data.</p>
+            <p><strong>Calculation blocks</strong> are written by developers to perform complex actions on user data.</p>
           </div>
           {{/}}
 
