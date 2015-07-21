@@ -81,5 +81,15 @@ module.exports = Ractive.extend({
     $(this.el)
       .find('.sortable-blocks')
       .sortable();
+
+    var availableTags = [
+      "[next9months]",
+      "[another placeholder]"
+    ];
+
+    $(this.el).find('.ask-text').autocomplete({
+      source: availableTags
+    });
+    
   },
 });
