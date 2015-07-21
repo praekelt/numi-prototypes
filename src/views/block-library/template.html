@@ -35,7 +35,7 @@
 
 {{#types}}
 <div class="panel-group" id="accordion{{name}}" role="tablist" aria-multiselectable="true">
-  <div class="panel panel-default">
+  <div class="panel panel-default {{# name === 'custom-components'}}panel-highlighted{{/}}">
       <div class="panel-heading" role="tab" id="heading{{name}}">
           <h2 class="panel-title">
             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{name}}" aria-expanded="true" aria-controls="collapse{{name}}">
