@@ -1,0 +1,51 @@
+<ol class="breadcrumb">
+  <li><a href="/numi-prototypes/">Home</a></li>
+  <li class="active">{{name}}</li>
+</ol>
+
+{{#prev}}
+<a href="{{ href }}">Go back to {{name}}</a>
+{{/prev}}
+
+<div class="nm-name">
+  <h1 class="page-header" on-click="rename()">
+    <small>Collection</small>
+    <br/>
+    {{ name }}
+  </h1>
+</div>
+
+<div class="nm-rename well">
+  <div class="form-group">
+    <h1 class="page-header" style="margin-bottom: 0; padding-bottom: 0;"><small>Collection</small></h1>
+    <textarea class="nm-rename-value" value="{{ name }}"></textarea>
+  </div>
+
+  <button class="btn btn-sm btn-default" on-click="hideRename()">Save</button>
+  <button class="btn btn-sm btn-link" on-click="cancelRename()">Cancel</button>
+</div>
+
+<div class="panel panel-default panel-highlighted">
+  <div class="panel-body">
+    <p class="nm-block-title">When user dials in on</p>
+  
+    {{#channel}}
+    <button class="btn btn-default btn-block" on-click="chooseChannel()">{{channel}}</button>
+    {{/channel}}
+
+    {{^channel}}
+    <button class="btn btn-default btn-block nm-placeholder" on-click="chooseChannel()">Choose channel</button>
+    {{/channel}}
+
+    <br/>
+    <p class="nm-block-title">Do the following</p>
+  </div>
+</div>
+
+<div class="sortable-blocks">
+  {{# blocks }}
+  <block></block>
+  {{/ blocks }}
+
+  <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+ Add block</button>
+</div>

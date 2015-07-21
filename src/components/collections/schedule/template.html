@@ -1,0 +1,88 @@
+<ol class="breadcrumb">
+  <li><a href="/numi-prototypes/">Home</a></li>
+  <li class="active">{{name}}</li>
+</ol>
+
+{{#prev}}
+<a href="{{ href }}">Go back to {{name}}</a>
+{{/prev}}
+
+<div class="nm-name">
+  <h1 class="page-header" on-click="rename()">
+    <small>Collection</small>
+    <br/>
+    {{ name }}
+  </h1>
+</div>
+
+<div class="nm-rename well">
+  <div class="form-group">
+    <h1 class="page-header" style="margin-bottom: 0; padding-bottom: 0;"><small>Collection</small></h1>
+    <textarea class="nm-rename-value" value="{{ name }}"></textarea>
+  </div>
+
+  <button class="btn btn-sm btn-default" on-click="hideRename()">Save</button>
+  <button class="btn btn-sm btn-link" on-click="cancelRename()">Cancel</button>
+</div>
+
+<div class="panel panel-default panel-highlighted">
+  <div class="panel-body">
+    <button type="button" class="close" on-click="destroy()"><span>&times;</span></button>
+
+    <p class="nm-block-title">Scheduled</p>
+
+    <p class="nm-block-title">Every</p>
+
+    <input type="number" value="{{ frequency }}" class="form-control" />
+
+    <div class="btn-group btn-group-justified" data-toggle="buttons">
+      <label on-click="set('interval', 'day')"  class="btn btn-default active">
+        <input type="radio" checked>
+        Days
+      </label>
+
+      <label on-click="set('interval', 'week')" class="btn btn-default">
+        <input type="radio">
+        Weeks
+      </label> 
+
+      <label on-click="set('interval', 'month')" class="btn btn-default">
+        <input type="radio">
+        Months
+      </label>
+    </div>
+
+    <br/>
+
+    <div class="form-group">
+      <p class="nm-block-title">With users matching the filter</p>
+
+      {{# filter }}
+      <button class="btn btn-default btn-block" on-click="chooseFilter()">{{name}}</button>
+      <p class="text-right"><a href="../../filters/{{id}}/edit">View filter</a></p>
+      {{/ filter }}
+
+      {{^ filter }}
+      <button class="btn btn-default btn-block nm-placeholder" on-click="chooseFilter()">Choose filter</button>
+      {{/ filter }}
+    </div>
+
+    <p class="nm-block-title">Do the following</p>
+  </div>
+</div>
+
+<div class="sortable-blocks">
+  {{# sections:i }}
+  <div class="screen">
+    <p class="text-right" style="clear: right;">On {{ interval }} <strong>{{ frequency * (i + 1) }}</strong>.</p>
+
+    {{#this}}
+    <block></block>
+    {{/this}}
+
+    <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock(i)">+ Add block</button>
+  </div>
+  {{/ sections }}
+
+  <button class="btn btn-default btn-block nm-placeholder" on-click="addSection()">+ Add blocks for {{ interval }} {{ frequency * (sections.length + 1) }}</button>
+</div>

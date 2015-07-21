@@ -2,7 +2,7 @@ var $ = require('jquery');
 var _ = require('lodash');
 var Ractive = require('ractive');
 var FilterEdit = require('../filter-edit');
-var CollectionEdit = require('../collection-edit');
+var collectionTypes = require('../../components/collections');
 var NewCollection = require('../new-collection');
 var pg = require('../../pg');
 
@@ -29,12 +29,13 @@ module.exports = Ractive.extend({
     this.push('filterViews', filter);
     return filter;
   },
-  addCollection: function(name) {
-    var coll = CollectionEdit({
+  addCollection: function(name, type) {
+    var coll = collectionTypes[type]({
       el: $('<div>'),
       data: {
         id: _.uniqueId('collection'),
-        name: name
+        name: name,
+        type: type
       }
     });
 

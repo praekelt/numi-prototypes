@@ -6,11 +6,12 @@ module.exports = Ractive.extend({
   template: require('./template.html'),
   data: function()  {
     return {
-      collections: dashboard.get('collections')
+      collections: dashboard.get('collections'),
+      type: 'indirect'
     };
   },
   save: function() {
-    var coll = dashboard.addCollection(this.get('name'));
+    var coll = dashboard.addCollection(this.get('name'), this.get('type'));
 
     if (this.get('chooser')) this.get('chooser').setChoice({
       id: coll.get('id'),
