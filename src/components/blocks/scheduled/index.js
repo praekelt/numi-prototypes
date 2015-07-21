@@ -1,5 +1,7 @@
 var $ = require('jquery');
 var Base = require('../base');
+var pg = require('../../../pg');
+var BlockLibrary = require('../../../views/block-library');
 
 
 module.exports = Base.extend({
@@ -7,15 +9,19 @@ module.exports = Base.extend({
   data: function() {
     return {
       frequency: 1,
-      interval: 'days'
+      interval: 'days',
+      blocks: []
     };
   },
-  oninit: function() {
-    this.onchange();
+  oncomplete: function() {
+    $(this.el)
+      .find('.sortable-blocks')
+      .sortable();
   },
-  onchange: function() {
-    this.parent.parent.set('schedule.frequency', this.get('frequency'));
-    this.parent.parent.set('schedule.interval', this.get('interval'));
+  addBlock: function() {
+    var library = BlockLibrary({el: $('<div>')});
+    library.set('source', this);
+    pg.push(library);
   },
   destroy: function() {
     this.parent.parent.set('schedule', null);

@@ -3,10 +3,10 @@
     <button type="button" class="close" on-click="destroy()"><span>&times;</span></button>
 
     <p class="nm-block-title">Scheduled</p>
-    <p>Move to the next <code>section</code> of the collection</p>
 
-    <label for="scheduled-frequency">Every</label>
-    <input type="number" value="{{ frequency }}" class="form-control" /><br />
+    <p class="nm-block-title">Every</p>
+
+    <input type="number" value="{{ frequency }}" class="form-control" />
 
     <div class="btn-group btn-group-justified" data-toggle="buttons">
       <label on-click="set('interval', 'days')"  class="btn btn-default active">
@@ -25,4 +25,13 @@
       </label>
     </div>
 
+    <p class="nm-block-title">Do the following</p>
+
+    <div class="sortable-blocks">
+      {{# blocks }}
+      <block></block>
+      {{/ blocks }}
+
+      <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+ Add block</button>
+    </div>
 </div>
