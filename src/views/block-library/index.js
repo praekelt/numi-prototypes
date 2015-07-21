@@ -112,6 +112,9 @@ BlockLibrary.types = [{
   }, {
     title: 'Show next 9 months',
     type: 'shownext9months'
+  }, {
+    title: 'Calculate weeks until due date',
+    type: 'calcweeks'
   }]
 }];
 

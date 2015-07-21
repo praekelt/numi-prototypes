@@ -36,6 +36,7 @@ module.exports = Base.extend({
     standardmessageset: require('../../blocks/standardmessageset'),
     latermessageset: require('../../blocks/latermessageset'),
     acceleratedmessageset: require('../../blocks/acceleratedmessageset'),
+    calcweeks: require('../../blocks/calcweeks'),
     filter: require('../../blocks/filter')
   }
 });
