@@ -54499,9 +54499,6 @@
 	    title: 'Ask',
 	    type: 'ask'
 	  }, {
-	    title: 'Choice',
-	    type: 'choice'
-	  }, {
 	    title: 'Send',
 	    type: 'send'
 	  }]
