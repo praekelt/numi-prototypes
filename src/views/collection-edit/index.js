@@ -8,7 +8,7 @@ var hist = require('../../hist');
 module.exports = Ractive.extend({
   template: require('./template.html'),
   data: function() {
-    return {blockSets: []};
+    return {screen: {}};
   },
   computed: {
     href: function() {
@@ -24,9 +24,6 @@ module.exports = Ractive.extend({
   onrender: function() {
     $(this.find('.nm-rename')).hide();
     hist.push(this);
-  },
-  addScreen: function() {
-    this.push('blockSets', {type: 'screen'});
   },
   rename: function() {
     this.set('nameBackup', this.get('name'));

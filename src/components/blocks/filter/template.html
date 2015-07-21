@@ -5,14 +5,18 @@
     <p class="nm-block-title">Filter</p>
 
     <div class="form-group">
-      {{#filter}}
+      {{# filter }}
       <button class="btn btn-default btn-block" on-click="chooseFilter()">{{name}}</button>
       <p class="text-right"><a href="../../filters/{{id}}/edit">View filter</a></p>
-      {{/filter}}
+      {{/ filter }}
 
-      {{^filter}}
+      {{^ filter }}
       <button class="btn btn-default btn-block nm-placeholder" on-click="chooseFilter()">Choose filter</button>
-      {{/filter}}
+      {{/ filter }}
+
+      {{# screen }}
+      <screen></screen>
+      {{/ screen }}
     </div>
   </div>
 </div>
