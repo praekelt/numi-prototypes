@@ -25,8 +25,5 @@ module.exports = Base.extend({
     });
 
     pg.push(filters);
-  },
-  components: {
-    screen: require('../../blocksets/screen')
   }
 });

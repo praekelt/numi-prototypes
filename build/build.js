@@ -49,6 +49,9 @@
 	__webpack_require__(3);
 	__webpack_require__(7);
 
+	var Ractive = __webpack_require__(17);
+	Ractive.components.screen = __webpack_require__(24);
+
 	var _ = __webpack_require__(8);
 	var $ = __webpack_require__(1);
 	var page = __webpack_require__(10);
@@ -55651,9 +55654,6 @@
 	    });
 
 	    pg.push(filters);
-	  },
-	  components: {
-	    screen: __webpack_require__(24)
 	  }
 	});
 
