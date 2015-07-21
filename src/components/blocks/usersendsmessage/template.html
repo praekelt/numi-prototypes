@@ -3,6 +3,21 @@
     <button type="button" class="close" on-click="destroy()"><span>&times;</span></button>
 
     <p class="nm-block-title">When user sends a message to</p>
-    <!-- TODO other stuff -->
+
+    {{#channel}}
+    <button class="btn btn-default btn-block" on-click="chooseChannel()">{{channel}}</button>
+    {{/channel}}
+
+    {{^channel}}
+    <button class="btn btn-default btn-block nm-placeholder" on-click="chooseChannel()">Choose channel</button>
+    {{/channel}}
+
+    <br/>
+    <p class="nm-block-title">With the content</p>
+
+    <textarea class="form-control" rows="3"></textarea>
+
+    <br/>
+    <p class="nm-block-title">Do the following</p>
   </div>
 </div>
