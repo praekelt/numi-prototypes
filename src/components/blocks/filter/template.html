@@ -2,7 +2,7 @@
   <div class="panel-body">
     <button type="button" class="close" on-click="destroy()"><span>&times;</span></button>
 
-    <p class="nm-block-title">Filter</p>
+    <p class="nm-block-title">With users matching the filter</p>
 
     <div class="form-group">
       {{# filter }}
@@ -13,6 +13,8 @@
       {{^ filter }}
       <button class="btn btn-default btn-block nm-placeholder" on-click="chooseFilter()">Choose filter</button>
       {{/ filter }}
+
+    <p class="nm-block-title">Do the following</p>
 
       <div class="sortable-blocks">
         {{# blocks }}
