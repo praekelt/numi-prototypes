@@ -55879,7 +55879,7 @@
 	    type: 'nothas'
 	  }]
 	}, {
-	  title: 'Numbers',
+	  title: 'Numerical answer from the user',
 	  name: 'numbers',
 	  blocks: [{
 	    title: 'Equals',
@@ -55901,7 +55901,7 @@
 	    type: 'gte'
 	  }]
 	}, {
-	  title: 'Text',
+	  title: 'Text answer from the user',
 	  name: 'text',
 	  blocks: [{
 	    title: 'Equals',
