@@ -38231,9 +38231,6 @@
 	    title: 'Choice',
 	    type: 'choice'
 	  }, {
-	    title: 'End',
-	    type: 'end'
-	  }, {
 	    title: 'Send',
 	    type: 'send'
 	  }]
