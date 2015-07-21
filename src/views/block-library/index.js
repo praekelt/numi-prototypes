@@ -96,6 +96,9 @@ BlockLibrary.types = [{
   }, {
     title: 'Add label',
     type: 'label'
+  }, {
+    title: 'Remove label',
+    type: 'rmlabel'
   }]
 }, {
   title: 'Calculations',

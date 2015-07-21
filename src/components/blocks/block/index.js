@@ -10,6 +10,7 @@ module.exports = Ractive.extend({
     send: require('../send'),
     saveas: require('../saveas'),
     lbl: require('../label'),
+    rmlbl: require('../rmlabel'),
     userdialsin: require('../userdialsin'),
     usersendsmessage: require('../usersendsmessage'),
     scheduled: require('../scheduled'),
