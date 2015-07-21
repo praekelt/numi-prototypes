@@ -101,17 +101,21 @@ BlockLibrary.types = [{
     type: 'label'
   }]
 }, {
-  title: 'Custom components',
+  title: 'Calculations',
   name: 'custom-components',
   blocks: [{
     title: 'Validate Clinic Code',
     type: 'validatecliniccode'
   }, {
-    title: 'Show next 9 months',
-    type: 'shownext9months'
-  }, {
     title: 'Calculate weeks until due date',
     type: 'calcweeks'
+  }]
+}, {
+  title: 'Placeholders',
+  name: 'placeholders',
+  blocks: [{
+    title: 'Show next 9 months',
+    type: 'shownext9months'
   }]
 }];
 
