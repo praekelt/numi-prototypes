@@ -53853,7 +53853,7 @@
 	    };
 	  },
 	  save: function() {
-	    var coll = dashboard.addCollection(this.get('name'));
+	    var coll = dashboard.addCollection(this.get('name'), this.get('type'));
 
 	    if (this.get('chooser')) this.get('chooser').setChoice({
 	      id: coll.get('id'),
@@ -53870,7 +53870,7 @@
 /* 20 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["New collection"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["New collection"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"label","a":{"for":"ask-text"},"f":["Name of collection"]}," ",{"t":7,"e":"input","a":{"type":"text","id":"choice-text","name":"choice-text","class":"form-control","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"save","a":{"r":[],"s":"[]"}}},"f":["Save"]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["New collection"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["New collection"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"label","a":{"for":"ask-text"},"f":["Name of collection"]}," ",{"t":7,"e":"input","a":{"type":"text","id":"choice-text","name":"choice-text","class":"form-control","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"label","f":["Run this collection"]}," ",{"t":7,"e":"div","a":{"class":"btn-group-vertical text-left","data-toggle":"buttons"},"f":[{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"type\",\"indirect\"]"}}},"a":{"class":"btn btn-default active"},"f":[{"t":7,"e":"input","a":{"type":"radio","checked":0}}," Via another collection"]}," ",{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"type\",\"session\"]"}}},"a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio"}}," When a user dials in"]}," ",{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"type\",\"message\"]"}}},"a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio"}}," When a user sends a message"]}," ",{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"type\",\"schedule\"]"}}},"a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio"}}," Using a schedule"]}]}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"save","a":{"r":[],"s":"[]"}}},"f":["Save"]}]};
 
 /***/ },
 /* 21 */
@@ -54035,12 +54035,11 @@
 	  },
 	  computed: {
 	    collection: function() {
-	      var screen = this.get('source');
-	      if (!screen) return null;
+	      var collection = this.get('source');
 
 	      return {
-	        id: screen.parent.get('id'),
-	        name: screen.parent.get('name')
+	        id: collection.get('id'),
+	        name: collection.get('name')
 	      };
 	    }
 	  },
@@ -54474,25 +54473,6 @@
 	});
 
 
-	BlockLibrary.events = {
-	  title: 'Events',
-	  name: 'events',
-	  blocks: [{
-	    title: 'User dials in',
-	    type: 'userdialsin'
-	  }, {
-	    title: 'User sends message',
-	    type: 'usersendsmessage'
-	  }, {
-	    title: 'Scheduled',
-	    type: 'scheduled'
-	  }, {
-	    title: 'Manual',
-	    type: 'manual'
-	  }]
-	};
-
-
 	BlockLibrary.types = [{
 	  title: 'Interactions',
 	  name: 'interactions',
@@ -54546,7 +54526,7 @@
 /* 59 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":["/numi-prototypes/collections/",{"t":2,"r":"collection.id"},"/edit"]},"f":[{"t":2,"r":"collection.name"}]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Block Library"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Block Library"]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel-group","id":["accordion",{"t":2,"r":"name"}],"role":"tablist","aria-multiselectable":"true"},"f":[{"t":7,"e":"div","a":{"class":"panel panel-default "},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"h2","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":["#collapse",{"t":2,"r":"name"}],"aria-expanded":"true","aria-controls":["collapse",{"t":2,"r":"name"}]},"f":[{"t":2,"r":"title"}]}]}]}," ",{"t":7,"e":"div","a":{"id":["collapse",{"t":2,"r":"name"}],"class":["panel-collapse collapse ",{"t":4,"f":["in"],"n":51,"r":"disableEvents"}],"role":"tabpanel","aria-labelledby":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"alert alert-info","role":"alert"},"f":["This collection already has an event"]}],"r":"disableEvents"}," ",{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Events"]}," are used to start a set of messages, either by the user or by Vumi."]}]}," ",{"t":4,"f":[{"t":7,"e":"button","m":[{"t":4,"f":["disabled"],"r":"disableEvents"}],"a":{"class":"btn btn-default btn-library"},"v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}],"r":"blocks"}]}]}]}]}],"r":"events"},{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel-group","id":["accordion",{"t":2,"r":"name"}],"role":"tablist","aria-multiselectable":"true"},"f":[{"t":7,"e":"div","a":{"class":["panel panel-default ",{"t":4,"f":["panel-highlighted"],"x":{"r":["name"],"s":"_0===\"custom-components\""}}]},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"h2","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":["#collapse",{"t":2,"r":"name"}],"aria-expanded":"true","aria-controls":["collapse",{"t":2,"r":"name"}]},"f":[{"t":2,"r":"title"}]}]}]}," ",{"t":7,"e":"div","a":{"id":["collapse",{"t":2,"r":"name"}],"class":"panel-collapse collapse in","role":"tabpanel","aria-labelledby":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Interactions"]}," are messages that will be displayed to the user. Combine them with ",{"t":7,"e":"strong","f":["Calculations"]}," and ",{"t":7,"e":"strong","f":["Placeholder"]}," to create complex Collections."]}]}],"x":{"r":["name"],"s":"_0===\"interactions\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["User data actions"]}," are used with an ",{"t":7,"e":"strong","f":["Interaction"]}," to be able to use an answer later, or to categorise a user."]}]}],"x":{"r":["name"],"s":"_0===\"user-data\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Placeholders"]}," are blocks of dynamically generated content that you can use inside an ",{"t":7,"e":"strong","f":["Interaction"]}," block."]}," ",{"t":7,"e":"p","f":["Use them by putting their keyword inside square brackets like this: ",{"t":7,"e":"code","f":["[keyword]"]}]}]}],"x":{"r":["name"],"s":"_0===\"placeholders\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Calculation blocks"]}," are written by developers to perform complex actions on user data."]}]}],"x":{"r":["name"],"s":"_0===\"custom-components\""}}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-library"},"v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}],"r":"blocks"}]}]}]}]}],"r":"types"},{"t":7,"e":"div","a":{"class":"panel-group","id":"accordionfilters","role":"tablist","aria-multiselectable":"true"},"f":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":"headingfilters"},"f":[{"t":7,"e":"h2","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":["#collapse",{"t":2,"r":"id"}],"aria-expanded":"true","aria-controls":"collapsefilters"},"f":["Filters"]}]}]}," ",{"t":7,"e":"div","a":{"id":"collapsefilters","class":"panel-collapse collapse in","role":"tabpanel","aria-labelledby":"headingfilters"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Filters"]}," select a group of users based on their answers."]}]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-library"},"v":{"click":{"m":"addFilter","a":{"r":["."],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}],"r":"filters"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-library nm-placeholder"},"v":{"click":{"m":"newFilter","a":{"r":[],"s":"[]"}}},"f":["+ Add filter"]}]}]}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":["/numi-prototypes/collections/",{"t":2,"r":"collection.id"},"/edit"]},"f":[{"t":2,"r":"collection.name"}]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Block Library"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Block Library"]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel-group","id":["accordion",{"t":2,"r":"name"}],"role":"tablist","aria-multiselectable":"true"},"f":[{"t":7,"e":"div","a":{"class":["panel panel-default ",{"t":4,"f":["panel-highlighted"],"x":{"r":["name"],"s":"_0===\"custom-components\""}}]},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"h2","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":["#collapse",{"t":2,"r":"name"}],"aria-expanded":"true","aria-controls":["collapse",{"t":2,"r":"name"}]},"f":[{"t":2,"r":"title"}]}]}]}," ",{"t":7,"e":"div","a":{"id":["collapse",{"t":2,"r":"name"}],"class":"panel-collapse collapse in","role":"tabpanel","aria-labelledby":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Interactions"]}," are messages that will be displayed to the user. Combine them with ",{"t":7,"e":"strong","f":["Calculations"]}," and ",{"t":7,"e":"strong","f":["Placeholder"]}," to create complex Collections."]}]}],"x":{"r":["name"],"s":"_0===\"interactions\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["User data actions"]}," are used with an ",{"t":7,"e":"strong","f":["Interaction"]}," to be able to use an answer later, or to categorise a user."]}]}],"x":{"r":["name"],"s":"_0===\"user-data\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Placeholders"]}," are blocks of dynamically generated content that you can use inside an ",{"t":7,"e":"strong","f":["Interaction"]}," block."]}," ",{"t":7,"e":"p","f":["Use them by putting their keyword inside square brackets like this: ",{"t":7,"e":"code","f":["[keyword]"]}]}]}],"x":{"r":["name"],"s":"_0===\"placeholders\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Calculation blocks"]}," are written by developers to perform complex actions on user data."]}]}],"x":{"r":["name"],"s":"_0===\"custom-components\""}}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-library"},"v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}],"r":"blocks"}]}]}]}]}],"r":"types"},{"t":7,"e":"div","a":{"class":"panel-group","id":"accordionfilters","role":"tablist","aria-multiselectable":"true"},"f":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":"headingfilters"},"f":[{"t":7,"e":"h2","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":["#collapse",{"t":2,"r":"id"}],"aria-expanded":"true","aria-controls":"collapsefilters"},"f":["Filters"]}]}]}," ",{"t":7,"e":"div","a":{"id":"collapsefilters","class":"panel-collapse collapse in","role":"tabpanel","aria-labelledby":"headingfilters"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Filters"]}," select a group of users based on their answers."]}]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-library"},"v":{"click":{"m":"addFilter","a":{"r":["."],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}],"r":"filters"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-library nm-placeholder"},"v":{"click":{"m":"newFilter","a":{"r":[],"s":"[]"}}},"f":["+ Add filter"]}]}]}]}]}]};
 
 /***/ },
 /* 60 */
@@ -55501,7 +55481,7 @@
 	var _ = __webpack_require__(1);
 	var Ractive = __webpack_require__(10);
 	var FilterEdit = __webpack_require__(69);
-	var CollectionEdit = __webpack_require__(66);
+	var collectionTypes = __webpack_require__(122);
 	var NewCollection = __webpack_require__(19);
 	var pg = __webpack_require__(17);
 
@@ -55528,12 +55508,13 @@
 	    this.push('filterViews', filter);
 	    return filter;
 	  },
-	  addCollection: function(name) {
-	    var coll = CollectionEdit({
+	  addCollection: function(name, type) {
+	    var coll = collectionTypes[type]({
 	      el: $('<div>'),
 	      data: {
 	        id: _.uniqueId('collection'),
-	        name: name
+	        name: name,
+	        type: type
 	      }
 	    });
 
@@ -55595,89 +55576,7 @@
 
 
 /***/ },
-/* 66 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(3);
-	var _ = __webpack_require__(1);
-	var BlockLibrary = __webpack_require__(58);
-	var Ractive = __webpack_require__(10);
-	var hist = __webpack_require__(67);
-	var pg = __webpack_require__(17);
-
-
-	module.exports = Ractive.extend({
-	  template: __webpack_require__(68),
-	  data: function() {
-	    return {blocks: []};
-	  },
-	  computed: {
-	    href: function() {
-	      return ['/numi-prototypes/collections', this.get('id'), 'edit'].join('/');
-	    },
-	    histName: function() {
-	      return ['collection', this.get('name')].join(' ');
-	    },
-	    prev: function() {
-	      return hist.pop();
-	    }
-	  },
-	  onrender: function() {
-	    $(this.find('.nm-rename')).hide();
-	    hist.push(this);
-	  },
-	  oncomplete: function() {
-	    $(this.el)
-	      .find('.sortable-blocks')
-	      .sortable();
-	  },
-	  rename: function() {
-	    this.set('nameBackup', this.get('name'));
-	    $(this.find('.nm-name')).hide();
-	    $(this.find('.nm-rename')).show();
-	  },
-	  hideRename: function() {
-	    $(this.find('.nm-rename')).hide();
-	    $(this.find('.nm-name')).show();
-	  },
-	  cancelRename: function() {
-	    this.set('name', this.get('nameBackup'));
-	    this.hideRename();
-	  },
-	  getEvent: function() {
-	    return _.chain(this.findAllComponents())
-	      .filter(function(c) {
-	        return c.get('type') == 'screen';
-	      })
-	      .map(function(c) {
-	        return c.findAllComponents();
-	      })
-	      .flatten()
-	      .find(function(c) {
-	        return BlockLibrary.isEvent(c.get('type'));
-	      })
-	      .value();
-	  },
-	  hasEvent: function() {
-	    return !!this.getEvent();
-	  },
-	  previewEvent: function() {
-	    var event = this.getEvent();
-
-	    return event && typeof event.preview == 'function'
-	      ? event.preview() || ''
-	      : '';
-	  },
-	  addBlock: function() {
-	    var library = BlockLibrary({el: $('<div>')});
-	    library.set('source', this);
-	    library.set('collectionView', this);
-	    pg.push(library);
-	  }
-	});
-
-
-/***/ },
+/* 66 */,
 /* 67 */
 /***/ function(module, exports) {
 
@@ -55719,12 +55618,7 @@
 
 
 /***/ },
-/* 68 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":4,"f":[{"t":7,"e":"a","a":{"href":[{"t":2,"r":"href"}]},"f":["Go back to ",{"t":2,"r":"name"}]}],"r":"prev"},{"t":7,"e":"div","a":{"class":"nm-name"},"f":[{"t":7,"e":"h1","a":{"class":"page-header"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"small","f":["Collection"]}," ",{"t":7,"e":"br"}," ",{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename well"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"h1","a":{"class":"page-header","style":"margin-bottom: 0; padding-bottom: 0;"},"f":[{"t":7,"e":"small","f":["Collection"]}]}," ",{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"block"}],"r":"blocks"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"p","a":{"class":"nm-end-session-msg"},"f":[{"t":7,"e":"small","f":["The USSD session will end after the last message."]}]}]};
-
-/***/ },
+/* 68 */,
 /* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -56509,6 +56403,165 @@
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"label","a":{"for":"save-as"},"f":["Remove label"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseLabel","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"label"}]}],"r":"label"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseLabel","a":{"r":[],"s":"[]"}}},"f":["Choose label"]}],"n":51,"r":"label"}]}]}]}]};
+
+/***/ },
+/* 110 */,
+/* 111 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Base = __webpack_require__(112);
+
+
+	module.exports = Base.extend({
+	  template: __webpack_require__(113)
+	});
+
+
+/***/ },
+/* 112 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $ = __webpack_require__(3);
+	var BlockLibrary = __webpack_require__(58);
+	var Ractive = __webpack_require__(10);
+	var hist = __webpack_require__(67);
+	var pg = __webpack_require__(17);
+
+
+	module.exports = Ractive.extend({
+	  data: function() {
+	    return {blocks: []};
+	  },
+	  computed: {
+	    href: function() {
+	      return ['/numi-prototypes/collections', this.get('id'), 'edit'].join('/');
+	    },
+	    histName: function() {
+	      return ['collection', this.get('name')].join(' ');
+	    },
+	    prev: function() {
+	      return hist.pop();
+	    }
+	  },
+	  onrender: function() {
+	    $(this.find('.nm-rename')).hide();
+	    hist.push(this);
+	  },
+	  oncomplete: function() {
+	    $(this.el)
+	      .find('.sortable-blocks')
+	      .sortable();
+	  },
+	  rename: function() {
+	    this.set('nameBackup', this.get('name'));
+	    $(this.find('.nm-name')).hide();
+	    $(this.find('.nm-rename')).show();
+	  },
+	  hideRename: function() {
+	    $(this.find('.nm-rename')).hide();
+	    $(this.find('.nm-name')).show();
+	  },
+	  cancelRename: function() {
+	    this.set('name', this.get('nameBackup'));
+	    this.hideRename();
+	  },
+	  addBlock: function() {
+	    var library = BlockLibrary({el: $('<div>')});
+	    library.set('source', this);
+	    library.set('collectionView', this);
+	    pg.push(library);
+	  },
+	  previewEvent: function() {
+	    return 'To be overriden';
+	  }
+	});
+
+
+/***/ },
+/* 113 */
+/***/ function(module, exports) {
+
+	module.exports={"t":[],"v":3};
+
+/***/ },
+/* 114 */,
+/* 115 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $ = __webpack_require__(3);
+	var Base = __webpack_require__(112);
+	var pg = __webpack_require__(17);
+	var ChooseChannel = __webpack_require__(32);
+
+
+	module.exports = Base.extend({
+	  template: __webpack_require__(116),
+	  chooseChannel: function() {
+	    pg.push(ChooseChannel({
+	      el: $('<div>'),
+	      data: {source: this}
+	    }));
+	  },
+	  previewEvent: function() {
+	    return this.get('channel')
+	      ? "When the user dials in on " + this.get('channel')
+	      : null;
+	  }
+	});
+
+
+/***/ },
+/* 116 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":4,"f":[{"t":7,"e":"a","a":{"href":[{"t":2,"r":"href"}]},"f":["Go back to ",{"t":2,"r":"name"}]}],"r":"prev"},{"t":7,"e":"div","a":{"class":"nm-name"},"f":[{"t":7,"e":"h1","a":{"class":"page-header"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"small","f":["Collection"]}," ",{"t":7,"e":"br"}," ",{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename well"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"h1","a":{"class":"page-header","style":"margin-bottom: 0; padding-bottom: 0;"},"f":[{"t":7,"e":"small","f":["Collection"]}]}," ",{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}," ",{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["When user dials in on"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseChannel","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"channel"}]}],"r":"channel"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseChannel","a":{"r":[],"s":"[]"}}},"f":["Choose channel"]}],"n":51,"r":"channel"}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Do the following"]}]}]}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"block"}],"r":"blocks"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]}]};
+
+/***/ },
+/* 117 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Base = __webpack_require__(112);
+
+
+	module.exports = Base.extend({
+	  template: __webpack_require__(118)
+	});
+
+
+/***/ },
+/* 118 */
+/***/ function(module, exports) {
+
+	module.exports={"t":[],"v":3};
+
+/***/ },
+/* 119 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Base = __webpack_require__(112);
+
+
+	module.exports = Base.extend({
+	  template: __webpack_require__(120)
+	});
+
+
+/***/ },
+/* 120 */
+/***/ function(module, exports) {
+
+	module.exports={"t":[],"v":3};
+
+/***/ },
+/* 121 */,
+/* 122 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports.session = __webpack_require__(115);
+	exports.message = __webpack_require__(117);
+	exports.indirect = __webpack_require__(111);
+	exports.schedule = __webpack_require__(119);
+
 
 /***/ }
 /******/ ]);

@@ -58,25 +58,6 @@ var BlockLibrary = Ractive.extend({
 });
 
 
-BlockLibrary.events = {
-  title: 'Events',
-  name: 'events',
-  blocks: [{
-    title: 'User dials in',
-    type: 'userdialsin'
-  }, {
-    title: 'User sends message',
-    type: 'usersendsmessage'
-  }, {
-    title: 'Scheduled',
-    type: 'scheduled'
-  }, {
-    title: 'Manual',
-    type: 'manual'
-  }]
-};
-
-
 BlockLibrary.types = [{
   title: 'Interactions',
   name: 'interactions',

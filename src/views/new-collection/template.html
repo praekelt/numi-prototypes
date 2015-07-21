@@ -10,4 +10,31 @@
   <input type="text" id="choice-text" name="choice-text" class="form-control" value="{{name}}">
 </div>
 
+
+<div class="form-group">
+  <label>Run this collection</label>
+
+  <div class="btn-group-vertical text-left" data-toggle="buttons">
+    <label on-click="set('type', 'indirect')" class="btn btn-default active">
+      <input type="radio" checked>
+      Via another collection
+    </label>
+
+    <label on-click="set('type', 'session')" class="btn btn-default">
+      <input type="radio">
+      When a user dials in
+    </label> 
+
+    <label on-click="set('type', 'message')" class="btn btn-default">
+      <input type="radio">
+      When a user sends a message
+    </label> 
+
+    <label on-click="set('type', 'schedule')" class="btn btn-default">
+      <input type="radio">
+      Using a schedule
+    </label> 
+  </div>
+</div>
+
 <button class="btn btn-default btn-block" on-click="save()">Save</button>
