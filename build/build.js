@@ -55052,23 +55052,7 @@
 	      .sortable();
 	  },
 	  components: {
-	    ask: __webpack_require__(32),
-	    choice: __webpack_require__(34),
-	    end: __webpack_require__(40),
-	    send: __webpack_require__(42),
-	    saveas: __webpack_require__(44),
-	    lbl: __webpack_require__(46),
-	    userdialsin: __webpack_require__(25),
-	    usersendsmessage: __webpack_require__(48),
-	    scheduled: __webpack_require__(50),
-	    manual: __webpack_require__(52),
-	    validatecliniccode: __webpack_require__(54),
-	    shownext9months: __webpack_require__(56),
-	    standardmessageset: __webpack_require__(58),
-	    latermessageset: __webpack_require__(60),
-	    acceleratedmessageset: __webpack_require__(62),
-	    calcweeks: __webpack_require__(64),
-	    filter: __webpack_require__(66)
+	    block: __webpack_require__(102)
 	  }
 	});
 
@@ -55186,7 +55170,7 @@
 /* 31 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[" ",{"t":7,"e":"div","f":[{"t":4,"f":[{"t":7,"e":"ask"}],"x":{"r":["type"],"s":"_0===\"ask\""}}," ",{"t":4,"f":[{"t":7,"e":"choice"}],"x":{"r":["type"],"s":"_0===\"choice\""}}," ",{"t":4,"f":[{"t":7,"e":"end"}],"x":{"r":["type"],"s":"_0===\"end\""}}," ",{"t":4,"f":[{"t":7,"e":"send"}],"x":{"r":["type"],"s":"_0===\"send\""}}," ",{"t":4,"f":[{"t":7,"e":"saveas"}],"x":{"r":["type"],"s":"_0===\"saveas\""}}," ",{"t":4,"f":[{"t":7,"e":"lbl"}],"x":{"r":["type"],"s":"_0===\"label\""}}," ",{"t":4,"f":[{"t":7,"e":"userdialsin"}],"x":{"r":["type"],"s":"_0===\"userdialsin\""}}," ",{"t":4,"f":[{"t":7,"e":"usersendsmessage"}],"x":{"r":["type"],"s":"_0===\"usersendsmessage\""}}," ",{"t":4,"f":[{"t":7,"e":"scheduled"}],"x":{"r":["type"],"s":"_0===\"scheduled\""}}," ",{"t":4,"f":[{"t":7,"e":"manual"}],"x":{"r":["type"],"s":"_0===\"manual\""}}," ",{"t":4,"f":[{"t":7,"e":"validatecliniccode"}],"x":{"r":["type"],"s":"_0===\"validatecliniccode\""}}," ",{"t":4,"f":[{"t":7,"e":"shownext9months"}],"x":{"r":["type"],"s":"_0===\"shownext9months\""}}," ",{"t":4,"f":[{"t":7,"e":"standardmessageset"}],"x":{"r":["type"],"s":"_0===\"standardmessageset\""}}," ",{"t":4,"f":[{"t":7,"e":"latermessageset"}],"x":{"r":["type"],"s":"_0===\"latermessageset\""}}," ",{"t":4,"f":[{"t":7,"e":"acceleratedmessageset"}],"x":{"r":["type"],"s":"_0===\"acceleratedmessageset\""}}," ",{"t":4,"f":[{"t":7,"e":"calcweeks"}],"x":{"r":["type"],"s":"_0===\"calcweeks\""}}," ",{"t":4,"f":[{"t":7,"e":"filter","a":{"filter":[{"t":2,"r":"filter"}]}}],"x":{"r":["type"],"s":"_0===\"filter\""}}]}],"r":"blocks"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[" ",{"t":7,"e":"div","f":[{"t":7,"e":"block"}]}],"r":"blocks"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]};
 
 /***/ },
 /* 32 */
@@ -56384,6 +56368,43 @@
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","a":{"class":"active"},"f":["Home"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Collections"]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Collections"]}," are groups of content: combine them to make ",{"t":7,"e":"strong","f":["Campaigns"]},"."]}," ",{"t":7,"e":"p","f":["Add a collection to get started."]}]}],"n":51,"r":"collections"},{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel panel-default text-left"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel-heading"},"f":[{"t":2,"r":"eventPreview"}]}],"r":"eventPreview"}," ",{"t":7,"e":"a","a":{"href":["./collections/",{"t":2,"r":"id"},"/edit"],"class":"btn btn-link btn-block"},"f":[{"t":2,"r":"name"}]}]}],"r":"collections"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"newCollection","a":{"r":[],"s":"[]"}}},"f":["+ Add collection"]}]};
+
+/***/ },
+/* 102 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Ractive = __webpack_require__(17);
+
+
+	module.exports = Ractive.extend({
+	  template: __webpack_require__(103),
+	  components: {
+	    ask: __webpack_require__(32),
+	    choice: __webpack_require__(34),
+	    end: __webpack_require__(40),
+	    send: __webpack_require__(42),
+	    saveas: __webpack_require__(44),
+	    lbl: __webpack_require__(46),
+	    userdialsin: __webpack_require__(25),
+	    usersendsmessage: __webpack_require__(48),
+	    scheduled: __webpack_require__(50),
+	    manual: __webpack_require__(52),
+	    validatecliniccode: __webpack_require__(54),
+	    shownext9months: __webpack_require__(56),
+	    standardmessageset: __webpack_require__(58),
+	    latermessageset: __webpack_require__(60),
+	    acceleratedmessageset: __webpack_require__(62),
+	    calcweeks: __webpack_require__(64),
+	    filter: __webpack_require__(66)
+	  }
+	});
+
+
+/***/ },
+/* 103 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"ask"}],"x":{"r":["type"],"s":"_0===\"ask\""}},{"t":4,"f":[{"t":7,"e":"choice"}],"x":{"r":["type"],"s":"_0===\"choice\""}},{"t":4,"f":[{"t":7,"e":"end"}],"x":{"r":["type"],"s":"_0===\"end\""}},{"t":4,"f":[{"t":7,"e":"send"}],"x":{"r":["type"],"s":"_0===\"send\""}},{"t":4,"f":[{"t":7,"e":"saveas"}],"x":{"r":["type"],"s":"_0===\"saveas\""}},{"t":4,"f":[{"t":7,"e":"lbl"}],"x":{"r":["type"],"s":"_0===\"label\""}},{"t":4,"f":[{"t":7,"e":"userdialsin"}],"x":{"r":["type"],"s":"_0===\"userdialsin\""}},{"t":4,"f":[{"t":7,"e":"usersendsmessage"}],"x":{"r":["type"],"s":"_0===\"usersendsmessage\""}},{"t":4,"f":[{"t":7,"e":"scheduled"}],"x":{"r":["type"],"s":"_0===\"scheduled\""}},{"t":4,"f":[{"t":7,"e":"manual"}],"x":{"r":["type"],"s":"_0===\"manual\""}},{"t":4,"f":[{"t":7,"e":"validatecliniccode"}],"x":{"r":["type"],"s":"_0===\"validatecliniccode\""}},{"t":4,"f":[{"t":7,"e":"shownext9months"}],"x":{"r":["type"],"s":"_0===\"shownext9months\""}},{"t":4,"f":[{"t":7,"e":"standardmessageset"}],"x":{"r":["type"],"s":"_0===\"standardmessageset\""}},{"t":4,"f":[{"t":7,"e":"latermessageset"}],"x":{"r":["type"],"s":"_0===\"latermessageset\""}},{"t":4,"f":[{"t":7,"e":"acceleratedmessageset"}],"x":{"r":["type"],"s":"_0===\"acceleratedmessageset\""}},{"t":4,"f":[{"t":7,"e":"calcweeks"}],"x":{"r":["type"],"s":"_0===\"calcweeks\""}},{"t":4,"f":[{"t":7,"e":"filter","a":{"filter":[{"t":2,"r":"filter"}]}}],"x":{"r":["type"],"s":"_0===\"filter\""}}]};
 
 /***/ }
 /******/ ]);
