@@ -9,7 +9,7 @@ module.exports = Base.extend({
   data: function() {
     return {
       frequency: 1,
-      interval: 'days',
+      interval: 'day',
       blocks: []
     };
   },
