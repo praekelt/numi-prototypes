@@ -28,7 +28,7 @@ var ContentLibrary = Ractive.extend({
 
 
 ContentLibrary.placeholders = [
-  'Next nine months'
+  'Show next nine months'
 ];
 
 
