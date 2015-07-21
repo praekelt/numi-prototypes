@@ -47,37 +47,55 @@
 
 <div class="sortable-blocks">
 {{#conditions}}
-  {{# type === 'eq' }}
-  <eq></eq>
-  {{/}}
+  <!--
+  NOTE please don't remove this div, its needed for our duct-taped approach
+  to block removal.
+  -->
+  <div>
+    {{# type === 'teq' }}
+    <teq></teq>
+    {{/}}
 
-  {{# type === 'lt' }}
-  <lt></lt>
-  {{/}}
+    {{# type === 'tneq' }}
+    <tneq></tneq>
+    {{/}}
 
-  {{# type === 'lte' }}
-  <lte></lte>
-  {{/}}
+    {{# type === 'eq' }}
+    <eq></eq>
+    {{/}}
 
-  {{# type === 'gt' }}
-  <gt></gt>
-  {{/}}
+    {{# type === 'neq' }}
+    <neq></neq>
+    {{/}}
 
-  {{# type === 'gte' }}
-  <gte></gte>
-  {{/}}
+    {{# type === 'lt' }}
+    <lt></lt>
+    {{/}}
 
-  {{# type === 'has' }}
-  <has></has>
-  {{/}}
+    {{# type === 'lte' }}
+    <lte></lte>
+    {{/}}
 
-  {{# type === 'nothas' }}
-  <nothas></nothas>
-  {{/}}
+    {{# type === 'gt' }}
+    <gt></gt>
+    {{/}}
 
-  {{# type === 'filter' }}
-  <filter filter='{{filter}}'></filter>
-  {{/}}
+    {{# type === 'gte' }}
+    <gte></gte>
+    {{/}}
+
+    {{# type === 'has' }}
+    <has></has>
+    {{/}}
+
+    {{# type === 'nothas' }}
+    <nothas></nothas>
+    {{/}}
+
+    {{# type === 'filter' }}
+    <filter filter='{{filter}}'></filter>
+    {{/}}
+  </div>
 {{/conditions}}
 </div>
 

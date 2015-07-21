@@ -1,12 +1,14 @@
 <div class="screen">
     <button type="button" class="close close-screen" on-click="destroy()"><span><span class="close-screen-text">remove section</span>&times;</span></button>
 
-    {{#blocks}}
-    <p class="text-right" style="clear: right;">Sent after <strong>4 weeks</strong>.</p>
-    {{/blocks}}
-
     <div class="sortable-blocks">
     {{#blocks}}
+
+    <!--
+    NOTE please don't remove this div, its needed for our duct-taped approach
+    to block removal.
+    -->
+    <div>
         {{# type === 'ask' }}
         <ask></ask>
         {{/}}
@@ -70,6 +72,7 @@
         {{# type === 'filter' }}
         <filter filter='{{filter}}'></filter>
         {{/}}
+    </div>
     {{/blocks}}
     </div>
 

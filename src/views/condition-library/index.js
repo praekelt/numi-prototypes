@@ -72,6 +72,9 @@ ConditionLibrary.types = [{
     title: 'Equals',
     type: 'eq'
   }, {
+    title: 'Not equal to',
+    type: 'neq'
+  }, {
     title: 'Less than',
     type: 'lt'
   }, {
@@ -83,6 +86,16 @@ ConditionLibrary.types = [{
   }, {
     title: 'Greater than or equal to',
     type: 'gte'
+  }]
+}, {
+  title: 'Text',
+  name: 'text',
+  blocks: [{
+    title: 'Equals',
+    type: 'teq'
+  }, {
+    title: 'Not equal to',
+    type: 'tneq'
   }]
 }];
 
