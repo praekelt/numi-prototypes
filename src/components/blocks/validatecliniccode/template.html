@@ -7,7 +7,7 @@
     <div class="form-group">
       <ul class="nav nav-stacked">
         <li>
-          <label for="choice-text-1">Validation Pass</label>
+          <label for="choice-text-1">If Validation Passes, go to:</label>
           {{#passCollection}}
           <button class="btn btn-default btn-block" on-click="choosePassCollection()">{{name}}</button>
           <p class="text-right"><a href="../../collections/{{id}}/edit">View collection</a></p>
@@ -18,7 +18,7 @@
           {{/passCollection}}
         </li>
         <li>
-          <label for="choice-text-1">Validation Fail</label>
+          <label for="choice-text-1">If Validation Fails, go to:</label>
           {{#failCollection}}
           <button class="btn btn-default btn-block" on-click="chooseFailCollection()">{{name}}</button>
           <p class="text-right"><a href="../../collections/{{id}}/edit">View collection</a></p>

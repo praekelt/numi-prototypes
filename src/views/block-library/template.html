@@ -75,6 +75,10 @@
       </div>
       <div id="collapsefilters" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingfilters">
         <div class="panel-body">
+          <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <p><strong>Filters</strong> select a group of users based on their answers.</p>
+          </div>
           {{#filters}}
           <button class="btn btn-default btn-library" on-click="addFilter(this)">{{name}}</button>
           {{/filters}}
