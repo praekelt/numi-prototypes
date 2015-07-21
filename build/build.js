@@ -54522,13 +54522,6 @@
 	    title: 'Calculate weeks until due date',
 	    type: 'calcweeks'
 	  }]
-	}, {
-	  title: 'Placeholders',
-	  name: 'placeholders',
-	  blocks: [{
-	    title: 'Show next 9 months',
-	    type: 'shownext9months'
-	  }]
 	}];
 
 
