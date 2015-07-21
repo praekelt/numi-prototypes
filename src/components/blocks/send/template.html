@@ -3,7 +3,10 @@
     <button type="button" class="close" on-click="destroy()"><span>&times;</span></button>
 
     <p class="nm-block-title">Send</p>
-    <textarea class="form-control" rows="3"></textarea>
+    <textarea class="form-control" rows="3" value="{{ text }}"></textarea>
     <!-- TODO other stuff -->
+
+    <br/>
+    <button class="btn btn-default btn-block nm-placeholder" on-click="addContent()">+ Add content</button>
   </div>
 </div>
