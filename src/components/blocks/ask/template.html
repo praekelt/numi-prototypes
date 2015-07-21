@@ -6,13 +6,10 @@
 
     <div class="form-group">
       <label>Text</label>
-      <textarea class="form-control ask-text" rows="3"></textarea>
+      <textarea class="form-control ask-text" rows="3" value="{{ text }}"></textarea>
     </div>
 
-    <!-- The edit section needs a Save and Cancel button. Not sure where this should live, though. -->
-<!--     <div class="text-center">
-      <button type="submit" class="btn btn-default">Save</button> <button type="button" class="btn btn-link">Cancel</button>
-    </div> -->
-    
+
+    <button class="btn btn-default btn-block nm-placeholder" on-click="addContent()">+ Add content</button>
   </div>
 </div>

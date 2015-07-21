@@ -1,6 +1,6 @@
-var Base = require('../base');
+var Interaction = require('../interaction');
 
 
-module.exports = Base.extend({
+module.exports = Interaction.extend({
   template: require('./template.html')
 });
