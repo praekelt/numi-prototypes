@@ -66,7 +66,7 @@ ConditionLibrary.types = [{
     type: 'nothas'
   }]
 }, {
-  title: 'Numerical answer from the user',
+  title: 'Number answer from the user',
   name: 'numbers',
   blocks: [{
     title: 'Equals',
