@@ -34,9 +34,25 @@
 
       <button class="btn btn-default btn-block nm-placeholder" on-click="newCollection()">+ Add collection</button>
     </div>
+
     <div role="tabpanel" class="tab-pane" id="filters">
       <br />
-      Filter list goes here
+      {{^filters}}
+      <div class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p><strong>Filters</strong> select a group of users based on their answers.</p>
+        </div>
+      {{/filters}}
+
+      <div class="sortable-blocks">
+        {{#filters}}
+        <div class="panel panel-default text-left">
+          <a href="./filters/{{id}}/edit" class="btn btn-link btn-block">{{name}}</a>
+        </div> 
+        {{/filters}}
+      </div>
+
+      <button class="btn btn-default btn-block nm-placeholder" on-click="newFilter()">+ Add filter</button>
     </div>
   </div>
 
