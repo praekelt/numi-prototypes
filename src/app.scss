@@ -35,7 +35,8 @@ body {
   margin-top: 0;
 }
 
-.sortable-blocks .nm-block-title {
+.sortable-blocks .nm-block-title,
+.sortable-blocks .panel-heading {
   &:hover {
     cursor: move;
   }
