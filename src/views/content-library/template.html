@@ -23,8 +23,20 @@
             <p>Use them by putting their keyword inside square brackets like this: <code>[keyword]</code></p>
           </div>
 
+          
           {{#placeholders}}
-          <button class="btn btn-default btn-library" on-click="addPlaceholder(this)">{{.}}</button>
+          <hr />
+          <button class="btn btn-default btn-library" on-click="addPlaceholder(this)" style="text-align: left;">{{name}}</button>
+          <br />
+          <p><strong>You see:</strong></p>
+          <p><code>[{{name}}]</code></p>
+          <p><strong>The user sees:</strong></p>
+          <p>{{helptext}}</p>
+            <code style="white-space: pre;">
+            {{#exampletext}}
+              {{.}}<br />
+            {{/#exampletext}}
+            </code>
           {{/placeholders}}
         </div>
       </div>
