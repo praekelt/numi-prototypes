@@ -4,6 +4,7 @@ var Ractive = require('ractive');
 var FilterEdit = require('../filter-edit');
 var collectionTypes = require('../../components/collections');
 var NewCollection = require('../new-collection');
+var NewFilter = require('../new-filter');
 var pg = require('../../pg');
 
 
@@ -56,6 +57,11 @@ module.exports = Ractive.extend({
     var i = this.get('labels').indexOf(oldLabel);
     if (i < 0) this.push('labels', newLabel);
     else this.splice('labels', i, 1, newLabel);
+  },
+  newFilter: function()  {
+    var newFilter = NewFilter({el: $('<div>')});
+    pg.pop();
+    pg.push(newFilter);
   },
   computed: {
     filters: function() {
