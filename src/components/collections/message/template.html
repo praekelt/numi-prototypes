@@ -27,8 +27,13 @@
 
 <div class="panel panel-default panel-highlighted">
   <div class="panel-body">
-    <p class="nm-block-title">When user sends a message to</p>
+    <p class="nm-block-title">When user sends </p>
 
+    <textarea class="form-control" rows="3" value="{{text}}"></textarea>
+
+    <br />
+    <p>to</p>
+    
     {{#channel}}
     <button class="btn btn-default btn-block" on-click="chooseChannel()">{{channel}}</button>
     {{/channel}}
@@ -36,11 +41,6 @@
     {{^channel}}
     <button class="btn btn-default btn-block nm-placeholder" on-click="chooseChannel()">Choose channel</button>
     {{/channel}}
-
-    <br/>
-    <p class="nm-block-title">With the content</p>
-
-    <textarea class="form-control" rows="3" value="{{text}}"></textarea>
 
     <br/>
   </div>
