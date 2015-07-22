@@ -11,9 +11,9 @@
 </div>
 
 
+{{^ onlyLinked }}
 <div class="form-group">
   <label>This collection runs:</label>
-
   <div class="btn-group-vertical" data-toggle="buttons" style="width: 100%;">
     <label on-click="set('type', 'session')" class="btn btn-default">
       <input type="radio">
@@ -36,5 +36,10 @@
     </label>
   </div>
 </div>
+{{/ onlyLinked }}
+
+{{# onlyLinked }}
+<p class="text-info">This collection will be run as part of another collection</p>
+{{/ onlyLinked }}
 
 <button class="btn btn-default btn-block" on-click="save()">Save</button>

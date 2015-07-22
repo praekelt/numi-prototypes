@@ -30,6 +30,7 @@ module.exports = Ractive.extend({
   newCollection: function() {
     var newColl = NewCollection({el: $('<div>')});
     newColl.set('chooser', this);
+    newColl.set('onlyLinked', !!this.get('onlyLinked'));
     pg.pop();
     pg.push(newColl);
   }
