@@ -2,30 +2,42 @@
   <li class="active">Home</li>
 </ol>
 
+<div>
 
-<ul class="nav nav-tabs nav-justified">
-  <li role="presentation" class="active"><a href="#">Collections</a></li>
-  <li role="presentation"><a href="#">Filters</a></li>
-</ul>
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs nav-justified" role="tablist">
+    <li role="presentation" class="active"><a href="#collections" aria-controls="collections" role="tab" data-toggle="tab">Collections</a></li>
+    <li role="presentation"><a href="#filters" aria-controls="filters" role="tab" data-toggle="tab">Filters</a></li>
+  </ul>
 
-<br />
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="collections">
+      <br />
+      {{^collections}}
+      <div class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p><strong>Collections</strong> are groups of content. Add one to get started.</p>
+        </div>
+      {{/collections}}
 
-{{^collections}}
-<div class="alert alert-info alert-dismissible" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  <p><strong>Collections</strong> are groups of content. Add one to get started.</p>
+      <div class="sortable-blocks">
+        {{#collections}}
+        <div class="panel panel-default text-left">
+          {{#eventPreview}}
+          <div class="panel-heading">{{eventPreview}}</div>      
+          {{/eventPreview}}
+          <a href="./collections/{{id}}/edit" class="btn btn-link btn-block">{{name}}</a>
+        </div> 
+        {{/collections}}
+      </div>
+
+      <button class="btn btn-default btn-block nm-placeholder" on-click="newCollection()">+ Add collection</button>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="filters">
+      <br />
+      Filter list goes here
+    </div>
   </div>
-{{/collections}}
 
-<div class="sortable-blocks">
-  {{#collections}}
-  <div class="panel panel-default text-left">
-    {{#eventPreview}}
-    <div class="panel-heading">{{eventPreview}}</div>      
-    {{/eventPreview}}
-    <a href="./collections/{{id}}/edit" class="btn btn-link btn-block">{{name}}</a>
-  </div> 
-  {{/collections}}
 </div>
-
-<button class="btn btn-default btn-block nm-placeholder" on-click="newCollection()">+ Add collection</button>
