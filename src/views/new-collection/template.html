@@ -12,28 +12,28 @@
 
 
 <div class="form-group">
-  <label>Run this collection</label>
+  <label>This collection runs:</label>
 
-  <div class="btn-group-vertical text-left" data-toggle="buttons">
-    <label on-click="set('type', 'indirect')" class="btn btn-default active">
-      <input type="radio" checked>
-      Via another collection
-    </label>
-
+  <div class="btn-group-vertical" data-toggle="buttons" style="width: 100%;">
     <label on-click="set('type', 'session')" class="btn btn-default">
       <input type="radio">
-      When user dials in
+      When the user dials in
     </label> 
 
     <label on-click="set('type', 'message')" class="btn btn-default">
       <input type="radio">
-      When user sends a message
+      When the user sends a message
     </label> 
 
     <label on-click="set('type', 'schedule')" class="btn btn-default">
       <input type="radio">
-      Using a schedule
+      On a schedule
     </label> 
+
+    <label on-click="set('type', 'indirect')" class="btn btn-default active">
+      <input type="radio" checked>
+      As part of another collection
+    </label>
   </div>
 </div>
 
