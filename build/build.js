@@ -57,7 +57,7 @@
 	var page = __webpack_require__(68);
 	var Dashboard = __webpack_require__(72);
 	var pg = __webpack_require__(14);
-	var hist = __webpack_require__(76);
+	var hist = __webpack_require__(75);
 
 
 	window.dashboard = Dashboard({el: $('<div>')});
@@ -55740,7 +55740,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(3);
-	var Base = __webpack_require__(75);
+	var Base = __webpack_require__(76);
 	var pg = __webpack_require__(14);
 	var ChooseChannel = __webpack_require__(15);
 
@@ -55763,66 +55763,6 @@
 
 /***/ },
 /* 75 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(3);
-	var BlockLibrary = __webpack_require__(45);
-	var Ractive = __webpack_require__(10);
-	var hist = __webpack_require__(76);
-	var pg = __webpack_require__(14);
-
-
-	module.exports = Ractive.extend({
-	  data: function() {
-	    return {blocks: []};
-	  },
-	  computed: {
-	    href: function() {
-	      return ['/numi-prototypes/collections', this.get('id'), 'edit'].join('/');
-	    },
-	    histName: function() {
-	      return ['collection', this.get('name')].join(' ');
-	    },
-	    prev: function() {
-	      return hist.pop();
-	    }
-	  },
-	  onrender: function() {
-	    $(this.find('.nm-rename')).hide();
-	    hist.push(this);
-	  },
-	  oncomplete: function() {
-	    $(this.el)
-	      .find('.sortable-blocks')
-	      .sortable();
-	  },
-	  rename: function() {
-	    this.set('nameBackup', this.get('name'));
-	    $(this.find('.nm-name')).hide();
-	    $(this.find('.nm-rename')).show();
-	  },
-	  hideRename: function() {
-	    $(this.find('.nm-rename')).hide();
-	    $(this.find('.nm-name')).show();
-	  },
-	  cancelRename: function() {
-	    this.set('name', this.get('nameBackup'));
-	    this.hideRename();
-	  },
-	  addBlock: function() {
-	    var library = BlockLibrary({el: $('<div>')});
-	    library.set('source', this);
-	    library.set('collectionView', this);
-	    pg.push(library);
-	  },
-	  previewEvent: function() {
-	    return 'To be overriden';
-	  }
-	});
-
-
-/***/ },
-/* 76 */
 /***/ function(module, exports) {
 
 	var stack = [];
@@ -55863,17 +55803,85 @@
 
 
 /***/ },
+/* 76 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $ = __webpack_require__(3);
+	var BlockLibrary = __webpack_require__(45);
+	var Ractive = __webpack_require__(10);
+	var hist = __webpack_require__(75);
+	var pg = __webpack_require__(14);
+
+
+	module.exports = Ractive.extend({
+	  data: function() {
+	    return {
+	      _prev: hist.pop(),
+	      blocks: []
+	    };
+	  },
+	  computed: {
+	    href: function() {
+	      return ['/numi-prototypes/collections', this.get('id'), 'edit'].join('/');
+	    },
+	    histName: function() {
+	      return ['collection', this.get('name')].join(' ');
+	    },
+	    prev: function() {
+	      return this.get('_prev');
+	    },
+	    backHref: function() {
+	      return this.get('_prev')
+	        ? this.get('_prev').href
+	        : '/numi-prototypes/'
+	    }
+	  },
+	  onrender: function() {
+	    $(this.find('.nm-rename')).hide();
+	    hist.push(this);
+	  },
+	  oncomplete: function() {
+	    $(this.el)
+	      .find('.sortable-blocks')
+	      .sortable();
+	  },
+	  rename: function() {
+	    this.set('nameBackup', this.get('name'));
+	    $(this.find('.nm-name')).hide();
+	    $(this.find('.nm-rename')).show();
+	  },
+	  hideRename: function() {
+	    $(this.find('.nm-rename')).hide();
+	    $(this.find('.nm-name')).show();
+	  },
+	  cancelRename: function() {
+	    this.set('name', this.get('nameBackup'));
+	    this.hideRename();
+	  },
+	  addBlock: function() {
+	    var library = BlockLibrary({el: $('<div>')});
+	    library.set('source', this);
+	    library.set('collectionView', this);
+	    pg.push(library);
+	  },
+	  previewEvent: function() {
+	    return 'To be overriden';
+	  }
+	});
+
+
+/***/ },
 /* 77 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":4,"f":[{"t":7,"e":"a","a":{"href":[{"t":2,"r":"href"}]},"f":["Go back to ",{"t":2,"r":"name"}]}],"r":"prev"},{"t":7,"e":"div","a":{"class":"nm-name"},"f":[{"t":7,"e":"h1","a":{"class":"page-header"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"small","f":["Collection"]}," ",{"t":7,"e":"br"}," ",{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename well"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"h1","a":{"class":"page-header","style":"margin-bottom: 0; padding-bottom: 0;"},"f":[{"t":7,"e":"small","f":["Collection"]}]}," ",{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}," ",{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["When user dials in on"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseChannel","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"channel"}]}],"r":"channel"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseChannel","a":{"r":[],"s":"[]"}}},"f":["Choose channel"]}],"n":51,"r":"channel"}," ",{"t":7,"e":"br"}]}]}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"div","f":[{"t":7,"e":"block"}]}],"r":"blocks"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":4,"f":[{"t":7,"e":"a","a":{"href":[{"t":2,"r":"href"}]},"f":["Go back to ",{"t":2,"r":"name"}]}],"r":"prev"},{"t":7,"e":"div","a":{"class":"nm-name"},"f":[{"t":7,"e":"h1","a":{"class":"page-header"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"small","f":["Collection"]}," ",{"t":7,"e":"br"}," ",{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename well"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"h1","a":{"class":"page-header","style":"margin-bottom: 0; padding-bottom: 0;"},"f":[{"t":7,"e":"small","f":["Collection"]}]}," ",{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}," ",{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["When user dials in on"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseChannel","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"channel"}]}],"r":"channel"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseChannel","a":{"r":[],"s":"[]"}}},"f":["Choose channel"]}],"n":51,"r":"channel"}," ",{"t":7,"e":"br"}]}]}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"div","f":[{"t":7,"e":"block"}]}],"r":"blocks"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]}," ",{"t":7,"e":"a","a":{"class":"btn btn-default btn-block","href":[{"t":2,"r":"backHref"}]},"f":["Save and close"]}]};
 
 /***/ },
 /* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(3);
-	var Base = __webpack_require__(75);
+	var Base = __webpack_require__(76);
 	var pg = __webpack_require__(14);
 	var ChooseChannel = __webpack_require__(15);
 
@@ -55898,13 +55906,13 @@
 /* 79 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":4,"f":[{"t":7,"e":"a","a":{"href":[{"t":2,"r":"href"}]},"f":["Go back to ",{"t":2,"r":"name"}]}],"r":"prev"},{"t":7,"e":"div","a":{"class":"nm-name"},"f":[{"t":7,"e":"h1","a":{"class":"page-header"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"small","f":["Collection"]}," ",{"t":7,"e":"br"}," ",{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename well"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"h1","a":{"class":"page-header","style":"margin-bottom: 0; padding-bottom: 0;"},"f":[{"t":7,"e":"small","f":["Collection"]}]}," ",{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}," ",{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["When user sends"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control","rows":"3","value":[{"t":2,"r":"text"}]}}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["to"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseChannel","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"channel"}]}],"r":"channel"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseChannel","a":{"r":[],"s":"[]"}}},"f":["Choose channel"]}],"n":51,"r":"channel"}," ",{"t":7,"e":"br"}]}]}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"block"}],"r":"blocks"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":4,"f":[{"t":7,"e":"a","a":{"href":[{"t":2,"r":"href"}]},"f":["Go back to ",{"t":2,"r":"name"}]}],"r":"prev"},{"t":7,"e":"div","a":{"class":"nm-name"},"f":[{"t":7,"e":"h1","a":{"class":"page-header"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"small","f":["Collection"]}," ",{"t":7,"e":"br"}," ",{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename well"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"h1","a":{"class":"page-header","style":"margin-bottom: 0; padding-bottom: 0;"},"f":[{"t":7,"e":"small","f":["Collection"]}]}," ",{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}," ",{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["When user sends"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control","rows":"3","value":[{"t":2,"r":"text"}]}}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["to"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseChannel","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"channel"}]}],"r":"channel"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseChannel","a":{"r":[],"s":"[]"}}},"f":["Choose channel"]}],"n":51,"r":"channel"}," ",{"t":7,"e":"br"}]}]}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"block"}],"r":"blocks"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]}," ",{"t":7,"e":"a","a":{"class":"btn btn-default btn-block","href":[{"t":2,"r":"backHref"}]},"f":["Save and close"]}]};
 
 /***/ },
 /* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Base = __webpack_require__(75);
+	var Base = __webpack_require__(76);
 
 
 	module.exports = Base.extend({
@@ -55919,14 +55927,14 @@
 /* 81 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":4,"f":[{"t":7,"e":"a","a":{"href":[{"t":2,"r":"href"}]},"f":["Go back to ",{"t":2,"r":"name"}]}],"r":"prev"},{"t":7,"e":"div","a":{"class":"nm-name"},"f":[{"t":7,"e":"h1","a":{"class":"page-header"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"small","f":["Collection"]}," ",{"t":7,"e":"br"}," ",{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename well"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"h1","a":{"class":"page-header","style":"margin-bottom: 0; padding-bottom: 0;"},"f":[{"t":7,"e":"small","f":["Collection"]}]}," ",{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}," ",{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["When starting this collection"]}]}]}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"block"}],"r":"blocks"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":4,"f":[{"t":7,"e":"a","a":{"href":[{"t":2,"r":"href"}]},"f":["Go back to ",{"t":2,"r":"name"}]}],"r":"prev"},{"t":7,"e":"div","a":{"class":"nm-name"},"f":[{"t":7,"e":"h1","a":{"class":"page-header"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"small","f":["Collection"]}," ",{"t":7,"e":"br"}," ",{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename well"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"h1","a":{"class":"page-header","style":"margin-bottom: 0; padding-bottom: 0;"},"f":[{"t":7,"e":"small","f":["Collection"]}]}," ",{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}," ",{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["When starting this collection"]}]}]}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"block"}],"r":"blocks"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]}," ",{"t":7,"e":"a","a":{"class":"btn btn-default btn-block","href":[{"t":2,"r":"backHref"}]},"f":["Save and close"]}]};
 
 /***/ },
 /* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(3);
-	var Base = __webpack_require__(75);
+	var Base = __webpack_require__(76);
 	var pg = __webpack_require__(14);
 	var ChooseFilter = __webpack_require__(65);
 	var BlockLibrary = __webpack_require__(45);
@@ -55974,7 +55982,7 @@
 /* 83 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":4,"f":[{"t":7,"e":"a","a":{"href":[{"t":2,"r":"href"}]},"f":["Go back to ",{"t":2,"r":"name"}]}],"r":"prev"},{"t":7,"e":"div","a":{"class":"nm-name"},"f":[{"t":7,"e":"h1","a":{"class":"page-header"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"small","f":["Collection"]}," ",{"t":7,"e":"br"}," ",{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename well"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"h1","a":{"class":"page-header","style":"margin-bottom: 0; padding-bottom: 0;"},"f":[{"t":7,"e":"small","f":["Collection"]}]}," ",{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}," ",{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Scheduled"]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Every"]}," ",{"t":7,"e":"input","a":{"type":"number","value":[{"t":2,"r":"frequency"}],"class":"form-control"}}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-justified","data-toggle":"buttons"},"f":[{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"interval\",\"day\"]"}}},"a":{"class":"btn btn-default active"},"f":[{"t":7,"e":"input","a":{"type":"radio","checked":0}}," Days"]}," ",{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"interval\",\"week\"]"}}},"a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio"}}," Weeks"]}," ",{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"interval\",\"month\"]"}}},"a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio"}}," Months"]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["With users matching the filter"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseFilter","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"p","a":{"class":"text-right"},"f":[{"t":7,"e":"a","a":{"href":["../../filters/",{"t":2,"r":"id"},"/edit"]},"f":["View filter"]}]}],"r":"filter"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseFilter","a":{"r":[],"s":"[]"}}},"f":["Choose filter"]}],"n":51,"r":"filter"}]}]}]}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"screen"},"f":[{"t":7,"e":"p","a":{"class":"text-right","style":"clear: right;"},"f":["On ",{"t":2,"r":"interval"}," ",{"t":7,"e":"strong","f":[{"t":2,"x":{"r":["frequency","i"],"s":"_0*(_1+1)"}}]},"."]}," ",{"t":4,"f":[{"t":7,"e":"block"}],"r":"."}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":["i"],"s":"[_0]"}}},"f":["+ Add block"]}]}],"i":"i","r":"sections"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addSection","a":{"r":[],"s":"[]"}}},"f":["+ Add blocks for ",{"t":2,"r":"interval"}," ",{"t":2,"x":{"r":["frequency","sections.length"],"s":"_0*(_1+1)"}}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":4,"f":[{"t":7,"e":"a","a":{"href":[{"t":2,"r":"href"}]},"f":["Go back to ",{"t":2,"r":"name"}]}],"r":"prev"},{"t":7,"e":"div","a":{"class":"nm-name"},"f":[{"t":7,"e":"h1","a":{"class":"page-header"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"small","f":["Collection"]}," ",{"t":7,"e":"br"}," ",{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename well"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"h1","a":{"class":"page-header","style":"margin-bottom: 0; padding-bottom: 0;"},"f":[{"t":7,"e":"small","f":["Collection"]}]}," ",{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}," ",{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Scheduled"]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Every"]}," ",{"t":7,"e":"input","a":{"type":"number","value":[{"t":2,"r":"frequency"}],"class":"form-control"}}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-justified","data-toggle":"buttons"},"f":[{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"interval\",\"day\"]"}}},"a":{"class":"btn btn-default active"},"f":[{"t":7,"e":"input","a":{"type":"radio","checked":0}}," Days"]}," ",{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"interval\",\"week\"]"}}},"a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio"}}," Weeks"]}," ",{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"interval\",\"month\"]"}}},"a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio"}}," Months"]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["With users matching the filter"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseFilter","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"p","a":{"class":"text-right"},"f":[{"t":7,"e":"a","a":{"href":["../../filters/",{"t":2,"r":"id"},"/edit"]},"f":["View filter"]}]}],"r":"filter"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseFilter","a":{"r":[],"s":"[]"}}},"f":["Choose filter"]}],"n":51,"r":"filter"}]}]}]}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"screen"},"f":[{"t":7,"e":"p","a":{"class":"text-right","style":"clear: right;"},"f":["On ",{"t":2,"r":"interval"}," ",{"t":7,"e":"strong","f":[{"t":2,"x":{"r":["frequency","i"],"s":"_0*(_1+1)"}}]},"."]}," ",{"t":4,"f":[{"t":7,"e":"block"}],"r":"."}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":["i"],"s":"[_0]"}}},"f":["+ Add block"]}]}],"i":"i","r":"sections"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addSection","a":{"r":[],"s":"[]"}}},"f":["+ Add blocks for ",{"t":2,"r":"interval"}," ",{"t":2,"x":{"r":["frequency","sections.length"],"s":"_0*(_1+1)"}}]}]}," ",{"t":7,"e":"a","a":{"class":"btn btn-default btn-block","href":[{"t":2,"r":"backHref"}]},"f":["Save and close"]}]};
 
 /***/ },
 /* 84 */
@@ -55983,7 +55991,7 @@
 	var $ = __webpack_require__(3);
 	var Ractive = __webpack_require__(10);
 	var pg = __webpack_require__(14);
-	var hist = __webpack_require__(76);
+	var hist = __webpack_require__(75);
 	var ConditionLibrary = __webpack_require__(85);
 
 

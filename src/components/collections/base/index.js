@@ -7,7 +7,10 @@ var pg = require('../../../pg');
 
 module.exports = Ractive.extend({
   data: function() {
-    return {blocks: []};
+    return {
+      _prev: hist.pop(),
+      blocks: []
+    };
   },
   computed: {
     href: function() {
@@ -17,7 +20,12 @@ module.exports = Ractive.extend({
       return ['collection', this.get('name')].join(' ');
     },
     prev: function() {
-      return hist.pop();
+      return this.get('_prev');
+    },
+    backHref: function() {
+      return this.get('_prev')
+        ? this.get('_prev').href
+        : '/numi-prototypes/'
     }
   },
   onrender: function() {
