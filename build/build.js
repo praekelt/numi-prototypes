@@ -56532,7 +56532,8 @@
 	          c.set('isSessionLast', false);
 	        });
 
-	      _.last(blocks).set('isSessionLast', true);
+	      var last = _.last(blocks);
+	      if (last) last.set('isSessionLast', true);
 	    });
 	  }
 	});
