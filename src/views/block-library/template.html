@@ -54,16 +54,23 @@
           <button class="btn btn-default btn-library" on-click="addBlock(type)">{{title}}</button>
           {{/}}
 
-          {{# name === 'custom-components'}}
-          <hr />
-          <button class="btn btn-default btn-library" on-click="addBlock(type)" style="text-align: left;">{{title}}</button>
-          <br />
-          <p><strong>User input</strong><br />
-          {{userinput}}</p>
-          <p><strong>Action</strong><br />
-          {{action}}</p>
-          <p><strong>Output</strong><br />
-          {{output}}</p>
+          {{# name === 'custom-components'}}    
+          <div class="btn-group btn-library" role="group">
+            <button type="button" class="btn btn-default" on-click="addBlock(type)" style="text-align: left;">{{title}}</button>
+            <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#collapse{{type}}" aria-expanded="false" aria-controls="collapse"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button>
+          </div>
+          
+          <div class="collapse" id="collapse{{type}}">
+            <div class="well">
+              <p><strong>User input</strong><br />
+              {{userinput}}</p>
+              <p><strong>Action</strong><br />
+              {{action}}</p>
+              <p><strong>Output</strong><br />
+              {{output}}</p>
+            </div>
+          </div>
+          
           {{/}}
 
           {{/blocks}}

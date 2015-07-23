@@ -97,7 +97,7 @@ BlockLibrary.types = [{
     action: 'Checks user input against our list of Clinic Codes.',
     output: 'Valid or Invalid status.'
   }, {
-    title: 'Calculate weeks until due date',
+    title: 'Calculate weeks until due',
     type: 'calcweeks',
     userinput: 'Month that baby is due.',
     action: 'Calculates number of weeks until baby is due.',

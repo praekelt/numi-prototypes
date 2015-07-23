@@ -94,6 +94,15 @@ button.close-screen {
   }
 }
 
+#collapsecustom-components {
+  [data-toggle="collapse"]:before {
+    content: "";
+  }
+  [data-toggle="collapse"]:after {
+    content: "";
+  }
+}
+
 .nm-rename-value {
   font-size: 36px;
   width: 100%;
