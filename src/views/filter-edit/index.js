@@ -8,7 +8,10 @@ var ConditionLibrary = require('../condition-library');
 module.exports = Ractive.extend({
   template: require('./template.html'),
   data: function() {
-    return {conditions: []};
+    return {
+      _prev: hist.pop(),
+      conditions: []
+    };
   },
   onrender: function() {
     $(this.find('.nm-rename')).hide();
@@ -22,7 +25,12 @@ module.exports = Ractive.extend({
       return ['filter', this.get('name')].join(' ');
     },
     prev: function() {
-      return hist.pop();
+      return this.get('_prev');
+    },
+    backHref: function() {
+      return this.get('_prev')
+        ? this.get('_prev').href
+        : '/numi-prototypes/'
     }
   },
   rename: function() {
