@@ -23,9 +23,12 @@
 
       <div class="sortable-blocks">
         {{#collections}}
-        <div class="panel panel-default text-left">
+        <div class="panel panel-default text-left" id="coll{{id}}">
+            <button type="button" class="close" on-click="destroy(id)"><span>&times;</span></button>
           {{#eventPreview}}
-          <div class="panel-heading">{{eventPreview}}</div>      
+          <div class="panel-heading">
+            {{eventPreview}}
+          </div>      
           {{/eventPreview}}
           <a href="./collections/{{id}}/edit" class="btn btn-link btn-block">{{name}}</a>
         </div> 
