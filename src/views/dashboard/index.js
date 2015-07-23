@@ -99,4 +99,7 @@ module.exports = Ractive.extend({
     });
     
   },
+  destroy: function(collId) {
+    $(this.el).find('#coll' + collId).remove();
+  }
 });
