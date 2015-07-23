@@ -87,10 +87,10 @@ BlockLibrary.types = [{
     title: 'Save Answer',
     type: 'saveas'
   }, {
-    title: 'Add keyword',
+    title: 'Add label',
     type: 'label'
   }, {
-    title: 'Remove keyword',
+    title: 'Remove label',
     type: 'rmlabel'
   }]
 }, {
