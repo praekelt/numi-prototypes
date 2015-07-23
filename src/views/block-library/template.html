@@ -1,10 +1,10 @@
 <ol class="breadcrumb">
   <li><a href="/numi-prototypes/">Home</a></li>
   <li><a href="/numi-prototypes/collections/{{collection.id}}/edit">{{collection.name}}</a></li>
-  <li class="active">Block Library</li>
+  <li class="active">Library</li>
 </ol>
 
-<h1 class="page-header">Block Library</h1>
+<h1 class="page-header">Library</h1>
 
 {{#types}}
 <div class="panel-group" id="accordion{{name}}" role="tablist" aria-multiselectable="true">
@@ -49,7 +49,30 @@
           {{/}}
 
           {{#blocks}}
+
+          {{# name !== 'custom-components'}}
           <button class="btn btn-default btn-library" on-click="addBlock(type)">{{title}}</button>
+          {{/}}
+
+          {{# name === 'custom-components'}}    
+          <div class="btn-group btn-library" role="group">
+            <button type="button" class="btn btn-default" on-click="addBlock(type)" style="text-align: left;">{{title}}</button>
+            <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#collapse{{type}}" aria-expanded="false" aria-controls="collapse"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button>
+          </div>
+          
+          <div class="collapse" id="collapse{{type}}">
+            <div class="well">
+              <p><strong>User input</strong><br />
+              {{userinput}}</p>
+              <p><strong>Action</strong><br />
+              {{action}}</p>
+              <p><strong>Output</strong><br />
+              {{output}}</p>
+            </div>
+          </div>
+          
+          {{/}}
+
           {{/blocks}}
         </div>
       </div>

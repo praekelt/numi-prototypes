@@ -81,10 +81,10 @@ BlockLibrary.types = [{
     title: 'Save Answer',
     type: 'saveas'
   }, {
-    title: 'Add label',
+    title: 'Add keyword',
     type: 'label'
   }, {
-    title: 'Remove label',
+    title: 'Remove keyword',
     type: 'rmlabel'
   }]
 }, {
@@ -92,10 +92,16 @@ BlockLibrary.types = [{
   name: 'custom-components',
   blocks: [{
     title: 'Validate Clinic Code',
-    type: 'validatecliniccode'
+    type: 'validatecliniccode',
+    userinput: 'Clinic Code.',
+    action: 'Checks user input against our list of Clinic Codes.',
+    output: 'Valid or Invalid status.'
   }, {
-    title: 'Calculate weeks until due date',
-    type: 'calcweeks'
+    title: 'Calculate weeks until due',
+    type: 'calcweeks',
+    userinput: 'Month that baby is due.',
+    action: 'Calculates number of weeks until baby is due.',
+    output: 'Number.'
   }]
 }];
 

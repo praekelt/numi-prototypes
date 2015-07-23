@@ -22,7 +22,7 @@ body {
 }
 
 .btn-library {
-  margin: 0.5em;
+  margin: 0.5em 0.75em 0.5em 0;
 }
 
 .screen {
@@ -91,6 +91,15 @@ button.close-screen {
     position: absolute;
     right: 0;
     }
+  }
+}
+
+#collapsecustom-components {
+  [data-toggle="collapse"]:before {
+    content: "";
+  }
+  [data-toggle="collapse"]:after {
+    content: "";
   }
 }
 

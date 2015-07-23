@@ -32,6 +32,12 @@
     <textarea class="form-control" rows="3" value="{{text}}"></textarea>
 
     <br />
+
+    <div class="alert alert-info alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <p><small>Case insensitive. Separate multiple inputs with commas, like: <code>stop, opt out</code>.</small></p>
+    </div>
+
     <p class="nm-block-title">to </p>
     
     {{#channel}}
@@ -51,7 +57,7 @@
   <block></block>
   {{/ blocks }}
 
-  <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+ Add block</button>
+  <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+ Add step</button>
 </div>
 
 <br/>
