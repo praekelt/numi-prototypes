@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var $ = require('jquery');
 var Base = require('../base');
 var pg = require('../../../pg');
@@ -16,5 +17,22 @@ module.exports = Base.extend({
     return this.get('channel')
       ? "When the user dials in on " + this.get('channel')
       : null;
+  },
+  oninit: function() {
+    var self = this;
+
+    this.on('blockAdded', function() {
+      var blocks = self.findAllComponents()
+        .filter(function(c) {
+          return c.get('type') == 'send';
+        });
+
+      blocks
+        .forEach(function(c) {
+          c.set('isSessionLast', false);
+        });
+
+      _.last(blocks).set('isSessionLast', true);
+    });
   }
 });

@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var $ = require('jquery');
 var Ractive = require('ractive');
 var pg = require('../../pg');
@@ -34,9 +35,14 @@ var BlockLibrary = Ractive.extend({
   _addBlock: function(d) {
     var key = this.get('key');
     this.get('source').push(key, d);
+    this.get('source').fire('blockAdded');
   },
   addBlock: function(type) {
-    this._addBlock({type: type});
+    this._addBlock({
+      id: _.uniqueId('block'),
+      type: type
+    });
+
     pg.pop();
   },
   addFilter: function(filter) {
