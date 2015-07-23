@@ -1,8 +1,11 @@
 <div class="panel panel-default panel-highlighted">
-  <div class="panel-body">
+  <div class="panel-heading">
     <button type="button" class="close" on-click="destroy()"><span>&times;</span></button>
+    <strong>Validate Clinic Code</strong>
+  </div>
+  <div class="panel-body">
 
-    <p class="nm-block-title">With the user field </p>
+    <p class="nm-block-title" style="margin-bottom: 0;">Use this as the clinic code:</p>
 
     {{#value}}
     <button class="btn btn-default btn-block" on-click="chooseValue()">{{value}}</button>
@@ -11,14 +14,13 @@
     {{^value}}
     <button class="btn btn-default btn-block nm-placeholder" on-click="chooseValue()">Choose user field</button>
     {{/value}}
-    
-    <br/>
-    <p class="nm-block-title">validate clinic code.</p>
       
+    <br />
+
     <div class="form-group">
       <ul class="nav nav-stacked">
         <li>
-          <label for="choice-text-1">If Valid, leave this collection and<br />go to:</label>
+          <label for="choice-text-1">If it's <strong>valid</strong>, go to:</label>
           {{#passCollection}}
           <button class="btn btn-default btn-block" on-click="choosePassCollection()">{{name}}</button>
           <p class="text-right"><a href="../../collections/{{id}}/edit">View collection</a></p>
@@ -30,7 +32,7 @@
         </li>
         <li>
           <br />
-          <label for="choice-text-1">If Invalid, leave this collection and<br />go to:</label>
+          <label for="choice-text-1">If it's <strong>invalid</strong>, go to:</label>
           {{#failCollection}}
           <button class="btn btn-default btn-block" on-click="chooseFailCollection()">{{name}}</button>
           <p class="text-right"><a href="../../collections/{{id}}/edit">View collection</a></p>

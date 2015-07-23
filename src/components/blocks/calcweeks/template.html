@@ -1,7 +1,10 @@
 <div class="panel panel-default panel-highlighted">
-  <div class="panel-body">
+  <div class="panel-heading">
     <button type="button" class="close" on-click="destroy()"><span>&times;</span></button>
-    <p class="nm-block-title">With the user field </p>
+    <strong>Calculate weeks until due</strong>
+  </div>
+  <div class="panel-body">
+    <p class="nm-block-title" style="margin-bottom: 0;">Use this as the month:</p>
 
     {{#value}}
     <button class="btn btn-default btn-block" on-click="chooseValue()">{{value}}</button>
@@ -11,9 +14,9 @@
     <button class="btn btn-default btn-block nm-placeholder" on-click="chooseValue()">Choose user field</button>
     {{/value}}
     
-    <br/>
+    <br />
 
-    <p class="nm-block-title">calculate weeks until due date. Save output as user field</p>
+    <p class="nm-block-title" style="margin-bottom: 0;">Save result as user field:</p>
 
     <div class="form-group">
       <input class="value" type="text" class="form-control" on-keyup="valueChange" />
