@@ -26,7 +26,8 @@ module.exports = Base.extend({
           type: 'collections',
           id: this.parent.get('id'),
           name: this.parent.get('name')
-        }
+        },
+        fieldName: 'inputValue'
       }
     }));
   }
