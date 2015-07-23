@@ -74,17 +74,19 @@
 <div class="sortable-blocks">
   {{# sections:i }}
   <div class="screen">
-    <p class="text-right" style="clear: right;">On {{ interval }} <strong>{{ frequency * (i + 1) }}</strong>.</p>
+    <p class="text-right" style="clear: right;">On {{ interval }} <strong>{{ frequency * i }}</strong>.</p>
 
     {{#this}}
-    <block></block>
+    <div>
+      <block></block>
+    </div>
     {{/this}}
 
     <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock(i)">+ Add step</button>
   </div>
   {{/ sections }}
 
-  <button class="btn btn-default btn-block nm-placeholder" on-click="addSection()">+ Add steps for {{ interval }} {{ frequency * (sections.length + 1) }}</button>
+  <button class="btn btn-default btn-block nm-placeholder" on-click="addSection()">+ Add steps for {{ interval }} {{ frequency * sections.length }}</button>
 </div>
 
 <br/>

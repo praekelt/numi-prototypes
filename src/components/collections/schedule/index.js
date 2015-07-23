@@ -11,7 +11,7 @@ module.exports = Base.extend({
     return {
       frequency: 1,
       interval: 'day',
-      sections: []
+      sections: [[]]
     };
   },
   chooseFilter: function() {
