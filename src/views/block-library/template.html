@@ -49,7 +49,23 @@
           {{/}}
 
           {{#blocks}}
+
+          {{# name !== 'custom-components'}}
           <button class="btn btn-default btn-library" on-click="addBlock(type)">{{title}}</button>
+          {{/}}
+
+          {{# name === 'custom-components'}}
+          <hr />
+          <button class="btn btn-default btn-library" on-click="addBlock(type)" style="text-align: left;">{{title}}</button>
+          <br />
+          <p><strong>User input</strong><br />
+          {{userinput}}</p>
+          <p><strong>Action</strong><br />
+          {{action}}</p>
+          <p><strong>Output</strong><br />
+          {{output}}</p>
+          {{/}}
+
           {{/blocks}}
         </div>
       </div>
