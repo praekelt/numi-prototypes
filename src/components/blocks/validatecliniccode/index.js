@@ -2,6 +2,7 @@ var $ = require('jquery');
 var Base = require('../base');
 var pg = require('../../../pg');
 var ChooseCollection = require('../../../views/choose-collection');
+var ChooseValue = require('../../../views/choose-value');
 
 
 module.exports = Base.extend({
@@ -19,5 +20,18 @@ module.exports = Base.extend({
     colls.set('fieldName', 'failCollection');
     colls.set('onlyLinked', true);
     pg.push(colls);
+  },
+  chooseValue: function() {
+    pg.push(ChooseValue({
+      el: $('<div>'),
+      data: {
+        source: this,
+        parent: {
+          type: 'collections',
+          id: this.parent.get('id'),
+          name: this.parent.get('name')
+        }
+      }
+    }));
   }
 });
