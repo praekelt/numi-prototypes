@@ -2,7 +2,17 @@
   <div class="panel-body">
     <button type="button" class="close" on-click="destroy()"><span>&times;</span></button>
 
-    <p class="nm-block-title">Use answer to calculate weeks until due date</p>
+    <p class="nm-block-title">Use the user field </p>
+
+    {{#value}}
+    <button class="btn btn-default btn-block" on-click="chooseValue()">{{value}}</button>
+    {{/value}}
+
+    {{^value}}
+    <button class="btn btn-default btn-block nm-placeholder" on-click="chooseValue()">Choose user field</button>
+    {{/value}}
+    
+    <p class="nm-block-title">to calculate weeks until due date</p>
 
     <div class="form-group">
       <label for="save-as">Save As</label>
