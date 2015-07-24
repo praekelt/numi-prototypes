@@ -9,11 +9,12 @@
     <br/>
     <button class="btn btn-default btn-block nm-placeholder" on-click="addContent()">+ Insert special text</button>
 
-    {{# isSessionLast }}
-    <br/>
-    <div class="panel-footer">
-      The session ends after this message.
-    </div>
-    {{/ isSessionLast }}
   </div>
+  
+  {{# isSessionLast }}
+  <br/>
+  <div class="panel-footer">
+    The session ends after this message.
+  </div>
+  {{/ isSessionLast }}
 </div>
