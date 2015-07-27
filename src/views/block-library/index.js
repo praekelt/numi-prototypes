@@ -87,7 +87,7 @@ BlockLibrary.types = [{
     title: 'Save Answer',
     type: 'saveas'
   }, {
-    title: 'Add label',
+    title: 'Add label to user',
     type: 'label'
   }, {
     title: 'Remove label',
