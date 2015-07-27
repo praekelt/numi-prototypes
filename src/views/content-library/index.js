@@ -22,6 +22,7 @@ var ContentLibrary = Ractive.extend({
     var source = this.get('source');
     placeholder = ['[', placeholder.name, ']'].join('');
     source.set('text', [source.get('text'), placeholder].join(' '));
+    source.set('notification', placeholder);
     pg.pop();
   }
 });

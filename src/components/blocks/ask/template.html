@@ -4,9 +4,17 @@
 
     <p class="nm-block-title">Ask</p>
 
+
     <div class="form-group">
       <textarea class="form-control ask-text" rows="3" value="{{ text }}"></textarea>
     </div>
+
+    {{#notification}}
+    <div class="alert alert-info alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <p>Added placeholder text: <code>{{notification}}</code></p>
+    </div>
+    {{/notification}}
 
     <button class="btn btn-default btn-block nm-placeholder" on-click="addContent()">+ Insert special text</button>
   </div>
