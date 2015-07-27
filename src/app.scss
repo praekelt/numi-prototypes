@@ -115,3 +115,7 @@ button.close-screen {
 hr {
   border-color: #999;
 }
+
+.btn-inset {
+  box-shadow: inset 3px 3px 0px 0px #999, inset -3px -3px 0px 0px #ccc;
+}

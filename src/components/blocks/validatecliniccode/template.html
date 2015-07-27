@@ -22,7 +22,7 @@
         <li>
           <label for="choice-text-1">If it's <strong>valid</strong>, go to:</label>
           {{#passCollection}}
-          <button class="btn btn-default btn-block" on-click="choosePassCollection()">{{name}}</button>
+          <button class="btn btn-default btn-block btn-inset" on-click="choosePassCollection()">{{name}}</button>
           <p class="text-right"><a href="../../collections/{{id}}/edit">View collection</a></p>
           {{/passCollection}}
 
@@ -34,7 +34,7 @@
           <br />
           <label for="choice-text-1">If it's <strong>invalid</strong>, go to:</label>
           {{#failCollection}}
-          <button class="btn btn-default btn-block" on-click="chooseFailCollection()">{{name}}</button>
+          <button class="btn btn-default btn-block btn-inset" on-click="chooseFailCollection()">{{name}}</button>
           <p class="text-right"><a href="../../collections/{{id}}/edit">View collection</a></p>
           {{/failCollection}}
 
