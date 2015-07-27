@@ -119,3 +119,26 @@ hr {
 .btn-inset {
   box-shadow: inset 3px 3px 0px 0px #999, inset -3px -3px 0px 0px #ccc;
 }
+
+.sortable-blocks  {
+  > div {
+    position: relative;
+    &:before {
+      content: "↓";
+      position: absolute;
+      left: 49%;
+      top: -1.5em;
+      color: #999;
+      font-size: 2em;
+    }
+  }
+  :first-child {
+    &:before {
+      content: "";
+    }
+  }
+}
+
+.panel {
+  margin-bottom: 3em;
+}
