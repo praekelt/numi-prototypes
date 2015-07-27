@@ -100,7 +100,7 @@ BlockLibrary.types = [{
     title: 'Validate Clinic Code',
     type: 'validatecliniccode',
     userinput: 'Clinic Code.',
-    action: 'Checks user input against our list of Clinic Codes.',
+    action: 'Checks user input against our approved list of Clinic Codes, supplied by NDOH and stored in Django, etc.',
     output: 'Valid or Invalid status.'
   }, {
     title: 'Calculate weeks until due',
