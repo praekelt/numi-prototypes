@@ -120,7 +120,7 @@ hr {
   box-shadow: inset 3px 3px 0px 0px #999, inset -3px -3px 0px 0px #ccc;
 }
 
-.sortable-blocks  {
+.sortable-blocks-ordered  {
   > div {
     position: relative;
     &:before {
@@ -139,6 +139,8 @@ hr {
   }
 }
 
-.panel {
-  margin-bottom: 3em;
+.sortable-blocks-ordered {
+  .panel {
+    margin-bottom: 3em;
+  }
 }
