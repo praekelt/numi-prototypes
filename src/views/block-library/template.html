@@ -107,3 +107,56 @@
     </div>
   </div>
 </div>
+
+<div class="panel-group" id="accordion-events" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default {{# name === 'custom-components'}}panel-highlighted{{/}}">
+      <div class="panel-heading" role="tab" id="heading-events">
+          <h2 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-events" aria-expanded="true" aria-controls="collapse-events">
+              Events
+            </a>
+          </h2>
+      </div>
+      <div id="collapse-events" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-events">
+        <div class="panel-body">
+
+          <div class="alert alert-info alert-lib" role="alert">
+            <p>Leave the current collection and start a new one.</p>
+          </div>
+
+          <div class="form-group">
+            <label for="ask-text">Name of collection</label>
+            <input type="text" id="choice-text" name="choice-text" class="form-control" value="{{name}}">
+          </div>
+
+          <div class="form-group">
+            <label>Start a new collection that runs:</label>
+            <div class="btn-group-vertical" data-toggle="buttons" style="width: 100%;">
+              <label on-click="set('type', 'session')" class="btn btn-default">
+                <input type="radio">
+                When the user dials in
+              </label> 
+
+              <label on-click="set('type', 'message')" class="btn btn-default">
+                <input type="radio">
+                When the user sends a message
+              </label> 
+
+              <label on-click="set('type', 'schedule')" class="btn btn-default">
+                <input type="radio">
+                On a schedule
+              </label> 
+
+              <label on-click="set('type', 'indirect')" class="btn btn-default active">
+                <input type="radio" checked>
+                As part of another collection
+              </label>
+            </div>
+          </div>
+
+          <button class="btn btn-default btn-block" on-click="save()">Save</button>
+
+        </div>
+      </div>
+  </div>
+</div>
