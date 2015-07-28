@@ -56,7 +56,7 @@ var ConditionLibrary = Ractive.extend({
 
 
 ConditionLibrary.types = [{
-  title: 'Labels',
+  title: 'Labels added to collections',
   name: 'labels',
   blocks: [{
     title: 'Has label',
