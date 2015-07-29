@@ -94,7 +94,11 @@ button.close-screen {
   }
 }
 
-#collapsecustom-components {
+#collapseinteractions,
+#collapseuser-data,
+#collapsecustom-components,
+#collapsefilters,
+#collapseevents {
   [data-toggle="collapse"]:before {
     content: "";
   }

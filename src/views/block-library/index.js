@@ -75,23 +75,28 @@ BlockLibrary.types = [{
   name: 'interactions',
   blocks: [{
     title: 'Ask',
-    type: 'ask'
+    type: 'ask',
+    helptext: 'Asks the user a question, and wait for a response.'
   }, {
     title: 'Send',
-    type: 'send'
+    type: 'send',
+    helptext: 'Send the user a message.'
   }]
 }, {
   title: 'User data actions',
   name: 'user-data',
   blocks: [{
     title: 'Save Answer',
-    type: 'saveas'
+    type: 'saveas',
+    helptext: 'Save the user\'s answers for use in a Collection or a filter.'
   }, {
     title: 'Add label to user',
-    type: 'label'
+    type: 'label',
+    helptext: 'Add a label to the user to refer to them in a Collection or a filter.'
   }, {
     title: 'Remove label',
-    type: 'rmlabel'
+    type: 'rmlabel',
+    helptext: 'Remove a label from a user.'
   }]
 }, {
   title: 'Calculations',
