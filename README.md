@@ -15,6 +15,9 @@ Do not use:
 
 Thanks! :)
 
+[Notes from all the testing sessions](https://praekelt.hackpad.com/Numi-prototype-testing-results-rk9l1STUVu9).
+
+
 ### development
 
 ```
