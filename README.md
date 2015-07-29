@@ -1,5 +1,20 @@
 # Numi Prototype
 
+This prototype was built to test ideas and user journeys.
+
+Do use:
+
+* the ideas;
+* the implementations details;
+* the hints contained in the popovers.
+
+Do not use:
+
+* the code;
+* the look and feel.
+
+Thanks! :)
+
 ### development
 
 ```
