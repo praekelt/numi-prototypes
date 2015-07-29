@@ -17,15 +17,13 @@ Thanks! :)
 
 [Notes from all the testing sessions](https://praekelt.hackpad.com/Numi-prototype-testing-results-rk9l1STUVu9).
 
+## Some of the big ideas
 
-### development
+* A block-like interface, drawing inspiration from [Scratch](https://scratch.mit.edu/), [Blockly](https://developers.google.com/blockly/), [Hopscotch](https://www.gethopscotch.com/), and many other visual programming tools.
+* A simple, one thing at a time, approach that prefers linking of many small things to building few huge things. Having more linear flows that chain rather than a big spaghetti-mess diagram.
+* Mobile-friendly interface: big, chunky, buttons, and sensible / sensible UI choices.
+* Try and prevent the user making errors rather than highlighting them when they happen. Have just-in-time, in-line, help rather than a big, upfront, tutorial, or pages of help docs.
 
-```
-$ npm install
-$ npm install webpack node-static -g
-$ static ../ &
-$ webpack -w
-```
 
 ## Additional features
 
@@ -44,3 +42,12 @@ $ webpack -w
 * When the Numi user adds their first Ask block, have a dismissable alert after the block, saying "Add a **Save Answer** step here if you need to use this answer later."
 * Move "Add a Label step to a collection and it will appear here." help text to Label accordion on Condition Library.
 * Filter previews on dashboard, like we have for collections.
+
+### development
+
+```
+$ npm install
+$ npm install webpack node-static -g
+$ static ../ &
+$ webpack -w
+```
