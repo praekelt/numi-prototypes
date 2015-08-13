@@ -21,7 +21,7 @@ Thanks! :)
 
 * A block-like interface, drawing inspiration from [Scratch](https://scratch.mit.edu/), [Blockly](https://developers.google.com/blockly/), [Hopscotch](https://www.gethopscotch.com/), and many other visual programming tools.
 * A simple, one thing at a time, approach that prefers linking of many small things to building few huge things. Having more linear flows that chain rather than a big spaghetti-mess diagram.
-* Mobile-friendly interface: big, chunky, buttons, and sensible / sensible UI choices.
+* Mobile-friendly interface: big, chunky, buttons, and sensible / sensible UI choices. (Avoid `selects`! See [Dropdowns Should be the UI of Last Resort](http://www.lukew.com/ff/entry.asp?1950) and [Why and how we ditched the good old select element](https://medium.com/@mibosc/responsive-design-why-and-how-we-ditched-the-good-old-select-element-bc190d62eff5) for some smart thinking about this).
 * Try and prevent the user making errors rather than highlighting them when they happen. Have just-in-time, in-line, help rather than a big, upfront, tutorial, or pages of help docs.
 
 
