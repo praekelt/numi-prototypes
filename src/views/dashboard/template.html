@@ -1,91 +1,66 @@
-<div class="popover left" style="left: 13em; top: 1em;">
-  <div class="arrow"></div>
-  <div class="popover-content">
-    <p>Collections are made up of blocks and are like mini-dialogues that you put together to make dialogues. Each has one (and only one) "event": an action that starts it, like dials in or hitting a schedule.</p>
-    <p>The attached event is show with the collection name in the dashboard, giving a quick overview of all the connections.</p>
-  </div>
-</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li class="active">Home</li>
+      </ol>
 
-<div class="popover left" style="left: 13em; top: auto; bottom: 1em;">
-  <div class="popover-content">
-    <p>Bits that imply they need to be "filled in" are shown with a dotted outline.</p>
-  </div>
-</div>
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#collections" aria-controls="collections" role="tab" data-toggle="tab">Collections</a></li>
+        <li role="presentation"><a href="#filters" aria-controls="filters" role="tab" data-toggle="tab">Filters</a></li>
+      </ul>
 
-<div class="popover right" style="right: 13em; left: auto; top: 0;">
-  <div class="arrow"></div>
-  <div class="popover-content">
-    <p>Filters are used to slice up groups of contacts and their answer. Contacts have labels applied to them, and their answers to questions are saved using "Save Answer As" blocks.</p>
-  </div>
-</div>
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="collections">
+          <br />
+          {{^collections}}
+          <div class="alert alert-info alert-dismissible" role="alert" style="width: 400px;">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <p>Add a <strong>Collection</strong> to get started.</p>
+          </div>
+          {{/collections}}
 
-<div class="popover right" style="right: 13em; left: auto; top: 10em;">
-  <div class="arrow" style="top: 15%;"></div>
-  <div class="popover-content">
-    <p>There are dismissable help bits all over the place. In testing, we found that they proved useful when the user read them (which was often when coming back to a bit of the interface).</p>
-  </div>
-</div>
+          <div class="sortable-blocks">
+            {{#collections}}
+            <div class="panel panel-default text-left" id="coll{{id}}">
+              <button type="button" class="close" on-click="destroy(id)"><span>&times;</span></button>
+              {{#eventPreview}}
+              <div class="panel-heading">
+                {{eventPreview}}
+              </div>
+              {{/eventPreview}}
+              <a href="./collections/{{id}}/edit" class="btn btn-link btn-block">{{name}}</a>
+            </div>
+            {{/collections}}
+          </div>
 
-<ol class="breadcrumb">
-  <li class="active">Home</li>
-</ol>
+          <button class="btn btn-default nm-placeholder" on-click="newCollection()">+ Add collection</button>
+        </div>
 
-<div>
+        <div role="tabpanel" class="tab-pane" id="filters">
+          <br />
+          {{^filters}}
+          <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <p><strong>Filters</strong> select a group of users based a set of <strong>conditions</strong> that you choose.</p>
+            <p>Add <strong>Save Answer</strong> or <strong>Add label to user</strong> steps in a <strong><a href="#collections">Collection</a></strong> to use them in filters.</p>
+          </div>
+          {{/filters}}
 
-  <!-- Nav tabs -->
-  <ul class="nav nav-tabs nav-justified" role="tablist">
-    <li role="presentation" class="active"><a href="#collections" aria-controls="collections" role="tab" data-toggle="tab">Collections</a></li>
-    <li role="presentation"><a href="#filters" aria-controls="filters" role="tab" data-toggle="tab">Filters</a></li>
-  </ul>
+          <div class="sortable-blocks">
+            {{#filters}}
+            <div class="panel panel-default text-left">
+              <a href="./filters/{{id}}/edit" class="btn btn-link btn-block">{{name}}</a>
+            </div>
+            {{/filters}}
+          </div>
 
-  <!-- Tab panes -->
-  <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="collections">
-      <br />
-      {{^collections}}
-      <div class="alert alert-info alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <p>Add a <strong>Collection</strong> to get started.</p>
-      </div>
-      {{/collections}}
-
-      <div class="sortable-blocks">
-        {{#collections}}
-        <div class="panel panel-default text-left" id="coll{{id}}">
-            <button type="button" class="close" on-click="destroy(id)"><span>&times;</span></button>
-          {{#eventPreview}}
-          <div class="panel-heading">
-            {{eventPreview}}
-          </div>      
-          {{/eventPreview}}
-          <a href="./collections/{{id}}/edit" class="btn btn-link btn-block">{{name}}</a>
-        </div> 
-        {{/collections}}
+          <button class="btn btn-default btn-block nm-placeholder" on-click="newFilter()">+ Add filter</button>
+        </div>
       </div>
 
-      <button class="btn btn-default btn-block nm-placeholder" on-click="newCollection()">+ Add collection</button>
-    </div>
-
-    <div role="tabpanel" class="tab-pane" id="filters">
-      <br />
-      {{^filters}}
-      <div class="alert alert-info alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <p><strong>Filters</strong> select a group of users based a set of <strong>conditions</strong> that you choose.</p>
-        <p>Add <strong>Save Answer</strong> or <strong>Add label to user</strong> steps in a <strong><a href="#collections">Collection</a></strong> to use them in filters.</p>
-      </div>
-      {{/filters}}
-
-      <div class="sortable-blocks">
-        {{#filters}}
-        <div class="panel panel-default text-left">
-          <a href="./filters/{{id}}/edit" class="btn btn-link btn-block">{{name}}</a>
-        </div> 
-        {{/filters}}
-      </div>
-
-      <button class="btn btn-default btn-block nm-placeholder" on-click="newFilter()">+ Add filter</button>
     </div>
   </div>
-
 </div>

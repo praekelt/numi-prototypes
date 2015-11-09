@@ -1,73 +1,55 @@
-<div class="popover left" style="left: 13em; top: 7em;">
-  <div class="arrow"></div>
-  <div class="popover-content">
-    <p>Collections can be renamed here and in the breadcrumbs above.</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li><a href="/numi-prototypes/">Home</a></li>
+        <li class="active">Collection: {{name}}</li>
+      </ol>
+
+      {{#prev}}
+      <a href="{{ href }}">Go back to {{name}}</a>
+      {{/prev}}
+
+      <div class="row">
+      <div class="col-md-4">
+        <div class="nm-name">
+          <h1 class="page-header" on-click="rename()">
+            <small>Collection</small>
+            <br/>
+            {{ name }}
+          </h1>
+        </div>
+
+        <div class="nm-rename well">
+          <div class="form-group">
+            <h1 class="page-header" style="margin-bottom: 0; padding-bottom: 0;"><small>Collection</small></h1>
+            <textarea class="nm-rename-value" value="{{ name }}"></textarea>
+          </div>
+
+          <button class="btn btn-sm btn-default" on-click="hideRename()">Save</button>
+          <button class="btn btn-sm btn-link" on-click="cancelRename()">Cancel</button>
+        </div>
+
+        <div class="panel panel-default panel-highlighted">
+          <div class="panel-body">
+            <p class="nm-block-title">When arriving at this collection</p>
+          </div>
+        </div>
+
+        <div class="sortable-blocks sortable-blocks-ordered">
+          {{# blocks }}
+          <div>
+            <block></block>
+          </div>
+          {{/ blocks }}
+
+          <button class="btn btn-default nm-placeholder" on-click="addBlock()">+ Add step</button>
+        </div>
+      </div>
+      </div>
+
+      <br/>
+      <a class="btn btn-default" href="{{ backHref }}">Save and close</a>
+    </div>
   </div>
 </div>
-
-<div class="popover" style="left: 13em; top: auto; bottom: 5em;">
-  <div class="arrow"></div>
-  <div class="popover-content">
-    <p>Add step was originally called add block, but users found it confusing. Add step performed better.</p>
-  </div>
-</div>
-
-<div class="popover" style="left: auto; top: auto; right: 13em; bottom: 1em;">
-  <div class="arrow"></div>
-  <div class="popover-content">
-    <p>Even when this auto-saves, we need to have a save and close button. Users found its absence worrying :).</p>
-  </div>
-</div>
-
-<div class="popover right" style="left: auto; right: 13em; top: 1em;">
-  <div class="arrow" style="top: 25%;"></div>
-  <div class="popover-content">
-    <p>Breadcrumbs for showing where you are, and where you can go.</p>
-  </div>
-</div>
-
-<ol class="breadcrumb">
-  <li><a href="/numi-prototypes/">Home</a></li>
-  <li class="active">Collection: {{name}}</li>
-</ol>
-
-{{#prev}}
-<a href="{{ href }}">Go back to {{name}}</a>
-{{/prev}}
-
-<div class="nm-name">
-  <h1 class="page-header" on-click="rename()">
-    <small>Collection</small>
-    <br/>
-    {{ name }}
-  </h1>
-</div>
-
-<div class="nm-rename well">
-  <div class="form-group">
-    <h1 class="page-header" style="margin-bottom: 0; padding-bottom: 0;"><small>Collection</small></h1>
-    <textarea class="nm-rename-value" value="{{ name }}"></textarea>
-  </div>
-
-  <button class="btn btn-sm btn-default" on-click="hideRename()">Save</button>
-  <button class="btn btn-sm btn-link" on-click="cancelRename()">Cancel</button>
-</div>
-
-<div class="panel panel-default panel-highlighted">
-  <div class="panel-body">
-    <p class="nm-block-title">When arriving at this collection</p>
-  </div>
-</div>
-
-<div class="sortable-blocks sortable-blocks-ordered">
-  {{# blocks }}
-  <div>
-    <block></block>
-  </div>
-  {{/ blocks }}
-
-  <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+ Add step</button>
-</div>
-
-<br/>
-<a class="btn btn-default btn-block" href="{{ backHref }}">Save and close</a>

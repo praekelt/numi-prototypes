@@ -7,7 +7,7 @@ module.exports = Ractive.extend({
   data: function()  {
     return {
       collections: dashboard.get('collections'),
-      type: 'indirect'
+      type: 'session'
     };
   },
   save: function() {
