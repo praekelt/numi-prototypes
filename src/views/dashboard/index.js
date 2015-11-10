@@ -16,7 +16,7 @@ module.exports = Ractive.extend({
   },
   addFilter: function(name) {
     var d = {
-      id: _.uniqueId('filter'),
+      id: 'filter' + this.get('filters').length,
       name: name
     };
 
@@ -25,7 +25,7 @@ module.exports = Ractive.extend({
   },
   addCollection: function(name, type) {
     var d = {
-      id: _.uniqueId('collection'),
+      id: 'collection' + this.get('collections').length,
       name: name,
       type: type
     };
