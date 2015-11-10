@@ -95,9 +95,20 @@
 
 
 
+	var reset = false;
+
 	window.addEventListener('beforeunload', function(e) {
-	  //e.returnValue = "Changing the page will reset the prototype.";
-	  persist.set('dashboard', dashboard.get());
+	  if (!reset) persist.set('dashboard', dashboard.get());
+	});
+
+
+	$(document).keydown(function(e) {
+	  // <C-Esc>
+	  if (e.keyCode === 27 && e.ctrlKey) {
+	    persist.clear();
+	    reset = true;
+	    location.reload();
+	  }
 	});
 
 
@@ -56868,9 +56879,8 @@
 
 /***/ },
 /* 112 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	var _ = __webpack_require__(44);
 	var prefix = 'numi-prototype:';
 
 
@@ -56890,12 +56900,12 @@
 
 
 	function clear() {
-	  _.chain(localStorage)
-	    .keys()
+	  Object
+	    .keys(localStorage)
 	    .filter(function(k) {
 	      return k.startsWith(prefix);
 	    })
-	    .each(function(k) {
+	    .forEach(function(k) {
 	      localStorage.removeItem(k);
 	    });
 	}

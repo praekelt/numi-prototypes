@@ -1,4 +1,3 @@
-var _ = require('lodash');
 var prefix = 'numi-prototype:';
 
 
@@ -18,12 +17,12 @@ function has(k) {
 
 
 function clear() {
-  _.chain(localStorage)
-    .keys()
+  Object
+    .keys(localStorage)
     .filter(function(k) {
       return k.startsWith(prefix);
     })
-    .each(function(k) {
+    .forEach(function(k) {
       localStorage.removeItem(k);
     });
 }

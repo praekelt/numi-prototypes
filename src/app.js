@@ -49,9 +49,20 @@ page();
 
 
 
+var reset = false;
+
 window.addEventListener('beforeunload', function(e) {
-  //e.returnValue = "Changing the page will reset the prototype.";
-  persist.set('dashboard', dashboard.get());
+  if (!reset) persist.set('dashboard', dashboard.get());
+});
+
+
+$(document).keydown(function(e) {
+  // <C-Esc>
+  if (e.keyCode === 27 && e.ctrlKey) {
+    persist.clear();
+    reset = true;
+    location.reload();
+  }
 });
 
 
