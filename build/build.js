@@ -91,7 +91,7 @@
 	});
 
 
-	page();
+	page({hashbang: true});
 
 
 

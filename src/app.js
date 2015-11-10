@@ -45,7 +45,7 @@ page('/filters/:id/edit', function(ctx, next) {
 });
 
 
-page();
+page({hashbang: true});
 
 
 
