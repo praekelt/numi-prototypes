@@ -12,36 +12,26 @@ module.exports = Ractive.extend({
   template: require('./template.html'),
   data: function() {
     return {
-      values: [],
-      labels: [],
-      filterViews: [],
-      collectionViews: []
     };
   },
   addFilter: function(name) {
-    var filter = FilterEdit({
-      el: $('<div>'),
-      data: {
-        id: _.uniqueId('filter'),
-        name: name
-      }
-    });
+    var d = {
+      id: _.uniqueId('filter'),
+      name: name
+    };
 
-    this.push('filterViews', filter);
-    return filter;
+    this.push('filters', d);
+    return this.findFilterView(d.id);
   },
   addCollection: function(name, type) {
-    var coll = collectionTypes[type]({
-      el: $('<div>'),
-      data: {
-        id: _.uniqueId('collection'),
-        name: name,
-        type: type
-      }
-    });
+    var d = {
+      id: _.uniqueId('collection'),
+      name: name,
+      type: type
+    };
 
-    this.push('collectionViews', coll);
-    return coll;
+    this.push('collections', d);
+    return this.findCollectionView(d.id);
   },
   newCollection: function() {
     var newColl = NewCollection({el: $('<div>')});
@@ -64,23 +54,22 @@ module.exports = Ractive.extend({
     pg.push(newFilter);
   },
   computed: {
-    filters: function() {
-      return this.get('filterViews')
-        .map(function(c) {
-          return {
-            id: c.get('id'),
-            name: c.get('name')
-          };
+    filterViews: function() {
+      return this.get('filters')
+        .map(function(d) {
+          return new FilterEdit({
+            el: $('<div>'),
+            data: d
+          });
         });
     },
-    collections: function() {
-      return this.get('collectionViews')
-        .map(function(c) {
-          return {
-            id: c.get('id'),
-            name: c.get('name'),
-            eventPreview: c.previewEvent()
-          };
+    collectionViews: function() {
+      return this.get('collections')
+        .map(function(d) {
+          return collectionTypes[d.type]({
+            el: $('<div>'),
+            data: d
+          });
         });
     }
   },
@@ -97,9 +86,18 @@ module.exports = Ractive.extend({
     $(this.el).find('.ask-text').autocomplete({
       source: availableTags
     });
-    
   },
   destroy: function(collId) {
     $(this.el).find('#coll' + collId).remove();
+  },
+  findCollectionView: function(id) {
+    return _.find(this.get('collectionViews'), function(c) {
+      return c.get('id') === id;
+    });
+  },
+  findFilterView: function(id) {
+    return _.find(this.get('filterViews'), function(c) {
+      return c.get('id') === id;
+    });
   }
 });
