@@ -46,7 +46,7 @@ body {
 }
 
 .panel-highlighted {
-  box-shadow: 0 3px 1px $fg0;
+  border: solid 1px $fg1;
 }
 
 .text-left {
@@ -117,10 +117,6 @@ body {
 
 hr {
   border-color: $fg1;
-}
-
-.btn-inset {
-  box-shadow: inset 3px 3px 0 0 $fg1, inset -3px -3px 0 0 $fg2;
 }
 
 .sortable-blocks-ordered {
