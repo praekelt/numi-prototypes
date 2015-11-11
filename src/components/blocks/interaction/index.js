@@ -4,12 +4,17 @@ var Base = require('../base');
 var ContentLibrary = require('../../../views/content-library');
 
 
-module.exports = Base.extend({
+var Interaction = Base.extend({
   data: function() {
     return {
-      text: ''
+      text: '',
+      mode: 'edit'
     };
   },
+});
+
+
+var InteractionEdit = Base.Edit.extend({
   addContent: function() {
     var library = ContentLibrary({el: $('<div>')});
     library.set('source', this);
@@ -17,3 +22,12 @@ module.exports = Base.extend({
     pg.push(library);
   }
 });
+
+
+var InteractionPreview = Base.Preview.extend({
+});
+
+
+Interaction.Edit = InteractionEdit;
+Interaction.Preview = InteractionPreview;
+module.exports = Interaction;

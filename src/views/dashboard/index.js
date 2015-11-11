@@ -2,9 +2,8 @@ var $ = require('jquery');
 var _ = require('lodash');
 var Ractive = require('ractive');
 var FilterEdit = require('../filter-edit');
-var collectionTypes = require('../../components/collections');
-var NewCollection = require('../new-collection');
 var NewFilter = require('../new-filter');
+var collectionTypes = require('../../components/collections');
 var pg = require('../../pg');
 
 
@@ -34,9 +33,8 @@ module.exports = Ractive.extend({
     return this.findCollectionView(d.id);
   },
   newCollection: function() {
-    var newColl = NewCollection({el: $('<div>')});
-    pg.pop();
-    pg.push(newColl);
+    var coll = this.addCollection('', 'collection');
+    pg.push(coll);
   },
   updateValue: function(oldVal, newVal) {
     var i = this.get('values').indexOf(oldVal);

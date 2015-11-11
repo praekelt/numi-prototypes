@@ -71,6 +71,14 @@ var BlockLibrary = Ractive.extend({
 
 
 BlockLibrary.types = [{
+  title: 'Events',
+  name: 'events',
+  blocks: [{
+    title: 'User dials in',
+    type: 'userdialsin',
+    helptext: 'Run this collection when the user dials in'
+  }]
+}, {
   title: 'Interactions',
   name: 'interactions',
   blocks: [{
