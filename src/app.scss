@@ -1,10 +1,13 @@
+@import './vars';
+
+
 html {
-  background-color: #efefef;
+  background-color: $bg1;
   margin: 0 auto;
 }
 
 body {
-  background-color: #fff;
+  background-color: $bg0;
 }
 
 .nm-page {
@@ -17,18 +20,18 @@ body {
 }
 
 .nm-block-title {
+  color: $fg0;
   font-weight: bold;
-  color: #666;
 }
 
 .btn-library {
-  margin: 0.5em 0.75em 0.5em 0;
+  margin: .5em .75em .5em 0;
 }
 
 .screen {
-  padding-bottom: 2em;
-  border-bottom: solid 1px #666;
+  border-bottom: solid 1px $fg0;
   margin-bottom: 2em;
+  padding-bottom: 2em;
 }
 
 .page-header {
@@ -43,7 +46,7 @@ body {
 }
 
 .panel-highlighted {
-  box-shadow: 3px 3px 1px #666;
+  box-shadow: 0 3px 1px $fg0;
 }
 
 .text-left {
@@ -54,22 +57,23 @@ body {
 
 .panel {
   clear: both;
+
   .close {
     position: relative;
-    top: -15px;
     right: -10px;
+    top: -15px;
   }
 }
 
-button.close-screen {
+.btn.close-screen {
   margin-bottom: 1em;
 }
 
 .close-screen-text {
   font-size: small;
+  left: -4px;
   position: relative;
   top: -2px;
-  left: -4px;
 }
 
 .panel-title {
@@ -80,31 +84,26 @@ button.close-screen {
 
 [data-toggle="collapse"] {
   position: relative;
+
   &:before {
-    content: "▼";
+    content: '▼';
     position: absolute;
     right: 0;
   }
-  &.collapsed {
-    &:before {
-    content: "▲";
+
+  &.collapsed:before {
+    content: '▲';
     position: absolute;
     right: 0;
-    }
   }
 }
 
-#collapseinteractions,
-#collapseuser-data,
-#collapsecustom-components,
-#collapsefilters,
-#collapseevents {
-  [data-toggle="collapse"]:before {
-    content: "";
-  }
-  [data-toggle="collapse"]:after {
-    content: "";
-  }
+[data-toggle="collapse"]:before {
+  content: '';
+}
+
+[data-toggle="collapse"]:after {
+  content: '';
 }
 
 .nm-rename-value {
@@ -117,35 +116,35 @@ button.close-screen {
 }
 
 hr {
-  border-color: #999;
+  border-color: $fg1;
 }
 
 .btn-inset {
-  box-shadow: inset 3px 3px 0px 0px #999, inset -3px -3px 0px 0px #ccc;
-}
-
-.sortable-blocks-ordered  {
-  > div {
-    position: relative;
-    &:before {
-      content: "↓";
-      position: absolute;
-      left: 49%;
-      top: -1.5em;
-      color: #999;
-      font-size: 2em;
-    }
-  }
-  :first-child {
-    &:before {
-      content: "";
-    }
-  }
+  box-shadow: inset 3px 3px 0 0 $fg1, inset -3px -3px 0 0 $fg2;
 }
 
 .sortable-blocks-ordered {
   .panel {
     margin-bottom: 3em;
+  }
+
+  > div {
+    position: relative;
+
+    &:before {
+      color: $fg0;
+      content: '↓';
+      font-size: 2em;
+      left: 49%;
+      position: absolute;
+      top: -1.5em;
+    }
+  }
+
+  :first-child {
+    &:before {
+      content: '';
+    }
   }
 }
 
