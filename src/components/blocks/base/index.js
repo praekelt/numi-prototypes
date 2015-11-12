@@ -5,7 +5,7 @@ var Ractive = require('ractive');
 
 module.exports = Ractive.extend({
   destroy: function() {
-    var coll = this.parent.parent;
+    var coll = this.get('collection');
     var blocks = coll.get('blocks');
     coll.set('blocks', _.reject(blocks, {id: this.get('id')}));
   },
@@ -19,15 +19,29 @@ module.exports = Ractive.extend({
     this.edit();
     e.original.stopPropagation();
   },
+  onBodyClick: function() {
+    if (this.get('mode') == 'edit') this.save();
+  },
+  onClick: function(e) {
+    e.stopPropagation();
+  },
   onrender: function() {
-    var self = this;
+    $(this.el)
+      .on('click', this.onClick = this.onClick.bind(this));
 
-    $(self.el).click(function(e) {
-      e.stopPropagation();
-    });
+    $(this.get('collection').el)
+      .on('click', this.onBodyClick = this.onBodyClick.bind(this));
+  },
+  onunrender: function() {
+    $(this.el)
+      .unbind('click', this.onClick);
 
-    $('body').click(function(e) {
-      if (self.get('mode') == 'edit') self.save();
-    });
+    $(this.get('collection').el)
+      .unbind('click', this.onBodyClick);
+  },
+  computed: {
+    collection: function() {
+      return this.parent.parent;
+    }
   }
 });
