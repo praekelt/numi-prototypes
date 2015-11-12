@@ -5,12 +5,6 @@ var ContentLibrary = require('../../../views/content-library');
 
 
 module.exports = Base.extend({
-  data: function() {
-    return {
-      text: '',
-      mode: 'edit'
-    };
-  },
   addContent: function() {
     var library = ContentLibrary({el: $('<div>')});
     library.set('source', this);

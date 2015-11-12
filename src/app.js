@@ -29,7 +29,6 @@ page.base('/numi-prototypes');
 
 
 page('/', function(ctx, next) {
-  console.log(dashboard.get());
   hist.clear();
   dashboard.update();
   pg.push(dashboard);

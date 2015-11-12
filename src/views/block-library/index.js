@@ -1,5 +1,5 @@
-var _ = require('lodash');
 var $ = require('jquery');
+var uuid = require('node-uuid');
 var Ractive = require('ractive');
 var pg = require('../../pg');
 var NewFilter = require('../new-filter');
@@ -34,23 +34,20 @@ var BlockLibrary = Ractive.extend({
   },
   _addBlock: function(d) {
     var key = this.get('key');
-    this.get('source').push(key, d);
-    this.get('source').fire('blockAdded');
+    var source = this.get('source');
+    d.id = uuid.v4();
+    source.push(key, d);
+    source.fire('blockAdded');
   },
   addBlock: function(type) {
     this._addBlock({
-      id: _.uniqueId('block'),
-      type: type
+      type: type,
+      mode: 'edit'
     });
-
     pg.pop();
   },
   addFilter: function(filter) {
-    this._addBlock({
-      type: 'filter',
-      filter: filter
-    });
-
+    this._addBlock({type: 'filter'});
     pg.pop();
   },
   newFilter: function()  {

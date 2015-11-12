@@ -25,7 +25,7 @@ module.exports = Ractive.extend({
     backHref: function() {
       return this.get('_prev')
         ? this.get('_prev').href
-        : '/numi-prototypes/'
+        : '/numi-prototypes/';
     }
   },
   onrender: function() {
