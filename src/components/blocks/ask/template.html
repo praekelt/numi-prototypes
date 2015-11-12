@@ -1,8 +1,7 @@
-{{# mode === 'edit' }}
 <div class="panel panel-default">
   <div class="panel-body">
     <button type="button" class="close" on-click="destroy()"><span>&times;</span></button>
-
+    {{# mode === 'edit' }}
     <p class="nm-block-title">Ask</p>
 
 
@@ -18,9 +17,9 @@
     {{/notification}}
 
     <button class="btn btn-default btn-block nm-placeholder" on-click="addContent()">+ Insert special text</button>
+    {{/}}
+
+    {{# mode === 'preview' }}
+    {{/}}
   </div>
 </div>
-{{/}}
-
-{{# mode === 'preview' }}
-{{/}}

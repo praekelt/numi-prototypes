@@ -7,5 +7,11 @@ module.exports = Ractive.extend({
     var coll = this.parent.parent;
     var blocks = coll.get('blocks');
     coll.set('blocks', _.reject(blocks, {id: this.get('id')}));
+  },
+  save: function() {
+    this.set('mode', 'preview');
+  },
+  edit: function() {
+    this.set('mode', 'edit');
   }
 });

@@ -1,22 +1,36 @@
-{{# mode === 'edit' }}
 <div class="panel panel-default panel-highlighted">
   <div class="panel-body">
-    <button type="button" class="close" on-click="destroy()"><span>&times;</span></button>
+    {{# mode === 'edit' }}
+      <button type="button" class="close" on-click="destroy()"><span>&times;</span></button>
+      <p class="nm-block-title">When user dials in on</p>
 
-    <p class="nm-block-title">When user dials in on</p>
+        {{#channel}}
+        <button class="btn btn-default btn-block" on-click="chooseChannel()">{{channel}}</button>
+        {{/channel}}
 
-    {{#channel}}
-    <button class="btn btn-default btn-block" on-click="chooseChannel()">{{channel}}</button>
-    {{/channel}}
+        {{^channel}}
+        <button class="btn btn-default btn-block nm-placeholder" on-click="chooseChannel()">Choose channel</button>
+        {{/channel}}
 
-    {{^channel}}
-    <button class="btn btn-default btn-block nm-placeholder" on-click="chooseChannel()">Choose channel</button>
-    {{/channel}}
+        <br/>
+        <button class="btn btn-default" on-click="save()">Save</button>
+    {{/}}
 
-    <br/>
+    {{# mode === 'preview' }}
+      <div class="btn-group btn-group-xs pull-right" style="margin-top: -8px; margin-right: -8px;">
+        <button class="btn btn-default" on-click="edit()"><span class="glyphicon glyphicon-edit"></span></button>
+      </div>
+      <p>
+        <span class="nm-block-title">When user dials in on</span>
+
+        {{#channel}}
+        <strong>{{channel}}</strong>
+        {{/channel}}
+
+        {{^channel}}
+        <i>channel</i>
+        {{/channel}}
+      </p>
+    {{/}}
   </div>
 </div>
-{{/}}
-
-{{# mode === 'preview' }}
-{{/}}

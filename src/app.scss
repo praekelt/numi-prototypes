@@ -136,12 +136,6 @@ hr {
       top: -1.5em;
     }
   }
-
-  :first-child {
-    &:before {
-      content: '';
-    }
-  }
 }
 
 .popover {
