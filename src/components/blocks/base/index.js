@@ -1,3 +1,4 @@
+var $ = require('jquery');
 var _ = require('lodash');
 var Ractive = require('ractive');
 
@@ -13,5 +14,20 @@ module.exports = Ractive.extend({
   },
   edit: function() {
     this.set('mode', 'edit');
+  },
+  onEdit: function(e) {
+    this.edit();
+    e.original.stopPropagation();
+  },
+  onrender: function() {
+    var self = this;
+
+    $(self.el).click(function(e) {
+      e.stopPropagation();
+    });
+
+    $('body').click(function(e) {
+      if (self.get('mode') == 'edit') self.save();
+    });
   }
 });
