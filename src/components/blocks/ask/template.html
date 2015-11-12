@@ -1,3 +1,4 @@
+{{# mode === 'edit' }}
 <div class="panel panel-default">
   <div class="panel-body">
     <button type="button" class="close" on-click="destroy()"><span>&times;</span></button>
@@ -6,7 +7,7 @@
 
 
     <div class="form-group">
-      <textarea class="form-control ask-text" rows="3" value="{{ text }}"></textarea>
+      <textarea class="form-control ask-text" rows="3" value="{{text}}"></textarea>
     </div>
 
     {{#notification}}
@@ -19,3 +20,4 @@
     <button class="btn btn-default btn-block nm-placeholder" on-click="addContent()">+ Insert special text</button>
   </div>
 </div>
+{{/}}

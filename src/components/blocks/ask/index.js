@@ -1,23 +1,6 @@
 var Interaction = require('../interaction');
 
 
-var AskEdit = Interaction.Edit.extend({
-  template: require('./edit.html')
+module.exports = Interaction.extend({
+  template: require('./template.html')
 });
-
-
-var AskPreview = Interaction.Preview.extend({
-});
-
-
-var Ask = Interaction.extend({
-  components: {
-    edit: AskEdit,
-    preview: AskPreview
-  }
-});
-
-
-Ask.Edit = AskEdit;
-Ask.Preview = AskPreview;
-module.exports = Ask;

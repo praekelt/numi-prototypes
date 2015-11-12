@@ -4,8 +4,8 @@ var pg = require('../../../pg');
 var ChooseChannel = require('../../../views/choose-channel');
 
 
-var UserDialsInEdit = Base.Edit.extend({
-  template: require('./edit.html'),
+module.exports = Base.extend({
+  template: require('./template.html'),
   data: function() {
     return {channel: null};
   },
@@ -20,20 +20,3 @@ var UserDialsInEdit = Base.Edit.extend({
       : null;
   }
 });
-
-
-var UserDialsInPreview = Base.Preview.extend({
-});
-
-
-var UserDialsIn = Base.extend({
-  components: {
-    edit: UserDialsInEdit,
-    preview: UserDialsInPreview
-  }
-});
-
-
-UserDialsIn.Edit = UserDialsInEdit;
-UserDialsIn.Preview = UserDialsInPreview;
-module.exports = UserDialsIn;
