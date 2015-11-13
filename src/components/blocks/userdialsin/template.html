@@ -20,17 +20,16 @@
       <div class="btn-group btn-group-xs pull-right" style="margin-top: -8px; margin-right: -8px;">
         <button class="btn btn-default" on-click="onEdit(event)">Edit</button>
       </div>
-      <p>
-        <span class="nm-block-title">When user dials in on</span>
 
-        {{#channel}}
-        <strong>{{channel}}</strong>
-        {{/channel}}
+      {{#channel}}
+      <p><span class="nm-block-title">When user dials in on</span></p>
+      <p><strong>{{channel}}</strong></p>
+      {{/channel}}
 
-        {{^channel}}
-        <i>channel</i>
-        {{/channel}}
-      </p>
+      {{^channel}}
+      <p><span class="nm-block-title">When user dials in</span></p>
+      <p><i>No channel given</i></p>
+      {{/channel}}
     {{/}}
   </div>
 </div>

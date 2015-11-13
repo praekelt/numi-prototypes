@@ -42,7 +42,8 @@ var BlockLibrary = Ractive.extend({
   addBlock: function(type) {
     this._addBlock({
       type: type,
-      mode: 'edit'
+      mode: 'edit',
+      text: ''
     });
     pg.pop();
   },

@@ -41,7 +41,7 @@ module.exports = Ractive.extend({
   },
   computed: {
     collection: function() {
-      return this.parent.parent;
+      return this.parent;
     }
   }
 });

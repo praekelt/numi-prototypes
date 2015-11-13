@@ -4,8 +4,6 @@ require('./app.scss');
 require('../bootstrap/js/bootstrap.min.js');
 
 var Ractive = require('ractive');
-Ractive.components.block = require('./components/blocks/block');
-
 var $ = require('jquery');
 var page = require('page');
 var Dashboard = require('./views/dashboard');
@@ -18,12 +16,7 @@ window.dashboard = Dashboard({
   el: $('<div>'),
   data: persist.has('dashboard')
     ? persist.get('dashboard')
-    : {
-      values: [],
-      labels: [],
-      filters: [],
-      collections: []
-    }
+    : {}
 });
 page.base('/numi-prototypes');
 

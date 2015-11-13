@@ -11,6 +11,10 @@ module.exports = Ractive.extend({
   template: require('./template.html'),
   data: function() {
     return {
+      values: [],
+      labels: [],
+      filters: [],
+      collections: []
     };
   },
   addFilter: function(name) {

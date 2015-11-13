@@ -1,7 +1,7 @@
 <div class="panel panel-default">
   <div class="panel-body">
-    <button type="button" class="close" on-click="destroy()"><span>&times;</span></button>
     {{# mode === 'edit' }}
+    <button type="button" class="close" on-click="destroy()"><span>&times;</span></button>
     <p class="nm-block-title">Ask</p>
 
 
@@ -17,9 +17,20 @@
     {{/notification}}
 
     <button class="btn btn-default btn-block nm-placeholder" on-click="addContent()">+ Insert special text</button>
+
+    <br/>
+
+    <button class="btn btn-default" on-click="save()">Save</button>
     {{/}}
 
     {{# mode === 'preview' }}
+    <div class="btn-group btn-group-xs pull-right" style="margin-top: -8px; margin-right: -8px;">
+      <button class="btn btn-default" on-click="onEdit(event)">Edit</button>
+    </div>
+    <p class="nm-block-title">Ask</p>
+
+    {{#text}}<p>{{text}}</p>{{/text}}
+    {{^text}}<p><i>No content</i></p>{{/text}}
     {{/}}
   </div>
 </div>

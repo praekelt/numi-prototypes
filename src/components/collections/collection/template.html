@@ -31,11 +31,11 @@
         </div>
 
         <div class="sortable-blocks sortable-blocks-ordered">
-          {{# blocks }}
+          {{#blocks}}
           <div>
-            <block></block>
+            {{>blocks}}
           </div>
-          {{/ blocks }}
+          {{/blocks}}
 
           <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+ Add step</button>
         </div>
