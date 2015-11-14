@@ -5,9 +5,9 @@ var Ractive = require('ractive');
 
 module.exports = Ractive.extend({
   destroy: function() {
-    var coll = this.get('dialogue');
-    var blocks = coll.get('blocks');
-    coll.set('blocks', _.reject(blocks, {id: this.get('id')}));
+    var seq = this.get('sequence');
+    var blocks = seq.get('blocks');
+    seq.set('blocks', _.reject(blocks, {id: this.get('id')}));
   },
   save: function() {
     this.set('mode', 'preview');
@@ -41,7 +41,10 @@ module.exports = Ractive.extend({
   },
   computed: {
     dialogue: function() {
-      return this.parent;
+      return this.parent.parent;
+    },
+    sequence: function() {
+      return this.parent.parent;
     }
   }
 });

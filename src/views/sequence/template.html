@@ -1,0 +1,26 @@
+<div class="nm-sequence">
+  <div class="nm-name">
+    <h4 class="page-header" on-click="rename()">
+      {{ name }}
+    </h4>
+  </div>
+
+  <div class="nm-rename well">
+    <div class="form-group">
+      <h4><textarea class="nm-rename-value" value="{{name}}"></textarea></h4>
+    </div>
+
+    <button class="btn btn-sm btn-default" on-click="hideRename()">Save</button>
+    <button class="btn btn-sm btn-link" on-click="cancelRename()">Cancel</button>
+  </div>
+
+  <div class="sortable-blocks sortable-blocks-ordered">
+    {{#blocks}}
+    <div>
+      {{>blocks}}
+    </div>
+    {{/blocks}}
+
+    <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+ Add block</button>
+  </div>
+</div>

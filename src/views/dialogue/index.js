@@ -1,8 +1,6 @@
 var $ = require('jquery');
-var BlockLibrary = require('../block-library');
 var Ractive = require('ractive');
 var hist = require('../../hist');
-var pg = require('../../pg');
 
 
 module.exports = Ractive.extend({
@@ -11,7 +9,7 @@ module.exports = Ractive.extend({
   data: function() {
     return {
       _prev: hist.pop(),
-      blocks: []
+      sequences: []
     };
   },
   computed: {
@@ -52,33 +50,10 @@ module.exports = Ractive.extend({
     this.set('name', this.get('nameBackup'));
     this.hideRename();
   },
-  addBlock: function() {
-    var library = BlockLibrary({el: $('<div>')});
-    library.set('source', this);
-    library.set('dialogueView', this);
-    pg.push(library);
-  },
   previewEvent: function() {
     return 'To be overriden';
   },
   components: {
-    ask: require('../../components/blocks/ask'),
-    choice: require('../../components/blocks/choice'),
-    end: require('../../components/blocks/end'),
-    send: require('../../components/blocks/send'),
-    saveas: require('../../components/blocks/saveas'),
-    lbl: require('../../components/blocks/label'),
-    rmlbl: require('../../components/blocks/rmlabel'),
-    userdialsin: require('../../components/blocks/userdialsin'),
-    usersendsmessage: require('../../components/blocks/usersendsmessage'),
-    scheduled: require('../../components/blocks/scheduled'),
-    manual: require('../../components/blocks/manual'),
-    validatecliniccode: require('../../components/blocks/validatecliniccode'),
-    shownext9months: require('../../components/blocks/shownext9months'),
-    standardmessageset: require('../../components/blocks/standardmessageset'),
-    latermessageset: require('../../components/blocks/latermessageset'),
-    acceleratedmessageset: require('../../components/blocks/acceleratedmessageset'),
-    calcweeks: require('../../components/blocks/calcweeks'),
-    filter: require('../../components/blocks/filter')
+    sequence: require('../sequence')
   }
 });

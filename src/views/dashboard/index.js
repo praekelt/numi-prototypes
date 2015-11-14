@@ -1,5 +1,6 @@
 var $ = require('jquery');
 var _ = require('lodash');
+var uuid = require('node-uuid');
 var Ractive = require('ractive');
 var FilterEdit = require('../filter-edit');
 var NewFilter = require('../new-filter');
@@ -26,11 +27,15 @@ module.exports = Ractive.extend({
     this.push('filters', d);
     return this.findFilterView(d.id);
   },
-  addDialogue: function(name, type) {
+  addDialogue: function(name) {
     var d = {
       id: 'dialogue' + this.get('dialogues').length,
       name: name,
-      type: type
+      sequences: [{
+        id: uuid.v4(),
+        name: 'Entry',
+        blocks: []
+      }]
     };
 
     this.push('dialogues', d);

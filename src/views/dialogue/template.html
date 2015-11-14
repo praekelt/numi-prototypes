@@ -1,4 +1,4 @@
-<div class="container nm-dialogue-container">
+<div class="container nm-dialogue">
   <div class="row">
     <div class="col-md-12">
       <ol class="breadcrumb">
@@ -10,37 +10,29 @@
       <a href="{{ href }}">Go back to {{name}}</a>
       {{/prev}}
 
-      <div class="row">
-      <div class="col-md-4">
-        <div class="nm-name">
-          <h1 class="page-header" on-click="rename()">
-            <small>Dialogue</small>
-            <br/>
-            {{ name }}
-          </h1>
-        </div>
-
-        <div class="nm-rename well">
-          <div class="form-group">
-            <h1 class="page-header" style="margin-bottom: 0; padding-bottom: 0;"><small>Dialogue</small></h1>
-            <textarea class="nm-rename-value" value="{{ name }}"></textarea>
-          </div>
-
-          <button class="btn btn-sm btn-default" on-click="hideRename()">Save</button>
-          <button class="btn btn-sm btn-link" on-click="cancelRename()">Cancel</button>
-        </div>
-
-        <div class="sortable-blocks sortable-blocks-ordered">
-          {{#blocks}}
-          <div>
-            {{>blocks}}
-          </div>
-          {{/blocks}}
-
-          <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+ Add step</button>
-        </div>
-
+      <div class="nm-name">
+        <h3 class="page-header" on-click="rename()">
+          {{ name }}
+        </h3>
       </div>
+
+      <div class="nm-rename well">
+        <div class="form-group">
+          <h3>
+            <textarea class="nm-rename-value" value="{{ name }}"></textarea>
+          </h3>
+        </div>
+
+        <button class="btn btn-sm btn-default" on-click="hideRename()">Save</button>
+        <button class="btn btn-sm btn-link" on-click="cancelRename()">Cancel</button>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          {{#sequences}}
+            <sequence id="{{id}}" name="{{name}}" blocks="{{blocks}}"></sequence>
+          {{/sequences}}
+        </div>
       </div>
       <br/>
       <a class="btn btn-default" href="{{ backHref }}">Save and close</a>
