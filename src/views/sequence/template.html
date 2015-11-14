@@ -15,16 +15,20 @@
       </div>
     </div>
 
-    <div class="panel-body">
-      <div class="sortable-blocks sortable-blocks-ordered">
-        {{#blocks}}
-        <div>
-          {{>blocks}}
-        </div>
-        {{/blocks}}
+    <ul class="sortable-blocks sortable-blocks-ordered list-group">
+      {{#blocks:i}}
+      {{# i > 0 }}
+      <li class="list-group-item text-center"><strong style="font-size: 1.3em;">↓</strong></li>
+      {{/}}
 
-        <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+ Add block</button>
-      </div>
-    </div>
+      <li class="list-group-item">
+        {{>blocks}}
+      </li>
+      {{/blocks}}
+
+      <li class="list-group-item"></li>
+    </ul>
+
+    <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+ Add block</button>
   </div>
 </div>

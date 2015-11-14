@@ -122,19 +122,6 @@ hr {
   .panel {
     margin-bottom: 3em;
   }
-
-  > div + div {
-    position: relative;
-
-    &:before {
-      color: $fg0;
-      content: '↓';
-      font-size: 2em;
-      left: 49%;
-      position: absolute;
-      top: -1.5em;
-    }
-  }
 }
 
 .popover {
