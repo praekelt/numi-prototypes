@@ -3,6 +3,7 @@ var uuid = require('node-uuid');
 var Ractive = require('ractive');
 var pg = require('../../pg');
 var NewFilter = require('../new-filter');
+var blockTypes = require('../../components/blocks');
 
 
 // TODO something similar to this for filters
@@ -40,11 +41,10 @@ var BlockLibrary = Ractive.extend({
     source.fire('blockAdded');
   },
   addBlock: function(type) {
-    this._addBlock({
-      type: type,
-      mode: 'edit',
-      text: ''
-    });
+    var d = blockTypes[type]().get();
+    d.type = type;
+    d.mode = 'edit';
+    this._addBlock(d);
     pg.pop();
   },
   addFilter: function(filter) {

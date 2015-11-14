@@ -17,12 +17,7 @@ module.exports = Ractive.extend({
   },
   computed: {
     collection: function() {
-      var collection = this.get('source');
-
-      return {
-        id: collection.get('id'),
-        name: collection.get('name')
-      };
+      return this.get('source').get('collection').get();
     }
   },
   choose: function(channel) {

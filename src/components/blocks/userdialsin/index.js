@@ -7,11 +7,16 @@ var ChooseChannel = require('../../../views/choose-channel');
 module.exports = Base.extend({
   template: require('./template.html'),
   data: function() {
-    return {channel: null};
+    return {
+      channel: null
+    };
   },
   chooseChannel: function() {
-    var channels = ChooseChannel({el: $('<div>')});
-    channels.set('source', this);
+    var channels = ChooseChannel({
+      el: $('<div>'),
+      data: {source: this}
+    });
+
     pg.push(channels);
   },
   preview: function() {

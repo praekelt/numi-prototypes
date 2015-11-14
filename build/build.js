@@ -55874,6 +55874,7 @@
 	var Ractive = __webpack_require__(8);
 	var pg = __webpack_require__(17);
 	var NewFilter = __webpack_require__(20);
+	var blockTypes = __webpack_require__(137);
 
 
 	// TODO something similar to this for filters
@@ -55911,11 +55912,10 @@
 	    source.fire('blockAdded');
 	  },
 	  addBlock: function(type) {
-	    this._addBlock({
-	      type: type,
-	      mode: 'edit',
-	      text: ''
-	    });
+	    var d = blockTypes[type]().get();
+	    d.type = type;
+	    d.mode = 'edit';
+	    this._addBlock(d);
 	    pg.pop();
 	  },
 	  addFilter: function(filter) {
@@ -60093,12 +60093,7 @@
 	  },
 	  computed: {
 	    collection: function() {
-	      var collection = this.get('source');
-
-	      return {
-	        id: collection.get('id'),
-	        name: collection.get('name')
-	      };
+	      return this.get('source').get('collection').get();
 	    }
 	  },
 	  choose: function(channel) {
@@ -60218,7 +60213,7 @@
 /* 90 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"ask","a":{"text":[{"t":2,"r":"text"}]}}],"x":{"r":["type"],"s":"_0===\"ask\""}},{"t":4,"f":[{"t":7,"e":"choice"}],"x":{"r":["type"],"s":"_0===\"choice\""}},{"t":4,"f":[{"t":7,"e":"end"}],"x":{"r":["type"],"s":"_0===\"end\""}},{"t":4,"f":[{"t":7,"e":"send"}],"x":{"r":["type"],"s":"_0===\"send\""}},{"t":4,"f":[{"t":7,"e":"saveas"}],"x":{"r":["type"],"s":"_0===\"saveas\""}},{"t":4,"f":[{"t":7,"e":"lbl"}],"x":{"r":["type"],"s":"_0===\"label\""}},{"t":4,"f":[{"t":7,"e":"rmlbl"}],"x":{"r":["type"],"s":"_0===\"rmlabel\""}},{"t":4,"f":[{"t":7,"e":"userdialsin"}],"x":{"r":["type"],"s":"_0===\"userdialsin\""}},{"t":4,"f":[{"t":7,"e":"usersendsmessage"}],"x":{"r":["type"],"s":"_0===\"usersendsmessage\""}},{"t":4,"f":[{"t":7,"e":"scheduled"}],"x":{"r":["type"],"s":"_0===\"scheduled\""}},{"t":4,"f":[{"t":7,"e":"manual"}],"x":{"r":["type"],"s":"_0===\"manual\""}},{"t":4,"f":[{"t":7,"e":"validatecliniccode"}],"x":{"r":["type"],"s":"_0===\"validatecliniccode\""}},{"t":4,"f":[{"t":7,"e":"shownext9months"}],"x":{"r":["type"],"s":"_0===\"shownext9months\""}},{"t":4,"f":[{"t":7,"e":"standardmessageset"}],"x":{"r":["type"],"s":"_0===\"standardmessageset\""}},{"t":4,"f":[{"t":7,"e":"latermessageset"}],"x":{"r":["type"],"s":"_0===\"latermessageset\""}},{"t":4,"f":[{"t":7,"e":"acceleratedmessageset"}],"x":{"r":["type"],"s":"_0===\"acceleratedmessageset\""}},{"t":4,"f":[{"t":7,"e":"calcweeks"}],"x":{"r":["type"],"s":"_0===\"calcweeks\""}},{"t":4,"f":[{"t":7,"e":"filter","a":{"filter":[{"t":2,"r":"filter"}]}}],"x":{"r":["type"],"s":"_0===\"filter\""}}]};
+	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"ask","a":{"text":[{"t":2,"r":"text"}]}}],"x":{"r":["type"],"s":"_0===\"ask\""}},{"t":4,"f":[{"t":7,"e":"choice"}],"x":{"r":["type"],"s":"_0===\"choice\""}},{"t":4,"f":[{"t":7,"e":"end"}],"x":{"r":["type"],"s":"_0===\"end\""}},{"t":4,"f":[{"t":7,"e":"send"}],"x":{"r":["type"],"s":"_0===\"send\""}},{"t":4,"f":[{"t":7,"e":"saveas"}],"x":{"r":["type"],"s":"_0===\"saveas\""}},{"t":4,"f":[{"t":7,"e":"lbl"}],"x":{"r":["type"],"s":"_0===\"label\""}},{"t":4,"f":[{"t":7,"e":"rmlbl"}],"x":{"r":["type"],"s":"_0===\"rmlabel\""}},{"t":4,"f":[{"t":7,"e":"userdialsin","a":{"channel":[{"t":2,"r":"channel"}]}}],"x":{"r":["type"],"s":"_0===\"userdialsin\""}},{"t":4,"f":[{"t":7,"e":"usersendsmessage"}],"x":{"r":["type"],"s":"_0===\"usersendsmessage\""}},{"t":4,"f":[{"t":7,"e":"scheduled"}],"x":{"r":["type"],"s":"_0===\"scheduled\""}},{"t":4,"f":[{"t":7,"e":"manual"}],"x":{"r":["type"],"s":"_0===\"manual\""}},{"t":4,"f":[{"t":7,"e":"validatecliniccode"}],"x":{"r":["type"],"s":"_0===\"validatecliniccode\""}},{"t":4,"f":[{"t":7,"e":"shownext9months"}],"x":{"r":["type"],"s":"_0===\"shownext9months\""}},{"t":4,"f":[{"t":7,"e":"standardmessageset"}],"x":{"r":["type"],"s":"_0===\"standardmessageset\""}},{"t":4,"f":[{"t":7,"e":"latermessageset"}],"x":{"r":["type"],"s":"_0===\"latermessageset\""}},{"t":4,"f":[{"t":7,"e":"acceleratedmessageset"}],"x":{"r":["type"],"s":"_0===\"acceleratedmessageset\""}},{"t":4,"f":[{"t":7,"e":"calcweeks"}],"x":{"r":["type"],"s":"_0===\"calcweeks\""}},{"t":4,"f":[{"t":7,"e":"filter","a":{"filter":[{"t":2,"r":"filter"}]}}],"x":{"r":["type"],"s":"_0===\"filter\""}}]};
 
 /***/ },
 /* 91 */
@@ -60651,11 +60646,16 @@
 	module.exports = Base.extend({
 	  template: __webpack_require__(114),
 	  data: function() {
-	    return {channel: null};
+	    return {
+	      channel: null
+	    };
 	  },
 	  chooseChannel: function() {
-	    var channels = ChooseChannel({el: $('<div>')});
-	    channels.set('source', this);
+	    var channels = ChooseChannel({
+	      el: $('<div>'),
+	      data: {source: this}
+	    });
+
 	    pg.push(channels);
 	  },
 	  preview: function() {
@@ -61021,6 +61021,32 @@
 	exports.get = get;
 	exports.has = has;
 	exports.clear = clear;
+
+
+/***/ },
+/* 137 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports.acceleratedmessageset = __webpack_require__(129);
+	exports.ask = __webpack_require__(91);
+	exports.base = __webpack_require__(93);
+	exports.calcweeks = __webpack_require__(131);
+	exports.choice = __webpack_require__(97);
+	exports.end = __webpack_require__(103);
+	exports.filter = __webpack_require__(133);
+	exports.interaction = __webpack_require__(92);
+	exports.label = __webpack_require__(109);
+	exports.latermessageset = __webpack_require__(127);
+	exports.manual = __webpack_require__(119);
+	exports.rmlabel = __webpack_require__(111);
+	exports.saveas = __webpack_require__(107);
+	exports.scheduled = __webpack_require__(117);
+	exports.send = __webpack_require__(105);
+	exports.shownext9months = __webpack_require__(123);
+	exports.standardmessageset = __webpack_require__(125);
+	exports.userdialsin = __webpack_require__(113);
+	exports.usersendsmessage = __webpack_require__(115);
+	exports.validatecliniccode = __webpack_require__(121);
 
 
 /***/ }
