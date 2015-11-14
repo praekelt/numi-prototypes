@@ -28,12 +28,12 @@ page('/', function(ctx, next) {
 });
 
 
-page('/collections/:id/edit', function(ctx, next) {
-  pg.push(dashboard.findCollectionView(ctx.params.id));
+page('/dialogues/:id', function(ctx, next) {
+  pg.push(dashboard.findDialogueView(ctx.params.id));
 });
 
 
-page('/filters/:id/edit', function(ctx, next) {
+page('/filters/:id', function(ctx, next) {
   pg.push(dashboard.findFilterView(ctx.params.id));
 });
 

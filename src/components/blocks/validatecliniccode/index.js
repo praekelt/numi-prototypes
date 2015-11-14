@@ -1,23 +1,23 @@
 var $ = require('jquery');
 var Base = require('../base');
 var pg = require('../../../pg');
-var ChooseCollection = require('../../../views/choose-collection');
+var ChooseDialogue = require('../../../views/choose-dialogue');
 var ChooseValue = require('../../../views/choose-value');
 
 
 module.exports = Base.extend({
   template: require('./template.html'),
-  choosePassCollection: function() {
-    var colls = ChooseCollection({el: $('<div>')});
+  choosePassDialogue: function() {
+    var colls = ChooseDialogue({el: $('<div>')});
     colls.set('source', this);
-    colls.set('fieldName', 'passCollection');
+    colls.set('fieldName', 'passDialogue');
     colls.set('onlyLinked', true);
     pg.push(colls);
   },
-  chooseFailCollection: function() {
-    var colls = ChooseCollection({el: $('<div>')});
+  chooseFailDialogue: function() {
+    var colls = ChooseDialogue({el: $('<div>')});
     colls.set('source', this);
-    colls.set('fieldName', 'failCollection');
+    colls.set('fieldName', 'failDialogue');
     colls.set('onlyLinked', true);
     pg.push(colls);
   },
@@ -27,7 +27,7 @@ module.exports = Base.extend({
       data: {
         source: this,
         parent: {
-          type: 'collections',
+          type: 'dialogues',
           id: this.parent.get('id'),
           name: this.parent.get('name')
         }

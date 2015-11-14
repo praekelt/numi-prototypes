@@ -1,13 +1,13 @@
 var $ = require('jquery');
 var Base = require('../base');
 var pg = require('../../../pg');
-var ChooseCollection = require('../../../views/choose-collection');
+var ChooseDialogue = require('../../../views/choose-dialogue');
 
 
 module.exports = Base.extend({
   template: require('./template.html'),
-  chooseCollection: function() {
-    var colls = ChooseCollection({el: $('<div>')});
+  chooseDialogue: function() {
+    var colls = ChooseDialogue({el: $('<div>')});
     colls.set('source', this);
     pg.push(colls);
   }

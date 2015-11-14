@@ -8,7 +8,7 @@ module.exports = Base.extend({
   addContent: function() {
     var library = ContentLibrary({el: $('<div>')});
     library.set('source', this);
-    library.set('collectionView', this.parent.parent);
+    library.set('dialogueView', this.parent.parent);
     pg.push(library);
   }
 });

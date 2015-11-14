@@ -16,8 +16,8 @@ module.exports = Ractive.extend({
     };
   },
   computed: {
-    collection: function() {
-      return this.get('source').get('collection').get();
+    dialogue: function() {
+      return this.get('source').get('dialogue').get();
     }
   },
   choose: function(channel) {

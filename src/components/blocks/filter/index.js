@@ -18,7 +18,7 @@ module.exports = Base.extend({
       data: {
         source: this,
         parent: {
-          type: 'collections',
+          type: 'dialogues',
           id: this.parent.get('id'),
           name: this.parent.get('name')
         }

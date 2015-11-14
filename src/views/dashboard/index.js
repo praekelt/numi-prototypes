@@ -3,7 +3,7 @@ var _ = require('lodash');
 var Ractive = require('ractive');
 var FilterEdit = require('../filter-edit');
 var NewFilter = require('../new-filter');
-var collectionTypes = require('../../components/collections');
+var Dialogue = require('../dialogue');
 var pg = require('../../pg');
 
 
@@ -14,7 +14,7 @@ module.exports = Ractive.extend({
       values: [],
       labels: [],
       filters: [],
-      collections: []
+      dialogues: []
     };
   },
   addFilter: function(name) {
@@ -26,18 +26,18 @@ module.exports = Ractive.extend({
     this.push('filters', d);
     return this.findFilterView(d.id);
   },
-  addCollection: function(name, type) {
+  addDialogue: function(name, type) {
     var d = {
-      id: 'collection' + this.get('collections').length,
+      id: 'dialogue' + this.get('dialogues').length,
       name: name,
       type: type
     };
 
-    this.push('collections', d);
-    return this.findCollectionView(d.id);
+    this.push('dialogues', d);
+    return this.findDialogueView(d.id);
   },
-  newCollection: function() {
-    var coll = this.addCollection('', 'collection');
+  newDialogue: function() {
+    var coll = this.addDialogue('', 'dialogue');
     pg.push(coll);
   },
   updateValue: function(oldVal, newVal) {
@@ -65,10 +65,10 @@ module.exports = Ractive.extend({
           });
         });
     },
-    collectionViews: function() {
-      return this.get('collections')
+    dialogueViews: function() {
+      return this.get('dialogues')
         .map(function(d) {
-          return collectionTypes[d.type]({
+          return Dialogue({
             el: $('<div>'),
             data: d
           });
@@ -92,8 +92,8 @@ module.exports = Ractive.extend({
   destroy: function(collId) {
     $(this.el).find('#coll' + collId).remove();
   },
-  findCollectionView: function(id) {
-    return _.find(this.get('collectionViews'), function(c) {
+  findDialogueView: function(id) {
+    return _.find(this.get('dialogueViews'), function(c) {
       return c.get('id') === id;
     });
   },

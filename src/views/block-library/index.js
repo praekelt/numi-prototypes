@@ -19,13 +19,13 @@ var BlockLibrary = Ractive.extend({
     };
   },
   computed: {
-    collection: function() {
-      var collection = this.get('collectionView');
-      if (!collection) return null;
+    dialogue: function() {
+      var dialogue = this.get('dialogueView');
+      if (!dialogue) return null;
 
       return {
-        id: collection.get('id'),
-        name: collection.get('name')
+        id: dialogue.get('id'),
+        name: dialogue.get('name')
       };
     },
     filters: function() {
@@ -74,7 +74,7 @@ BlockLibrary.types = [{
   blocks: [{
     title: 'User dials in',
     type: 'userdialsin',
-    helptext: 'Run this collection when the user dials in'
+    helptext: 'Run this dialogue when the user dials in'
   }]
 }, {
   title: 'Interactions',
@@ -94,11 +94,11 @@ BlockLibrary.types = [{
   blocks: [{
     title: 'Save Answer',
     type: 'saveas',
-    helptext: 'Save the user\'s answers for use in a Collection or a filter.'
+    helptext: 'Save the user\'s answers for use in a Dialogue or a filter.'
   }, {
     title: 'Add label to user',
     type: 'label',
-    helptext: 'Add a label to the user to refer to them in a Collection or a filter.'
+    helptext: 'Add a label to the user to refer to them in a Dialogue or a filter.'
   }, {
     title: 'Remove label',
     type: 'rmlabel',

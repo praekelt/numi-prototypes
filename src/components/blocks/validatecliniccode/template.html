@@ -20,26 +20,26 @@
       <ul class="nav nav-stacked">
         <li>
           <label for="choice-text-1">If it's <strong>valid</strong>, go to:</label>
-          {{#passCollection}}
-          <button class="btn btn-default btn-block" on-click="choosePassCollection()">{{name}}</button>
-          <p class="text-right"><a href="../../collections/{{id}}/edit">View collection</a></p>
-          {{/passCollection}}
+          {{#passDialogue}}
+          <button class="btn btn-default btn-block" on-click="choosePassDialogue()">{{name}}</button>
+          <p class="text-right"><a href="../../dialogues/{{id}}/edit">View dialogue</a></p>
+          {{/passDialogue}}
 
-          {{^passCollection}}
-          <button class="btn btn-default btn-block nm-placeholder" on-click="choosePassCollection()">Choose collection</button>
-          {{/passCollection}}
+          {{^passDialogue}}
+          <button class="btn btn-default btn-block nm-placeholder" on-click="choosePassDialogue()">Choose dialogue</button>
+          {{/passDialogue}}
         </li>
         <li>
           <br />
           <label for="choice-text-1">If it's <strong>invalid</strong>, go to:</label>
-          {{#failCollection}}
-          <button class="btn btn-default btn-block" on-click="chooseFailCollection()">{{name}}</button>
-          <p class="text-right"><a href="../../collections/{{id}}/edit">View collection</a></p>
-          {{/failCollection}}
+          {{#failDialogue}}
+          <button class="btn btn-default btn-block" on-click="chooseFailDialogue()">{{name}}</button>
+          <p class="text-right"><a href="../../dialogues/{{id}}/edit">View dialogue</a></p>
+          {{/failDialogue}}
 
-          {{^failCollection}}
-          <button class="btn btn-default btn-block nm-placeholder" on-click="chooseFailCollection()">Choose collection</button>
-          {{/failCollection}}
+          {{^failDialogue}}
+          <button class="btn btn-default btn-block nm-placeholder" on-click="chooseFailDialogue()">Choose dialogue</button>
+          {{/failDialogue}}
         </li>
 
       </ul>

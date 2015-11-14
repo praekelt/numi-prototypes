@@ -1,7 +1,7 @@
 var $ = require('jquery');
 var Base = require('../base');
 var pg = require('../../../pg');
-var ChooseCollection = require('../../../views/choose-collection');
+var ChooseDialogue = require('../../../views/choose-dialogue');
 var ChooseValue = require('../../../views/choose-value');
 
 
@@ -23,7 +23,7 @@ module.exports = Base.extend({
       data: {
         source: this,
         parent: {
-          type: 'collections',
+          type: 'dialogues',
           id: this.parent.get('id'),
           name: this.parent.get('name')
         },

@@ -7,23 +7,23 @@
 
       <!-- Nav tabs -->
       <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#collections" aria-controls="collections" role="tab" data-toggle="tab">Collections</a></li>
+        <li role="presentation" class="active"><a href="#dialogues" aria-controls="dialogues" role="tab" data-toggle="tab">Dialogues</a></li>
         <li role="presentation"><a href="#filters" aria-controls="filters" role="tab" data-toggle="tab">Filters</a></li>
       </ul>
 
       <!-- Tab panes -->
       <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="collections">
+        <div role="tabpanel" class="tab-pane active" id="dialogues">
           <br />
-          {{^collections}}
+          {{^dialogues}}
           <div class="alert alert-info alert-dismissible" role="alert" style="width: 400px;">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <p>Add a <strong>Collection</strong> to get started.</p>
+            <p>Add a <strong>Dialogue</strong> to get started.</p>
           </div>
-          {{/collections}}
+          {{/dialogues}}
 
           <div class="sortable-blocks">
-            {{#collections}}
+            {{#dialogues}}
             <div class="panel panel-default text-left" id="coll{{id}}">
               <button type="button" class="close" on-click="destroy(id)"><span>&times;</span></button>
               {{#eventPreview}}
@@ -31,12 +31,12 @@
                 {{eventPreview}}
               </div>
               {{/eventPreview}}
-              <a href="./collections/{{id}}/edit" class="btn btn-link btn-block">{{name}}</a>
+              <a href="./dialogues/{{id}}" class="btn btn-link btn-block">{{name}}</a>
             </div>
-            {{/collections}}
+            {{/dialogues}}
           </div>
 
-          <button class="btn btn-default nm-placeholder" on-click="newCollection()">+ Add collection</button>
+          <button class="btn btn-default nm-placeholder" on-click="newDialogue()">+ Add dialogue</button>
         </div>
 
         <div role="tabpanel" class="tab-pane" id="filters">
@@ -45,14 +45,14 @@
           <div class="alert alert-info alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <p><strong>Filters</strong> select a group of users based a set of <strong>conditions</strong> that you choose.</p>
-            <p>Add <strong>Save Answer</strong> or <strong>Add label to user</strong> steps in a <strong><a href="#collections">Collection</a></strong> to use them in filters.</p>
+            <p>Add <strong>Save Answer</strong> or <strong>Add label to user</strong> steps in a <strong><a href="#dialogues">Dialogue</a></strong> to use them in filters.</p>
           </div>
           {{/filters}}
 
           <div class="sortable-blocks">
             {{#filters}}
             <div class="panel panel-default text-left">
-              <a href="./filters/{{id}}/edit" class="btn btn-link btn-block">{{name}}</a>
+              <a href="./filters/{{id}}" class="btn btn-link btn-block">{{name}}</a>
             </div>
             {{/filters}}
           </div>

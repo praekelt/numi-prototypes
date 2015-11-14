@@ -11,16 +11,16 @@
         <!-- Lets users choose the "routing" -->
         <br/>
 
-        {{#collection}}
+        {{#dialogue}}
         <label>Links to</label>
-        <button class="btn btn-default btn-block" on-click="chooseCollection()">{{name}}</button>
-        <p class="text-right"><a href="../../collections/{{id}}/edit">View collection</a></p>
-        {{/collection}}
+        <button class="btn btn-default btn-block" on-click="chooseDialogue()">{{name}}</button>
+        <p class="text-right"><a href="../../dialogues/{{id}}/edit">View dialogue</a></p>
+        {{/dialogue}}
 
-        {{^collection}}
+        {{^dialogue}}
         <label>Links to</label>
-        <button class="btn btn-default btn-block nm-placeholder" on-click="chooseCollection()">Choose collection</button>
-        {{/collection}}
+        <button class="btn btn-default btn-block nm-placeholder" on-click="chooseDialogue()">Choose dialogue</button>
+        {{/dialogue}}
     </div>
   </div>
 </div>

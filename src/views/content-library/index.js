@@ -8,13 +8,13 @@ var ContentLibrary = Ractive.extend({
     return {placeholders: ContentLibrary.placeholders};
   },
   computed: {
-    collection: function() {
-      var collection = this.get('collectionView');
-      if (!collection) return null;
+    dialogue: function() {
+      var dialogue = this.get('dialogueView');
+      if (!dialogue) return null;
 
       return {
-        id: collection.get('id'),
-        name: collection.get('name')
+        id: dialogue.get('id'),
+        name: dialogue.get('name')
       };
     }
   },

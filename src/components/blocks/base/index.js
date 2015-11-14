@@ -5,7 +5,7 @@ var Ractive = require('ractive');
 
 module.exports = Ractive.extend({
   destroy: function() {
-    var coll = this.get('collection');
+    var coll = this.get('dialogue');
     var blocks = coll.get('blocks');
     coll.set('blocks', _.reject(blocks, {id: this.get('id')}));
   },
@@ -29,18 +29,18 @@ module.exports = Ractive.extend({
     $(this.el)
       .on('click', this.onClick = this.onClick.bind(this));
 
-    $(this.get('collection').el)
+    $(this.get('dialogue').el)
       .on('click', this.onBodyClick = this.onBodyClick.bind(this));
   },
   onunrender: function() {
     $(this.el)
       .unbind('click', this.onClick);
 
-    $(this.get('collection').el)
+    $(this.get('dialogue').el)
       .unbind('click', this.onBodyClick);
   },
   computed: {
-    collection: function() {
+    dialogue: function() {
       return this.parent;
     }
   }
