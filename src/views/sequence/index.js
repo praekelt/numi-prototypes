@@ -16,7 +16,6 @@ module.exports = Ractive.extend({
     $(this.find('.nm-rename')).hide();
   },
   rename: function() {
-    this.set('nameBackup', this.get('name'));
     $(this.find('.nm-name')).hide();
     $(this.find('.nm-rename')).show();
   },
