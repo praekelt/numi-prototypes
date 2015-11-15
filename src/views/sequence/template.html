@@ -1,34 +1,28 @@
 <div class="nm-sequence">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <div class="nm-name" on-click="rename()">
-        {{ name }}
-      </div>
-
-      <div class="nm-rename">
-        <div class="form-group">
-          <textarea class="nm-rename-value" value="{{name}}"></textarea>
-        </div>
-
-        <button class="btn btn-sm btn-default" on-click="hideRename()">Save</button>
-        <button class="btn btn-sm btn-link" on-click="cancelRename()">Cancel</button>
-      </div>
+  <h4>
+    <div class="nm-name" on-click="rename()">
+      {{ name }}
     </div>
 
-    <ul class="sortable-blocks sortable-blocks-ordered list-group">
-      {{#blocks:i}}
-      {{# i > 0 }}
-      <li class="list-group-item text-center"><span class="nm-block-title" style="font-size: 1.3em;">↓</span></li>
-      {{/}}
+    <div class="nm-rename">
+      <div class="form-group">
+        <textarea class="nm-rename-value" value="{{name}}"></textarea>
+      </div>
 
-      <li class="list-group-item">
+      <button class="btn btn-sm btn-default" on-click="hideRename()">Save</button>
+      <button class="btn btn-sm btn-link" on-click="cancelRename()">Cancel</button>
+    </div>
+  </h4>
+
+  <div class="sortable-blocks sortable-blocks-ordered">
+    {{#blocks}}
+    <div class="nm-block panel panel-default">
+      <div class="panel-body">
         {{>blocks}}
-      </li>
-      {{/blocks}}
-
-      <li class="list-group-item"></li>
-    </ul>
-
-    <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+ Add block</button>
+      </div>
+    </div>
+    {{/blocks}}
   </div>
+
+  <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+ Add block</button>
 </div>
