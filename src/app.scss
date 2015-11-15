@@ -20,8 +20,6 @@ body {
 }
 
 .nm-block {
-  border: none;
-  box-shadow: none;
 }
 
 .nm-block-title {
@@ -148,12 +146,10 @@ hr {
 }
 
 .nm-sequence-col {
-  &:nth-child(2n + 1) {
-    background: darken($bg0, 4%);
-  }
+  border: 1px solid darken($bg0, 12%);
 
-  &:nth-child(2n) {
-    background: darken($bg0, 7%);
+  &:not(:first-child) {
+    border-left: none;
   }
 
   &:first-child {
