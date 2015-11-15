@@ -1,6 +1,24 @@
 @import './vars';
 
 
+@mixin scrollbars() {
+  &::-webkit-scrollbar-track {
+    background: $bg1;
+  }
+
+  &::-webkit-scrollbar
+  {
+    width: 5px;
+    background: $bg1;
+  }
+
+  &::-webkit-scrollbar-thumb
+  {
+    background: darken($bg1, 15%);
+  }
+}
+
+
 html {
   background-color: $bg1;
   margin: 0 auto;
@@ -145,8 +163,14 @@ hr {
   }
 }
 
-.nm-sequence-col {
+.nm-sequence {
   border: 1px solid darken($bg0, 12%);
+  height: 90vh;
+  user-select: none;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 10px;
+  overflow-y: scroll;
 
   &:not(:first-child) {
     border-left: none;
@@ -165,13 +189,6 @@ hr {
     -webkit-border-top-right-radius: 4px;
     -webkit-border-bottom-right-radius: 4px;
   }
-}
-
-.nm-sequence {
-  user-select: none;
-  margin-left: 0;
-  margin-right: 0;
-  padding: 10px;
 
   * {
     -webkit-touch-callout: none;
@@ -185,4 +202,6 @@ hr {
   h4 {
     padding: 5px;
   }
+
+  @include scrollbars();
 }
