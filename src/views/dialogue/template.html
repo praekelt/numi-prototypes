@@ -28,11 +28,11 @@
       </div>
 
       <div class="row">
-        <div class="col-md-4">
           {{#sequences}}
+          <div class="col-md-4">
             <sequence id="{{id}}" name="{{name}}" blocks="{{blocks}}"></sequence>
+          </div>
           {{/sequences}}
-        </div>
       </div>
       <br/>
       <a class="btn btn-default" href="{{ backHref }}">Save and close</a>
