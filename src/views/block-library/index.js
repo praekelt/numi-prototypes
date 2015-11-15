@@ -84,6 +84,10 @@ BlockLibrary.types = [{
     type: 'ask',
     helptext: 'Asks the user a question, and wait for a response.'
   }, {
+    title: 'Ask and provide choices',
+    type: 'askchoice',
+    helptext: 'Asks the user a question, provide choices and expect the user to respond with a choice'
+  }, {
     title: 'Send',
     type: 'send',
     helptext: 'Send the user a message.'

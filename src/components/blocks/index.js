@@ -1,5 +1,6 @@
 exports.acceleratedmessageset = require('./acceleratedmessageset');
 exports.ask = require('./ask');
+exports.askchoice = require('./askchoice');
 exports.base = require('./base');
 exports.calcweeks = require('./calcweeks');
 exports.choice = require('./choice');
