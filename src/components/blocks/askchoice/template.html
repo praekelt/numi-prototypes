@@ -1,42 +1,7 @@
 <div class="nm-block panel panel-default">
-  {{# mode === 'edit' }}
-  <div class="panel-body">
-    <button type="button" class="close" on-click="destroy()"><span>&times;</span></button>
-    <p class="nm-block-title">Ask and provide choices</p>
-
-    <div class="form-group">
-      <textarea class="form-control ask-text" rows="3" value="{{text}}"></textarea>
-    </div>
-
-    {{#allChoices:i}}
-    <div class="form-group nm-choice">
-      <span>{{i + 1}}.&nbsp</span>
-      <input type="text" class="form-control" value="{{text}}" {{# i === allChoices.length - 1}}placeholder="Add a new choice"{{/}} on-keyup="onChoiceKeyDown(i)">
-    </div>
-    {{/allChoices}}
-  </div>
-
-  <ul class="list-group">
-    {{#blocks}}
-    <li class="list-group-item">
-    {{>blocks}}
-    </li>
-    {{/blocks}}
-
-    <li class="list-group-item">
-    <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+</button>
-    </li>
-
-    <li class="list-group-item">
-    <button class="btn btn-default" on-click="save()">Save</button>
-    </li>
-  </ul>
-  {{/}}
-
-  {{# mode === 'preview' }}
   <div class="panel-body">
     <div class="btn-group btn-group-sm pull-right">
-      <button class="btn btn-default" on-click="onEdit(event)">Edit</button>
+      <button class="btn btn-default" on-click="showEditModal()">Edit</button>
     </div>
     <p class="nm-block-title">Ask and provide choices</p>
 
@@ -57,5 +22,29 @@
     </li>
     {{/blocks}}
   </ul>
-  {{/}}
+</div>
+
+<div class="modal fade nm-modal-edit">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p class="nm-block-title">Ask and provide choices</p>
+
+        <div class="form-group">
+          <textarea class="form-control ask-text" rows="3" value="{{text}}"></textarea>
+        </div>
+
+        {{#allChoices:i}}
+        <div class="form-group nm-choice">
+          <span>{{i + 1}}.&nbsp</span>
+          <input type="text" class="form-control" value="{{text}}" {{# i === allChoices.length - 1}}placeholder="Add a new choice"{{/}} on-keyup="onChoiceKeyDown(i)">
+        </div>
+        {{/allChoices}}
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Save and close</button>
+      </div>
+    </div>
+  </div>
 </div>

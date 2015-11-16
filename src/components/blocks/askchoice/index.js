@@ -1,3 +1,4 @@
+var $ = require('jquery');
 var uuid = require('node-uuid');
 var Interaction = require('../interaction');
 
@@ -10,6 +11,9 @@ module.exports = Interaction.extend({
       id: uuid.v4(),
       type: 'routing' // TODO choosable
     });
+  },
+  showEditModal() {
+    $(this.el).find('.nm-modal-edit').modal('show');
   },
   addChoice() {
     this.push('allChoices', newChoice());
