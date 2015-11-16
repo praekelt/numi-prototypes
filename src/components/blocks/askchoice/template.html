@@ -8,12 +8,12 @@
       <textarea class="form-control ask-text" rows="3" value="{{text}}"></textarea>
     </div>
 
-    {{#choices:i}}
+    {{#allChoices:i}}
     <div class="form-group nm-choice">
       <span>{{i + 1}}.&nbsp</span>
-      <input type="text" class="form-control" value="{{text}}" {{# i === choices.length - 1}}placeholder="Add a new choice"{{/}} on-keyup="onChoiceKeyDown(i)">
+      <input type="text" class="form-control" value="{{text}}" {{# i === allChoices.length - 1}}placeholder="Add a new choice"{{/}} on-keyup="onChoiceKeyDown(i)">
     </div>
-    {{/choices}}
+    {{/allChoices}}
   </div>
 
   <ul class="list-group">
@@ -42,6 +42,12 @@
 
     {{#text}}<p>{{text}}</p>{{/text}}
     {{^text}}<p><i>No content</i></p>{{/text}}
+
+    <ol>
+      {{#choices}}
+      <li>{{text}}</li>
+      {{/choices}}
+    </ol>
   </div>
 
   <ul class="list-group">

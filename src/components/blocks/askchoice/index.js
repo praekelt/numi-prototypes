@@ -12,18 +12,23 @@ module.exports = Interaction.extend({
     });
   },
   addChoice() {
-    this.push('choices', newChoice());
+    this.push('allChoices', newChoice());
   },
   onChoiceKeyDown(i) {
-    if (i < this.get('choices').length - 1) return;
+    if (i < this.get('allChoices').length - 1) return;
     this.addChoice();
   },
   data: function() {
     return {
       text: '',
-      choices: [newChoice()],
+      allChoices: [newChoice()],
       blocks: []
     };
+  },
+  computed: {
+    choices: function() {
+      return this.get('allChoices').slice(0, -1);
+    }
   },
   components: {
     routing: require('./blocks/routing')
