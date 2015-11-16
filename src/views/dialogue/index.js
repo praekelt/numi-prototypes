@@ -5,7 +5,6 @@ var hist = require('../../hist');
 
 module.exports = Ractive.extend({
   template: require('./template.html'),
-  partials: {blocks: require('./blocks.html')},
   data: function() {
     return {
       _prev: hist.pop(),

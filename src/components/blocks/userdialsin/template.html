@@ -1,7 +1,8 @@
-<div>
-    {{# mode === 'edit' }}
-      <button type="button" class="close" on-click="destroy()"><span>&times;</span></button>
-      <p class="nm-block-title">When user dials in on</p>
+<div class="nm-block panel panel-default">
+    <div class="panel-body">
+        {{# mode === 'edit' }}
+        <button type="button" class="close" on-click="destroy()"><span>&times;</span></button>
+        <p class="nm-block-title">When user dials in on</p>
 
         {{#channel}}
         <button class="btn btn-default btn-block" on-click="chooseChannel()">{{channel}}</button>
@@ -13,21 +14,22 @@
 
         <br/>
         <button class="btn btn-default" on-click="save()">Save</button>
-    {{/}}
+        {{/}}
 
-    {{# mode === 'preview' }}
-      <div class="btn-group btn-group-sm pull-right">
-        <button class="btn btn-default" on-click="onEdit(event)">Edit</button>
-      </div>
+        {{# mode === 'preview' }}
+        <div class="btn-group btn-group-sm pull-right">
+            <button class="btn btn-default" on-click="onEdit(event)">Edit</button>
+        </div>
 
-      {{#channel}}
-      <p><span class="nm-block-title">When user dials in on</span></p>
-      <p><strong>{{channel}}</strong></p>
-      {{/channel}}
+        {{#channel}}
+        <p><span class="nm-block-title">When user dials in on</span></p>
+        <p><strong>{{channel}}</strong></p>
+        {{/channel}}
 
-      {{^channel}}
-      <p><span class="nm-block-title">When user dials in</span></p>
-      <p><i>No channel given</i></p>
-      {{/channel}}
-    {{/}}
+        {{^channel}}
+        <p><span class="nm-block-title">When user dials in</span></p>
+        <p><i>No channel given</i></p>
+        {{/channel}}
+        {{/}}
+    </div>
 </div>

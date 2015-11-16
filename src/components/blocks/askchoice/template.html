@@ -1,28 +1,51 @@
-<div>
-    {{# mode === 'edit' }}
+<div class="nm-block panel panel-default">
+  {{# mode === 'edit' }}
+  <div class="panel-body">
     <button type="button" class="close" on-click="destroy()"><span>&times;</span></button>
     <p class="nm-block-title">Ask and provide choices</p>
-
 
     <div class="form-group">
       <textarea class="form-control ask-text" rows="3" value="{{text}}"></textarea>
     </div>
 
-    {{#notification}}
-    <div class="alert alert-info alert-dismissible" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <p>Added placeholder text: <code>{{notification}}</code></p>
+    <div class="form-group">
+      {{#choices:i}}
+      <div class="input-group nm-choice">
+        <div class="input-group-addon">{{i + 1}}.</div>
+        <input type="text" class="form-control" placeholder="Add a new choice">
+        <div class="input-group-addon">goes to</div>
+        <button class="btn btn-default form-control">Choose sequence</button>
+      </div>
+      {{/choices}}
+
+      <div class="form-group nm-choice-new">
+        <div class="input-group">
+          <div class="input-group-addon">{{choices.length + 1}}.</div>
+          <input type="text" class="form-control" placeholder="Add a new choice">
+        </div>
+      </div>
     </div>
-    {{/notification}}
+  </div>
 
-    <button class="btn btn-default btn-block nm-placeholder" on-click="addContent()">+ Insert special text</button>
+  <ul class="list-group">
+    {{#blocks}}
+    <li class="list-group-item">
+    {{>blocks}}
+    </li>
+    {{/blocks}}
 
-    <br/>
+    <li class="list-group-item">
+    <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+</button>
+    </li>
 
+    <li class="list-group-item">
     <button class="btn btn-default" on-click="save()">Save</button>
-    {{/}}
+    </li>
+  </ul>
+  {{/}}
 
-    {{# mode === 'preview' }}
+  {{# mode === 'preview' }}
+  <div class="panel-body">
     <div class="btn-group btn-group-sm pull-right">
       <button class="btn btn-default" on-click="onEdit(event)">Edit</button>
     </div>
@@ -30,5 +53,14 @@
 
     {{#text}}<p>{{text}}</p>{{/text}}
     {{^text}}<p><i>No content</i></p>{{/text}}
-    {{/}}
+  </div>
+
+  <ul class="list-group">
+    {{#blocks}}
+    <li class="list-group-item">
+    {{>blocks}}
+    </li>
+    {{/blocks}}
+  </ul>
+  {{/}}
 </div>

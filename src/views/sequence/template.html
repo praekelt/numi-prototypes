@@ -16,13 +16,9 @@
 
   <div class="sortable-blocks sortable-blocks-ordered">
     {{#blocks}}
-    <div class="nm-block panel panel-default">
-      <div class="panel-body">
-        {{>blocks}}
-      </div>
-    </div>
+      {{>blocks}}
     {{/blocks}}
   </div>
 
-  <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+ Add block</button>
+  <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+</button>
 </div>

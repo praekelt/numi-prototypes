@@ -1,34 +1,36 @@
-<div>
-    {{# mode === 'edit' }}
-    <button type="button" class="close" on-click="destroy()"><span>&times;</span></button>
-    <p class="nm-block-title">Ask</p>
+<div class="nm-block panel panel-default">
+    <div class="panel-body">
+        {{# mode === 'edit' }}
+        <button type="button" class="close" on-click="destroy()"><span>&times;</span></button>
+        <p class="nm-block-title">Ask</p>
 
 
-    <div class="form-group">
-      <textarea class="form-control ask-text" rows="3" value="{{text}}"></textarea>
+        <div class="form-group">
+            <textarea class="form-control ask-text" rows="3" value="{{text}}"></textarea>
+        </div>
+
+        {{#notification}}
+        <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <p>Added placeholder text: <code>{{notification}}</code></p>
+        </div>
+        {{/notification}}
+
+        <button class="btn btn-default btn-block nm-placeholder" on-click="addContent()">+ Insert special text</button>
+
+        <br/>
+
+        <button class="btn btn-default" on-click="save()">Save</button>
+        {{/}}
+
+        {{# mode === 'preview' }}
+        <div class="btn-group btn-group-sm pull-right">
+            <button class="btn btn-default" on-click="onEdit(event)">Edit</button>
+        </div>
+        <p class="nm-block-title">Ask</p>
+
+        {{#text}}<p>{{text}}</p>{{/text}}
+        {{^text}}<p><i>No content</i></p>{{/text}}
+        {{/}}
     </div>
-
-    {{#notification}}
-    <div class="alert alert-info alert-dismissible" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <p>Added placeholder text: <code>{{notification}}</code></p>
-    </div>
-    {{/notification}}
-
-    <button class="btn btn-default btn-block nm-placeholder" on-click="addContent()">+ Insert special text</button>
-
-    <br/>
-
-    <button class="btn btn-default" on-click="save()">Save</button>
-    {{/}}
-
-    {{# mode === 'preview' }}
-    <div class="btn-group btn-group-sm pull-right">
-      <button class="btn btn-default" on-click="onEdit(event)">Edit</button>
-    </div>
-    <p class="nm-block-title">Ask</p>
-
-    {{#text}}<p>{{text}}</p>{{/text}}
-    {{^text}}<p><i>No content</i></p>{{/text}}
-    {{/}}
 </div>
