@@ -22,16 +22,30 @@
       <div class="modal-body">
         <p class="nm-block-title">Ask and provide choices</p>
 
-        <div class="form-group">
-          <textarea class="form-control ask-text" rows="3" value="{{text}}"></textarea>
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a on-click="showTab(event, 'content')" href="#content" aria-controls="content" role="tab" data-toggle="tab">Content</a></li>
+          <li role="presentation"><a on-click="showTab(event, 'routing')" href="#routing" aria-controls="profile" role="tab" data-toggle="tab">Routing</a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="content">
+            <br/>
+            <div class="form-group">
+              <textarea class="form-control ask-text" rows="3" value="{{text}}"></textarea>
+            </div>
+
+            {{#allChoices:i}}
+            <div class="form-group nm-choice">
+              <span>{{i + 1}}.&nbsp</span>
+              <input type="text" class="form-control" value="{{text}}" {{# i === allChoices.length - 1}}placeholder="Add a new choice"{{/}} on-keyup="onChoiceKeyDown(i)">
+            </div>
+            {{/allChoices}}
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="routing">
+          </div>
         </div>
 
-        {{#allChoices:i}}
-        <div class="form-group nm-choice">
-          <span>{{i + 1}}.&nbsp</span>
-          <input type="text" class="form-control" value="{{text}}" {{# i === allChoices.length - 1}}placeholder="Add a new choice"{{/}} on-keyup="onChoiceKeyDown(i)">
-        </div>
-        {{/allChoices}}
       </div>
 
       <div class="modal-footer">

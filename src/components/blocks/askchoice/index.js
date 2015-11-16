@@ -7,6 +7,11 @@ module.exports = Interaction.extend({
   showEditModal() {
     $(this.el).find('.nm-modal-edit').modal('show');
   },
+  showTab(e, to) {
+    e.original.preventDefault();
+    $(this.el).find('.nm-modal-edit a[href="#' + to + '"]').tab('show');
+    return false;
+  },
   addChoice() {
     this.push('allChoices', newChoice());
   },
