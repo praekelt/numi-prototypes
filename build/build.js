@@ -55,7 +55,7 @@
 	var Dashboard = __webpack_require__(13);
 	var pg = __webpack_require__(40);
 	var hist = __webpack_require__(41);
-	var persist = __webpack_require__(131);
+	var persist = __webpack_require__(134);
 
 
 	window.dashboard = Dashboard({
@@ -24366,7 +24366,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(5)();
-	exports.push([module.id, "@charset \"UTF-8\";\nhtml {\n  background-color: #efefef;\n  margin: 0 auto; }\n\nbody {\n  background-color: #fff; }\n\n.nm-page {\n  padding: 1em;\n  padding-bottom: 3em; }\n\n.nm-placeholder {\n  border-style: dashed; }\n\n.nm-block-title {\n  color: #666;\n  font-weight: bold; }\n\n.btn-library {\n  margin: .5em .75em .5em 0; }\n\n.screen {\n  border-bottom: solid 1px #666;\n  margin-bottom: 2em;\n  padding-bottom: 2em; }\n\n.page-header {\n  margin-top: 0; }\n\n.sortable-blocks .nm-block-title:hover,\n.sortable-blocks .panel-heading:hover {\n  cursor: move; }\n\n.panel-highlighted {\n  border: solid 1px #999; }\n\n.text-left .btn {\n  text-align: left; }\n\n.panel {\n  clear: both; }\n  .panel .close {\n    position: relative;\n    right: -10px;\n    top: -15px; }\n\n.btn.close-screen {\n  margin-bottom: 1em; }\n\n.close-screen-text {\n  font-size: small;\n  left: -4px;\n  position: relative;\n  top: -2px; }\n\n.panel-title a {\n  display: block; }\n\n[data-toggle=\"collapse\"] {\n  position: relative; }\n  [data-toggle=\"collapse\"]:before {\n    content: '▼';\n    position: absolute;\n    right: 0; }\n  [data-toggle=\"collapse\"].collapsed:before {\n    content: '▲';\n    position: absolute;\n    right: 0; }\n\n[data-toggle=\"collapse\"]:before {\n  content: ''; }\n\n[data-toggle=\"collapse\"]:after {\n  content: ''; }\n\n.nm-rename-value {\n  width: 100%; }\n\n.alert-lib {\n  padding-right: 16px; }\n\nhr {\n  border-color: #999; }\n\n.sortable-blocks-ordered .panel {\n  margin-bottom: 3em; }\n\n.popover {\n  display: none; }\n\n.nm-dialogue {\n  user-select: none; }\n  .nm-dialogue * {\n    -webkit-touch-callout: none;\n    -webkit-user-select: none;\n    -khtml-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none; }\n\n.nm-sequence {\n  border: 1px solid #e0e0e0;\n  height: 90vh;\n  user-select: none;\n  margin-left: 0;\n  margin-right: 0;\n  padding: 10px;\n  overflow-y: scroll; }\n  .nm-sequence:not(:first-child) {\n    border-left: none; }\n  .nm-sequence:first-child {\n    border-top-left-radius: 4px;\n    border-bottom-left-radius: 4px;\n    -webkit-border-top-left-radius: 4px;\n    -webkit-border-bottom-left-radius: 4px; }\n  .nm-sequence:last-child {\n    border-top-right-radius: 4px;\n    border-bottom-right-radius: 4px;\n    -webkit-border-top-right-radius: 4px;\n    -webkit-border-bottom-right-radius: 4px; }\n  .nm-sequence * {\n    -webkit-touch-callout: none;\n    -webkit-user-select: none;\n    -khtml-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none; }\n  .nm-sequence h4 {\n    padding: 5px; }\n  .nm-sequence::-webkit-scrollbar-track {\n    background: #efefef; }\n  .nm-sequence::-webkit-scrollbar {\n    width: 5px;\n    background: #efefef; }\n  .nm-sequence::-webkit-scrollbar-thumb {\n    background: #c9c9c9; }\n", ""]);
+	exports.push([module.id, "@charset \"UTF-8\";\nhtml {\n  background-color: #efefef;\n  margin: 0 auto; }\n\nbody {\n  background-color: #fff; }\n\n.nm-page {\n  padding: 1em;\n  padding-bottom: 3em; }\n\n.nm-placeholder {\n  border-style: dashed; }\n\n.nm-block-title {\n  color: #666;\n  font-weight: bold; }\n\n.btn-library {\n  margin: .5em .75em .5em 0; }\n\n.screen {\n  border-bottom: solid 1px #666;\n  margin-bottom: 2em;\n  padding-bottom: 2em; }\n\n.page-header {\n  margin-top: 0; }\n\n.sortable-blocks .nm-block-title:hover,\n.sortable-blocks .panel-heading:hover {\n  cursor: move; }\n\n.panel-highlighted {\n  border: solid 1px #999; }\n\n.text-left .btn {\n  text-align: left; }\n\n.panel {\n  clear: both; }\n  .panel .close {\n    position: relative;\n    right: -10px;\n    top: -15px; }\n\n.btn.close-screen {\n  margin-bottom: 1em; }\n\n.close-screen-text {\n  font-size: small;\n  left: -4px;\n  position: relative;\n  top: -2px; }\n\n.panel-title a {\n  display: block; }\n\n[data-toggle=\"collapse\"] {\n  position: relative; }\n  [data-toggle=\"collapse\"]:before {\n    content: '▼';\n    position: absolute;\n    right: 0; }\n  [data-toggle=\"collapse\"].collapsed:before {\n    content: '▲';\n    position: absolute;\n    right: 0; }\n\n[data-toggle=\"collapse\"]:before {\n  content: ''; }\n\n[data-toggle=\"collapse\"]:after {\n  content: ''; }\n\n.nm-rename-value {\n  width: 100%; }\n\n.alert-lib {\n  padding-right: 16px; }\n\nhr {\n  border-color: #999; }\n\n.sortable-blocks-ordered .panel {\n  margin-bottom: 3em; }\n\n.popover {\n  display: none; }\n\n.nm-dialogue {\n  user-select: none; }\n  .nm-dialogue * {\n    -webkit-touch-callout: none;\n    -webkit-user-select: none;\n    -khtml-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none; }\n\n.nm-sequence {\n  border: 1px solid #e0e0e0;\n  height: 90vh;\n  user-select: none;\n  margin-left: 0;\n  margin-right: 0;\n  padding: 10px;\n  overflow-y: scroll; }\n  .nm-sequence:not(:first-child) {\n    border-left: none; }\n  .nm-sequence:first-child {\n    border-top-left-radius: 4px;\n    border-bottom-left-radius: 4px;\n    -webkit-border-top-left-radius: 4px;\n    -webkit-border-bottom-left-radius: 4px; }\n  .nm-sequence:last-child {\n    border-top-right-radius: 4px;\n    border-bottom-right-radius: 4px;\n    -webkit-border-top-right-radius: 4px;\n    -webkit-border-bottom-right-radius: 4px; }\n  .nm-sequence * {\n    -webkit-touch-callout: none;\n    -webkit-user-select: none;\n    -khtml-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none; }\n  .nm-sequence h4 {\n    padding: 5px; }\n  .nm-sequence::-webkit-scrollbar-track {\n    background: #efefef; }\n  .nm-sequence::-webkit-scrollbar {\n    width: 5px;\n    background: #efefef; }\n  .nm-sequence::-webkit-scrollbar-thumb {\n    background: #c9c9c9; }\n\n.nm-choice {\n  display: table;\n  clear: both;\n  width: 100%; }\n  .nm-choice span {\n    display: table-cell;\n    width: 21px; }\n  .nm-choice input {\n    display: table-cell; }\n", ""]);
 
 /***/ },
 /* 5 */
@@ -42434,7 +42434,7 @@
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(130),
+	  template: __webpack_require__(133),
 	  data: function() {
 	    return {
 	      values: [],
@@ -59885,8 +59885,8 @@
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(128),
-	  partials: {blocks: __webpack_require__(129)},
+	  template: __webpack_require__(131),
+	  partials: {blocks: __webpack_require__(132)},
 	  data: function() {
 	    return {
 	      blocks: []
@@ -59916,23 +59916,23 @@
 	  components: {
 	    ask: __webpack_require__(84),
 	    askchoice: __webpack_require__(89),
-	    choice: __webpack_require__(95),
-	    end: __webpack_require__(97),
-	    send: __webpack_require__(113),
-	    saveas: __webpack_require__(109),
-	    lbl: __webpack_require__(101),
-	    rmlbl: __webpack_require__(107),
-	    userdialsin: __webpack_require__(119),
-	    usersendsmessage: __webpack_require__(123),
-	    scheduled: __webpack_require__(111),
-	    manual: __webpack_require__(105),
-	    validatecliniccode: __webpack_require__(125),
-	    shownext9months: __webpack_require__(115),
-	    standardmessageset: __webpack_require__(117),
-	    latermessageset: __webpack_require__(103),
+	    choice: __webpack_require__(98),
+	    end: __webpack_require__(100),
+	    send: __webpack_require__(116),
+	    saveas: __webpack_require__(112),
+	    lbl: __webpack_require__(104),
+	    rmlbl: __webpack_require__(110),
+	    userdialsin: __webpack_require__(122),
+	    usersendsmessage: __webpack_require__(126),
+	    scheduled: __webpack_require__(114),
+	    manual: __webpack_require__(108),
+	    validatecliniccode: __webpack_require__(128),
+	    shownext9months: __webpack_require__(118),
+	    standardmessageset: __webpack_require__(120),
+	    latermessageset: __webpack_require__(106),
 	    acceleratedmessageset: __webpack_require__(81),
-	    calcweeks: __webpack_require__(91),
-	    filter: __webpack_require__(99)
+	    calcweeks: __webpack_require__(94),
+	    filter: __webpack_require__(102)
 	  }
 	});
 
@@ -59951,7 +59951,7 @@
 
 	// TODO something similar to this for filters
 	var BlockLibrary = Ractive.extend({
-	  template: __webpack_require__(127),
+	  template: __webpack_require__(130),
 	  data: function() {
 	    return {
 	      key: 'blocks',
@@ -60091,23 +60091,23 @@
 	exports.ask = __webpack_require__(84);
 	exports.askchoice = __webpack_require__(89);
 	exports.base = __webpack_require__(82);
-	exports.calcweeks = __webpack_require__(91);
-	exports.choice = __webpack_require__(95);
-	exports.end = __webpack_require__(97);
-	exports.filter = __webpack_require__(99);
+	exports.calcweeks = __webpack_require__(94);
+	exports.choice = __webpack_require__(98);
+	exports.end = __webpack_require__(100);
+	exports.filter = __webpack_require__(102);
 	exports.interaction = __webpack_require__(85);
-	exports.label = __webpack_require__(101);
-	exports.latermessageset = __webpack_require__(103);
-	exports.manual = __webpack_require__(105);
-	exports.rmlabel = __webpack_require__(107);
-	exports.saveas = __webpack_require__(109);
-	exports.scheduled = __webpack_require__(111);
-	exports.send = __webpack_require__(113);
-	exports.shownext9months = __webpack_require__(115);
-	exports.standardmessageset = __webpack_require__(117);
-	exports.userdialsin = __webpack_require__(119);
-	exports.usersendsmessage = __webpack_require__(123);
-	exports.validatecliniccode = __webpack_require__(125);
+	exports.label = __webpack_require__(104);
+	exports.latermessageset = __webpack_require__(106);
+	exports.manual = __webpack_require__(108);
+	exports.rmlabel = __webpack_require__(110);
+	exports.saveas = __webpack_require__(112);
+	exports.scheduled = __webpack_require__(114);
+	exports.send = __webpack_require__(116);
+	exports.shownext9months = __webpack_require__(118);
+	exports.standardmessageset = __webpack_require__(120);
+	exports.userdialsin = __webpack_require__(122);
+	exports.usersendsmessage = __webpack_require__(126);
+	exports.validatecliniccode = __webpack_require__(128);
 
 
 /***/ },
@@ -60306,45 +60306,84 @@
 
 	module.exports = Interaction.extend({
 	  template: __webpack_require__(90),
-	  partials: {blocks: __webpack_require__(135)},
+	  partials: {blocks: __webpack_require__(91)},
 	  addBlock: function() {
 	    this.push('blocks', {
 	      id: uuid.v4(),
 	      type: 'routing' // TODO choosable
 	    });
 	  },
+	  addChoice() {
+	    this.push('choices', newChoice());
+	  },
+	  onChoiceKeyDown(i) {
+	    if (i < this.get('choices').length - 1) return;
+	    this.addChoice();
+	  },
 	  data: function() {
 	    return {
 	      text: '',
-	      choices: [],
+	      choices: [newChoice()],
 	      blocks: []
 	    };
 	  },
 	  components: {
-	    routing: __webpack_require__(133)
+	    routing: __webpack_require__(92)
 	  }
 	});
+
+
+	function newChoice() {
+	  return {
+	    text: '',
+	    routing: null
+	  };
+	}
 
 
 /***/ },
 /* 90 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Ask and provide choices"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"textarea","a":{"class":"form-control ask-text","rows":"3","value":[{"t":2,"r":"text"}]}}]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"input-group nm-choice"},"f":[{"t":7,"e":"div","a":{"class":"input-group-addon"},"f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},"."]}," ",{"t":7,"e":"input","a":{"type":"text","class":"form-control","placeholder":"Add a new choice"}}," ",{"t":7,"e":"div","a":{"class":"input-group-addon"},"f":["goes to"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default form-control"},"f":["Choose sequence"]}]}],"i":"i","r":"choices"}," ",{"t":7,"e":"div","a":{"class":"form-group nm-choice-new"},"f":[{"t":7,"e":"div","a":{"class":"input-group"},"f":[{"t":7,"e":"div","a":{"class":"input-group-addon"},"f":[{"t":2,"x":{"r":["choices.length"],"s":"_0+1"}},"."]}," ",{"t":7,"e":"input","a":{"type":"text","class":"form-control","placeholder":"Add a new choice"}}]}]}]}]}," ",{"t":7,"e":"ul","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"li","a":{"class":"list-group-item"},"f":[{"t":8,"r":"blocks"}]}],"r":"blocks"}," ",{"t":7,"e":"li","a":{"class":"list-group-item"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+"]}]}," ",{"t":7,"e":"li","a":{"class":"list-group-item"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"save","a":{"r":[],"s":"[]"}}},"f":["Save"]}]}]}],"x":{"r":["mode"],"s":"_0===\"edit\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"onEdit","a":{"r":["event"],"s":"[_0]"}}},"f":["Edit"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Ask and provide choices"]}," ",{"t":4,"f":[{"t":7,"e":"p","f":[{"t":2,"r":"text"}]}],"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"p","f":[{"t":7,"e":"i","f":["No content"]}]}],"n":51,"r":"text"}]}," ",{"t":7,"e":"ul","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"li","a":{"class":"list-group-item"},"f":[{"t":8,"r":"blocks"}]}],"r":"blocks"}]}],"x":{"r":["mode"],"s":"_0===\"preview\""}}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Ask and provide choices"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"textarea","a":{"class":"form-control ask-text","rows":"3","value":[{"t":2,"r":"text"}]}}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"form-group nm-choice"},"f":[{"t":7,"e":"span","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". "]}," ",{"t":7,"e":"input","a":{"type":"text","class":"form-control","value":[{"t":2,"r":"text"}]},"m":[{"t":4,"f":["placeholder=\"Add a new choice\""],"x":{"r":["i","choices.length"],"s":"_0===_1-1"}}],"v":{"keyup":{"m":"onChoiceKeyDown","a":{"r":["i"],"s":"[_0]"}}}}]}],"i":"i","r":"choices"}]}," ",{"t":7,"e":"ul","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"li","a":{"class":"list-group-item"},"f":[{"t":8,"r":"blocks"}]}],"r":"blocks"}," ",{"t":7,"e":"li","a":{"class":"list-group-item"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+"]}]}," ",{"t":7,"e":"li","a":{"class":"list-group-item"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"save","a":{"r":[],"s":"[]"}}},"f":["Save"]}]}]}],"x":{"r":["mode"],"s":"_0===\"edit\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"onEdit","a":{"r":["event"],"s":"[_0]"}}},"f":["Edit"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Ask and provide choices"]}," ",{"t":4,"f":[{"t":7,"e":"p","f":[{"t":2,"r":"text"}]}],"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"p","f":[{"t":7,"e":"i","f":["No content"]}]}],"n":51,"r":"text"}]}," ",{"t":7,"e":"ul","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"li","a":{"class":"list-group-item"},"f":[{"t":8,"r":"blocks"}]}],"r":"blocks"}]}],"x":{"r":["mode"],"s":"_0===\"preview\""}}]}]};
 
 /***/ },
 /* 91 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"routing"}],"x":{"r":["type"],"s":"_0===\"routing\""}}]};
+
+/***/ },
+/* 92 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Ractive = __webpack_require__(8);
+
+
+	module.exports = Ractive.extend({
+	  template: __webpack_require__(93)
+	});
+
+
+/***/ },
+/* 93 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","f":["Routing (TODO)"]}]};
+
+/***/ },
+/* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
 	var Base = __webpack_require__(82);
 	var pg = __webpack_require__(40);
-	var ChooseDialogue = __webpack_require__(92);
+	var ChooseDialogue = __webpack_require__(95);
 	var ChooseValue = __webpack_require__(49);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(94),
+	  template: __webpack_require__(97),
 	  oninit: function() {
 	    var self = this;
 
@@ -60373,7 +60412,7 @@
 
 
 /***/ },
-/* 92 */
+/* 95 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
@@ -60382,7 +60421,7 @@
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(93),
+	  template: __webpack_require__(96),
 	  computed: {
 	    dialogue: function() {
 	      var screen = this.get('source');
@@ -60411,29 +60450,29 @@
 
 
 /***/ },
-/* 93 */
+/* 96 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":["/numi-prototypes/dialogues/",{"t":2,"r":"dialogue.id"}]},"f":["Dialogue: ",{"t":2,"r":"dialogue.name"}]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Choose dialogue"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Choose dialogue"]}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"type":"submit","class":"btn btn-default btn-block"},"v":{"click":{"m":"choose","a":{"r":["."],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}],"r":"dialogues"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"newdialogue","a":{"r":[],"s":"[]"}}},"f":["+ Add dialogue"]}]};
 
 /***/ },
-/* 94 */
+/* 97 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"strong","f":["Calculate weeks until due"]}]}," ",{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title","style":"margin-bottom: 0;"},"f":["Use this as the month:"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"inputValue"}]}],"r":"inputValue"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":["Choose user field"]}],"n":51,"r":"inputValue"}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"p","a":{"class":"nm-block-title","style":"margin-bottom: 0;"},"f":["Save calculation result as:"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"input","a":{"class":"form-control","type":"text"},"v":{"keyup":"valueChange"}}]}]}]}]};
 
 /***/ },
-/* 95 */
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
 	var Base = __webpack_require__(82);
 	var pg = __webpack_require__(40);
-	var ChooseDialogue = __webpack_require__(92);
+	var ChooseDialogue = __webpack_require__(95);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(96),
+	  template: __webpack_require__(99),
 	  chooseDialogue: function() {
 	    var colls = ChooseDialogue({el: $('<div>')});
 	    colls.set('source', this);
@@ -60443,31 +60482,31 @@
 
 
 /***/ },
-/* 96 */
+/* 99 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Choice"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"label","a":{"for":"choice-text"},"f":["Text"]}," ",{"t":7,"e":"input","a":{"type":"text","id":"choice-text","name":"choice-text","class":"form-control"}}," ",{"t":7,"e":"br"}," ",{"t":4,"f":[{"t":7,"e":"label","f":["Links to"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseDialogue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"p","a":{"class":"text-right"},"f":[{"t":7,"e":"a","a":{"href":["../../dialogues/",{"t":2,"r":"id"},"/edit"]},"f":["View dialogue"]}]}],"r":"dialogue"}," ",{"t":4,"f":[{"t":7,"e":"label","f":["Links to"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseDialogue","a":{"r":[],"s":"[]"}}},"f":["Choose dialogue"]}],"n":51,"r":"dialogue"}]}]}]}]};
 
 /***/ },
-/* 97 */
+/* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Base = __webpack_require__(82);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(98)
+	  template: __webpack_require__(101)
 	});
 
 
 /***/ },
-/* 98 */
+/* 101 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["End"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control","rows":"3"}}," "]}]}]};
 
 /***/ },
-/* 99 */
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
@@ -60478,7 +60517,7 @@
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(100),
+	  template: __webpack_require__(103),
 	  data: function() {
 	    return {
 	      blocks: []
@@ -60513,13 +60552,13 @@
 
 
 /***/ },
-/* 100 */
+/* 103 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["With users matching the filter"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseFilter","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"p","a":{"class":"text-right"},"f":[{"t":7,"e":"a","a":{"href":["../../filters/",{"t":2,"r":"id"},"/edit"]},"f":["View filter"]}]}],"r":"filter"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseFilter","a":{"r":[],"s":"[]"}}},"f":["Choose filter"]}],"n":51,"r":"filter"}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"div","f":[{"t":7,"e":"block"}]}],"r":"blocks"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]}]}]}]}]};
 
 /***/ },
-/* 101 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
@@ -60527,7 +60566,7 @@
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(102),
+	  template: __webpack_require__(105),
 	  data: function() {
 	    return {label: ''}
 	  },
@@ -60545,49 +60584,49 @@
 
 
 /***/ },
-/* 102 */
+/* 105 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Add label to user"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"input","a":{"class":"form-control","type":"text"},"v":{"keyup":"labelChange"}}]}]}]}]};
 
 /***/ },
-/* 103 */
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Base = __webpack_require__(82);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(104)
+	  template: __webpack_require__(107)
 	});
 
 
 /***/ },
-/* 104 */
+/* 107 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Send later message set"]}," "]}]}]};
 
 /***/ },
-/* 105 */
+/* 108 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Base = __webpack_require__(82);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(106)
+	  template: __webpack_require__(109)
 	});
 
 
 /***/ },
-/* 106 */
+/* 109 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Manual"]}," "]}]}]};
 
 /***/ },
-/* 107 */
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
@@ -60597,7 +60636,7 @@
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(108),
+	  template: __webpack_require__(111),
 	  data: function() {
 	    return {label: ''}
 	  },
@@ -60620,13 +60659,13 @@
 
 
 /***/ },
-/* 108 */
+/* 111 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Remove label from user"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseLabel","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"label"}]}],"r":"label"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseLabel","a":{"r":[],"s":"[]"}}},"f":["Choose label"]}],"n":51,"r":"label"}]}]}]}]};
 
 /***/ },
-/* 109 */
+/* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
@@ -60634,7 +60673,7 @@
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(110),
+	  template: __webpack_require__(113),
 	  data: function() {
 	    return {value: ''}
 	  },
@@ -60652,13 +60691,13 @@
 
 
 /***/ },
-/* 110 */
+/* 113 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Save answer as user field"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"input","a":{"class":"form-control","type":"text"},"v":{"keyup":"valueChange"}}]}]}]}]};
 
 /***/ },
-/* 111 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
@@ -60668,7 +60707,7 @@
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(112),
+	  template: __webpack_require__(115),
 	  data: function() {
 	    return {
 	      frequency: 1,
@@ -60694,20 +60733,20 @@
 
 
 /***/ },
-/* 112 */
+/* 115 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Scheduled"]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Every"]}," ",{"t":7,"e":"input","a":{"type":"number","value":[{"t":2,"r":"frequency"}],"class":"form-control"}}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-justified","data-toggle":"buttons"},"f":[{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"interval\",\"day\"]"}}},"a":{"class":"btn btn-default active"},"f":[{"t":7,"e":"input","a":{"type":"radio","checked":0}}," Days"]}," ",{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"interval\",\"week\"]"}}},"a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio"}}," Weeks"]}," ",{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"interval\",\"month\"]"}}},"a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio"}}," Months"]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"text-right","style":"clear: right;"},"f":["On ",{"t":7,"e":"strong","f":[{"t":2,"r":"interval"}," ",{"t":2,"x":{"r":["frequency","i"],"s":"_0*(_1+1)"}}]},"."]}," ",{"t":7,"e":"block"}],"i":"i","r":"blocks"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]}]}]}]};
 
 /***/ },
-/* 113 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Interaction = __webpack_require__(85);
 
 
 	module.exports = Interaction.extend({
-	  template: __webpack_require__(114),
+	  template: __webpack_require__(117),
 	  data: function() {
 	    return {isSessionLast: false};
 	  }
@@ -60715,59 +60754,59 @@
 
 
 /***/ },
-/* 114 */
+/* 117 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Send"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control","rows":"3","value":[{"t":2,"r":"text"}]}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":["Added placeholder text: ",{"t":7,"e":"code","f":[{"t":2,"r":"notification"}]}]}]}],"r":"notification"}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addContent","a":{"r":[],"s":"[]"}}},"f":["+ Insert special text"]}]}," ",{"t":4,"f":[{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":["The session ends after this message."]}],"r":"isSessionLast"}]}]};
 
 /***/ },
-/* 115 */
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Base = __webpack_require__(82);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(116)
+	  template: __webpack_require__(119)
 	});
 
 
 /***/ },
-/* 116 */
+/* 119 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Show next 9 months"]}," Use the ",{"t":7,"e":"code","f":["[next 9 months]"]}," placeholder in your message."]}]}]};
 
 /***/ },
-/* 117 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Base = __webpack_require__(82);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(118)
+	  template: __webpack_require__(121)
 	});
 
 
 /***/ },
-/* 118 */
+/* 121 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Send standard message set"]}," "]}]}]};
 
 /***/ },
-/* 119 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
 	var Base = __webpack_require__(82);
 	var pg = __webpack_require__(40);
-	var ChooseChannel = __webpack_require__(120);
+	var ChooseChannel = __webpack_require__(123);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(122),
+	  template: __webpack_require__(125),
 	  data: function() {
 	    return {
 	      channel: null
@@ -60790,7 +60829,7 @@
 
 
 /***/ },
-/* 120 */
+/* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Ractive = __webpack_require__(8);
@@ -60798,7 +60837,7 @@
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(121),
+	  template: __webpack_require__(124),
 	  data: function()  {
 	    return {
 	      channels: [
@@ -60823,29 +60862,29 @@
 
 
 /***/ },
-/* 121 */
+/* 124 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"popover left","style":"left: 13em; top: 15em;"},"f":[{"t":7,"e":"div","a":{"class":"arrow"}}," ",{"t":7,"e":"div","a":{"class":"popover-content"},"f":[{"t":7,"e":"p","f":["Lits of all available channels. Big, blocky, buttons for easy usage."]}]}]}," ",{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":["/numi-prototypes/dialogues/",{"t":2,"r":"dialogue.id"}]},"f":["Dialogue: ",{"t":2,"r":"dialogue.name"}]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Choose channel"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Choose channel"]}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"type":"submit","class":"btn btn-default btn-block"},"v":{"click":{"m":"choose","a":{"r":["name"],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}],"r":"channels"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"f":["+ Add channel"]}]};
 
 /***/ },
-/* 122 */
+/* 125 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["When user dials in on"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseChannel","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"channel"}]}],"r":"channel"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseChannel","a":{"r":[],"s":"[]"}}},"f":["Choose channel"]}],"n":51,"r":"channel"}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"save","a":{"r":[],"s":"[]"}}},"f":["Save"]}],"x":{"r":["mode"],"s":"_0===\"edit\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"onEdit","a":{"r":["event"],"s":"[_0]"}}},"f":["Edit"]}]}," ",{"t":4,"f":[{"t":7,"e":"p","f":[{"t":7,"e":"span","a":{"class":"nm-block-title"},"f":["When user dials in on"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":[{"t":2,"r":"channel"}]}]}],"r":"channel"}," ",{"t":4,"f":[{"t":7,"e":"p","f":[{"t":7,"e":"span","a":{"class":"nm-block-title"},"f":["When user dials in"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"i","f":["No channel given"]}]}],"n":51,"r":"channel"}],"x":{"r":["mode"],"s":"_0===\"preview\""}}]}]}]};
 
 /***/ },
-/* 123 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
 	var Base = __webpack_require__(82);
 	var pg = __webpack_require__(40);
-	var ChooseChannel = __webpack_require__(120);
+	var ChooseChannel = __webpack_require__(123);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(124),
+	  template: __webpack_require__(127),
 	  chooseChannel: function() {
 	    var channels = ChooseChannel({el: $('<div>')});
 	    channels.set('source', this);
@@ -60855,24 +60894,24 @@
 
 
 /***/ },
-/* 124 */
+/* 127 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["When user sends"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control","rows":"3","value":[{"t":2,"r":"text"}]}}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseChannel","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"channel"}]}],"r":"channel"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseChannel","a":{"r":[],"s":"[]"}}},"f":["Choose channel"]}],"n":51,"r":"channel"}," ",{"t":7,"e":"br"}]}]}]};
 
 /***/ },
-/* 125 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
 	var Base = __webpack_require__(82);
 	var pg = __webpack_require__(40);
-	var ChooseDialogue = __webpack_require__(92);
+	var ChooseDialogue = __webpack_require__(95);
 	var ChooseValue = __webpack_require__(49);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(126),
+	  template: __webpack_require__(129),
 	  choosePassDialogue: function() {
 	    var colls = ChooseDialogue({el: $('<div>')});
 	    colls.set('source', this);
@@ -60904,37 +60943,37 @@
 
 
 /***/ },
-/* 126 */
+/* 129 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"strong","f":["Validate Clinic Code"]}]}," ",{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title","style":"margin-bottom: 0;"},"f":["Use this as the clinic code:"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"value"}]}],"r":"value"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":["Choose user field"]}],"n":51,"r":"value"}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"ul","a":{"class":"nav nav-stacked"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"label","a":{"for":"choice-text-1"},"f":["If it's ",{"t":7,"e":"strong","f":["valid"]},", go to:"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"choosePassDialogue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"p","a":{"class":"text-right"},"f":[{"t":7,"e":"a","a":{"href":["../../dialogues/",{"t":2,"r":"id"},"/edit"]},"f":["View dialogue"]}]}],"r":"passDialogue"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"choosePassDialogue","a":{"r":[],"s":"[]"}}},"f":["Choose dialogue"]}],"n":51,"r":"passDialogue"}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"br"}," ",{"t":7,"e":"label","a":{"for":"choice-text-1"},"f":["If it's ",{"t":7,"e":"strong","f":["invalid"]},", go to:"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseFailDialogue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"p","a":{"class":"text-right"},"f":[{"t":7,"e":"a","a":{"href":["../../dialogues/",{"t":2,"r":"id"},"/edit"]},"f":["View dialogue"]}]}],"r":"failDialogue"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseFailDialogue","a":{"r":[],"s":"[]"}}},"f":["Choose dialogue"]}],"n":51,"r":"failDialogue"}]}]}]}]}]}]};
 
 /***/ },
-/* 127 */
+/* 130 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"container"},"f":[{"t":7,"e":"div","a":{"class":"row"},"f":[{"t":7,"e":"div","a":{"class":"col-md-12"},"f":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":["/numi-prototypes/dialogues/",{"t":2,"r":"dialogue.id"}]},"f":["Dialogue: ",{"t":2,"r":"dialogue.name"}]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Library"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Library"]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel-group","id":["accordion",{"t":2,"r":"name"}],"role":"tablist","aria-multiselectable":"true"},"f":[{"t":7,"e":"div","a":{"class":["panel panel-default ",{"t":4,"f":["panel-highlighted"],"x":{"r":["name"],"s":"_0===\"custom-components\""}}]},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"h2","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":["#collapse",{"t":2,"r":"name"}],"aria-expanded":"true","aria-controls":["collapse",{"t":2,"r":"name"}]},"f":[{"t":2,"r":"title"}]}]}]}," ",{"t":7,"e":"div","a":{"id":["collapse",{"t":2,"r":"name"}],"class":"panel-collapse collapse","role":"tabpanel","aria-labelledby":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible alert-lib","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Interactions"]}," are messages that will be displayed to the user."]}]}],"x":{"r":["name"],"s":"_0===\"interactions\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible alert-lib","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["User data actions"]}," are used with an ",{"t":7,"e":"strong","f":["Interaction"]}," to be able to use a user field later, or to categorise a user."]}]}],"x":{"r":["name"],"s":"_0===\"user-data\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible alert-lib","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Placeholders"]}," are blocks of dynamically generated content that you can use inside an ",{"t":7,"e":"strong","f":["Interaction"]}," block."]}," ",{"t":7,"e":"p","f":["Use them by putting their keyword inside square brackets like this: ",{"t":7,"e":"code","f":["[keyword]"]}]}]}],"x":{"r":["name"],"s":"_0===\"placeholders\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible alert-lib","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Calculation blocks"]}," are written by developers to perform complex actions on user data."]}]}],"x":{"r":["name"],"s":"_0===\"custom-components\""}}," ",{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-library","role":"group"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default","data-toggle":"collapse","data-target":["#collapse",{"t":2,"r":"type"}],"aria-expanded":"false","aria-controls":"collapse"},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-question-sign","aria-hidden":"true"}}]}]}," ",{"t":7,"e":"div","a":{"class":"collapse alert alert-info alert-dismissible","role":"alert","id":["collapse",{"t":2,"r":"type"}],"data-toggle":"collapse","data-target":["#collapse",{"t":2,"r":"type"}],"aria-expanded":"false"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":2,"r":"helptext"}]}],"x":{"r":["name"],"s":"_0!==\"custom-components\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-library","role":"group"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default","style":"text-align: left;"},"v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default","data-toggle":"collapse","data-target":["#collapse",{"t":2,"r":"type"}],"aria-expanded":"false","aria-controls":"collapse"},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-question-sign","aria-hidden":"true"}}]}]}," ",{"t":7,"e":"div","a":{"class":"collapse","id":["collapse",{"t":2,"r":"type"}]},"f":[{"t":7,"e":"div","a":{"class":"well"},"f":[{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["User input"]},{"t":7,"e":"br"}," ",{"t":2,"r":"userinput"}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Action"]},{"t":7,"e":"br"}," ",{"t":2,"r":"action"}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Output"]},{"t":7,"e":"br"}," ",{"t":2,"r":"output"}]}]}]}],"x":{"r":["name"],"s":"_0===\"custom-components\""}}],"r":"blocks"}]}]}]}]}],"r":"types"}," ",{"t":7,"e":"div","a":{"class":"panel-group","id":"accordion","role":"tablist","aria-multiselectable":"true"},"f":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":"headingOne"},"f":[{"t":7,"e":"h4","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":"#collapseOne","aria-expanded":"true","aria-controls":"collapseOne"},"f":["Filters"]}]}]}," ",{"t":7,"e":"div","a":{"id":"collapseOne","class":"panel-collapse collapse","role":"tabpanel","aria-labelledby":"headingOne"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible alert-lib","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Filters"]}," select a group of users based on fields you have set up using ",{"t":7,"e":"strong","f":["Save Answer"]}," or ",{"t":7,"e":"strong","f":["Add label to user"]}," steps in a ",{"t":7,"e":"strong","f":["Dialogue"]},"."]}]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-library"},"v":{"click":{"m":"addFilter","a":{"r":["."],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}],"r":"filters"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-library nm-placeholder"},"v":{"click":{"m":"newFilter","a":{"r":[],"s":"[]"}}},"f":["+ Add filter"]}]}]}]}]}]}]}]}]};
 
 /***/ },
-/* 128 */
+/* 131 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h4","f":[{"t":7,"e":"div","a":{"class":"nm-name"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}]}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks sortable-blocks-ordered"},"f":[{"t":4,"f":[{"t":8,"r":"blocks"}],"r":"blocks"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+"]}]}]};
 
 /***/ },
-/* 129 */
+/* 132 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"ask","a":{"text":[{"t":2,"r":"text"}]}}],"x":{"r":["type"],"s":"_0===\"ask\""}},{"t":4,"f":[{"t":7,"e":"askchoice","a":{"text":[{"t":2,"r":"text"}],"blocks":[{"t":2,"r":"blocks"}]}}],"x":{"r":["type"],"s":"_0===\"askchoice\""}},{"t":4,"f":[{"t":7,"e":"choice"}],"x":{"r":["type"],"s":"_0===\"choice\""}},{"t":4,"f":[{"t":7,"e":"end"}],"x":{"r":["type"],"s":"_0===\"end\""}},{"t":4,"f":[{"t":7,"e":"send"}],"x":{"r":["type"],"s":"_0===\"send\""}},{"t":4,"f":[{"t":7,"e":"saveas"}],"x":{"r":["type"],"s":"_0===\"saveas\""}},{"t":4,"f":[{"t":7,"e":"lbl"}],"x":{"r":["type"],"s":"_0===\"label\""}},{"t":4,"f":[{"t":7,"e":"rmlbl"}],"x":{"r":["type"],"s":"_0===\"rmlabel\""}},{"t":4,"f":[{"t":7,"e":"userdialsin","a":{"channel":[{"t":2,"r":"channel"}]}}],"x":{"r":["type"],"s":"_0===\"userdialsin\""}},{"t":4,"f":[{"t":7,"e":"usersendsmessage"}],"x":{"r":["type"],"s":"_0===\"usersendsmessage\""}},{"t":4,"f":[{"t":7,"e":"scheduled"}],"x":{"r":["type"],"s":"_0===\"scheduled\""}},{"t":4,"f":[{"t":7,"e":"manual"}],"x":{"r":["type"],"s":"_0===\"manual\""}},{"t":4,"f":[{"t":7,"e":"validatecliniccode"}],"x":{"r":["type"],"s":"_0===\"validatecliniccode\""}},{"t":4,"f":[{"t":7,"e":"shownext9months"}],"x":{"r":["type"],"s":"_0===\"shownext9months\""}},{"t":4,"f":[{"t":7,"e":"standardmessageset"}],"x":{"r":["type"],"s":"_0===\"standardmessageset\""}},{"t":4,"f":[{"t":7,"e":"latermessageset"}],"x":{"r":["type"],"s":"_0===\"latermessageset\""}},{"t":4,"f":[{"t":7,"e":"acceleratedmessageset"}],"x":{"r":["type"],"s":"_0===\"acceleratedmessageset\""}},{"t":4,"f":[{"t":7,"e":"calcweeks"}],"x":{"r":["type"],"s":"_0===\"calcweeks\""}},{"t":4,"f":[{"t":7,"e":"filter","a":{"filter":[{"t":2,"r":"filter"}]}}],"x":{"r":["type"],"s":"_0===\"filter\""}}]};
 
 /***/ },
-/* 130 */
+/* 133 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"container"},"f":[{"t":7,"e":"div","a":{"class":"row"},"f":[{"t":7,"e":"div","a":{"class":"col-md-12"},"f":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","a":{"class":"active"},"f":["Home"]}]}," ",{"t":7,"e":"ul","a":{"class":"nav nav-tabs","role":"tablist"},"f":[{"t":7,"e":"li","a":{"role":"presentation","class":"active"},"f":[{"t":7,"e":"a","a":{"href":"#dialogues","aria-controls":"dialogues","role":"tab","data-toggle":"tab"},"f":["Dialogues"]}]}," ",{"t":7,"e":"li","a":{"role":"presentation"},"f":[{"t":7,"e":"a","a":{"href":"#filters","aria-controls":"filters","role":"tab","data-toggle":"tab"},"f":["Filters"]}]}]}," ",{"t":7,"e":"div","a":{"class":"tab-content"},"f":[{"t":7,"e":"div","a":{"role":"tabpanel","class":"tab-pane active","id":"dialogues"},"f":[{"t":7,"e":"br"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert","style":"width: 400px;"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":["Add a ",{"t":7,"e":"strong","f":["Dialogue"]}," to get started."]}]}],"n":51,"r":"dialogues"}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel panel-default text-left","id":["coll",{"t":2,"r":"id"}]},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":["id"],"s":"[_0]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel-heading"},"f":[{"t":2,"r":"eventPreview"}]}],"r":"eventPreview"}," ",{"t":7,"e":"a","a":{"href":["./dialogues/",{"t":2,"r":"id"}],"class":"btn btn-link btn-block"},"f":[{"t":2,"r":"name"}]}]}],"r":"dialogues"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"newDialogue","a":{"r":[],"s":"[]"}}},"f":["+ Add dialogue"]}]}," ",{"t":7,"e":"div","a":{"role":"tabpanel","class":"tab-pane","id":"filters"},"f":[{"t":7,"e":"br"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Filters"]}," select a group of users based a set of ",{"t":7,"e":"strong","f":["conditions"]}," that you choose."]}," ",{"t":7,"e":"p","f":["Add ",{"t":7,"e":"strong","f":["Save Answer"]}," or ",{"t":7,"e":"strong","f":["Add label to user"]}," steps in a ",{"t":7,"e":"strong","f":[{"t":7,"e":"a","a":{"href":"#dialogues"},"f":["Dialogue"]}]}," to use them in filters."]}]}],"n":51,"r":"filters"}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel panel-default text-left"},"f":[{"t":7,"e":"a","a":{"href":["./filters/",{"t":2,"r":"id"}],"class":"btn btn-link btn-block"},"f":[{"t":2,"r":"name"}]}]}],"r":"filters"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"newFilter","a":{"r":[],"s":"[]"}}},"f":["+ Add filter"]}]}]}]}]}]}]};
 
 /***/ },
-/* 131 */
+/* 134 */
 /***/ function(module, exports) {
 
 	var prefix = 'numi-prototype:';
@@ -60972,31 +61011,6 @@
 	exports.has = has;
 	exports.clear = clear;
 
-
-/***/ },
-/* 132 */,
-/* 133 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Ractive = __webpack_require__(8);
-
-
-	module.exports = Ractive.extend({
-	  template: __webpack_require__(134)
-	});
-
-
-/***/ },
-/* 134 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","f":["Routing (TODO)"]}]};
-
-/***/ },
-/* 135 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"routing"}],"x":{"r":["type"],"s":"_0===\"routing\""}}]};
 
 /***/ }
 /******/ ]);

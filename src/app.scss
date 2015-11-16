@@ -205,3 +205,19 @@ hr {
 
   @include scrollbars();
 }
+
+
+.nm-choice {
+  display: table;
+  clear: both;
+  width: 100%;
+
+  span {
+    display: table-cell;
+    width: 21px;
+  }
+
+  input {
+    display: table-cell;
+  }
+}

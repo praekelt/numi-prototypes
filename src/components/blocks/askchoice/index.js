@@ -11,10 +11,17 @@ module.exports = Interaction.extend({
       type: 'routing' // TODO choosable
     });
   },
+  addChoice() {
+    this.push('choices', newChoice());
+  },
+  onChoiceKeyDown(i) {
+    if (i < this.get('choices').length - 1) return;
+    this.addChoice();
+  },
   data: function() {
     return {
       text: '',
-      choices: [],
+      choices: [newChoice()],
       blocks: []
     };
   },
@@ -22,3 +29,11 @@ module.exports = Interaction.extend({
     routing: require('./blocks/routing')
   }
 });
+
+
+function newChoice() {
+  return {
+    text: '',
+    routing: null
+  };
+}

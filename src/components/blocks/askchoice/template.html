@@ -8,23 +8,12 @@
       <textarea class="form-control ask-text" rows="3" value="{{text}}"></textarea>
     </div>
 
-    <div class="form-group">
-      {{#choices:i}}
-      <div class="input-group nm-choice">
-        <div class="input-group-addon">{{i + 1}}.</div>
-        <input type="text" class="form-control" placeholder="Add a new choice">
-        <div class="input-group-addon">goes to</div>
-        <button class="btn btn-default form-control">Choose sequence</button>
-      </div>
-      {{/choices}}
-
-      <div class="form-group nm-choice-new">
-        <div class="input-group">
-          <div class="input-group-addon">{{choices.length + 1}}.</div>
-          <input type="text" class="form-control" placeholder="Add a new choice">
-        </div>
-      </div>
+    {{#choices:i}}
+    <div class="form-group nm-choice">
+      <span>{{i + 1}}.&nbsp</span>
+      <input type="text" class="form-control" value="{{text}}" {{# i === choices.length - 1}}placeholder="Add a new choice"{{/}} on-keyup="onChoiceKeyDown(i)">
     </div>
+    {{/choices}}
   </div>
 
   <ul class="list-group">
