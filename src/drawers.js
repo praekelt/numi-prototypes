@@ -1,7 +1,7 @@
 var $ = require('jquery');
 
 
-var duration = 300;
+var duration = 200;
 var stack = [];
 
 

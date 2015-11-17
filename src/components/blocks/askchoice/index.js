@@ -1,24 +1,9 @@
 var $ = require('jquery');
-var Interaction = require('../interaction');
+var Base = require('../base');
 
 
-module.exports = Interaction.extend({
-  template: require('./template.html'),
-  showEditModal() {
-    $(this.el).find('.nm-modal-edit').modal('show');
-  },
-  showTab(e, to) {
-    e.original.preventDefault();
-    $(this.el).find('.nm-modal-edit a[href="#' + to + '"]').tab('show');
-    return false;
-  },
-  addChoice() {
-    this.push('allChoices', newChoice());
-  },
-  onChoiceKeyDown(i) {
-    if (i < this.get('allChoices').length - 1) return;
-    this.addChoice();
-  },
+var AskChoice = Base.extend({
+  template: require('./preview.html'),
   data: function() {
     return {
       text: '',
@@ -33,9 +18,29 @@ module.exports = Interaction.extend({
 });
 
 
+AskChoice.Edit = Base.Edit.extend({
+  template: require('./edit.html'),
+  showTab(e, to) {
+    e.original.preventDefault();
+    $(this.el).find('a[href="#' + to + '"]').tab('show');
+    return false;
+  },
+  addChoice() {
+    this.push('allChoices', newChoice());
+  },
+  onChoiceKeyDown(i) {
+    if (i < this.get('allChoices').length - 1) return;
+    this.addChoice();
+  },
+});
+
+
 function newChoice() {
   return {
     text: '',
     routing: null
   };
 }
+
+
+module.exports = AskChoice;
