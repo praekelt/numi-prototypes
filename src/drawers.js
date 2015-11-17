@@ -59,11 +59,8 @@ function change(view) {
 
 function newDrawer() {
   return $([
-    '<div class="container nm-drawer" hidden>',
-    '  <div class="row">',
-    '    <div class="col-xs-12 col-sm-offset-6 col-sm-6 col-md-offset-8 col-md-4 nm-drawer-body">',
-    '  </div>',
-    '  </div>',
+    '<div class="nm-drawer" hidden>',
+  '    <div class="nm-drawer-body"></div>',
     '</div>'
   ].join('\n'));
 }

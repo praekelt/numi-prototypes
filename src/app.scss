@@ -229,8 +229,18 @@ hr {
 }
 
 .nm-drawer-body {
+  margin-left: auto;
+  padding: 20px;
   height: 100%;
   background: $bg0;
   border-left: 1px solid $fg3;
   pointer-events: auto;
+
+  @media (min-width: 768px) {
+    width: 50%;
+  }
+
+  @media (min-width: 992px) {
+    width: 33.33%;
+  }
 }
