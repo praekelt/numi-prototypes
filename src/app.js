@@ -3,7 +3,6 @@ require('jquery-ui');
 require('./app.scss');
 require('../bootstrap/js/bootstrap.min.js');
 
-var Ractive = require('ractive');
 var $ = require('jquery');
 var page = require('page');
 var Dashboard = require('./views/dashboard');
@@ -19,7 +18,6 @@ window.dashboard = Dashboard({
     : {}
 });
 page.base('/numi-prototypes');
-
 
 page('/', function(ctx, next) {
   hist.clear();

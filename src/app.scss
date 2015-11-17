@@ -221,3 +221,15 @@ hr {
     display: table-cell;
   }
 }
+
+.nm-drawer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.nm-drawer-body {
+  background: $bg1;
+  height: 100vh;
+}

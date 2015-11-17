@@ -7,8 +7,9 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.scss/, loader: "style!css!sass" },
-      { test: /\.html$/, loader: "ractive" }
+      {test: /\.css/, loader: "style!css"},
+      {test: /\.scss/, loader: "style!css!sass"},
+      {test: /\.html$/, loader: "ractive"}
     ]
   }
 };
