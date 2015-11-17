@@ -24364,7 +24364,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(133)();
-	exports.push([module.id, "@charset \"UTF-8\";\nhtml {\n  margin: 0 auto; }\n\nbody {\n  background-color: #fff; }\n\n.nm-page {\n  padding: 1em;\n  padding-bottom: 3em; }\n\n.nm-placeholder {\n  border-style: dashed; }\n\n.nm-block-title {\n  color: #666;\n  font-weight: bold; }\n\n.btn-library {\n  margin: .5em .75em .5em 0; }\n\n.screen {\n  border-bottom: solid 1px #666;\n  margin-bottom: 2em;\n  padding-bottom: 2em; }\n\n.page-header {\n  margin-top: 0; }\n\n.sortable-blocks .nm-block-title:hover,\n.sortable-blocks .panel-heading:hover {\n  cursor: move; }\n\n.panel-highlighted {\n  border: solid 1px #999; }\n\n.text-left .btn {\n  text-align: left; }\n\n.panel {\n  clear: both; }\n  .panel .close {\n    position: relative;\n    right: -10px;\n    top: -15px; }\n\n.btn.close-screen {\n  margin-bottom: 1em; }\n\n.close-screen-text {\n  font-size: small;\n  left: -4px;\n  position: relative;\n  top: -2px; }\n\n.panel-title a {\n  display: block; }\n\n[data-toggle=\"collapse\"] {\n  position: relative; }\n  [data-toggle=\"collapse\"]:before {\n    content: '▼';\n    position: absolute;\n    right: 0; }\n  [data-toggle=\"collapse\"].collapsed:before {\n    content: '▲';\n    position: absolute;\n    right: 0; }\n\n[data-toggle=\"collapse\"]:before {\n  content: ''; }\n\n[data-toggle=\"collapse\"]:after {\n  content: ''; }\n\n.nm-rename-value {\n  width: 100%; }\n\n.alert-lib {\n  padding-right: 16px; }\n\nhr {\n  border-color: #999; }\n\n.sortable-blocks-ordered .panel {\n  margin-bottom: 3em; }\n\n.popover {\n  display: none; }\n\n.nm-dialogue {\n  user-select: none; }\n  .nm-dialogue * {\n    -webkit-touch-callout: none;\n    -webkit-user-select: none;\n    -khtml-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none; }\n\n.nm-sequence {\n  border: 1px solid #e0e0e0;\n  user-select: none;\n  margin-left: 0;\n  margin-right: 0;\n  padding: 10px;\n  overflow-y: scroll; }\n  .nm-sequence:not(:first-child) {\n    border-left: none; }\n  .nm-sequence:first-child {\n    border-top-left-radius: 4px;\n    border-bottom-left-radius: 4px;\n    -webkit-border-top-left-radius: 4px;\n    -webkit-border-bottom-left-radius: 4px; }\n  .nm-sequence:last-child {\n    border-top-right-radius: 4px;\n    border-bottom-right-radius: 4px;\n    -webkit-border-top-right-radius: 4px;\n    -webkit-border-bottom-right-radius: 4px; }\n  .nm-sequence * {\n    -webkit-touch-callout: none;\n    -webkit-user-select: none;\n    -khtml-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none; }\n  .nm-sequence h4 {\n    padding: 5px; }\n  .nm-sequence::-webkit-scrollbar-track {\n    background: #efefef; }\n  .nm-sequence::-webkit-scrollbar {\n    width: 5px;\n    background: #efefef; }\n  .nm-sequence::-webkit-scrollbar-thumb {\n    background: #c9c9c9; }\n\n.nm-choice {\n  display: table;\n  clear: both;\n  width: 100%; }\n  .nm-choice span {\n    display: table-cell;\n    width: 21px; }\n  .nm-choice input {\n    display: table-cell; }\n\n.nm-drawer {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  pointer-events: none; }\n  .nm-drawer .row {\n    height: 100%; }\n\n.nm-drawer-body {\n  margin-left: auto;\n  padding: 20px;\n  height: 100%;\n  background: #fff;\n  border-left: 1px solid #eee;\n  pointer-events: auto; }\n  @media (min-width: 768px) {\n    .nm-drawer-body {\n      width: 50%; } }\n  @media (min-width: 992px) {\n    .nm-drawer-body {\n      width: 33.33%; } }\n", ""]);
+	exports.push([module.id, "@charset \"UTF-8\";\nhtml {\n  margin: 0 auto; }\n\nbody {\n  background-color: #fff; }\n\n.nm-page {\n  padding: 1em;\n  padding-bottom: 3em; }\n\n.nm-placeholder {\n  border-style: dashed; }\n\n.nm-block-title {\n  color: #666;\n  font-weight: bold; }\n\n.btn-library {\n  margin: .5em .75em .5em 0; }\n\n.screen {\n  border-bottom: solid 1px #666;\n  margin-bottom: 2em;\n  padding-bottom: 2em; }\n\n.page-header {\n  margin-top: 0; }\n\n.sortable-blocks .nm-block-title:hover,\n.sortable-blocks .panel-heading:hover {\n  cursor: move; }\n\n.panel-highlighted {\n  border: solid 1px #999; }\n\n.text-left .btn {\n  text-align: left; }\n\n.panel {\n  clear: both; }\n  .panel .close {\n    position: relative;\n    right: -10px;\n    top: -15px; }\n\n.btn.close-screen {\n  margin-bottom: 1em; }\n\n.close-screen-text {\n  font-size: small;\n  left: -4px;\n  position: relative;\n  top: -2px; }\n\n.panel-title a {\n  display: block; }\n\n[data-toggle=\"collapse\"] {\n  position: relative; }\n  [data-toggle=\"collapse\"]:before {\n    content: '▼';\n    position: absolute;\n    right: 0; }\n  [data-toggle=\"collapse\"].collapsed:before {\n    content: '▲';\n    position: absolute;\n    right: 0; }\n\n[data-toggle=\"collapse\"]:before {\n  content: ''; }\n\n[data-toggle=\"collapse\"]:after {\n  content: ''; }\n\n.nm-rename-value {\n  width: 100%; }\n\n.alert-lib {\n  padding-right: 16px; }\n\nhr {\n  border-color: #999; }\n\n.sortable-blocks-ordered .panel {\n  margin-bottom: 3em; }\n\n.popover {\n  display: none; }\n\n.nm-dialogue {\n  user-select: none; }\n  .nm-dialogue * {\n    -webkit-touch-callout: none;\n    -webkit-user-select: none;\n    -khtml-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none; }\n\n.nm-sequence {\n  border: 1px solid #e0e0e0;\n  user-select: none;\n  margin-left: 0;\n  margin-right: 0;\n  padding: 10px;\n  height: 90vh;\n  overflow-y: scroll; }\n  .nm-sequence:not(:first-child) {\n    border-left: none; }\n  .nm-sequence:first-child {\n    border-top-left-radius: 4px;\n    border-bottom-left-radius: 4px;\n    -webkit-border-top-left-radius: 4px;\n    -webkit-border-bottom-left-radius: 4px; }\n  .nm-sequence:last-child {\n    border-top-right-radius: 4px;\n    border-bottom-right-radius: 4px;\n    -webkit-border-top-right-radius: 4px;\n    -webkit-border-bottom-right-radius: 4px; }\n  .nm-sequence * {\n    -webkit-touch-callout: none;\n    -webkit-user-select: none;\n    -khtml-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none; }\n  .nm-sequence h4 {\n    padding: 5px; }\n  .nm-sequence::-webkit-scrollbar-track {\n    background: #efefef; }\n  .nm-sequence::-webkit-scrollbar {\n    width: 5px;\n    background: #efefef; }\n  .nm-sequence::-webkit-scrollbar-thumb {\n    background: #c9c9c9; }\n\n.nm-choice {\n  display: table;\n  clear: both;\n  width: 100%; }\n  .nm-choice span {\n    display: table-cell;\n    width: 21px; }\n  .nm-choice input {\n    display: table-cell; }\n\n.nm-drawer {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  pointer-events: none; }\n  .nm-drawer .row {\n    height: 100%; }\n\n.nm-drawer-body {\n  margin-left: auto;\n  padding: 20px;\n  height: 100%;\n  background: #fff;\n  border-left: 1px solid #eee;\n  pointer-events: auto; }\n  @media (min-width: 768px) {\n    .nm-drawer-body {\n      width: 50%; } }\n  @media (min-width: 992px) {\n    .nm-drawer-body {\n      width: 33.33%; } }\n", ""]);
 
 /***/ },
 /* 5 */
@@ -60103,7 +60103,7 @@
 
 	Base.Edit = Ractive.extend({
 	  close: function() {
-	    drawers.close();
+	    drawers.close(this);
 	  }
 	});
 
@@ -60285,6 +60285,7 @@
 /* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var _ = __webpack_require__(12);
 	var $ = __webpack_require__(1);
 
 
@@ -60292,9 +60293,11 @@
 	var stack = [];
 
 
-	function close() {
-	  var drawer = stack.pop();
-	  if (!drawer) return;
+	function close(view) {
+	  var i = _.findIndex(stack, {view: view});
+	  if (i < 0) return;
+	  var drawer = stack[i];
+	  stack.splice(i, 1);
 
 	  return new Promise(function(resolve, reject) {
 	    drawer.$el

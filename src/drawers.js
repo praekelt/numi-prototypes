@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var $ = require('jquery');
 
 
@@ -5,9 +6,11 @@ var duration = 200;
 var stack = [];
 
 
-function close() {
-  var drawer = stack.pop();
-  if (!drawer) return;
+function close(view) {
+  var i = _.findIndex(stack, {view: view});
+  if (i < 0) return;
+  var drawer = stack[i];
+  stack.splice(i, 1);
 
   return new Promise(function(resolve, reject) {
     drawer.$el

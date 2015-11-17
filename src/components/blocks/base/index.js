@@ -33,7 +33,7 @@ var Base = Ractive.extend({
 
 Base.Edit = Ractive.extend({
   close: function() {
-    drawers.close();
+    drawers.close(this);
   }
 });
 
