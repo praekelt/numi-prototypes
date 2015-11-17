@@ -44,6 +44,7 @@ function open(view) {
         duration: duration,
         direction: 'right',
         complete: function() {
+          focusFirstInput(view.el);
           resolve();
         }
       });
@@ -60,11 +61,19 @@ function newDrawer() {
   return $([
     '<div class="container nm-drawer" hidden>',
     '  <div class="row">',
-    '    <div class="col-xs-12 col-sm-offset-6 col-sm-6 col-md-offset-8 col-md-4 nm-drawers nm-drawer-body">',
+    '    <div class="col-xs-12 col-sm-offset-6 col-sm-6 col-md-offset-8 col-md-4 nm-drawer-body">',
     '  </div>',
     '  </div>',
     '</div>'
   ].join('\n'));
+}
+
+
+function focusFirstInput(el) {
+  var $input = $(el).find(':input').eq(0);
+  var val = $input.val();
+  if (val) $input.val('').val(val);
+  $input.focus();
 }
 
 

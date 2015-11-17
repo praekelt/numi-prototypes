@@ -18,9 +18,7 @@
   }
 }
 
-
 html {
-  background-color: $bg1;
   margin: 0 auto;
 }
 
@@ -35,9 +33,6 @@ body {
 
 .nm-placeholder {
   border-style: dashed;
-}
-
-.nm-block {
 }
 
 .nm-block-title {
@@ -165,7 +160,6 @@ hr {
 
 .nm-sequence {
   border: 1px solid darken($bg0, 12%);
-  height: 90vh;
   user-select: none;
   margin-left: 0;
   margin-right: 0;
@@ -206,7 +200,6 @@ hr {
   @include scrollbars();
 }
 
-
 .nm-choice {
   display: table;
   clear: both;
@@ -223,17 +216,21 @@ hr {
 }
 
 .nm-drawer {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  right: 0;
+  bottom: 0;
   pointer-events: none;
+
+  .row {
+    height: 100%;
+  }
 }
 
 .nm-drawer-body {
+  height: 100%;
   background: $bg0;
-  border-left: 1px solid darken($bg1, 10%);
-
+  border-left: 1px solid $fg3;
   pointer-events: auto;
-  height: 100vh;
 }
