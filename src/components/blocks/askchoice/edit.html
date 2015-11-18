@@ -13,10 +13,6 @@
           {{#allChoices:i}}
           <div data-row-span="3">
               <div data-field-span="3">
-                {{# i === 0 }}
-                <label>Choices</label>
-                {{/}}
-
                 <input type="text"
                 value="{{i + 1}}. {{text}}"
                 {{# i < allChoices.length - 1}}
