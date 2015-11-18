@@ -169,8 +169,7 @@ hr {
 .nm-sequence {
   border: 1px solid darken($bg0, 12%);
   user-select: none;
-  min-height: 5em;
-  max-height: 93vh;
+  min-height: 2.5em;
 
   &:not(:first-child) {
     border-left: none;
@@ -206,22 +205,23 @@ hr {
 }
 
 .nm-sequence-header {
-  height: 5em;
+  height: 2.5em;
 }
 
 .nm-sequence-title {
-  margin-left: 5px;
-  margin-bottom: 8px;
+  margin: 8px 5px;
   font-size: 1.2em;
 }
 
 .nm-sequence-body {
   @include scrollbars();
   overflow-y: auto;
-  max-height: 80vh;
+  max-height: 84vh;
 }
 
 .nm-sequence-footer {
+  background: $bg0;
+  padding: 8px 5px;
   position: absolute;
   left: 0;
   right: 0;
