@@ -276,4 +276,46 @@ hr {
   @media (min-width: 992px) {
     width: 33.33%;
   }
+
+  .nav-tabs > li.active > a {
+    background: $bg2;
+  }
+
+  .list-group-item {
+    background: $bg2;
+  }
+}
+
+.nm-choice-placeholder {
+  color: $fg1;
+}
+
+.grid-form {
+  * {
+    border-color: $fg4 !important;
+  }
+
+  label {
+    color: $fg0 !important;
+  }
+
+  [data-row-span] {
+    border-left: 1px solid;
+    border-right: 1px solid;
+
+    &:first-child {
+      border-top: 1px solid;
+    }
+
+    [data-field-span] {
+
+      &:hover, &.focus {
+        background: $bg1 !important;
+      }
+    }
+  }
+
+  [data-field-span] {
+    background: $bg0;
+  }
 }

@@ -4,6 +4,7 @@
   "description": "Vue project example using Webpack as the bundler.",
   "main": "src/main.js",
   "dependencies": {
+    "gridforms": "git+ssh://git@github.com/kumailht/gridforms.git",
     "jquery": "^2.1.4",
     "lodash": "^3.10.0",
     "node-uuid": "^1.4.4",

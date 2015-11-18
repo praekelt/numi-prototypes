@@ -28,11 +28,26 @@ AskChoice.Edit = Base.Edit.extend({
   addChoice() {
     this.push('allChoices', newChoice());
   },
-  onChoiceKeyDown(i) {
-    if (i < this.get('allChoices').length - 1) return;
-    this.addChoice();
+  setChoice(i, val) {
+    this.set('allChoices.' + i + '.text', val);
   },
+  onChoiceKeyDown(e, i) {
+    if (i < this.get('allChoices').length - 1)
+      this.setChoice(i, denum(i, $(e.original.target).val()));
+    else
+      this.addChoice();
+  },
+  computed: {
+    choices: function() {
+      return this.get('allChoices').slice(0, -1);
+    }
+  }
 });
+
+
+function denum(i, str) {
+  return str.slice(('' + i).length + '. '.length);
+}
 
 
 function newChoice() {

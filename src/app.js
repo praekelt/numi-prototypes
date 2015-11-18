@@ -1,9 +1,12 @@
 window.jQuery = require('jquery');
+window.$ = require('jquery');
+
 require('jquery-ui');
 require('./app.scss');
 require('../bootstrap/js/bootstrap.min.js');
+require('gridforms/gridforms/gridforms');
+require('gridforms/gridforms/gridforms.css');
 
-var $ = require('jquery');
 var page = require('page');
 var Dashboard = require('./views/dashboard');
 var pg = require('./pg');
