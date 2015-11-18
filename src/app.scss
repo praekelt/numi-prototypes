@@ -259,13 +259,13 @@ hr {
 }
 
 .nm-drawer-body {
+  background: $bg2;
   overflow-y: auto;
   @include scrollbars();
 
   margin-left: auto;
   padding: 20px;
   height: 100%;
-  background: $bg0;
   border-left: 1px solid $fg3;
   pointer-events: auto;
 
