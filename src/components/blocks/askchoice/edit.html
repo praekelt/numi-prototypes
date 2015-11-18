@@ -12,23 +12,59 @@
 
           {{#allChoices:i}}
           <div data-row-span="3">
-              <div data-field-span="3">
-                <input type="text"
-                value="{{i + 1}}. {{text}}"
-                {{# i < allChoices.length - 1}}
-                class="nm-choice"
+              <div data-field-span="{{choiceColSpan}}">
+                {{#i === 0}}
+                <label>Choices</label>
                 {{/}}
 
-                {{# i === allChoices.length - 1}}
-                class="nm-choice-placeholder"
-                {{/}} on-keyup="onChoiceKeyDown(event, i)">
+                <input
+                 type="text"
+                 value="{{i + 1}}. {{text}}"
+
+                 {{# i < allChoices.length - 1}}
+                 class="nm-choice"
+                 {{/}}
+
+                 {{# i === allChoices.length - 1}}
+                 class="nm-choice-placeholder"
+                 {{/}} on-keyup="onChoiceKeyDown(event, i)">
               </div>
+
+              {{#useAnswerSaving}}
+              <div data-field-span="1">
+                {{#i === 0}}
+                <label>Save as</label>
+                {{/}}
+
+                <input type="text"
+                {{#.saveAs}}
+                value="{{.saveAs}}"
+                {{/.saveAs}}
+
+                {{^.saveAs}}
+                value="{{.text}} "
+                {{/.saveAs}}
+                >
+              </div>
+              {{/useAnswerSaving}}
           </div>
           {{/allChoices}}
+
+          <div data-row-span="3">
+              <div data-field-span="3">
+                <label {{^useAnswerSaving}}class="nm-unused"{{/useAnswerSaving}}>
+                  Save answer as (optional)
+                </label>
+
+                  <input type="text" value="{{saveAs}}">
+              </div>
+          </div>
       </fieldset>
   </form>
 
   <br/>
+
+  <hr class="nm-divider">
 
   <button type="button" class="btn btn-default pull-left" on-click="close()">Save and close</button>
 </div>

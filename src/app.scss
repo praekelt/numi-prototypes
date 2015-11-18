@@ -290,6 +290,16 @@ hr {
   color: $fg1;
 }
 
+.nm-choice-actions {
+  .btn {
+    width: 50%;
+  }
+}
+
+.nm-divider {
+  border-color: $fg4;
+}
+
 .grid-form {
   * {
     border-color: $fg4 !important;

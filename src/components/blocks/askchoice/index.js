@@ -7,6 +7,7 @@ var AskChoice = Base.extend({
   data: function() {
     return {
       text: '',
+      saveAs: '',
       allChoices: [newChoice()]
     };
   },
@@ -40,6 +41,12 @@ AskChoice.Edit = Base.Edit.extend({
   computed: {
     choices: function() {
       return this.get('allChoices').slice(0, -1);
+    },
+    choiceColSpan: function() {
+      return 3 - this.get('useAnswerSaving');
+    },
+    useAnswerSaving: function() {
+      return !!this.get('saveAs');
     }
   }
 });
@@ -53,6 +60,7 @@ function denum(i, str) {
 function newChoice() {
   return {
     text: '',
+    saveAs: null,
     routing: null
   };
 }
