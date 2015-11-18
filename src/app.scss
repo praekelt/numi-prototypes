@@ -26,13 +26,23 @@ body {
   background-color: $bg0;
 }
 
-.nm-page {
-  padding: 1em;
-  padding-bottom: 3em;
+.breadcrumb {
+  margin-bottom: 4px;
 }
 
 .nm-placeholder {
   border-style: dashed;
+}
+
+.nm-dialogue-title {
+  font-size: 1.5em;
+  margin: 8px;
+}
+
+.nm-sequences {
+}
+
+.nm-sequence-title {
 }
 
 .nm-block-title {
@@ -146,8 +156,6 @@ hr {
 
 
 .nm-dialogue {
-  user-select: none;
-
   * {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -161,11 +169,8 @@ hr {
 .nm-sequence {
   border: 1px solid darken($bg0, 12%);
   user-select: none;
-  margin-left: 0;
-  margin-right: 0;
-  padding: 10px;
-  height: 90vh;
-  overflow-y: scroll;
+  min-height: 5em;
+  max-height: 93vh;
 
   &:not(:first-child) {
     border-left: none;
@@ -198,7 +203,29 @@ hr {
     padding: 5px;
   }
 
+}
+
+.nm-sequence-header {
+  height: 5em;
+}
+
+.nm-sequence-title {
+  margin-left: 5px;
+  margin-bottom: 8px;
+  font-size: 1.2em;
+}
+
+.nm-sequence-body {
   @include scrollbars();
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.nm-sequence-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .nm-choice {

@@ -10,32 +10,30 @@
       <a href="{{ href }}">Go back to {{name}}</a>
       {{/prev}}
 
-      <div class="nm-name">
-        <h3 class="page-header" on-click="rename()">
-          {{ name }}
-        </h3>
-      </div>
+      <div class="nm-dialogue-title">
+        <div class="nm-name" on-click="rename()">{{ name }}</div>
 
-      <div class="nm-rename well">
-        <div class="form-group">
-          <h3>
-            <textarea class="nm-rename-value" value="{{ name }}"></textarea>
-          </h3>
+        <div class="nm-rename well">
+          <div class="form-group">
+            <h3>
+              <textarea class="nm-rename-value" value="{{ name }}"></textarea>
+            </h3>
+          </div>
+
+          <button class="btn btn-sm btn-default" on-click="hideRename()">Save</button>
+          <button class="btn btn-sm btn-link" on-click="cancelRename()">Cancel</button>
         </div>
-
-        <button class="btn btn-sm btn-default" on-click="hideRename()">Save</button>
-        <button class="btn btn-sm btn-link" on-click="cancelRename()">Cancel</button>
       </div>
 
       <div class="row">
-          {{#sequences}}
-          <div class="col-md-4 nm-sequence">
-            <sequence id="{{id}}" name="{{name}}" blocks="{{blocks}}"></sequence>
+          <div class="nm-sequences">
+            {{#sequences}}
+            <div class="col-md-4 nm-sequence">
+              <sequence id="{{id}}" name="{{name}}" blocks="{{blocks}}"></sequence>
+            </div>
+            {{/sequences}}
           </div>
-          {{/sequences}}
       </div>
-      <br/>
-      <a class="btn btn-default" href="{{ backHref }}">Save and close</a>
     </div>
   </div>
 </div>

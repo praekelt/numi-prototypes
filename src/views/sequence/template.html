@@ -1,5 +1,5 @@
-<div>
-  <h4>
+<div class="nm-sequence-header">
+  <div class="nm-sequence-title">
     <div class="nm-name" on-click="rename()">
       {{ name }}
     </div>
@@ -12,13 +12,17 @@
       <button class="btn btn-sm btn-default" on-click="hideRename()">Save</button>
       <button class="btn btn-sm btn-link" on-click="cancelRename()">Cancel</button>
     </div>
-  </h4>
+  </div>
+</div>
 
+<div class="nm-sequence-body">
   <div class="sortable-blocks sortable-blocks-ordered">
     {{#blocks}}
       {{>blocks}}
     {{/blocks}}
   </div>
+</div>
 
+<div class="nm-sequence-footer">
   <button class="btn btn-default btn-block nm-placeholder" on-click="addBlock()">+</button>
 </div>
