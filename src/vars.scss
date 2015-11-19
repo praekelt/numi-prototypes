@@ -1,8 +1,14 @@
 $bg0: #fff;
 $bg1: #efefef;
 $bg2: darken($bg0, 4%);
+$bg3: darken($bg0, 2%);
 $fg0: #666;
 $fg1: #999;
 $fg2: #ccc;
 $fg3: #eee;
 $fg4: #ddd;
+$head-height: 50px;
+$body-height: calc(100vh - 50px);
+$sequence-header-height: 50px;
+$sequence-footer-height: 50px;
+$sequence-body-height: calc(100vh - 180px); // account for scrollbars

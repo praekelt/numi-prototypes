@@ -2,6 +2,7 @@ window.jQuery = require('jquery');
 window.$ = require('jquery');
 
 require('jquery-ui');
+require('jquery-mousewheel');
 require('./app.scss');
 require('../bootstrap/js/bootstrap.min.js');
 require('gridforms/gridforms/gridforms');
@@ -13,13 +14,13 @@ var pg = require('./pg');
 var hist = require('./hist');
 var persist = require('./persist');
 
-
 window.dashboard = Dashboard({
   el: $('<div>'),
   data: persist.has('dashboard')
     ? persist.get('dashboard')
     : {}
 });
+
 page.base('/numi-prototypes');
 
 page('/', function(ctx, next) {

@@ -37,12 +37,12 @@ module.exports = Ractive.extend({
       while (node) {
         seq = _.find(this.get('sequences'), {id: node.key[0]});
 
-        results.push(_.extend({}, seq, {
-          nodeId: node.id,
+        _.extend(_.last(results), {
           activeBlockId: node.key[1],
           activeBlockItemId: node.key[2]
-        }));
+        });
 
+        results.push(_.extend({}, seq, {nodeId: node.id}));
         node = node.current;
       }
 
@@ -62,6 +62,12 @@ module.exports = Ractive.extend({
     $(this.el)
       .find('.sortable-blocks')
       .sortable();
+
+    $('.nm-body')
+      .mousewheel(function(e, delta) {
+        if ($(e.target).parents('.nm-sequence').length) return;
+        this.scrollLeft -= delta * 30;
+      });
   },
   addSequence: function() {
     var seq ={

@@ -49,16 +49,16 @@
 
 	__webpack_require__(2);
 	__webpack_require__(3);
-	__webpack_require__(7);
+	__webpack_require__(4);
 	__webpack_require__(8);
 	__webpack_require__(9);
+	__webpack_require__(10);
 
-	var page = __webpack_require__(11);
-	var Dashboard = __webpack_require__(15);
-	var pg = __webpack_require__(43);
-	var hist = __webpack_require__(44);
-	var persist = __webpack_require__(136);
-
+	var page = __webpack_require__(12);
+	var Dashboard = __webpack_require__(16);
+	var pg = __webpack_require__(44);
+	var hist = __webpack_require__(45);
+	var persist = __webpack_require__(140);
 
 	window.dashboard = Dashboard({
 	  el: $('<div>'),
@@ -66,6 +66,7 @@
 	    ? persist.get('dashboard')
 	    : {}
 	});
+
 	page.base('/numi-prototypes');
 
 	page('/', function(ctx, next) {
@@ -24339,13 +24340,240 @@
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	 * jQuery Mousewheel 3.1.13
+	 *
+	 * Copyright jQuery Foundation and other contributors
+	 * Released under the MIT license
+	 * http://jquery.org/license
+	 */
+
+	(function (factory) {
+	    if ( true ) {
+	        // AMD. Register as an anonymous module.
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports === 'object') {
+	        // Node/CommonJS style for Browserify
+	        module.exports = factory;
+	    } else {
+	        // Browser globals
+	        factory(jQuery);
+	    }
+	}(function ($) {
+
+	    var toFix  = ['wheel', 'mousewheel', 'DOMMouseScroll', 'MozMousePixelScroll'],
+	        toBind = ( 'onwheel' in document || document.documentMode >= 9 ) ?
+	                    ['wheel'] : ['mousewheel', 'DomMouseScroll', 'MozMousePixelScroll'],
+	        slice  = Array.prototype.slice,
+	        nullLowestDeltaTimeout, lowestDelta;
+
+	    if ( $.event.fixHooks ) {
+	        for ( var i = toFix.length; i; ) {
+	            $.event.fixHooks[ toFix[--i] ] = $.event.mouseHooks;
+	        }
+	    }
+
+	    var special = $.event.special.mousewheel = {
+	        version: '3.1.12',
+
+	        setup: function() {
+	            if ( this.addEventListener ) {
+	                for ( var i = toBind.length; i; ) {
+	                    this.addEventListener( toBind[--i], handler, false );
+	                }
+	            } else {
+	                this.onmousewheel = handler;
+	            }
+	            // Store the line height and page height for this particular element
+	            $.data(this, 'mousewheel-line-height', special.getLineHeight(this));
+	            $.data(this, 'mousewheel-page-height', special.getPageHeight(this));
+	        },
+
+	        teardown: function() {
+	            if ( this.removeEventListener ) {
+	                for ( var i = toBind.length; i; ) {
+	                    this.removeEventListener( toBind[--i], handler, false );
+	                }
+	            } else {
+	                this.onmousewheel = null;
+	            }
+	            // Clean up the data we added to the element
+	            $.removeData(this, 'mousewheel-line-height');
+	            $.removeData(this, 'mousewheel-page-height');
+	        },
+
+	        getLineHeight: function(elem) {
+	            var $elem = $(elem),
+	                $parent = $elem['offsetParent' in $.fn ? 'offsetParent' : 'parent']();
+	            if (!$parent.length) {
+	                $parent = $('body');
+	            }
+	            return parseInt($parent.css('fontSize'), 10) || parseInt($elem.css('fontSize'), 10) || 16;
+	        },
+
+	        getPageHeight: function(elem) {
+	            return $(elem).height();
+	        },
+
+	        settings: {
+	            adjustOldDeltas: true, // see shouldAdjustOldDeltas() below
+	            normalizeOffset: true  // calls getBoundingClientRect for each event
+	        }
+	    };
+
+	    $.fn.extend({
+	        mousewheel: function(fn) {
+	            return fn ? this.bind('mousewheel', fn) : this.trigger('mousewheel');
+	        },
+
+	        unmousewheel: function(fn) {
+	            return this.unbind('mousewheel', fn);
+	        }
+	    });
+
+
+	    function handler(event) {
+	        var orgEvent   = event || window.event,
+	            args       = slice.call(arguments, 1),
+	            delta      = 0,
+	            deltaX     = 0,
+	            deltaY     = 0,
+	            absDelta   = 0,
+	            offsetX    = 0,
+	            offsetY    = 0;
+	        event = $.event.fix(orgEvent);
+	        event.type = 'mousewheel';
+
+	        // Old school scrollwheel delta
+	        if ( 'detail'      in orgEvent ) { deltaY = orgEvent.detail * -1;      }
+	        if ( 'wheelDelta'  in orgEvent ) { deltaY = orgEvent.wheelDelta;       }
+	        if ( 'wheelDeltaY' in orgEvent ) { deltaY = orgEvent.wheelDeltaY;      }
+	        if ( 'wheelDeltaX' in orgEvent ) { deltaX = orgEvent.wheelDeltaX * -1; }
+
+	        // Firefox < 17 horizontal scrolling related to DOMMouseScroll event
+	        if ( 'axis' in orgEvent && orgEvent.axis === orgEvent.HORIZONTAL_AXIS ) {
+	            deltaX = deltaY * -1;
+	            deltaY = 0;
+	        }
+
+	        // Set delta to be deltaY or deltaX if deltaY is 0 for backwards compatabilitiy
+	        delta = deltaY === 0 ? deltaX : deltaY;
+
+	        // New school wheel delta (wheel event)
+	        if ( 'deltaY' in orgEvent ) {
+	            deltaY = orgEvent.deltaY * -1;
+	            delta  = deltaY;
+	        }
+	        if ( 'deltaX' in orgEvent ) {
+	            deltaX = orgEvent.deltaX;
+	            if ( deltaY === 0 ) { delta  = deltaX * -1; }
+	        }
+
+	        // No change actually happened, no reason to go any further
+	        if ( deltaY === 0 && deltaX === 0 ) { return; }
+
+	        // Need to convert lines and pages to pixels if we aren't already in pixels
+	        // There are three delta modes:
+	        //   * deltaMode 0 is by pixels, nothing to do
+	        //   * deltaMode 1 is by lines
+	        //   * deltaMode 2 is by pages
+	        if ( orgEvent.deltaMode === 1 ) {
+	            var lineHeight = $.data(this, 'mousewheel-line-height');
+	            delta  *= lineHeight;
+	            deltaY *= lineHeight;
+	            deltaX *= lineHeight;
+	        } else if ( orgEvent.deltaMode === 2 ) {
+	            var pageHeight = $.data(this, 'mousewheel-page-height');
+	            delta  *= pageHeight;
+	            deltaY *= pageHeight;
+	            deltaX *= pageHeight;
+	        }
+
+	        // Store lowest absolute delta to normalize the delta values
+	        absDelta = Math.max( Math.abs(deltaY), Math.abs(deltaX) );
+
+	        if ( !lowestDelta || absDelta < lowestDelta ) {
+	            lowestDelta = absDelta;
+
+	            // Adjust older deltas if necessary
+	            if ( shouldAdjustOldDeltas(orgEvent, absDelta) ) {
+	                lowestDelta /= 40;
+	            }
+	        }
+
+	        // Adjust older deltas if necessary
+	        if ( shouldAdjustOldDeltas(orgEvent, absDelta) ) {
+	            // Divide all the things by 40!
+	            delta  /= 40;
+	            deltaX /= 40;
+	            deltaY /= 40;
+	        }
+
+	        // Get a whole, normalized value for the deltas
+	        delta  = Math[ delta  >= 1 ? 'floor' : 'ceil' ](delta  / lowestDelta);
+	        deltaX = Math[ deltaX >= 1 ? 'floor' : 'ceil' ](deltaX / lowestDelta);
+	        deltaY = Math[ deltaY >= 1 ? 'floor' : 'ceil' ](deltaY / lowestDelta);
+
+	        // Normalise offsetX and offsetY properties
+	        if ( special.settings.normalizeOffset && this.getBoundingClientRect ) {
+	            var boundingRect = this.getBoundingClientRect();
+	            offsetX = event.clientX - boundingRect.left;
+	            offsetY = event.clientY - boundingRect.top;
+	        }
+
+	        // Add information to the event object
+	        event.deltaX = deltaX;
+	        event.deltaY = deltaY;
+	        event.deltaFactor = lowestDelta;
+	        event.offsetX = offsetX;
+	        event.offsetY = offsetY;
+	        // Go ahead and set deltaMode to 0 since we converted to pixels
+	        // Although this is a little odd since we overwrite the deltaX/Y
+	        // properties with normalized deltas.
+	        event.deltaMode = 0;
+
+	        // Add event and delta to the front of the arguments
+	        args.unshift(event, delta, deltaX, deltaY);
+
+	        // Clearout lowestDelta after sometime to better
+	        // handle multiple device types that give different
+	        // a different lowestDelta
+	        // Ex: trackpad = 3 and mouse wheel = 120
+	        if (nullLowestDeltaTimeout) { clearTimeout(nullLowestDeltaTimeout); }
+	        nullLowestDeltaTimeout = setTimeout(nullLowestDelta, 200);
+
+	        return ($.event.dispatch || $.event.handle).apply(this, args);
+	    }
+
+	    function nullLowestDelta() {
+	        lowestDelta = null;
+	    }
+
+	    function shouldAdjustOldDeltas(orgEvent, absDelta) {
+	        // If this is an older event and the delta is divisable by 120,
+	        // then we are assuming that the browser is treating this as an
+	        // older mouse wheel event and that we should divide the deltas
+	        // by 40 to try and get a more usable deltaFactor.
+	        // Side note, this actually impacts the reported scroll distance
+	        // in older browsers and can cause scrolling to be slower than native.
+	        // Turn this off by setting $.event.special.mousewheel.settings.adjustOldDeltas to false.
+	        return special.settings.adjustOldDeltas && orgEvent.type === 'mousewheel' && absDelta % 120 === 0;
+	    }
+
+	}));
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(4);
+	var content = __webpack_require__(5);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(6)(content, {});
+	var update = __webpack_require__(7)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -24362,14 +24590,14 @@
 	}
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(5)();
-	exports.push([module.id, "@charset \"UTF-8\";\nhtml {\n  margin: 0 auto; }\n\nbody {\n  background-color: #fff;\n  overflow: hidden; }\n\n.breadcrumb {\n  margin-bottom: 4px; }\n\n.nm-placeholder {\n  border-style: dashed; }\n\n.nm-dialogue-title {\n  font-size: 1.5em;\n  margin: 8px; }\n\n.nm-block-title {\n  color: #666;\n  font-weight: bold; }\n\n.btn-library {\n  margin: .5em .75em .5em 0; }\n\n.screen {\n  border-bottom: solid 1px #666;\n  margin-bottom: 2em;\n  padding-bottom: 2em; }\n\n.page-header {\n  margin-top: 0; }\n\n.sortable-blocks .nm-block-title:hover,\n.sortable-blocks .panel-heading:hover {\n  cursor: move; }\n\n.panel-highlighted {\n  border: solid 1px #999; }\n\n.text-left .btn {\n  text-align: left; }\n\n.panel {\n  clear: both; }\n  .panel .close {\n    position: relative;\n    right: -10px;\n    top: -15px; }\n\n.btn.close-screen {\n  margin-bottom: 1em; }\n\n.close-screen-text {\n  font-size: small;\n  left: -4px;\n  position: relative;\n  top: -2px; }\n\n.panel-title a {\n  display: block; }\n\n[data-toggle=\"collapse\"] {\n  position: relative; }\n  [data-toggle=\"collapse\"]:before {\n    content: '▼';\n    position: absolute;\n    right: 0; }\n  [data-toggle=\"collapse\"].collapsed:before {\n    content: '▲';\n    position: absolute;\n    right: 0; }\n\n[data-toggle=\"collapse\"]:before {\n  content: ''; }\n\n[data-toggle=\"collapse\"]:after {\n  content: ''; }\n\n.nm-rename-value {\n  width: 100%; }\n\n.alert-lib {\n  padding-right: 16px; }\n\nhr {\n  border-color: #999; }\n\n.sortable-blocks-ordered .panel {\n  margin-bottom: 3em; }\n\n.popover {\n  display: none; }\n\n.nm-dialogue * {\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none; }\n\n.nm-sequence {\n  border: 1px solid #e0e0e0;\n  user-select: none;\n  min-height: 90px; }\n  .nm-sequence:not(:first-child) {\n    border-left: none; }\n  .nm-sequence:first-child {\n    border-top-left-radius: 4px;\n    border-bottom-left-radius: 4px;\n    -webkit-border-top-left-radius: 4px;\n    -webkit-border-bottom-left-radius: 4px; }\n  .nm-sequence:last-child {\n    border-top-right-radius: 4px;\n    border-bottom-right-radius: 4px;\n    -webkit-border-top-right-radius: 4px;\n    -webkit-border-bottom-right-radius: 4px; }\n  .nm-sequence * {\n    -webkit-touch-callout: none;\n    -webkit-user-select: none;\n    -khtml-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none; }\n  .nm-sequence h4 {\n    padding: 5px; }\n\n.nm-sequence-header {\n  height: 2.5em; }\n\n.nm-sequence-title {\n  margin: 8px 5px;\n  font-size: 1.2em; }\n\n.nm-sequence-body {\n  overflow-y: auto;\n  max-height: 84vh; }\n  .nm-sequence-body::-webkit-scrollbar-track {\n    background: #efefef; }\n  .nm-sequence-body::-webkit-scrollbar {\n    width: 5px;\n    background: #efefef; }\n  .nm-sequence-body::-webkit-scrollbar-thumb {\n    background: #c9c9c9; }\n\n.nm-sequence-footer {\n  background: #fff;\n  padding: 8px 5px;\n  position: absolute;\n  left: 0;\n  right: 0;\n  bottom: 0; }\n\n.nm-choice-actions {\n  padding: 8px 4px; }\n  .nm-choice-actions .btn {\n    padding-top: 4px;\n    padding-bottom: 4px; }\n\n.nm-drawer {\n  z-index: 9000;\n  pointer-events: none;\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0; }\n  .nm-drawer .row {\n    height: 100%; }\n\n.nm-drawer-body {\n  background: whitesmoke;\n  overflow-y: auto;\n  margin-left: auto;\n  padding: 20px;\n  height: 100%;\n  border-left: 1px solid #eee;\n  pointer-events: auto; }\n  .nm-drawer-body::-webkit-scrollbar-track {\n    background: #efefef; }\n  .nm-drawer-body::-webkit-scrollbar {\n    width: 5px;\n    background: #efefef; }\n  .nm-drawer-body::-webkit-scrollbar-thumb {\n    background: #c9c9c9; }\n  @media (min-width: 768px) {\n    .nm-drawer-body {\n      width: 50%; } }\n  @media (min-width: 992px) {\n    .nm-drawer-body {\n      width: 36%; } }\n  .nm-drawer-body .nav-tabs > li.active > a {\n    background: whitesmoke; }\n  .nm-drawer-body .list-group-item {\n    background: whitesmoke; }\n\n.nm-divider {\n  border-color: #ddd; }\n\n.grid-form label {\n  color: #666 !important; }\n\n.grid-form [data-row-span] {\n  border: 1px solid;\n  border-color: #ddd !important; }\n  .grid-form [data-row-span]:not(:last-child) {\n    border-bottom: 0; }\n  .grid-form [data-row-span]:not(:first-child) {\n    border-top-color: #efefef !important; }\n  .grid-form [data-row-span]:first-child {\n    border-top-left-radius: 4px;\n    -webkit-border-top-left-radius: 4px;\n    border-top-right-radius: 4px;\n    -webkit-border-right-radius: 4px; }\n  .grid-form [data-row-span]:last-child {\n    border-bottom-left-radius: 4px;\n    -webkit-border-bottom-left-radius: 4px;\n    border-bottom-right-radius: 4px;\n    -webkit-border-bottom-right-radius: 4px; }\n  .grid-form [data-row-span] [data-field-span] {\n    padding-top: 14px !important;\n    padding-bottom: 14px !important; }\n    .grid-form [data-row-span] [data-field-span]:hover, .grid-form [data-row-span] [data-field-span].focus {\n      background: #efefef !important; }\n    .grid-form [data-row-span] [data-field-span]:not(:last-child) {\n      border-right-color: #efefef !important; }\n    .grid-form [data-row-span] [data-field-span] input {\n      font-size: 1em;\n      width: auto !important; }\n    .grid-form [data-row-span] [data-field-span] .nm-choice-text {\n      width: 100%;\n      display: block; }\n  .grid-form [data-row-span] .nm-choice-save-as {\n    width: 29% !important;\n    border-right: 0 !important; }\n\n.grid-form [data-row-span] {\n  background: #fff; }\n\n.grid-form [data-row-span=\"2\"] > [data-field-span=\"2\"].nm-choice {\n  width: 79%;\n  border-right: 0; }\n\n.nm-choice-placeholder {\n  color: #999 !important; }\n\n.nm-choice-row-first .nm-choice-actions {\n  margin-top: 18px; }\n", ""]);
+	exports = module.exports = __webpack_require__(6)();
+	exports.push([module.id, "@charset \"UTF-8\";\nhtml {\n  margin: 0 auto; }\n\nbody {\n  background-color: #fff;\n  overflow: hidden; }\n\n.breadcrumb {\n  width: 80vw;\n  margin-left: 10vw;\n  margin-bottom: 4px; }\n\n.nm-placeholder {\n  border-style: dashed; }\n\n.nm-dialogue-title {\n  font-size: 1.5em;\n  margin: 8px; }\n\n.nm-block-title {\n  color: #666;\n  font-weight: bold; }\n\n.btn-library {\n  margin: .5em .75em .5em 0; }\n\n.screen {\n  border-bottom: solid 1px #666;\n  margin-bottom: 2em;\n  padding-bottom: 2em; }\n\n.page-header {\n  margin-top: 0; }\n\n.sortable-blocks .nm-block-title:hover,\n.sortable-blocks .panel-heading:hover {\n  cursor: move; }\n\n.panel-highlighted {\n  border: solid 1px #999; }\n\n.text-left .btn {\n  text-align: left; }\n\n.panel {\n  clear: both; }\n  .panel .close {\n    position: relative;\n    right: -10px;\n    top: -15px; }\n\n.btn.close-screen {\n  margin-bottom: 1em; }\n\n.close-screen-text {\n  font-size: small;\n  left: -4px;\n  position: relative;\n  top: -2px; }\n\n.panel-title a {\n  display: block; }\n\n[data-toggle=\"collapse\"] {\n  position: relative; }\n  [data-toggle=\"collapse\"]:before {\n    content: '▼';\n    position: absolute;\n    right: 0; }\n  [data-toggle=\"collapse\"].collapsed:before {\n    content: '▲';\n    position: absolute;\n    right: 0; }\n\n[data-toggle=\"collapse\"]:before {\n  content: ''; }\n\n[data-toggle=\"collapse\"]:after {\n  content: ''; }\n\n.nm-rename-value {\n  width: 100%; }\n\n.alert-lib {\n  padding-right: 16px; }\n\nhr {\n  border-color: #999; }\n\n.sortable-blocks-ordered .panel {\n  margin-bottom: 3em; }\n\n.popover {\n  display: none; }\n\n.nm-container * {\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none; }\n\n.nm-head {\n  position: fixed;\n  height: 50px; }\n\n.nm-body {\n  position: absolute;\n  top: 50px;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  padding-left: 20px;\n  padding-right: 20px;\n  height: calc(100vh - 50px);\n  overflow-y: hidden;\n  overflow-x: auto;\n  white-space: nowrap; }\n  .nm-body::-webkit-scrollbar-track {\n    background: #efefef; }\n  .nm-body::-webkit-scrollbar {\n    height: 5px;\n    width: 5px;\n    background: #efefef; }\n  .nm-body::-webkit-scrollbar-thumb {\n    background: #c9c9c9; }\n\n.nm-sequence-wrapper {\n  width: 420px;\n  display: inline-block;\n  height: calc(100vh - 50px);\n  white-space: nowrap;\n  vertical-align: top; }\n  .nm-sequence-wrapper:not(:first-child) .nm-sequence {\n    border-left: none; }\n  .nm-sequence-wrapper:first-child .nm-sequence {\n    border-top-left-radius: 4px;\n    border-bottom-left-radius: 4px;\n    -webkit-border-top-left-radius: 4px;\n    -webkit-border-bottom-left-radius: 4px; }\n  .nm-sequence-wrapper:last-child .nm-sequence {\n    border-top-right-radius: 4px;\n    border-bottom-right-radius: 4px;\n    -webkit-border-top-right-radius: 4px;\n    -webkit-border-bottom-right-radius: 4px; }\n\n.nm-sequence {\n  min-height: 50px;\n  max-height: calc(100vh - 50px);\n  border: 1px solid #e0e0e0;\n  user-select: none; }\n  .nm-sequence * {\n    -webkit-touch-callout: none;\n    -webkit-user-select: none;\n    -khtml-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none; }\n  .nm-sequence h4 {\n    padding: 5px; }\n\n.nm-sequence-header {\n  height: 50px; }\n\n.nm-sequence-title {\n  margin: 8px 5px;\n  font-size: 1.2em; }\n\n.nm-sequence-body {\n  max-height: calc(100vh - 180px);\n  overflow-y: auto;\n  padding: 10px; }\n  .nm-sequence-body::-webkit-scrollbar-track {\n    background: #efefef; }\n  .nm-sequence-body::-webkit-scrollbar {\n    width: 5px;\n    background: #efefef; }\n  .nm-sequence-body::-webkit-scrollbar-thumb {\n    background: #c9c9c9; }\n\n.nm-sequence-footer {\n  height: 50px;\n  padding: 8px 5px; }\n\n.nm-block {\n  background: #fafafa; }\n\n.nm-choice-actions {\n  padding: 8px 4px; }\n  .nm-choice-actions .btn {\n    padding-top: 4px;\n    padding-bottom: 4px; }\n\n.nm-drawer {\n  z-index: 9000;\n  pointer-events: none;\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0; }\n  .nm-drawer .row {\n    height: 100%; }\n\n.nm-drawer-body {\n  background: whitesmoke;\n  overflow-y: auto;\n  margin-left: auto;\n  padding: 20px;\n  height: 100%;\n  border-left: 1px solid #eee;\n  pointer-events: auto; }\n  .nm-drawer-body::-webkit-scrollbar-track {\n    background: #efefef; }\n  .nm-drawer-body::-webkit-scrollbar {\n    width: 5px;\n    background: #efefef; }\n  .nm-drawer-body::-webkit-scrollbar-thumb {\n    background: #c9c9c9; }\n  @media (min-width: 768px) {\n    .nm-drawer-body {\n      width: 50%; } }\n  @media (min-width: 992px) {\n    .nm-drawer-body {\n      width: 36%; } }\n  .nm-drawer-body .nav-tabs > li.active > a {\n    background: whitesmoke; }\n  .nm-drawer-body .list-group-item {\n    background: whitesmoke; }\n\n.nm-divider {\n  border-color: #ddd; }\n\n.grid-form label {\n  color: #666 !important; }\n\n.grid-form [data-row-span] {\n  border: 1px solid;\n  border-color: #ddd !important; }\n  .grid-form [data-row-span]:not(:last-child) {\n    border-bottom: 0; }\n  .grid-form [data-row-span]:not(:first-child) {\n    border-top-color: #efefef !important; }\n  .grid-form [data-row-span]:first-child {\n    border-top-left-radius: 4px;\n    -webkit-border-top-left-radius: 4px;\n    border-top-right-radius: 4px;\n    -webkit-border-right-radius: 4px; }\n  .grid-form [data-row-span]:last-child {\n    border-bottom-left-radius: 4px;\n    -webkit-border-bottom-left-radius: 4px;\n    border-bottom-right-radius: 4px;\n    -webkit-border-bottom-right-radius: 4px; }\n  .grid-form [data-row-span] [data-field-span] {\n    padding-top: 14px !important;\n    padding-bottom: 14px !important; }\n    .grid-form [data-row-span] [data-field-span]:hover, .grid-form [data-row-span] [data-field-span].focus {\n      background: #efefef !important; }\n    .grid-form [data-row-span] [data-field-span]:not(:last-child) {\n      border-right-color: #efefef !important; }\n    .grid-form [data-row-span] [data-field-span] input {\n      font-size: 1em;\n      width: auto !important; }\n    .grid-form [data-row-span] [data-field-span] .nm-choice-text {\n      width: 100%;\n      display: block; }\n  .grid-form [data-row-span] .nm-choice-save-as {\n    width: 29% !important;\n    border-right: 0 !important; }\n\n.grid-form [data-row-span] {\n  background: #fff; }\n\n.grid-form [data-row-span=\"2\"] > [data-field-span=\"2\"].nm-choice {\n  width: 79%;\n  border-right: 0; }\n\n.nm-choice-placeholder {\n  color: #999 !important; }\n\n.nm-choice-row-first .nm-choice-actions {\n  margin-top: 18px; }\n\n.nm-preview-list {\n  padding: 0; }\n\n.nm-preview-list-item {\n  color: #666;\n  background: 0;\n  margin: 0 -15px;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  border-bottom: 1px solid #eee; }\n  .nm-preview-list-item:last-child {\n    border: 0; }\n  .nm-preview-list-item.active {\n    color: #666;\n    background: #eee;\n    border: #eee; }\n  .nm-preview-list-item.active:hover, .nm-preview-list-item.active:focus {\n    color: #666;\n    background: #ddd;\n    border: #ddd; }\n\na.nm-preview-list-item {\n  color: #666; }\n  a.nm-preview-list-item:hover, a.nm-preview-list-item:focus {\n    text-decoration: none; }\n\n.nm-preview-arrow {\n  position: absolute;\n  right: 8px;\n  top: calc(50% - 14px); }\n", ""]);
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	/*
@@ -24425,7 +24653,7 @@
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -24650,7 +24878,7 @@
 
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	/*!
@@ -24667,7 +24895,7 @@
 	this.addAriaAndCollapsedClass(e(n),n)},this)).end()},o.prototype.addAriaAndCollapsedClass=function(t,e){var i=t.hasClass("in");t.attr("aria-expanded",i),e.toggleClass("collapsed",!i).attr("aria-expanded",i)};var n=t.fn.collapse;t.fn.collapse=i,t.fn.collapse.Constructor=o,t.fn.collapse.noConflict=function(){return t.fn.collapse=n,this},t(document).on("click.bs.collapse.data-api",'[data-toggle="collapse"]',function(o){var n=t(this);n.attr("data-target")||o.preventDefault();var s=e(n),a=s.data("bs.collapse"),r=a?"toggle":n.data();i.call(s,r)})}(jQuery),+function(t){"use strict";function e(i,o){this.$body=t(document.body),this.$scrollElement=t(t(i).is(document.body)?window:i),this.options=t.extend({},e.DEFAULTS,o),this.selector=(this.options.target||"")+" .nav li > a",this.offsets=[],this.targets=[],this.activeTarget=null,this.scrollHeight=0,this.$scrollElement.on("scroll.bs.scrollspy",t.proxy(this.process,this)),this.refresh(),this.process()}function i(i){return this.each(function(){var o=t(this),n=o.data("bs.scrollspy"),s="object"==typeof i&&i;n||o.data("bs.scrollspy",n=new e(this,s)),"string"==typeof i&&n[i]()})}e.VERSION="3.3.4",e.DEFAULTS={offset:10},e.prototype.getScrollHeight=function(){return this.$scrollElement[0].scrollHeight||Math.max(this.$body[0].scrollHeight,document.documentElement.scrollHeight)},e.prototype.refresh=function(){var e=this,i="offset",o=0;this.offsets=[],this.targets=[],this.scrollHeight=this.getScrollHeight(),t.isWindow(this.$scrollElement[0])||(i="position",o=this.$scrollElement.scrollTop()),this.$body.find(this.selector).map(function(){var e=t(this),n=e.data("target")||e.attr("href"),s=/^#./.test(n)&&t(n);return s&&s.length&&s.is(":visible")&&[[s[i]().top+o,n]]||null}).sort(function(t,e){return t[0]-e[0]}).each(function(){e.offsets.push(this[0]),e.targets.push(this[1])})},e.prototype.process=function(){var t,e=this.$scrollElement.scrollTop()+this.options.offset,i=this.getScrollHeight(),o=this.options.offset+i-this.$scrollElement.height(),n=this.offsets,s=this.targets,a=this.activeTarget;if(this.scrollHeight!=i&&this.refresh(),e>=o)return a!=(t=s[s.length-1])&&this.activate(t);if(a&&e<n[0])return this.activeTarget=null,this.clear();for(t=n.length;t--;)a!=s[t]&&e>=n[t]&&(void 0===n[t+1]||e<n[t+1])&&this.activate(s[t])},e.prototype.activate=function(e){this.activeTarget=e,this.clear();var i=this.selector+'[data-target="'+e+'"],'+this.selector+'[href="'+e+'"]',o=t(i).parents("li").addClass("active");o.parent(".dropdown-menu").length&&(o=o.closest("li.dropdown").addClass("active")),o.trigger("activate.bs.scrollspy")},e.prototype.clear=function(){t(this.selector).parentsUntil(this.options.target,".active").removeClass("active")};var o=t.fn.scrollspy;t.fn.scrollspy=i,t.fn.scrollspy.Constructor=e,t.fn.scrollspy.noConflict=function(){return t.fn.scrollspy=o,this},t(window).on("load.bs.scrollspy.data-api",function(){t('[data-spy="scroll"]').each(function(){var e=t(this);i.call(e,e.data())})})}(jQuery),+function(t){"use strict";function e(){var t=document.createElement("bootstrap"),e={WebkitTransition:"webkitTransitionEnd",MozTransition:"transitionend",OTransition:"oTransitionEnd otransitionend",transition:"transitionend"};for(var i in e)if(void 0!==t.style[i])return{end:e[i]};return!1}t.fn.emulateTransitionEnd=function(e){var i=!1,o=this;t(this).one("bsTransitionEnd",function(){i=!0});var n=function(){i||t(o).trigger(t.support.transition.end)};return setTimeout(n,e),this},t(function(){t.support.transition=e(),t.support.transition&&(t.event.special.bsTransitionEnd={bindType:t.support.transition.end,delegateType:t.support.transition.end,handle:function(e){return t(e.target).is(this)?e.handleObj.handler.apply(this,arguments):void 0}})})}(jQuery);
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	//
@@ -24774,16 +25002,16 @@
 
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(10);
+	var content = __webpack_require__(11);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(6)(content, {});
+	var update = __webpack_require__(7)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -24800,14 +25028,14 @@
 	}
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(5)();
+	exports = module.exports = __webpack_require__(6)();
 	exports.push([module.id, ".grid-form *, .grid-form *:before, .grid-form *:after { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }\n.grid-form input[type=\"text\"], .grid-form input[type=\"email\"], .grid-form input[type=\"number\"], .grid-form input[type=\"password\"], .grid-form input[type=\"search\"], .grid-form input[type=\"tel\"], .grid-form input[type=\"url\"], .grid-form input[type=\"color\"], .grid-form input[type=\"date\"], .grid-form input[type=\"datetime\"], .grid-form input[type=\"datetime-local\"], .grid-form input[type=\"month\"], .grid-form input[type=\"time\"], .grid-form input[type=\"week\"], .grid-form textarea, .grid-form select { font-size: 18px; padding: 0; margin: 0; width: 100%; }\n.grid-form input[type=\"text\"], .grid-form input[type=\"email\"], .grid-form input[type=\"number\"], .grid-form input[type=\"password\"], .grid-form input[type=\"search\"], .grid-form input[type=\"tel\"], .grid-form input[type=\"url\"], .grid-form input[type=\"color\"], .grid-form input[type=\"date\"], .grid-form input[type=\"datetime\"], .grid-form input[type=\"datetime-local\"], .grid-form input[type=\"month\"], .grid-form input[type=\"time\"], .grid-form input[type=\"week\"], .grid-form textarea { border: 0; background: transparent; }\n.grid-form input[type=\"text\"]::-webkit-input-placeholder, .grid-form input[type=\"email\"]::-webkit-input-placeholder, .grid-form input[type=\"number\"]::-webkit-input-placeholder, .grid-form input[type=\"password\"]::-webkit-input-placeholder, .grid-form input[type=\"search\"]::-webkit-input-placeholder, .grid-form input[type=\"tel\"]::-webkit-input-placeholder, .grid-form input[type=\"url\"]::-webkit-input-placeholder, .grid-form input[type=\"color\"]::-webkit-input-placeholder, .grid-form input[type=\"date\"]::-webkit-input-placeholder, .grid-form input[type=\"datetime\"]::-webkit-input-placeholder, .grid-form input[type=\"datetime-local\"]::-webkit-input-placeholder, .grid-form input[type=\"month\"]::-webkit-input-placeholder, .grid-form input[type=\"time\"]::-webkit-input-placeholder, .grid-form input[type=\"week\"]::-webkit-input-placeholder, .grid-form textarea::-webkit-input-placeholder { font-weight: 100; color: #595959; }\n.grid-form input[type=\"text\"]:-moz-placeholder, .grid-form input[type=\"email\"]:-moz-placeholder, .grid-form input[type=\"number\"]:-moz-placeholder, .grid-form input[type=\"password\"]:-moz-placeholder, .grid-form input[type=\"search\"]:-moz-placeholder, .grid-form input[type=\"tel\"]:-moz-placeholder, .grid-form input[type=\"url\"]:-moz-placeholder, .grid-form input[type=\"color\"]:-moz-placeholder, .grid-form input[type=\"date\"]:-moz-placeholder, .grid-form input[type=\"datetime\"]:-moz-placeholder, .grid-form input[type=\"datetime-local\"]:-moz-placeholder, .grid-form input[type=\"month\"]:-moz-placeholder, .grid-form input[type=\"time\"]:-moz-placeholder, .grid-form input[type=\"week\"]:-moz-placeholder, .grid-form textarea:-moz-placeholder { font-weight: 100; color: #595959; }\n.grid-form input[type=\"text\"]:focus, .grid-form input[type=\"email\"]:focus, .grid-form input[type=\"number\"]:focus, .grid-form input[type=\"password\"]:focus, .grid-form input[type=\"search\"]:focus, .grid-form input[type=\"tel\"]:focus, .grid-form input[type=\"url\"]:focus, .grid-form input[type=\"color\"]:focus, .grid-form input[type=\"date\"]:focus, .grid-form input[type=\"datetime\"]:focus, .grid-form input[type=\"datetime-local\"]:focus, .grid-form input[type=\"month\"]:focus, .grid-form input[type=\"time\"]:focus, .grid-form input[type=\"week\"]:focus, .grid-form textarea:focus { outline: none; }\n.grid-form fieldset { border: none; padding: 0; margin: 0; }\n.grid-form fieldset legend { border: none; border-bottom: 4px solid #404040; color: #404040; font-size: 18px; font-weight: bold; padding-bottom: 5px; position: static; width: 100%; }\n.grid-form fieldset fieldset legend { border-bottom: 2px solid #404040; font-weight: normal; }\n.grid-form fieldset fieldset fieldset legend { border-bottom: 1px solid #404040; font-weight: normal; font-size: 15px; }\n.grid-form [data-row-span] { border-bottom: 1px solid #333; width: 100%; zoom: 1; }\n.grid-form [data-row-span]:before, .grid-form [data-row-span]:after { content: \"\"; display: table; }\n.grid-form [data-row-span]:after { clear: both; }\n@media only screen and (min-width: 0) and (max-width: 700px) { .grid-form [data-row-span] { border-bottom: none; } }\n.grid-form [data-row-span] [data-field-span] { padding: 8px; float: left; }\n@media only screen and (min-width: 0) and (max-width: 700px) { .grid-form [data-row-span] [data-field-span] { border-bottom: 1px solid #333; width: 100% !important; } }\n@media only screen and (min-width: 700px) { .grid-form [data-row-span] [data-field-span] { border-right: 1px solid #333; display: block; } }\n.grid-form [data-row-span] [data-field-span] label:first-child { margin-top: 0; text-transform: uppercase; letter-spacing: 1px; font-size: 10px; color: #333; display: block; margin-bottom: 4px; }\n.grid-form [data-row-span] [data-field-span] label:first-child:hover { cursor: text; }\n.grid-form [data-row-span] [data-field-span]:last-child { border-right: none; }\n.grid-form [data-row-span] [data-field-span].focus { background: #fffad4; }\n.grid-form [data-row-span] [data-field-span].focus label { color: #262626; }\n.grid-form [data-row-span] [data-field-span]:hover { background: #fffded; cursor: text; }\n@media print { .grid-form [data-row-span] { display: table; height: 56px; page-break-inside: avoid; }\n  .grid-form [data-row-span] [data-field-span] { border-right: 1px solid #333333; display: table-cell; float: none; }\n  .grid-form [data-row-span] [data-field-span].focus, .grid-form [data-row-span] [data-field-span]:hover { background: none; }\n  .grid-form [data-row-span] [data-field-span] label:first-child { letter-spacing: 0; } }\n.grid-form [data-row-span=\"1\"] > [data-field-span=\"1\"] { width: 100%; }\n.grid-form [data-row-span=\"2\"] > [data-field-span=\"1\"] { width: 50%; }\n.grid-form [data-row-span=\"2\"] > [data-field-span=\"2\"] { width: 100%; }\n.grid-form [data-row-span=\"3\"] > [data-field-span=\"1\"] { width: 33.33333%; }\n.grid-form [data-row-span=\"3\"] > [data-field-span=\"2\"] { width: 66.66667%; }\n.grid-form [data-row-span=\"3\"] > [data-field-span=\"3\"] { width: 100%; }\n.grid-form [data-row-span=\"4\"] > [data-field-span=\"1\"] { width: 25%; }\n.grid-form [data-row-span=\"4\"] > [data-field-span=\"2\"] { width: 50%; }\n.grid-form [data-row-span=\"4\"] > [data-field-span=\"3\"] { width: 75%; }\n.grid-form [data-row-span=\"4\"] > [data-field-span=\"4\"] { width: 100%; }\n.grid-form [data-row-span=\"5\"] > [data-field-span=\"1\"] { width: 20%; }\n.grid-form [data-row-span=\"5\"] > [data-field-span=\"2\"] { width: 40%; }\n.grid-form [data-row-span=\"5\"] > [data-field-span=\"3\"] { width: 60%; }\n.grid-form [data-row-span=\"5\"] > [data-field-span=\"4\"] { width: 80%; }\n.grid-form [data-row-span=\"5\"] > [data-field-span=\"5\"] { width: 100%; }\n.grid-form [data-row-span=\"6\"] > [data-field-span=\"1\"] { width: 16.66667%; }\n.grid-form [data-row-span=\"6\"] > [data-field-span=\"2\"] { width: 33.33333%; }\n.grid-form [data-row-span=\"6\"] > [data-field-span=\"3\"] { width: 50%; }\n.grid-form [data-row-span=\"6\"] > [data-field-span=\"4\"] { width: 66.66667%; }\n.grid-form [data-row-span=\"6\"] > [data-field-span=\"5\"] { width: 83.33333%; }\n.grid-form [data-row-span=\"6\"] > [data-field-span=\"6\"] { width: 100%; }\n.grid-form [data-row-span=\"7\"] > [data-field-span=\"1\"] { width: 14.28571%; }\n.grid-form [data-row-span=\"7\"] > [data-field-span=\"2\"] { width: 28.57143%; }\n.grid-form [data-row-span=\"7\"] > [data-field-span=\"3\"] { width: 42.85714%; }\n.grid-form [data-row-span=\"7\"] > [data-field-span=\"4\"] { width: 57.14286%; }\n.grid-form [data-row-span=\"7\"] > [data-field-span=\"5\"] { width: 71.42857%; }\n.grid-form [data-row-span=\"7\"] > [data-field-span=\"6\"] { width: 85.71429%; }\n.grid-form [data-row-span=\"7\"] > [data-field-span=\"7\"] { width: 100%; }\n.grid-form [data-row-span=\"8\"] > [data-field-span=\"1\"] { width: 12.5%; }\n.grid-form [data-row-span=\"8\"] > [data-field-span=\"2\"] { width: 25%; }\n.grid-form [data-row-span=\"8\"] > [data-field-span=\"3\"] { width: 37.5%; }\n.grid-form [data-row-span=\"8\"] > [data-field-span=\"4\"] { width: 50%; }\n.grid-form [data-row-span=\"8\"] > [data-field-span=\"5\"] { width: 62.5%; }\n.grid-form [data-row-span=\"8\"] > [data-field-span=\"6\"] { width: 75%; }\n.grid-form [data-row-span=\"8\"] > [data-field-span=\"7\"] { width: 87.5%; }\n.grid-form [data-row-span=\"8\"] > [data-field-span=\"8\"] { width: 100%; }\n.grid-form [data-row-span=\"9\"] > [data-field-span=\"1\"] { width: 11.11111%; }\n.grid-form [data-row-span=\"9\"] > [data-field-span=\"2\"] { width: 22.22222%; }\n.grid-form [data-row-span=\"9\"] > [data-field-span=\"3\"] { width: 33.33333%; }\n.grid-form [data-row-span=\"9\"] > [data-field-span=\"4\"] { width: 44.44444%; }\n.grid-form [data-row-span=\"9\"] > [data-field-span=\"5\"] { width: 55.55556%; }\n.grid-form [data-row-span=\"9\"] > [data-field-span=\"6\"] { width: 66.66667%; }\n.grid-form [data-row-span=\"9\"] > [data-field-span=\"7\"] { width: 77.77778%; }\n.grid-form [data-row-span=\"9\"] > [data-field-span=\"8\"] { width: 88.88889%; }\n.grid-form [data-row-span=\"9\"] > [data-field-span=\"9\"] { width: 100%; }\n.grid-form [data-row-span=\"10\"] > [data-field-span=\"1\"] { width: 10%; }\n.grid-form [data-row-span=\"10\"] > [data-field-span=\"2\"] { width: 20%; }\n.grid-form [data-row-span=\"10\"] > [data-field-span=\"3\"] { width: 30%; }\n.grid-form [data-row-span=\"10\"] > [data-field-span=\"4\"] { width: 40%; }\n.grid-form [data-row-span=\"10\"] > [data-field-span=\"5\"] { width: 50%; }\n.grid-form [data-row-span=\"10\"] > [data-field-span=\"6\"] { width: 60%; }\n.grid-form [data-row-span=\"10\"] > [data-field-span=\"7\"] { width: 70%; }\n.grid-form [data-row-span=\"10\"] > [data-field-span=\"8\"] { width: 80%; }\n.grid-form [data-row-span=\"10\"] > [data-field-span=\"9\"] { width: 90%; }\n.grid-form [data-row-span=\"10\"] > [data-field-span=\"10\"] { width: 100%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"1\"] { width: 9.09091%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"2\"] { width: 18.18182%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"3\"] { width: 27.27273%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"4\"] { width: 36.36364%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"5\"] { width: 45.45455%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"6\"] { width: 54.54545%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"7\"] { width: 63.63636%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"8\"] { width: 72.72727%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"9\"] { width: 81.81818%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"10\"] { width: 90.90909%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"11\"] { width: 100%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"1\"] { width: 8.33333%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"2\"] { width: 16.66667%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"3\"] { width: 25%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"4\"] { width: 33.33333%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"5\"] { width: 41.66667%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"6\"] { width: 50%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"7\"] { width: 58.33333%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"8\"] { width: 66.66667%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"9\"] { width: 75%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"10\"] { width: 83.33333%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"11\"] { width: 91.66667%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"12\"] { width: 100%; }\n\n/*# sourceMappingURL=gridforms.css.map */\n", ""]);
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {  /* globals require, module */
@@ -24818,7 +25046,7 @@
 	   * Module dependencies.
 	   */
 
-	  var pathtoRegexp = __webpack_require__(13);
+	  var pathtoRegexp = __webpack_require__(14);
 
 	  /**
 	   * Module exports.
@@ -25430,10 +25658,10 @@
 
 	  page.sameOrigin = sameOrigin;
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13)))
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -25530,10 +25758,10 @@
 
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isarray = __webpack_require__(14)
+	var isarray = __webpack_require__(15)
 
 	/**
 	 * Expose `pathToRegexp`.
@@ -25926,7 +26154,7 @@
 
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	module.exports = Array.isArray || function (arr) {
@@ -25935,22 +26163,22 @@
 
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var _ = __webpack_require__(16);
-	var uuid = __webpack_require__(18);
-	var Ractive = __webpack_require__(41);
-	var FilterEdit = __webpack_require__(42);
-	var NewFilter = __webpack_require__(46);
-	var Dialogue = __webpack_require__(79);
-	var pg = __webpack_require__(43);
-	var seqtree = __webpack_require__(140);
+	var _ = __webpack_require__(17);
+	var uuid = __webpack_require__(19);
+	var Ractive = __webpack_require__(42);
+	var FilterEdit = __webpack_require__(43);
+	var NewFilter = __webpack_require__(47);
+	var Dialogue = __webpack_require__(80);
+	var pg = __webpack_require__(44);
+	var seqtree = __webpack_require__(81);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(135),
+	  template: __webpack_require__(139),
 	  data: function() {
 	    return {
 	      values: [],
@@ -26055,7 +26283,7 @@
 
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/**
@@ -38410,10 +38638,10 @@
 	  }
 	}.call(this));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)(module), (function() { return this; }())))
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -38429,7 +38657,7 @@
 
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;//     uuid.js
@@ -38453,7 +38681,7 @@
 	  // Moderately fast, high quality
 	  if (true) {
 	    try {
-	      var _rb = __webpack_require__(19).randomBytes;
+	      var _rb = __webpack_require__(20).randomBytes;
 	      _rng = _rb && function() {return _rb(16);};
 	    } catch(e) {}
 	  }
@@ -38686,10 +38914,10 @@
 
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var rng = __webpack_require__(24)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var rng = __webpack_require__(25)
 
 	function error () {
 	  var m = [].slice.call(arguments).join(' ')
@@ -38700,9 +38928,9 @@
 	    ].join('\n'))
 	}
 
-	exports.createHash = __webpack_require__(26)
+	exports.createHash = __webpack_require__(27)
 
-	exports.createHmac = __webpack_require__(38)
+	exports.createHmac = __webpack_require__(39)
 
 	exports.randomBytes = function(size, callback) {
 	  if (callback && callback.call) {
@@ -38723,7 +38951,7 @@
 	  return ['sha1', 'sha256', 'sha512', 'md5', 'rmd160']
 	}
 
-	var p = __webpack_require__(39)(exports)
+	var p = __webpack_require__(40)(exports)
 	exports.pbkdf2 = p.pbkdf2
 	exports.pbkdf2Sync = p.pbkdf2Sync
 
@@ -38743,10 +38971,10 @@
 	  }
 	})
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer))
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer, global) {/*!
@@ -38757,9 +38985,9 @@
 	 */
 	/* eslint-disable no-proto */
 
-	var base64 = __webpack_require__(21)
-	var ieee754 = __webpack_require__(22)
-	var isArray = __webpack_require__(23)
+	var base64 = __webpack_require__(22)
+	var ieee754 = __webpack_require__(23)
+	var isArray = __webpack_require__(24)
 
 	exports.Buffer = Buffer
 	exports.SlowBuffer = SlowBuffer
@@ -40294,10 +40522,10 @@
 	  return i
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20).Buffer, (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer, (function() { return this; }())))
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -40427,7 +40655,7 @@
 
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports) {
 
 	exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -40517,7 +40745,7 @@
 
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports) {
 
 	
@@ -40556,13 +40784,13 @@
 
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, Buffer) {(function() {
 	  var g = ('undefined' === typeof window ? global : window) || {}
 	  _crypto = (
-	    g.crypto || g.msCrypto || __webpack_require__(25)
+	    g.crypto || g.msCrypto || __webpack_require__(26)
 	  )
 	  module.exports = function(size) {
 	    // Modern Browsers
@@ -40586,22 +40814,22 @@
 	  }
 	}())
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(20).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(21).Buffer))
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports) {
 
 	/* (ignored) */
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(27)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(28)
 
-	var md5 = toConstructor(__webpack_require__(35))
-	var rmd160 = toConstructor(__webpack_require__(37))
+	var md5 = toConstructor(__webpack_require__(36))
+	var rmd160 = toConstructor(__webpack_require__(38))
 
 	function toConstructor (fn) {
 	  return function () {
@@ -40629,10 +40857,10 @@
 	  return createHash(alg)
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer))
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var exports = module.exports = function (alg) {
@@ -40641,16 +40869,16 @@
 	  return new Alg()
 	}
 
-	var Buffer = __webpack_require__(20).Buffer
-	var Hash   = __webpack_require__(28)(Buffer)
+	var Buffer = __webpack_require__(21).Buffer
+	var Hash   = __webpack_require__(29)(Buffer)
 
-	exports.sha1 = __webpack_require__(29)(Buffer, Hash)
-	exports.sha256 = __webpack_require__(33)(Buffer, Hash)
-	exports.sha512 = __webpack_require__(34)(Buffer, Hash)
+	exports.sha1 = __webpack_require__(30)(Buffer, Hash)
+	exports.sha256 = __webpack_require__(34)(Buffer, Hash)
+	exports.sha512 = __webpack_require__(35)(Buffer, Hash)
 
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports) {
 
 	module.exports = function (Buffer) {
@@ -40733,7 +40961,7 @@
 
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -40745,7 +40973,7 @@
 	 * See http://pajhome.org.uk/crypt/md5 for details.
 	 */
 
-	var inherits = __webpack_require__(30).inherits
+	var inherits = __webpack_require__(31).inherits
 
 	module.exports = function (Buffer, Hash) {
 
@@ -40877,7 +41105,7 @@
 
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -41405,7 +41633,7 @@
 	}
 	exports.isPrimitive = isPrimitive;
 
-	exports.isBuffer = __webpack_require__(31);
+	exports.isBuffer = __webpack_require__(32);
 
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -41449,7 +41677,7 @@
 	 *     prototype.
 	 * @param {function} superCtor Constructor function to inherit prototype from.
 	 */
-	exports.inherits = __webpack_require__(32);
+	exports.inherits = __webpack_require__(33);
 
 	exports._extend = function(origin, add) {
 	  // Don't do anything if add isn't an object
@@ -41467,10 +41695,10 @@
 	  return Object.prototype.hasOwnProperty.call(obj, prop);
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(12)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(13)))
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports) {
 
 	module.exports = function isBuffer(arg) {
@@ -41481,7 +41709,7 @@
 	}
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports) {
 
 	if (typeof Object.create === 'function') {
@@ -41510,7 +41738,7 @@
 
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -41522,7 +41750,7 @@
 	 *
 	 */
 
-	var inherits = __webpack_require__(30).inherits
+	var inherits = __webpack_require__(31).inherits
 
 	module.exports = function (Buffer, Hash) {
 
@@ -41663,10 +41891,10 @@
 
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var inherits = __webpack_require__(30).inherits
+	var inherits = __webpack_require__(31).inherits
 
 	module.exports = function (Buffer, Hash) {
 	  var K = [
@@ -41913,7 +42141,7 @@
 
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -41925,7 +42153,7 @@
 	 * See http://pajhome.org.uk/crypt/md5 for more info.
 	 */
 
-	var helpers = __webpack_require__(36);
+	var helpers = __webpack_require__(37);
 
 	/*
 	 * Calculate the MD5 of an array of little-endian words, and a bit length
@@ -42074,7 +42302,7 @@
 
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {var intSize = 4;
@@ -42112,10 +42340,10 @@
 
 	module.exports = { hash: hash };
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer))
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {
@@ -42324,13 +42552,13 @@
 
 
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer))
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(26)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(27)
 
 	var zeroBuffer = new Buffer(128)
 	zeroBuffer.fill(0)
@@ -42374,13 +42602,13 @@
 	}
 
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer))
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var pbkdf2Export = __webpack_require__(40)
+	var pbkdf2Export = __webpack_require__(41)
 
 	module.exports = function (crypto, exports) {
 	  exports = exports || {}
@@ -42395,7 +42623,7 @@
 
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {module.exports = function(crypto) {
@@ -42483,10 +42711,10 @@
 	  }
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer))
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -59111,18 +59339,18 @@
 
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Ractive = __webpack_require__(41);
-	var pg = __webpack_require__(43);
-	var hist = __webpack_require__(44);
-	var ConditionLibrary = __webpack_require__(45);
+	var Ractive = __webpack_require__(42);
+	var pg = __webpack_require__(44);
+	var hist = __webpack_require__(45);
+	var ConditionLibrary = __webpack_require__(46);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(49),
+	  template: __webpack_require__(50),
 	  data: function() {
 	    return {
 	      _prev: hist.pop(),
@@ -59171,23 +59399,23 @@
 	    pg.push(library);
 	  },
 	  components: {
-	    teq: __webpack_require__(50),
-	    tneq: __webpack_require__(55),
-	    eq: __webpack_require__(57),
-	    neq: __webpack_require__(59),
-	    gt: __webpack_require__(61),
-	    gte: __webpack_require__(63),
-	    lt: __webpack_require__(65),
-	    lte: __webpack_require__(67),
-	    has: __webpack_require__(69),
-	    nothas: __webpack_require__(73),
-	    filter: __webpack_require__(75)
+	    teq: __webpack_require__(51),
+	    tneq: __webpack_require__(56),
+	    eq: __webpack_require__(58),
+	    neq: __webpack_require__(60),
+	    gt: __webpack_require__(62),
+	    gte: __webpack_require__(64),
+	    lt: __webpack_require__(66),
+	    lte: __webpack_require__(68),
+	    has: __webpack_require__(70),
+	    nothas: __webpack_require__(74),
+	    filter: __webpack_require__(76)
 	  }
 	});
 
 
 /***/ },
-/* 43 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
@@ -59232,7 +59460,7 @@
 
 
 /***/ },
-/* 44 */
+/* 45 */
 /***/ function(module, exports) {
 
 	var stack = [];
@@ -59273,18 +59501,18 @@
 
 
 /***/ },
-/* 45 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Ractive = __webpack_require__(41);
-	var NewFilter = __webpack_require__(46);
-	var pg = __webpack_require__(43);
+	var Ractive = __webpack_require__(42);
+	var NewFilter = __webpack_require__(47);
+	var pg = __webpack_require__(44);
 
 
 	// TODO something similar to this for filters
 	var ConditionLibrary = Ractive.extend({
-	  template: __webpack_require__(48),
+	  template: __webpack_require__(49),
 	  computed: {
 	    types: function() {
 	      return ConditionLibrary.types;
@@ -59382,15 +59610,15 @@
 
 
 /***/ },
-/* 46 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Ractive = __webpack_require__(41);
-	var pg = __webpack_require__(43);
+	var Ractive = __webpack_require__(42);
+	var pg = __webpack_require__(44);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(47),
+	  template: __webpack_require__(48),
 	  data: function()  {
 	    return {filters: dashboard.get('filters')};
 	  },
@@ -59405,35 +59633,35 @@
 
 
 /***/ },
-/* 47 */
+/* 48 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["New filter"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["New filter"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"label","a":{"for":"ask-text"},"f":["Name of filter"]}," ",{"t":7,"e":"input","a":{"type":"text","id":"choice-text","name":"choice-text","class":"form-control","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"save","a":{"r":[],"s":"[]"}}},"f":["Save"]}]};
 
 /***/ },
-/* 48 */
+/* 49 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"popover left","style":"left: 13em; top: 2em;"},"f":[{"t":7,"e":"div","a":{"class":"arrow"}}," ",{"t":7,"e":"div","a":{"class":"popover-content"},"f":[{"t":7,"e":"p","f":["Since the library is likely to get quite big (and can be scary at a first glace seeing everything), we use accordions to keep the screen tidy."]}]}]}," ",{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":["/numi-prototypes/filters/",{"t":2,"r":"filterId"}]},"f":["Filter: ",{"t":2,"r":"filterName"}]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Condition Library"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Condition Library"]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel-group","id":["accordion",{"t":2,"r":"name"}],"role":"tablist","aria-multiselectable":"true"},"f":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"h2","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":["#collapse",{"t":2,"r":"name"}],"aria-expanded":"true","aria-controls":["collapse",{"t":2,"r":"name"}]},"f":[{"t":2,"r":"title"}]}]}]}," ",{"t":7,"e":"div","a":{"id":["collapse",{"t":2,"r":"name"}],"class":"panel-collapse collapse","role":"tabpanel","aria-labelledby":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-library"},"v":{"click":{"m":"addCondition","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}],"r":"blocks"}]}]}]}]}],"r":"types"},{"t":7,"e":"div","a":{"class":"panel-group","id":"accordionfilters","role":"tablist","aria-multiselectable":"true"},"f":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":"headingfilters"},"f":[{"t":7,"e":"h2","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":["#collapse",{"t":2,"r":"id"}],"aria-expanded":"true","aria-controls":"collapsefilters"},"f":["Filters"]}]}]}," ",{"t":7,"e":"div","a":{"id":"collapsefilters","class":"panel-collapse collapse","role":"tabpanel","aria-labelledby":"headingfilters"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-library"},"v":{"click":{"m":"addFilter","a":{"r":["."],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}],"r":"filters"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-library nm-placeholder"},"v":{"click":{"m":"newFilter","a":{"r":[],"s":"[]"}}},"f":["+ Add filter"]}]}]}]}]}]};
 
 /***/ },
-/* 49 */
+/* 50 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"popover left","style":"left: 13em; top: 7em;"},"f":[{"t":7,"e":"div","a":{"class":"arrow"}}," ",{"t":7,"e":"div","a":{"class":"popover-content"},"f":[{"t":7,"e":"p","f":["Filters can be renamed here and in the breadcrumbs above."]}]}]}," ",{"t":7,"e":"div","a":{"class":"popover right","style":"left: auto; right: 13em; top: 15em;"},"f":[{"t":7,"e":"div","a":{"class":"arrow"}}," ",{"t":7,"e":"div","a":{"class":"popover-content"},"f":[{"t":7,"e":"p","f":["To avoid complex AND / OR nesting, we only allow filters to use one of them at a time. However, filters can be combined (or used inside another filter)"]}]}]}," ",{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Filter: ",{"t":2,"r":"name"}]}]}," ",{"t":4,"f":[{"t":7,"e":"a","a":{"href":[{"t":2,"r":"href"}]},"f":["Go back to ",{"t":2,"r":"name"}]}],"r":"prev"},{"t":7,"e":"div","a":{"class":"nm-name"},"f":[{"t":7,"e":"h1","a":{"class":"page-header"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"small","f":["Filter"]}," ",{"t":7,"e":"br"}," ",{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename well"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"h1","a":{"class":"page-header","style":"margin-bottom: 0; padding-bottom: 0;"},"f":[{"t":7,"e":"small","f":["Filter"]}]}," ",{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}," ",{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Match"]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-justified","data-toggle":"buttons"},"f":[{"t":7,"e":"label","a":{"class":"btn btn-default active"},"f":[{"t":7,"e":"input","a":{"type":"radio","name":"options","checked":0}}," All"]}," ",{"t":7,"e":"label","a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio","name":"options"}}," Any"]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["of these conditions"]}]}]}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[" ",{"t":7,"e":"div","f":[{"t":4,"f":[{"t":7,"e":"teq"}],"x":{"r":["type"],"s":"_0===\"teq\""}}," ",{"t":4,"f":[{"t":7,"e":"tneq"}],"x":{"r":["type"],"s":"_0===\"tneq\""}}," ",{"t":4,"f":[{"t":7,"e":"eq"}],"x":{"r":["type"],"s":"_0===\"eq\""}}," ",{"t":4,"f":[{"t":7,"e":"neq"}],"x":{"r":["type"],"s":"_0===\"neq\""}}," ",{"t":4,"f":[{"t":7,"e":"lt"}],"x":{"r":["type"],"s":"_0===\"lt\""}}," ",{"t":4,"f":[{"t":7,"e":"lte"}],"x":{"r":["type"],"s":"_0===\"lte\""}}," ",{"t":4,"f":[{"t":7,"e":"gt"}],"x":{"r":["type"],"s":"_0===\"gt\""}}," ",{"t":4,"f":[{"t":7,"e":"gte"}],"x":{"r":["type"],"s":"_0===\"gte\""}}," ",{"t":4,"f":[{"t":7,"e":"has"}],"x":{"r":["type"],"s":"_0===\"has\""}}," ",{"t":4,"f":[{"t":7,"e":"nothas"}],"x":{"r":["type"],"s":"_0===\"nothas\""}}," ",{"t":4,"f":[{"t":7,"e":"filter","a":{"filter":[{"t":2,"r":"filter"}]}}],"x":{"r":["type"],"s":"_0===\"filter\""}}]}],"r":"conditions"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addCondition","a":{"r":[],"s":"[]"}}},"f":["+ Add condition"]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"a","a":{"class":"btn btn-default btn-block","href":[{"t":2,"r":"backHref"}]},"f":["Save and close"]}]};
 
 /***/ },
-/* 50 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(51);
-	var pg = __webpack_require__(43);
-	var ChooseValue = __webpack_require__(52);
+	var Base = __webpack_require__(52);
+	var pg = __webpack_require__(44);
+	var ChooseValue = __webpack_require__(53);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(54),
+	  template: __webpack_require__(55),
 	  chooseValue: function() {
 	    var values = ChooseValue({
 	      el: $('<div>'),
@@ -59453,11 +59681,11 @@
 
 
 /***/ },
-/* 51 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Ractive = __webpack_require__(41);
+	var Ractive = __webpack_require__(42);
 
 
 	module.exports = Ractive.extend({
@@ -59468,16 +59696,16 @@
 
 
 /***/ },
-/* 52 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Ractive = __webpack_require__(41);
-	var pg = __webpack_require__(43);
+	var Ractive = __webpack_require__(42);
+	var pg = __webpack_require__(44);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(53),
+	  template: __webpack_require__(54),
 	  computed: {
 	    values: function() {
 	      return dashboard.get('values');
@@ -59494,29 +59722,29 @@
 
 
 /***/ },
-/* 53 */
+/* 54 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":["/numi-prototypes/",{"t":2,"r":"parent.type"},"/",{"t":2,"r":"parent.id"}]},"f":[{"t":2,"r":"parent.type"},": ",{"t":2,"r":"parent.name"}]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Choose user field"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Choose user field"]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info","role":"alert"},"f":[{"t":7,"e":"p","f":["Add a ",{"t":7,"e":"code","f":["Save Answer"]}," step to a dialogue and it will appear here."]}]}],"n":51,"r":"values"},{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"type":"submit","class":"btn btn-default btn-block"},"v":{"click":{"m":"choose","a":{"r":["."],"s":"[_0]"}}},"f":[{"t":2,"r":"."}]}],"r":"values"}]}]};
 
 /***/ },
-/* 54 */
+/* 55 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"value"}]}],"r":"value"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":["Choose user field"]}],"n":51,"r":"value"}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["equals"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control"}}]}]}]};
 
 /***/ },
-/* 55 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(51);
-	var pg = __webpack_require__(43);
-	var ChooseValue = __webpack_require__(52);
+	var Base = __webpack_require__(52);
+	var pg = __webpack_require__(44);
+	var ChooseValue = __webpack_require__(53);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(56),
+	  template: __webpack_require__(57),
 	  chooseValue: function() {
 	    var values = ChooseValue({
 	      el: $('<div>'),
@@ -59536,23 +59764,23 @@
 
 
 /***/ },
-/* 56 */
+/* 57 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"value"}]}],"r":"value"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":["Choose user field"]}],"n":51,"r":"value"}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["not equal to"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control"}}]}]}]};
 
 /***/ },
-/* 57 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(51);
-	var pg = __webpack_require__(43);
-	var ChooseValue = __webpack_require__(52);
+	var Base = __webpack_require__(52);
+	var pg = __webpack_require__(44);
+	var ChooseValue = __webpack_require__(53);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(58),
+	  template: __webpack_require__(59),
 	  chooseValue: function() {
 	    var values = ChooseValue({
 	      el: $('<div>'),
@@ -59572,23 +59800,23 @@
 
 
 /***/ },
-/* 58 */
+/* 59 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"value"}]}],"r":"value"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":["Choose user field"]}],"n":51,"r":"value"}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["equals"]}," ",{"t":7,"e":"input","a":{"type":"number","class":"form-control"}}]}]}]};
 
 /***/ },
-/* 59 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(51);
-	var pg = __webpack_require__(43);
-	var ChooseValue = __webpack_require__(52);
+	var Base = __webpack_require__(52);
+	var pg = __webpack_require__(44);
+	var ChooseValue = __webpack_require__(53);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(60),
+	  template: __webpack_require__(61),
 	  chooseValue: function() {
 	    var values = ChooseValue({
 	      el: $('<div>'),
@@ -59608,23 +59836,23 @@
 
 
 /***/ },
-/* 60 */
+/* 61 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"value"}]}],"r":"value"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":["Choose user field"]}],"n":51,"r":"value"}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["not equal to"]}," ",{"t":7,"e":"input","a":{"type":"number","class":"form-control"}}]}]}]};
 
 /***/ },
-/* 61 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(51);
-	var pg = __webpack_require__(43);
-	var ChooseValue = __webpack_require__(52);
+	var Base = __webpack_require__(52);
+	var pg = __webpack_require__(44);
+	var ChooseValue = __webpack_require__(53);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(62),
+	  template: __webpack_require__(63),
 	  chooseValue: function() {
 	    var values = ChooseValue({
 	      el: $('<div>'),
@@ -59644,23 +59872,23 @@
 
 
 /***/ },
-/* 62 */
+/* 63 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"value"}]}],"r":"value"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":["Choose user field"]}],"n":51,"r":"value"}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["greater than"]}," ",{"t":7,"e":"input","a":{"type":"number","class":"form-control"}}]}]}]};
 
 /***/ },
-/* 63 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(51);
-	var pg = __webpack_require__(43);
-	var ChooseValue = __webpack_require__(52);
+	var Base = __webpack_require__(52);
+	var pg = __webpack_require__(44);
+	var ChooseValue = __webpack_require__(53);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(64),
+	  template: __webpack_require__(65),
 	  chooseValue: function() {
 	    var values = ChooseValue({
 	      el: $('<div>'),
@@ -59680,23 +59908,23 @@
 
 
 /***/ },
-/* 64 */
+/* 65 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"value"}]}],"r":"value"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":["Choose user field"]}],"n":51,"r":"value"}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["greater than or equal to"]}," ",{"t":7,"e":"input","a":{"type":"number","class":"form-control"}}]}]}]};
 
 /***/ },
-/* 65 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(51);
-	var pg = __webpack_require__(43);
-	var ChooseValue = __webpack_require__(52);
+	var Base = __webpack_require__(52);
+	var pg = __webpack_require__(44);
+	var ChooseValue = __webpack_require__(53);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(66),
+	  template: __webpack_require__(67),
 	  chooseValue: function() {
 	    var values = ChooseValue({
 	      el: $('<div>'),
@@ -59716,23 +59944,23 @@
 
 
 /***/ },
-/* 66 */
+/* 67 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"value"}]}],"r":"value"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":["Choose user field"]}],"n":51,"r":"value"}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["less than"]}," ",{"t":7,"e":"input","a":{"type":"number","class":"form-control"}}]}]}]};
 
 /***/ },
-/* 67 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(51);
-	var pg = __webpack_require__(43);
-	var ChooseValue = __webpack_require__(52);
+	var Base = __webpack_require__(52);
+	var pg = __webpack_require__(44);
+	var ChooseValue = __webpack_require__(53);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(68),
+	  template: __webpack_require__(69),
 	  chooseValue: function() {
 	    var values = ChooseValue({
 	      el: $('<div>'),
@@ -59752,23 +59980,23 @@
 
 
 /***/ },
-/* 68 */
+/* 69 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"value"}]}],"r":"value"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":["Choose user field"]}],"n":51,"r":"value"}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["less than or equal to"]}," ",{"t":7,"e":"input","a":{"type":"number","class":"form-control"}}]}]}]};
 
 /***/ },
-/* 69 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(51);
-	var pg = __webpack_require__(43);
-	var ChooseLabel = __webpack_require__(70);
+	var Base = __webpack_require__(52);
+	var pg = __webpack_require__(44);
+	var ChooseLabel = __webpack_require__(71);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(72),
+	  template: __webpack_require__(73),
 	  chooseLabel: function() {
 	    var labels = ChooseLabel({
 	      el: $('<div>'),
@@ -59788,16 +60016,16 @@
 
 
 /***/ },
-/* 70 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Ractive = __webpack_require__(41);
-	var pg = __webpack_require__(43);
+	var Ractive = __webpack_require__(42);
+	var pg = __webpack_require__(44);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(71),
+	  template: __webpack_require__(72),
 	  computed: {
 	    labels: function() {
 	      return dashboard.get('labels');
@@ -59814,29 +60042,29 @@
 
 
 /***/ },
-/* 71 */
+/* 72 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":["/numi-prototypes/",{"t":2,"r":"parent.type"},"/",{"t":2,"r":"parent.id"}]},"f":[{"t":2,"r":"parent.type"},": ",{"t":2,"r":"parent.name"}]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Choose label"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Choose label"]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info","role":"alert"},"f":[{"t":7,"e":"p","f":["Add a ",{"t":7,"e":"code","f":["Label"]}," step to a dialogue and it will appear here."]}]}],"n":51,"r":"labels"},{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"type":"submit","class":"btn btn-default btn-block"},"v":{"click":{"m":"choose","a":{"r":["."],"s":"[_0]"}}},"f":[{"t":2,"r":"."}]}],"r":"labels"}]}]};
 
 /***/ },
-/* 72 */
+/* 73 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Has the label"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseLabel","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"label"}]}],"r":"label"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseLabel","a":{"r":[],"s":"[]"}}},"f":["Choose label"]}],"n":51,"r":"label"}]}]}]};
 
 /***/ },
-/* 73 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(51);
-	var pg = __webpack_require__(43);
-	var ChooseLabel = __webpack_require__(70);
+	var Base = __webpack_require__(52);
+	var pg = __webpack_require__(44);
+	var ChooseLabel = __webpack_require__(71);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(74),
+	  template: __webpack_require__(75),
 	  chooseLabel: function() {
 	    var labels = ChooseLabel({
 	      el: $('<div>'),
@@ -59856,23 +60084,23 @@
 
 
 /***/ },
-/* 74 */
+/* 75 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Does not have the label"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseLabel","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"label"}]}],"r":"label"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseLabel","a":{"r":[],"s":"[]"}}},"f":["Choose label"]}],"n":51,"r":"label"}]}]}]};
 
 /***/ },
-/* 75 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(51);
-	var pg = __webpack_require__(43);
-	var ChooseFilter = __webpack_require__(76);
+	var Base = __webpack_require__(52);
+	var pg = __webpack_require__(44);
+	var ChooseFilter = __webpack_require__(77);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(78),
+	  template: __webpack_require__(79),
 	  chooseFilter: function() {
 	    var filters = ChooseFilter({
 	      el: $('<div>'),
@@ -59893,17 +60121,17 @@
 
 
 /***/ },
-/* 76 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Ractive = __webpack_require__(41);
-	var pg = __webpack_require__(43);
-	var NewFilter = __webpack_require__(46);
+	var Ractive = __webpack_require__(42);
+	var pg = __webpack_require__(44);
+	var NewFilter = __webpack_require__(47);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(77),
+	  template: __webpack_require__(78),
 	  computed: {
 	    filters: function() {
 	      var filter = this.get('filter');
@@ -59937,31 +60165,31 @@
 
 
 /***/ },
-/* 77 */
+/* 78 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":["/numi-prototypes/",{"t":2,"r":"parent.type"},"/",{"t":2,"r":"parent.id"}]},"f":[{"t":2,"r":"parent.type"},": ",{"t":2,"r":"parent.name"}]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Choose filter"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Choose filter"]}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"type":"submit","class":"btn btn-default btn-block"},"v":{"click":{"m":"choose","a":{"r":["."],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}],"r":"filters"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"newFilter","a":{"r":[],"s":"[]"}}},"f":["+ Add filter"]}]};
 
 /***/ },
-/* 78 */
+/* 79 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Filter"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseFilter","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"p","a":{"class":"text-right"},"f":[{"t":7,"e":"a","a":{"href":["../../filters/",{"t":2,"r":"id"},"/edit"]},"f":["View filter"]}]}],"r":"filter"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseFilter","a":{"r":[],"s":"[]"}}},"f":["Choose filter"]}],"n":51,"r":"filter"}]}]}]}]};
 
 /***/ },
-/* 79 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var _ = __webpack_require__(16);
-	var uuid = __webpack_require__(18);
-	var Ractive = __webpack_require__(41);
-	var hist = __webpack_require__(44);
-	var seqtree = __webpack_require__(140);
+	var _ = __webpack_require__(17);
+	var uuid = __webpack_require__(19);
+	var Ractive = __webpack_require__(42);
+	var hist = __webpack_require__(45);
+	var seqtree = __webpack_require__(81);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(80),
+	  template: __webpack_require__(82),
 	  data: function() {
 	    return {
 	      sequences: [],
@@ -59991,12 +60219,12 @@
 	      while (node) {
 	        seq = _.find(this.get('sequences'), {id: node.key[0]});
 
-	        results.push(_.extend({}, seq, {
-	          nodeId: node.id,
+	        _.extend(_.last(results), {
 	          activeBlockId: node.key[1],
 	          activeBlockItemId: node.key[2]
-	        }));
+	        });
 
+	        results.push(_.extend({}, seq, {nodeId: node.id}));
 	        node = node.current;
 	      }
 
@@ -60016,6 +60244,12 @@
 	    $(this.el)
 	      .find('.sortable-blocks')
 	      .sortable();
+
+	    $('.nm-body')
+	      .mousewheel(function(e, delta) {
+	        if ($(e.target).parents('.nm-sequence').length) return;
+	        this.scrollLeft -= delta * 30;
+	      });
 	  },
 	  addSequence: function() {
 	    var seq ={
@@ -60044,30 +60278,113 @@
 	    return 'To be overriden';
 	  },
 	  components: {
-	    seqsurrogate: __webpack_require__(141)
+	    seqsurrogate: __webpack_require__(83)
 	  }
 	});
 
 
 /***/ },
-/* 80 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"container nm-dialogue"},"f":[{"t":7,"e":"div","a":{"class":"row"},"f":[{"t":7,"e":"div","a":{"class":"col-md-12"},"f":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Dialogue: ",{"t":2,"r":"name"}]}]}," ",{"t":4,"f":[{"t":7,"e":"a","a":{"href":[{"t":2,"r":"href"}]},"f":["Go back to ",{"t":2,"r":"name"}]}],"r":"prev"}," ",{"t":7,"e":"div","a":{"class":"nm-dialogue-title"},"f":[{"t":7,"e":"div","a":{"class":"nm-name"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename well"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"h3","f":[{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}]}," ",{"t":7,"e":"div","a":{"class":"row"},"f":[{"t":7,"e":"div","a":{"class":"nm-sequences"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"col-md-4 nm-sequence"},"f":[{"t":7,"e":"seqsurrogate"}]}],"r":"sequenceChain"}]}]}]}]}]}]};
-
-/***/ },
 /* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(1);
-	var pg = __webpack_require__(43);
-	var BlockLibrary = __webpack_require__(82);
-	var Ractive = __webpack_require__(41);
+	var _ = __webpack_require__(17);
+	var uuid = __webpack_require__(19);
+
+
+	function create(key) {
+	  return {
+	    key: key,
+	    id: uuid.v4(),
+	    children: [],
+	    current: null
+	  };
+	}
+
+
+	function select(node, key) {
+	  var child = _.find(node.children, {key: key});
+
+	  if (!child) {
+	    child = create(key);
+	    node.children.push(child);
+	  }
+
+	  node.current = child;
+	}
+
+
+	function find(root, id) {
+	  return _.find(all(root), {id: id});
+	}
+
+
+	function all(root) {
+	  var results = [root];
+	  add(root);
+
+	  function add(node) {
+	    results.push.apply(results, node.children);
+	    node.children.forEach(add);
+	  }
+
+	  return results;
+	}
+
+
+	exports.create = create;
+	exports.select = select;
+	exports.find = find;
+	exports.all = all;
+
+
+/***/ },
+/* 82 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-container"},"f":[{"t":7,"e":"div","a":{"class":"nm-head"},"f":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Dialogue: ",{"t":2,"r":"name"}]}]}," ",{"t":4,"f":[{"t":7,"e":"a","a":{"href":[{"t":2,"r":"href"}]},"f":["Go back to ",{"t":2,"r":"name"}]}],"r":"prev"}," ",{"t":7,"e":"div","a":{"class":"nm-dialogue-title"},"f":[{"t":7,"e":"div","a":{"class":"nm-name"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename well"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"h3","f":[{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-body"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-sequence-wrapper"},"f":[{"t":7,"e":"div","a":{"class":"nm-sequence"},"f":[{"t":7,"e":"seqsurrogate"}]}]}],"r":"sequenceChain"}]}]}]};
+
+/***/ },
+/* 83 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Ractive = __webpack_require__(42);
+	var _ = __webpack_require__(17);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(133),
-	  partials: {blocks: __webpack_require__(134)},
+	  template: __webpack_require__(84),
+	  components: {
+	    sequence: __webpack_require__(85)
+	  },
+	  onchange: function() {
+	    var sequences = this.parent.get('sequences');
+	    var i = _.indexOf(sequences, {id: this.get('id')});
+
+	    var d = _.omit(this.get(), 'activeBlockId', 'activeBlockItemId');
+	    this.parent.set('sequences.' + i, d);
+	  }
+	});
+
+
+/***/ },
+/* 84 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"sequence","a":{"name":[{"t":2,"r":"name"}],"blocks":[{"t":2,"r":"blocks"}]}}]};
+
+/***/ },
+/* 85 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $ = __webpack_require__(1);
+	var pg = __webpack_require__(44);
+	var BlockLibrary = __webpack_require__(86);
+	var Ractive = __webpack_require__(42);
+
+
+	module.exports = Ractive.extend({
+	  template: __webpack_require__(137),
+	  partials: {blocks: __webpack_require__(138)},
 	  data: function() {
 	    return {
 	      blocks: []
@@ -60095,44 +60412,44 @@
 	    pg.push(library);
 	  },
 	  components: {
-	    ask: __webpack_require__(88),
-	    askchoice: __webpack_require__(93),
-	    choice: __webpack_require__(100),
-	    end: __webpack_require__(102),
-	    send: __webpack_require__(118),
-	    saveas: __webpack_require__(114),
-	    lbl: __webpack_require__(106),
-	    rmlbl: __webpack_require__(112),
-	    userdialsin: __webpack_require__(124),
-	    usersendsmessage: __webpack_require__(128),
-	    scheduled: __webpack_require__(116),
-	    manual: __webpack_require__(110),
-	    validatecliniccode: __webpack_require__(130),
-	    shownext9months: __webpack_require__(120),
-	    standardmessageset: __webpack_require__(122),
-	    latermessageset: __webpack_require__(108),
-	    acceleratedmessageset: __webpack_require__(84),
-	    calcweeks: __webpack_require__(96),
-	    filter: __webpack_require__(104)
+	    ask: __webpack_require__(92),
+	    askchoice: __webpack_require__(97),
+	    choice: __webpack_require__(104),
+	    end: __webpack_require__(106),
+	    send: __webpack_require__(122),
+	    saveas: __webpack_require__(118),
+	    lbl: __webpack_require__(110),
+	    rmlbl: __webpack_require__(116),
+	    userdialsin: __webpack_require__(128),
+	    usersendsmessage: __webpack_require__(132),
+	    scheduled: __webpack_require__(120),
+	    manual: __webpack_require__(114),
+	    validatecliniccode: __webpack_require__(134),
+	    shownext9months: __webpack_require__(124),
+	    standardmessageset: __webpack_require__(126),
+	    latermessageset: __webpack_require__(112),
+	    acceleratedmessageset: __webpack_require__(88),
+	    calcweeks: __webpack_require__(100),
+	    filter: __webpack_require__(108)
 	  }
 	});
 
 
 /***/ },
-/* 82 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var uuid = __webpack_require__(18);
-	var Ractive = __webpack_require__(41);
-	var pg = __webpack_require__(43);
-	var NewFilter = __webpack_require__(46);
-	var blockTypes = __webpack_require__(83);
+	var uuid = __webpack_require__(19);
+	var Ractive = __webpack_require__(42);
+	var pg = __webpack_require__(44);
+	var NewFilter = __webpack_require__(47);
+	var blockTypes = __webpack_require__(87);
 
 
 	// TODO something similar to this for filters
 	var BlockLibrary = Ractive.extend({
-	  template: __webpack_require__(132),
+	  template: __webpack_require__(136),
 	  data: function() {
 	    return {
 	      key: 'blocks',
@@ -60265,52 +60582,52 @@
 
 
 /***/ },
-/* 83 */
+/* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports.acceleratedmessageset = __webpack_require__(84);
-	exports.ask = __webpack_require__(88);
-	exports.askchoice = __webpack_require__(93);
-	exports.base = __webpack_require__(85);
-	exports.calcweeks = __webpack_require__(96);
-	exports.choice = __webpack_require__(100);
-	exports.end = __webpack_require__(102);
-	exports.filter = __webpack_require__(104);
-	exports.interaction = __webpack_require__(89);
-	exports.label = __webpack_require__(106);
-	exports.latermessageset = __webpack_require__(108);
-	exports.manual = __webpack_require__(110);
-	exports.rmlabel = __webpack_require__(112);
-	exports.saveas = __webpack_require__(114);
-	exports.scheduled = __webpack_require__(116);
-	exports.send = __webpack_require__(118);
-	exports.shownext9months = __webpack_require__(120);
-	exports.standardmessageset = __webpack_require__(122);
-	exports.userdialsin = __webpack_require__(124);
-	exports.usersendsmessage = __webpack_require__(128);
-	exports.validatecliniccode = __webpack_require__(130);
+	exports.acceleratedmessageset = __webpack_require__(88);
+	exports.ask = __webpack_require__(92);
+	exports.askchoice = __webpack_require__(97);
+	exports.base = __webpack_require__(89);
+	exports.calcweeks = __webpack_require__(100);
+	exports.choice = __webpack_require__(104);
+	exports.end = __webpack_require__(106);
+	exports.filter = __webpack_require__(108);
+	exports.interaction = __webpack_require__(93);
+	exports.label = __webpack_require__(110);
+	exports.latermessageset = __webpack_require__(112);
+	exports.manual = __webpack_require__(114);
+	exports.rmlabel = __webpack_require__(116);
+	exports.saveas = __webpack_require__(118);
+	exports.scheduled = __webpack_require__(120);
+	exports.send = __webpack_require__(122);
+	exports.shownext9months = __webpack_require__(124);
+	exports.standardmessageset = __webpack_require__(126);
+	exports.userdialsin = __webpack_require__(128);
+	exports.usersendsmessage = __webpack_require__(132);
+	exports.validatecliniccode = __webpack_require__(134);
 
 
 /***/ },
-/* 84 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Base = __webpack_require__(85);
+	var Base = __webpack_require__(89);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(87)
+	  template: __webpack_require__(91)
 	});
 
 
 /***/ },
-/* 85 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var _ = __webpack_require__(16);
-	var Ractive = __webpack_require__(41);
-	var drawers = __webpack_require__(86);
+	var _ = __webpack_require__(17);
+	var Ractive = __webpack_require__(42);
+	var drawers = __webpack_require__(90);
 
 	var Base = Ractive.extend({
 	  destroy: function() {
@@ -60351,10 +60668,10 @@
 
 
 /***/ },
-/* 86 */
+/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(16);
+	var _ = __webpack_require__(17);
 	var $ = __webpack_require__(1);
 
 
@@ -60439,20 +60756,20 @@
 
 
 /***/ },
-/* 87 */
+/* 91 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Send accelerated message set"]}," "]}]}]};
 
 /***/ },
-/* 88 */
+/* 92 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Interaction = __webpack_require__(89);
+	var Interaction = __webpack_require__(93);
 
 
 	module.exports = Interaction.extend({
-	  template: __webpack_require__(92),
+	  template: __webpack_require__(96),
 	  data: function() {
 	    return {
 	      text: ''
@@ -60462,13 +60779,13 @@
 
 
 /***/ },
-/* 89 */
+/* 93 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var pg = __webpack_require__(43);
-	var Base = __webpack_require__(85);
-	var ContentLibrary = __webpack_require__(90);
+	var pg = __webpack_require__(44);
+	var Base = __webpack_require__(89);
+	var ContentLibrary = __webpack_require__(94);
 
 
 	module.exports = Base.extend({
@@ -60482,15 +60799,15 @@
 
 
 /***/ },
-/* 90 */
+/* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Ractive = __webpack_require__(41);
-	var pg = __webpack_require__(43);
+	var Ractive = __webpack_require__(42);
+	var pg = __webpack_require__(44);
 
 
 	var ContentLibrary = Ractive.extend({
-	  template: __webpack_require__(91),
+	  template: __webpack_require__(95),
 	  data: function() {
 	    return {placeholders: ContentLibrary.placeholders};
 	  },
@@ -60545,29 +60862,29 @@
 
 
 /***/ },
-/* 91 */
+/* 95 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":["/numi-prototypes/dialogues/",{"t":2,"r":"dialogue.id"}]},"f":["Dialogue: ",{"t":2,"r":"dialogue.name"}]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Content Library"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Content Library"]}," ",{"t":7,"e":"div","a":{"class":"panel-group","id":"accordionfilters","role":"tablist","aria-multiselectable":"true"},"f":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":"headingfilters"},"f":[{"t":7,"e":"h2","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":["#collapse",{"t":2,"r":"id"}],"aria-expanded":"true","aria-controls":"collapsefilters"},"f":["Placeholders"]}]}]}," ",{"t":7,"e":"div","a":{"id":"collapsefilters","class":"panel-collapse collapse in","role":"tabpanel","aria-labelledby":"headingfilters"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Placeholders"]}," are blocks of dynamically generated content that you can use inside an ",{"t":7,"e":"strong","f":["Interaction"]}," block."]}," ",{"t":7,"e":"p","f":["Use them by putting their keyword inside square brackets like this: ",{"t":7,"e":"code","f":["[keyword]"]}]}]}," ",{"t":4,"f":[{"t":7,"e":"hr"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-library","style":"text-align: left;"},"v":{"click":{"m":"addPlaceholder","a":{"r":["."],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["You see:"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"code","f":["[",{"t":2,"r":"name"},"]"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["The user sees:"]}]}," ",{"t":7,"e":"p","f":[{"t":2,"r":"helptext"}]}," ",{"t":7,"e":"code","a":{"style":"white-space: pre;"},"f":[{"t":4,"f":[{"t":2,"r":"."},{"t":7,"e":"br"}],"r":"exampletext"}]}],"r":"placeholders"}]}]}]}]}]};
 
 /***/ },
-/* 92 */
+/* 96 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Ask"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"textarea","a":{"class":"form-control ask-text","rows":"3","value":[{"t":2,"r":"text"}]}}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":["Added placeholder text: ",{"t":7,"e":"code","f":[{"t":2,"r":"notification"}]}]}]}],"r":"notification"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addContent","a":{"r":[],"s":"[]"}}},"f":["+ Insert special text"]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"save","a":{"r":[],"s":"[]"}}},"f":["Save"]}],"x":{"r":["mode"],"s":"_0===\"edit\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"onEdit","a":{"r":["event"],"s":"[_0]"}}},"f":["Edit"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Ask"]}," ",{"t":4,"f":[{"t":7,"e":"p","f":[{"t":2,"r":"text"}]}],"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"p","f":[{"t":7,"e":"i","f":["No content"]}]}],"n":51,"r":"text"}],"x":{"r":["mode"],"s":"_0===\"preview\""}}]}]}]};
 
 /***/ },
-/* 93 */
+/* 97 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var _ = __webpack_require__(16);
-	var uuid = __webpack_require__(18);
-	var Base = __webpack_require__(85);
+	var _ = __webpack_require__(17);
+	var uuid = __webpack_require__(19);
+	var Base = __webpack_require__(89);
 
 
 	var AskChoice = Base.extend({
-	  template: __webpack_require__(94),
+	  template: __webpack_require__(98),
 	  data: function() {
 	    return {
 	      text: '',
@@ -60600,7 +60917,7 @@
 
 
 	AskChoice.Edit = Base.Edit.extend({
-	  template: __webpack_require__(95),
+	  template: __webpack_require__(99),
 	  showTab(e, to) {
 	    e.original.preventDefault();
 	    $(this.el).find('a[href="#' + to + '"]').tab('show');
@@ -60649,30 +60966,30 @@
 
 
 /***/ },
-/* 94 */
+/* 98 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Ask and provide choices"]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item"},"f":[{"t":4,"f":[{"t":7,"e":"p","f":[{"t":2,"r":"text"}]}],"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"p","f":[{"t":7,"e":"i","f":["No content"]}]}],"n":51,"r":"text"}]}," ",{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"a","a":{"class":"list-group-item","href":"#"},"v":{"click":{"m":"onChoiceClick","a":{"r":["event","route","id"],"s":"[_0,_1,_2]"}}},"f":[{"t":7,"e":"p","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". ",{"t":2,"r":"text"}]}," ",{"t":7,"e":"p","f":[" ↳ ",{"t":2,"x":{"r":["getSequenceName","route"],"s":"_0(_1)"}}]}]}],"r":"route"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item","href":"#"},"f":[{"t":7,"e":"p","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". ",{"t":2,"r":"text"}]}]}],"n":51,"r":"route"}],"i":"i","r":"choices"}]}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Ask and provide choices"]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":4,"f":[{"t":7,"e":"p","f":[{"t":2,"r":"text"}]}],"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"p","f":[{"t":7,"e":"i","f":["No content"]}]}],"n":51,"r":"text"}]}," ",{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"a","a":{"class":["list-group-item nm-preview-list-item ",{"t":4,"f":["active"],"x":{"r":["activeBlockItemId","id"],"s":"_0===_1"}}],"href":"#"},"v":{"click":{"m":"onChoiceClick","a":{"r":["event","route","id"],"s":"[_0,_1,_2]"}}},"f":[{"t":7,"e":"span","a":{"class":"nm-preview-arrow glyphicon glyphicon-chevron-right pull-right"}}," ",{"t":7,"e":"p","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". ",{"t":2,"r":"text"}]}," ",{"t":7,"e":"p","f":[" ↳ ",{"t":2,"x":{"r":["getSequenceName","route"],"s":"_0(_1)"}}]}]}],"r":"route"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item","href":"#"},"f":[{"t":7,"e":"p","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". ",{"t":2,"r":"text"}]}]}],"n":51,"r":"route"}],"i":"i","r":"choices"}]}]}]}]};
 
 /***/ },
-/* 95 */
+/* 99 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Ask and provide choices"]}," ",{"t":7,"e":"div","a":{"class":"grid-form"},"f":[{"t":7,"e":"fieldset","f":[{"t":7,"e":"div","a":{"data-row-span":"3"},"f":[{"t":7,"e":"div","a":{"data-field-span":"3"},"f":[{"t":7,"e":"label","f":["Question"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"data-row-span":"2","class":["nm-choice-row ",{"t":4,"f":["nm-choice-row-first"],"x":{"r":["i"],"s":"_0===0"}}]},"f":[{"t":7,"e":"div","a":{"data-field-span":[{"t":2,"x":{"r":["useAnswerSaving"],"s":"2-_0"}}],"class":["nm-choice ",{"t":4,"f":["nm-choice-placeholder"],"x":{"r":["i","allChoices.length"],"s":"_0===_1-1"}}]},"f":[{"t":4,"f":[{"t":7,"e":"label","f":["Choices"]}],"x":{"r":["i"],"s":"_0===0"}}," ",{"t":7,"e":"div","a":{"class":"nm-choice-text"},"f":[{"t":7,"e":"span","a":{"class":"nm-input-prefix"},"f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". "]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"text"}]},"v":{"keyup":{"m":"onChoiceKeyDown","a":{"r":["i"],"s":"[_0]"}}}}]}," ",{"t":4,"f":[{"t":7,"e":"p","f":[" ↳ ",{"t":7,"e":"a","a":{"href":"#"},"f":[{"t":2,"x":{"r":["getSequenceName","route"],"s":"_0(_1)"}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-xs btn-default"},"f":["Edit"]}]}],"r":"route"}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"data-field-span":"1","class":"nm-choice-save-as"},"f":[{"t":4,"f":[{"t":7,"e":"label","f":["Save as"]}],"x":{"r":["i"],"s":"_0===0"}}," ",{"t":7,"e":"input","a":{"type":"text"},"m":[{"t":4,"f":["value=\"",{"t":2,"r":".saveAs"},"\""],"r":".saveAs"},{"t":4,"f":[" value=\"",{"t":2,"r":".text"}," \""],"n":51,"r":".saveAs"}]}]}],"r":"useAnswerSaving"}," ",{"t":7,"e":"div","a":{"class":"nm-choice-actions pull-right"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-xs btn-default"},"v":{"click":{"m":"setRoute","a":{"r":["id"],"s":"[_0]"}}},"f":["↳ Route"]}," "],"n":51,"r":"route"}," ",{"t":7,"e":"button","a":{"class":"close"},"f":["×"]}]}]}],"i":"i","r":"allChoices"}," ",{"t":7,"e":"div","a":{"data-row-span":"3"},"f":[{"t":7,"e":"div","a":{"data-field-span":"3"},"f":[{"t":7,"e":"label","m":[{"t":4,"f":["class=\"nm-unused\""],"n":51,"r":"useAnswerSaving"}],"f":["Save answer as (optional)"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 96 */
+/* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(85);
-	var pg = __webpack_require__(43);
-	var ChooseDialogue = __webpack_require__(97);
-	var ChooseValue = __webpack_require__(52);
+	var Base = __webpack_require__(89);
+	var pg = __webpack_require__(44);
+	var ChooseDialogue = __webpack_require__(101);
+	var ChooseValue = __webpack_require__(53);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(99),
+	  template: __webpack_require__(103),
 	  oninit: function() {
 	    var self = this;
 
@@ -60701,16 +61018,16 @@
 
 
 /***/ },
-/* 97 */
+/* 101 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Ractive = __webpack_require__(41);
-	var pg = __webpack_require__(43);
+	var Ractive = __webpack_require__(42);
+	var pg = __webpack_require__(44);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(98),
+	  template: __webpack_require__(102),
 	  computed: {
 	    dialogue: function() {
 	      var screen = this.get('source');
@@ -60739,29 +61056,29 @@
 
 
 /***/ },
-/* 98 */
+/* 102 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":["/numi-prototypes/dialogues/",{"t":2,"r":"dialogue.id"}]},"f":["Dialogue: ",{"t":2,"r":"dialogue.name"}]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Choose dialogue"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Choose dialogue"]}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"type":"submit","class":"btn btn-default btn-block"},"v":{"click":{"m":"choose","a":{"r":["."],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}],"r":"dialogues"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"newdialogue","a":{"r":[],"s":"[]"}}},"f":["+ Add dialogue"]}]};
 
 /***/ },
-/* 99 */
+/* 103 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"strong","f":["Calculate weeks until due"]}]}," ",{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title","style":"margin-bottom: 0;"},"f":["Use this as the month:"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"inputValue"}]}],"r":"inputValue"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":["Choose user field"]}],"n":51,"r":"inputValue"}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"p","a":{"class":"nm-block-title","style":"margin-bottom: 0;"},"f":["Save calculation result as:"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"input","a":{"class":"form-control","type":"text"},"v":{"keyup":"valueChange"}}]}]}]}]};
 
 /***/ },
-/* 100 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(85);
-	var pg = __webpack_require__(43);
-	var ChooseDialogue = __webpack_require__(97);
+	var Base = __webpack_require__(89);
+	var pg = __webpack_require__(44);
+	var ChooseDialogue = __webpack_require__(101);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(101),
+	  template: __webpack_require__(105),
 	  chooseDialogue: function() {
 	    var colls = ChooseDialogue({el: $('<div>')});
 	    colls.set('source', this);
@@ -60771,42 +61088,42 @@
 
 
 /***/ },
-/* 101 */
+/* 105 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Choice"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"label","a":{"for":"choice-text"},"f":["Text"]}," ",{"t":7,"e":"input","a":{"type":"text","id":"choice-text","name":"choice-text","class":"form-control"}}," ",{"t":7,"e":"br"}," ",{"t":4,"f":[{"t":7,"e":"label","f":["Links to"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseDialogue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"p","a":{"class":"text-right"},"f":[{"t":7,"e":"a","a":{"href":["../../dialogues/",{"t":2,"r":"id"},"/edit"]},"f":["View dialogue"]}]}],"r":"dialogue"}," ",{"t":4,"f":[{"t":7,"e":"label","f":["Links to"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseDialogue","a":{"r":[],"s":"[]"}}},"f":["Choose dialogue"]}],"n":51,"r":"dialogue"}]}]}]}]};
 
 /***/ },
-/* 102 */
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Base = __webpack_require__(85);
+	var Base = __webpack_require__(89);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(103)
+	  template: __webpack_require__(107)
 	});
 
 
 /***/ },
-/* 103 */
+/* 107 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["End"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control","rows":"3"}}," "]}]}]};
 
 /***/ },
-/* 104 */
+/* 108 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(85);
-	var pg = __webpack_require__(43);
-	var ChooseFilter = __webpack_require__(76);
-	var BlockLibrary = __webpack_require__(82);
+	var Base = __webpack_require__(89);
+	var pg = __webpack_require__(44);
+	var ChooseFilter = __webpack_require__(77);
+	var BlockLibrary = __webpack_require__(86);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(105),
+	  template: __webpack_require__(109),
 	  data: function() {
 	    return {
 	      blocks: []
@@ -60841,21 +61158,21 @@
 
 
 /***/ },
-/* 105 */
+/* 109 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["With users matching the filter"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseFilter","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"p","a":{"class":"text-right"},"f":[{"t":7,"e":"a","a":{"href":["../../filters/",{"t":2,"r":"id"},"/edit"]},"f":["View filter"]}]}],"r":"filter"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseFilter","a":{"r":[],"s":"[]"}}},"f":["Choose filter"]}],"n":51,"r":"filter"}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"div","f":[{"t":7,"e":"block"}]}],"r":"blocks"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]}]}]}]}]};
 
 /***/ },
-/* 106 */
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(85);
+	var Base = __webpack_require__(89);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(107),
+	  template: __webpack_require__(111),
 	  data: function() {
 	    return {label: ''}
 	  },
@@ -60873,59 +61190,59 @@
 
 
 /***/ },
-/* 107 */
+/* 111 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Add label to user"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"input","a":{"class":"form-control","type":"text"},"v":{"keyup":"labelChange"}}]}]}]}]};
 
 /***/ },
-/* 108 */
+/* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Base = __webpack_require__(85);
+	var Base = __webpack_require__(89);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(109)
+	  template: __webpack_require__(113)
 	});
 
 
 /***/ },
-/* 109 */
+/* 113 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Send later message set"]}," "]}]}]};
 
 /***/ },
-/* 110 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Base = __webpack_require__(85);
+	var Base = __webpack_require__(89);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(111)
+	  template: __webpack_require__(115)
 	});
 
 
 /***/ },
-/* 111 */
+/* 115 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Manual"]}," "]}]}]};
 
 /***/ },
-/* 112 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(85);
-	var pg = __webpack_require__(43);
-	var ChooseLabel = __webpack_require__(70);
+	var Base = __webpack_require__(89);
+	var pg = __webpack_require__(44);
+	var ChooseLabel = __webpack_require__(71);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(113),
+	  template: __webpack_require__(117),
 	  data: function() {
 	    return {label: ''}
 	  },
@@ -60948,21 +61265,21 @@
 
 
 /***/ },
-/* 113 */
+/* 117 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Remove label from user"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseLabel","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"label"}]}],"r":"label"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseLabel","a":{"r":[],"s":"[]"}}},"f":["Choose label"]}],"n":51,"r":"label"}]}]}]}]};
 
 /***/ },
-/* 114 */
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(85);
+	var Base = __webpack_require__(89);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(115),
+	  template: __webpack_require__(119),
 	  data: function() {
 	    return {value: ''}
 	  },
@@ -60980,23 +61297,23 @@
 
 
 /***/ },
-/* 115 */
+/* 119 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Save answer as user field"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"input","a":{"class":"form-control","type":"text"},"v":{"keyup":"valueChange"}}]}]}]}]};
 
 /***/ },
-/* 116 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(85);
-	var pg = __webpack_require__(43);
-	var BlockLibrary = __webpack_require__(82);
+	var Base = __webpack_require__(89);
+	var pg = __webpack_require__(44);
+	var BlockLibrary = __webpack_require__(86);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(117),
+	  template: __webpack_require__(121),
 	  data: function() {
 	    return {
 	      frequency: 1,
@@ -61022,20 +61339,20 @@
 
 
 /***/ },
-/* 117 */
+/* 121 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Scheduled"]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Every"]}," ",{"t":7,"e":"input","a":{"type":"number","value":[{"t":2,"r":"frequency"}],"class":"form-control"}}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-justified","data-toggle":"buttons"},"f":[{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"interval\",\"day\"]"}}},"a":{"class":"btn btn-default active"},"f":[{"t":7,"e":"input","a":{"type":"radio","checked":0}}," Days"]}," ",{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"interval\",\"week\"]"}}},"a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio"}}," Weeks"]}," ",{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"interval\",\"month\"]"}}},"a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio"}}," Months"]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"text-right","style":"clear: right;"},"f":["On ",{"t":7,"e":"strong","f":[{"t":2,"r":"interval"}," ",{"t":2,"x":{"r":["frequency","i"],"s":"_0*(_1+1)"}}]},"."]}," ",{"t":7,"e":"block"}],"i":"i","r":"blocks"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]}]}]}]};
 
 /***/ },
-/* 118 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Interaction = __webpack_require__(89);
+	var Interaction = __webpack_require__(93);
 
 
 	module.exports = Interaction.extend({
-	  template: __webpack_require__(119),
+	  template: __webpack_require__(123),
 	  data: function() {
 	    return {isSessionLast: false};
 	  }
@@ -61043,59 +61360,59 @@
 
 
 /***/ },
-/* 119 */
+/* 123 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Send"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control","rows":"3","value":[{"t":2,"r":"text"}]}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":["Added placeholder text: ",{"t":7,"e":"code","f":[{"t":2,"r":"notification"}]}]}]}],"r":"notification"}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addContent","a":{"r":[],"s":"[]"}}},"f":["+ Insert special text"]}]}," ",{"t":4,"f":[{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":["The session ends after this message."]}],"r":"isSessionLast"}]}]};
 
 /***/ },
-/* 120 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Base = __webpack_require__(85);
+	var Base = __webpack_require__(89);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(121)
+	  template: __webpack_require__(125)
 	});
 
 
 /***/ },
-/* 121 */
+/* 125 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Show next 9 months"]}," Use the ",{"t":7,"e":"code","f":["[next 9 months]"]}," placeholder in your message."]}]}]};
 
 /***/ },
-/* 122 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Base = __webpack_require__(85);
+	var Base = __webpack_require__(89);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(123)
+	  template: __webpack_require__(127)
 	});
 
 
 /***/ },
-/* 123 */
+/* 127 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Send standard message set"]}," "]}]}]};
 
 /***/ },
-/* 124 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(85);
-	var pg = __webpack_require__(43);
-	var ChooseChannel = __webpack_require__(125);
+	var Base = __webpack_require__(89);
+	var pg = __webpack_require__(44);
+	var ChooseChannel = __webpack_require__(129);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(127),
+	  template: __webpack_require__(131),
 	  data: function() {
 	    return {
 	      channel: null
@@ -61118,15 +61435,15 @@
 
 
 /***/ },
-/* 125 */
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Ractive = __webpack_require__(41);
-	var pg = __webpack_require__(43);
+	var Ractive = __webpack_require__(42);
+	var pg = __webpack_require__(44);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(126),
+	  template: __webpack_require__(130),
 	  data: function()  {
 	    return {
 	      channels: [
@@ -61151,29 +61468,29 @@
 
 
 /***/ },
-/* 126 */
+/* 130 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"popover left","style":"left: 13em; top: 15em;"},"f":[{"t":7,"e":"div","a":{"class":"arrow"}}," ",{"t":7,"e":"div","a":{"class":"popover-content"},"f":[{"t":7,"e":"p","f":["Lits of all available channels. Big, blocky, buttons for easy usage."]}]}]}," ",{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":["/numi-prototypes/dialogues/",{"t":2,"r":"dialogue.id"}]},"f":["Dialogue: ",{"t":2,"r":"dialogue.name"}]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Choose channel"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Choose channel"]}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"type":"submit","class":"btn btn-default btn-block"},"v":{"click":{"m":"choose","a":{"r":["name"],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}],"r":"channels"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"f":["+ Add channel"]}]};
 
 /***/ },
-/* 127 */
+/* 131 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["When user dials in on"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseChannel","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"channel"}]}],"r":"channel"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseChannel","a":{"r":[],"s":"[]"}}},"f":["Choose channel"]}],"n":51,"r":"channel"}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"save","a":{"r":[],"s":"[]"}}},"f":["Save"]}],"x":{"r":["mode"],"s":"_0===\"edit\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"onEdit","a":{"r":["event"],"s":"[_0]"}}},"f":["Edit"]}]}," ",{"t":4,"f":[{"t":7,"e":"p","f":[{"t":7,"e":"span","a":{"class":"nm-block-title"},"f":["When user dials in on"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":[{"t":2,"r":"channel"}]}]}],"r":"channel"}," ",{"t":4,"f":[{"t":7,"e":"p","f":[{"t":7,"e":"span","a":{"class":"nm-block-title"},"f":["When user dials in"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"i","f":["No channel given"]}]}],"n":51,"r":"channel"}],"x":{"r":["mode"],"s":"_0===\"preview\""}}]}]}]};
 
 /***/ },
-/* 128 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(85);
-	var pg = __webpack_require__(43);
-	var ChooseChannel = __webpack_require__(125);
+	var Base = __webpack_require__(89);
+	var pg = __webpack_require__(44);
+	var ChooseChannel = __webpack_require__(129);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(129),
+	  template: __webpack_require__(133),
 	  chooseChannel: function() {
 	    var channels = ChooseChannel({el: $('<div>')});
 	    channels.set('source', this);
@@ -61183,24 +61500,24 @@
 
 
 /***/ },
-/* 129 */
+/* 133 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["When user sends"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control","rows":"3","value":[{"t":2,"r":"text"}]}}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseChannel","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"channel"}]}],"r":"channel"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseChannel","a":{"r":[],"s":"[]"}}},"f":["Choose channel"]}],"n":51,"r":"channel"}," ",{"t":7,"e":"br"}]}]}]};
 
 /***/ },
-/* 130 */
+/* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(85);
-	var pg = __webpack_require__(43);
-	var ChooseDialogue = __webpack_require__(97);
-	var ChooseValue = __webpack_require__(52);
+	var Base = __webpack_require__(89);
+	var pg = __webpack_require__(44);
+	var ChooseDialogue = __webpack_require__(101);
+	var ChooseValue = __webpack_require__(53);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(131),
+	  template: __webpack_require__(135),
 	  choosePassDialogue: function() {
 	    var colls = ChooseDialogue({el: $('<div>')});
 	    colls.set('source', this);
@@ -61232,37 +61549,37 @@
 
 
 /***/ },
-/* 131 */
+/* 135 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"strong","f":["Validate Clinic Code"]}]}," ",{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title","style":"margin-bottom: 0;"},"f":["Use this as the clinic code:"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"value"}]}],"r":"value"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":["Choose user field"]}],"n":51,"r":"value"}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"ul","a":{"class":"nav nav-stacked"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"label","a":{"for":"choice-text-1"},"f":["If it's ",{"t":7,"e":"strong","f":["valid"]},", go to:"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"choosePassDialogue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"p","a":{"class":"text-right"},"f":[{"t":7,"e":"a","a":{"href":["../../dialogues/",{"t":2,"r":"id"},"/edit"]},"f":["View dialogue"]}]}],"r":"passDialogue"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"choosePassDialogue","a":{"r":[],"s":"[]"}}},"f":["Choose dialogue"]}],"n":51,"r":"passDialogue"}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"br"}," ",{"t":7,"e":"label","a":{"for":"choice-text-1"},"f":["If it's ",{"t":7,"e":"strong","f":["invalid"]},", go to:"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseFailDialogue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"p","a":{"class":"text-right"},"f":[{"t":7,"e":"a","a":{"href":["../../dialogues/",{"t":2,"r":"id"},"/edit"]},"f":["View dialogue"]}]}],"r":"failDialogue"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseFailDialogue","a":{"r":[],"s":"[]"}}},"f":["Choose dialogue"]}],"n":51,"r":"failDialogue"}]}]}]}]}]}]};
 
 /***/ },
-/* 132 */
+/* 136 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"container"},"f":[{"t":7,"e":"div","a":{"class":"row"},"f":[{"t":7,"e":"div","a":{"class":"col-md-12"},"f":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":["/numi-prototypes/dialogues/",{"t":2,"r":"dialogue.id"}]},"f":["Dialogue: ",{"t":2,"r":"dialogue.name"}]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Library"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Library"]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel-group","id":["accordion",{"t":2,"r":"name"}],"role":"tablist","aria-multiselectable":"true"},"f":[{"t":7,"e":"div","a":{"class":["panel panel-default ",{"t":4,"f":["panel-highlighted"],"x":{"r":["name"],"s":"_0===\"custom-components\""}}]},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"h2","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":["#collapse",{"t":2,"r":"name"}],"aria-expanded":"true","aria-controls":["collapse",{"t":2,"r":"name"}]},"f":[{"t":2,"r":"title"}]}]}]}," ",{"t":7,"e":"div","a":{"id":["collapse",{"t":2,"r":"name"}],"class":"panel-collapse collapse","role":"tabpanel","aria-labelledby":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible alert-lib","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Interactions"]}," are messages that will be displayed to the user."]}]}],"x":{"r":["name"],"s":"_0===\"interactions\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible alert-lib","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["User data actions"]}," are used with an ",{"t":7,"e":"strong","f":["Interaction"]}," to be able to use a user field later, or to categorise a user."]}]}],"x":{"r":["name"],"s":"_0===\"user-data\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible alert-lib","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Placeholders"]}," are blocks of dynamically generated content that you can use inside an ",{"t":7,"e":"strong","f":["Interaction"]}," block."]}," ",{"t":7,"e":"p","f":["Use them by putting their keyword inside square brackets like this: ",{"t":7,"e":"code","f":["[keyword]"]}]}]}],"x":{"r":["name"],"s":"_0===\"placeholders\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible alert-lib","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Calculation blocks"]}," are written by developers to perform complex actions on user data."]}]}],"x":{"r":["name"],"s":"_0===\"custom-components\""}}," ",{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-library","role":"group"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default","data-toggle":"collapse","data-target":["#collapse",{"t":2,"r":"type"}],"aria-expanded":"false","aria-controls":"collapse"},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-question-sign","aria-hidden":"true"}}]}]}," ",{"t":7,"e":"div","a":{"class":"collapse alert alert-info alert-dismissible","role":"alert","id":["collapse",{"t":2,"r":"type"}],"data-toggle":"collapse","data-target":["#collapse",{"t":2,"r":"type"}],"aria-expanded":"false"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":2,"r":"helptext"}]}],"x":{"r":["name"],"s":"_0!==\"custom-components\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-library","role":"group"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default","style":"text-align: left;"},"v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default","data-toggle":"collapse","data-target":["#collapse",{"t":2,"r":"type"}],"aria-expanded":"false","aria-controls":"collapse"},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-question-sign","aria-hidden":"true"}}]}]}," ",{"t":7,"e":"div","a":{"class":"collapse","id":["collapse",{"t":2,"r":"type"}]},"f":[{"t":7,"e":"div","a":{"class":"well"},"f":[{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["User input"]},{"t":7,"e":"br"}," ",{"t":2,"r":"userinput"}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Action"]},{"t":7,"e":"br"}," ",{"t":2,"r":"action"}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Output"]},{"t":7,"e":"br"}," ",{"t":2,"r":"output"}]}]}]}],"x":{"r":["name"],"s":"_0===\"custom-components\""}}],"r":"blocks"}]}]}]}]}],"r":"types"}," ",{"t":7,"e":"div","a":{"class":"panel-group","id":"accordion","role":"tablist","aria-multiselectable":"true"},"f":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":"headingOne"},"f":[{"t":7,"e":"h4","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":"#collapseOne","aria-expanded":"true","aria-controls":"collapseOne"},"f":["Filters"]}]}]}," ",{"t":7,"e":"div","a":{"id":"collapseOne","class":"panel-collapse collapse","role":"tabpanel","aria-labelledby":"headingOne"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible alert-lib","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Filters"]}," select a group of users based on fields you have set up using ",{"t":7,"e":"strong","f":["Save Answer"]}," or ",{"t":7,"e":"strong","f":["Add label to user"]}," steps in a ",{"t":7,"e":"strong","f":["Dialogue"]},"."]}]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-library"},"v":{"click":{"m":"addFilter","a":{"r":["."],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}],"r":"filters"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-library nm-placeholder"},"v":{"click":{"m":"newFilter","a":{"r":[],"s":"[]"}}},"f":["+ Add filter"]}]}]}]}]}]}]}]}]};
 
 /***/ },
-/* 133 */
+/* 137 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-sequence-header"},"f":[{"t":7,"e":"div","a":{"class":"nm-sequence-title"},"f":[{"t":7,"e":"div","a":{"class":"nm-name"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-sequence-body"},"f":[{"t":7,"e":"div","a":{"class":"sortable-blocks sortable-blocks-ordered"},"f":[{"t":4,"f":[{"t":8,"r":"blocks"}],"r":"blocks"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-sequence-footer"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+"]}]}]};
 
 /***/ },
-/* 134 */
+/* 138 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"ask","a":{"text":[{"t":2,"r":"text"}]}}],"x":{"r":["type"],"s":"_0===\"ask\""}},{"t":4,"f":[{"t":7,"e":"askchoice","a":{"text":[{"t":2,"r":"text"}],"blocks":[{"t":2,"r":"blocks"}],"allChoices":[{"t":2,"r":"allChoices"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"askchoice\""}},{"t":4,"f":[{"t":7,"e":"choice"}],"x":{"r":["type"],"s":"_0===\"choice\""}},{"t":4,"f":[{"t":7,"e":"end"}],"x":{"r":["type"],"s":"_0===\"end\""}},{"t":4,"f":[{"t":7,"e":"send"}],"x":{"r":["type"],"s":"_0===\"send\""}},{"t":4,"f":[{"t":7,"e":"saveas"}],"x":{"r":["type"],"s":"_0===\"saveas\""}},{"t":4,"f":[{"t":7,"e":"lbl"}],"x":{"r":["type"],"s":"_0===\"label\""}},{"t":4,"f":[{"t":7,"e":"rmlbl"}],"x":{"r":["type"],"s":"_0===\"rmlabel\""}},{"t":4,"f":[{"t":7,"e":"userdialsin","a":{"channel":[{"t":2,"r":"channel"}]}}],"x":{"r":["type"],"s":"_0===\"userdialsin\""}},{"t":4,"f":[{"t":7,"e":"usersendsmessage"}],"x":{"r":["type"],"s":"_0===\"usersendsmessage\""}},{"t":4,"f":[{"t":7,"e":"scheduled"}],"x":{"r":["type"],"s":"_0===\"scheduled\""}},{"t":4,"f":[{"t":7,"e":"manual"}],"x":{"r":["type"],"s":"_0===\"manual\""}},{"t":4,"f":[{"t":7,"e":"validatecliniccode"}],"x":{"r":["type"],"s":"_0===\"validatecliniccode\""}},{"t":4,"f":[{"t":7,"e":"shownext9months"}],"x":{"r":["type"],"s":"_0===\"shownext9months\""}},{"t":4,"f":[{"t":7,"e":"standardmessageset"}],"x":{"r":["type"],"s":"_0===\"standardmessageset\""}},{"t":4,"f":[{"t":7,"e":"latermessageset"}],"x":{"r":["type"],"s":"_0===\"latermessageset\""}},{"t":4,"f":[{"t":7,"e":"acceleratedmessageset"}],"x":{"r":["type"],"s":"_0===\"acceleratedmessageset\""}},{"t":4,"f":[{"t":7,"e":"calcweeks"}],"x":{"r":["type"],"s":"_0===\"calcweeks\""}},{"t":4,"f":[{"t":7,"e":"filter","a":{"filter":[{"t":2,"r":"filter"}]}}],"x":{"r":["type"],"s":"_0===\"filter\""}}]};
 
 /***/ },
-/* 135 */
+/* 139 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"container"},"f":[{"t":7,"e":"div","a":{"class":"row"},"f":[{"t":7,"e":"div","a":{"class":"col-md-12"},"f":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","a":{"class":"active"},"f":["Home"]}]}," ",{"t":7,"e":"ul","a":{"class":"nav nav-tabs","role":"tablist"},"f":[{"t":7,"e":"li","a":{"role":"presentation","class":"active"},"f":[{"t":7,"e":"a","a":{"href":"#dialogues","aria-controls":"dialogues","role":"tab","data-toggle":"tab"},"f":["Dialogues"]}]}," ",{"t":7,"e":"li","a":{"role":"presentation"},"f":[{"t":7,"e":"a","a":{"href":"#filters","aria-controls":"filters","role":"tab","data-toggle":"tab"},"f":["Filters"]}]}]}," ",{"t":7,"e":"div","a":{"class":"tab-content"},"f":[{"t":7,"e":"div","a":{"role":"tabpanel","class":"tab-pane active","id":"dialogues"},"f":[{"t":7,"e":"br"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert","style":"width: 400px;"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":["Add a ",{"t":7,"e":"strong","f":["Dialogue"]}," to get started."]}]}],"n":51,"r":"dialogues"}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel panel-default text-left","id":["coll",{"t":2,"r":"id"}]},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":["id"],"s":"[_0]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel-heading"},"f":[{"t":2,"r":"eventPreview"}]}],"r":"eventPreview"}," ",{"t":7,"e":"a","a":{"href":["./dialogues/",{"t":2,"r":"id"}],"class":"btn btn-link btn-block"},"f":[{"t":2,"r":"name"}]}]}],"r":"dialogues"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"newDialogue","a":{"r":[],"s":"[]"}}},"f":["+ Add dialogue"]}]}," ",{"t":7,"e":"div","a":{"role":"tabpanel","class":"tab-pane","id":"filters"},"f":[{"t":7,"e":"br"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Filters"]}," select a group of users based a set of ",{"t":7,"e":"strong","f":["conditions"]}," that you choose."]}," ",{"t":7,"e":"p","f":["Add ",{"t":7,"e":"strong","f":["Save Answer"]}," or ",{"t":7,"e":"strong","f":["Add label to user"]}," steps in a ",{"t":7,"e":"strong","f":[{"t":7,"e":"a","a":{"href":"#dialogues"},"f":["Dialogue"]}]}," to use them in filters."]}]}],"n":51,"r":"filters"}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel panel-default text-left"},"f":[{"t":7,"e":"a","a":{"href":["./filters/",{"t":2,"r":"id"}],"class":"btn btn-link btn-block"},"f":[{"t":2,"r":"name"}]}]}],"r":"filters"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"newFilter","a":{"r":[],"s":"[]"}}},"f":["+ Add filter"]}]}]}]}]}]}]};
 
 /***/ },
-/* 136 */
+/* 140 */
 /***/ function(module, exports) {
 
 	var prefix = 'numi-prototype:';
@@ -61300,92 +61617,6 @@
 	exports.has = has;
 	exports.clear = clear;
 
-
-/***/ },
-/* 137 */,
-/* 138 */,
-/* 139 */,
-/* 140 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var _ = __webpack_require__(16);
-	var uuid = __webpack_require__(18);
-
-
-	function create(key) {
-	  return {
-	    key: key,
-	    id: uuid.v4(),
-	    children: [],
-	    current: null
-	  };
-	}
-
-
-	function select(node, key) {
-	  var child = _.find(node.children, {key: key});
-
-	  if (!child) {
-	    child = create(key);
-	    node.children.push(child);
-	  }
-
-	  node.current = child;
-	}
-
-
-	function find(root, id) {
-	  return _.find(all(root), {id: id});
-	}
-
-
-	function all(root) {
-	  var results = [root];
-	  add(root);
-
-	  function add(node) {
-	    results.push.apply(results, node.children);
-	    node.children.forEach(add);
-	  }
-
-	  return results;
-	}
-
-
-	exports.create = create;
-	exports.select = select;
-	exports.find = find;
-	exports.all = all;
-
-
-/***/ },
-/* 141 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Ractive = __webpack_require__(41);
-	var _ = __webpack_require__(16);
-
-
-	module.exports = Ractive.extend({
-	  template: __webpack_require__(142),
-	  components: {
-	    sequence: __webpack_require__(81)
-	  },
-	  onchange: function() {
-	    var sequences = this.parent.get('sequences');
-	    var i = _.indexOf(sequences, {id: this.get('id')});
-
-	    var d = _.omit(this.get(), 'activeBlockId', 'activeBlockItemId');
-	    this.parent.set('sequences.' + i, d);
-	  }
-	});
-
-
-/***/ },
-/* 142 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"sequence","a":{"name":[{"t":2,"r":"name"}],"blocks":[{"t":2,"r":"blocks"}]}}]};
 
 /***/ }
 /******/ ]);

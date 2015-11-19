@@ -1,39 +1,37 @@
-<div class="container nm-dialogue">
-  <div class="row">
-    <div class="col-md-12">
-      <ol class="breadcrumb">
-        <li><a href="/numi-prototypes/">Home</a></li>
-        <li class="active">Dialogue: {{name}}</li>
-      </ol>
+<div class="nm-container">
+  <div class="nm-head">
+    <ol class="breadcrumb">
+      <li><a href="/numi-prototypes/">Home</a></li>
+      <li class="active">Dialogue: {{name}}</li>
+    </ol>
 
-      {{#prev}}
-      <a href="{{ href }}">Go back to {{name}}</a>
-      {{/prev}}
+    {{#prev}}
+    <a href="{{ href }}">Go back to {{name}}</a>
+    {{/prev}}
 
-      <div class="nm-dialogue-title">
-        <div class="nm-name" on-click="rename()">{{ name }}</div>
+    <div class="nm-dialogue-title">
+      <div class="nm-name" on-click="rename()">{{ name }}</div>
 
-        <div class="nm-rename well">
-          <div class="form-group">
-            <h3>
-              <textarea class="nm-rename-value" value="{{ name }}"></textarea>
-            </h3>
-          </div>
-
-          <button class="btn btn-sm btn-default" on-click="hideRename()">Save</button>
-          <button class="btn btn-sm btn-link" on-click="cancelRename()">Cancel</button>
+      <div class="nm-rename well">
+        <div class="form-group">
+          <h3>
+            <textarea class="nm-rename-value" value="{{ name }}"></textarea>
+          </h3>
         </div>
-      </div>
 
-      <div class="row">
-          <div class="nm-sequences">
-            {{#sequenceChain}}
-            <div class="col-md-4 nm-sequence">
-              <seqsurrogate></seqsurrogate>
-            </div>
-            {{/sequenceChain}}
-          </div>
+        <button class="btn btn-sm btn-default" on-click="hideRename()">Save</button>
+        <button class="btn btn-sm btn-link" on-click="cancelRename()">Cancel</button>
       </div>
     </div>
+  </div>
+
+  <div class="nm-body">
+    {{#sequenceChain}}
+    <div class="nm-sequence-wrapper">
+      <div class="nm-sequence">
+        <seqsurrogate></seqsurrogate>
+      </div>
+    </div>
+    {{/sequenceChain}}
   </div>
 </div>
