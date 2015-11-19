@@ -17,8 +17,14 @@
 
 <div class="nm-sequence-body">
   <div class="sortable-blocks sortable-blocks-ordered">
-    {{#blocks}}
+    {{#blocks:i}}
       {{>blocks}}
+
+      {{#i < blocks.length - 1 }}
+      <div class="text-center">
+        <span class="nm-block-separator glyphicon glyphicon-menu-down"></span>
+      </div>
+      {{/}}
     {{/blocks}}
   </div>
 </div>
