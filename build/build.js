@@ -60526,9 +60526,6 @@
 
 	var AskChoice = Base.extend({
 	  template: __webpack_require__(94),
-	  onrender: function() {
-	    this.edit();
-	  },
 	  data: function() {
 	    return {
 	      text: '',

@@ -4,9 +4,6 @@ var Base = require('../base');
 
 var AskChoice = Base.extend({
   template: require('./preview.html'),
-  onrender: function() {
-    this.edit();
-  },
   data: function() {
     return {
       text: '',
