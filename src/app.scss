@@ -229,19 +229,8 @@ hr {
   bottom: 0;
 }
 
-.nm-choice {
-  display: table;
-  clear: both;
-  width: 100%;
-
-  span {
-    display: table-cell;
-    width: 21px;
-  }
-
-  input {
-    display: table-cell;
-  }
+.nm-actions {
+  line-height: 0;
 }
 
 .nm-drawer {
@@ -274,7 +263,7 @@ hr {
   }
 
   @media (min-width: 992px) {
-    width: 33.33%;
+    width: 36%;
   }
 
   .nav-tabs > li.active > a {
@@ -283,16 +272,6 @@ hr {
 
   .list-group-item {
     background: $bg2;
-  }
-}
-
-.nm-choice-placeholder {
-  color: $fg1;
-}
-
-.nm-choice-actions {
-  .btn {
-    width: 50%;
   }
 }
 
@@ -331,14 +310,29 @@ hr {
     }
 
     [data-field-span] {
-
       &:hover, &.focus {
         background: $bg1 !important;
+      }
+
+      input {
+        font-size: 1em;
+        width: auto !important;
+      }
+
+      .nm-choice-text {
+        width: 100%;
+        display: block;
       }
     }
   }
 
   [data-field-span] {
     background: $bg0;
+  }
+}
+
+.nm-choice-placeholder {
+  .nm-choice-text {
+    color: $fg1;
   }
 }

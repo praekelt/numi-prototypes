@@ -11,23 +11,25 @@
           </div>
 
           {{#allChoices:i}}
-          <div data-row-span="3">
-              <div data-field-span="{{choiceColSpan}}">
+          <div data-row-span="2">
+              <div
+                 data-field-span="{{2 - useAnswerSaving}}"
+                 class="nm-choice {{# i === allChoices.length - 1}}nm-choice-placeholder{{/}}"
+                 >
+
                 {{#i === 0}}
                 <label>Choices</label>
                 {{/}}
 
-                <input
-                 type="text"
-                 value="{{i + 1}}. {{text}}"
+                <div class="nm-choice-text">
+                  <span class="nm-input-prefix">{{i + 1}}.&nbsp
+                  </span>
 
-                 {{# i < allChoices.length - 1}}
-                 class="nm-choice"
-                 {{/}}
-
-                 {{# i === allChoices.length - 1}}
-                 class="nm-choice-placeholder"
-                 {{/}} on-keyup="onChoiceKeyDown(event, i)">
+                  <input
+                  type="text"
+                  value="{{text}}"
+                  on-keyup="onChoiceKeyDown(i)">
+                </div>
               </div>
 
               {{#useAnswerSaving}}
@@ -35,6 +37,8 @@
                 {{#i === 0}}
                 <label>Save as</label>
                 {{/}}
+
+                <button class="close">&times</button>
 
                 <input type="text"
                 {{#.saveAs}}
@@ -45,6 +49,7 @@
                 value="{{.text}} "
                 {{/.saveAs}}
                 >
+
               </div>
               {{/useAnswerSaving}}
           </div>
@@ -56,7 +61,7 @@
                   Save answer as (optional)
                 </label>
 
-                  <input type="text" value="{{saveAs}}">
+                <input type="text" value="{{saveAs}}">
               </div>
           </div>
       </fieldset>
