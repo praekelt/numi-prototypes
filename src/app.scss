@@ -229,8 +229,13 @@ hr {
   bottom: 0;
 }
 
-.nm-actions {
-  padding: 6px;
+.nm-choice-actions {
+  padding: 4px;
+
+  .btn {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
 }
 
 .nm-drawer {
@@ -300,6 +305,7 @@ hr {
       -webkit-border-top-left-radius: 4px;
       border-top-right-radius: 4px;
       -webkit-border-right-radius: 4px;
+
     }
 
     &:last-child {
@@ -337,7 +343,7 @@ hr {
 
   [data-row-span="2"] > [data-field-span="2"] {
     &.nm-choice {
-      width: 80%;
+      width: 79%;
       border-right: 0;
     }
   }
@@ -346,8 +352,8 @@ hr {
 .nm-choice {
 }
 
-.nm-choice-placeholder {
-  .nm-choice-text {
-    color: $fg1;
+.nm-choice-row-first {
+  .nm-choice-actions {
+    margin-top: 18px;
   }
 }

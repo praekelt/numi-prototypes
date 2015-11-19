@@ -11,7 +11,7 @@
           </div>
 
           {{#allChoices:i}}
-          <div data-row-span="2">
+          <div data-row-span="2" class="nm-choice-row {{# i === 0 }}nm-choice-row-first{{/}}">
               <div
                  data-field-span="{{2 - useAnswerSaving}}"
                  class="nm-choice {{# i === allChoices.length - 1}}nm-choice-placeholder{{/}}"
@@ -49,8 +49,8 @@
               </div>
               {{/useAnswerSaving}}
 
-              <div class="nm-actions pull-right">
-                <button class="btn btn-xs btn-default">Route</button>
+              <div class="nm-choice-actions pull-right">
+                <button class="btn btn-xs btn-default">↳ Route</button>
                 &nbsp
                 <button class="close">&times</button>
               </div>
@@ -73,5 +73,5 @@
 
   <hr class="nm-divider">
 
-  <button type="button" class="btn btn-default pull-left" on-click="close()">Save and close</button>
+  <button type="button" class="btn btn-default pull-left" on-click="close()">Save and close <span class="glyphicon glyphicon-chevron-right"></span></button>
 </div>
