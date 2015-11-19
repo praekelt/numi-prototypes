@@ -42,7 +42,6 @@ page('/filters/:id', function(ctx, next) {
 page({hashbang: true});
 
 
-
 var reset = false;
 
 window.addEventListener('beforeunload', function(e) {

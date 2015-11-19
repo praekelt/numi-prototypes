@@ -6,6 +6,7 @@ var FilterEdit = require('../filter-edit');
 var NewFilter = require('../new-filter');
 var Dialogue = require('../dialogue');
 var pg = require('../../pg');
+var seqtree = require('../../seqtree');
 
 
 module.exports = Ractive.extend({
@@ -28,14 +29,17 @@ module.exports = Ractive.extend({
     return this.findFilterView(d.id);
   },
   addDialogue: function(name) {
+    var entrySeqId = uuid.v4();
+
     var d = {
       id: 'dialogue' + this.get('dialogues').length,
       name: name,
       sequences: [{
-        id: uuid.v4(),
+        id: entrySeqId,
         name: 'Entry',
         blocks: []
-      }]
+      }],
+      seqtree: seqtree.create([entrySeqId, null, null])
     };
 
     this.push('dialogues', d);

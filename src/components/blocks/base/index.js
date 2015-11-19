@@ -14,18 +14,18 @@ var Base = Ractive.extend({
 
     var edit = this.constructor.Edit({
       el: $('<div>'),
-      data: this.get()
+      data: _.extend(this.get(), {dialogue: this.get('dialogue')})
     });
 
-    edit.on('change', function() { self.set(edit.get()); });
+    edit.on('change', function() { self.set(_.omit(edit.get(), 'dialogue')); });
     drawers.open(edit);
   },
   computed: {
     dialogue: function() {
-      return this.parent.parent;
+      return this.parent.parent.parent;
     },
     sequence: function() {
-      return this.parent.parent;
+      return this.parent;
     }
   }
 });

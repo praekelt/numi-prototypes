@@ -1,14 +1,17 @@
 var $ = require('jquery');
+var _ = require('lodash');
+var uuid = require('node-uuid');
 var Ractive = require('ractive');
 var hist = require('../../hist');
+var seqtree = require('../../seqtree');
 
 
 module.exports = Ractive.extend({
   template: require('./template.html'),
   data: function() {
     return {
-      _prev: hist.pop(),
-      sequences: []
+      sequences: [],
+      _prev: hist.pop()
     };
   },
   computed: {
@@ -25,7 +28,31 @@ module.exports = Ractive.extend({
       return this.get('_prev')
         ? this.get('_prev').href
         : '/numi-prototypes/';
+    },
+    sequenceChain: function() {
+      var results = [];
+      var node = this.get('seqtree');
+      var seq;
+
+      while (node) {
+        seq = _.find(this.get('sequences'), {id: node.key[0]});
+
+        results.push(_.extend({}, seq, {
+          nodeId: node.id,
+          activeBlockId: node.key[1],
+          activeBlockItemId: node.key[2]
+        }));
+
+        node = node.current;
+      }
+
+      return results;
     }
+  },
+  selectBlockItem: function(nodeId, seqId, blockId, itemId) {
+    var node = seqtree.find(this.get('seqtree'), nodeId);
+    seqtree.select(node, [seqId, blockId, itemId]);
+    this.update('seqtree');
   },
   onrender: function() {
     $(this.find('.nm-rename')).hide();
@@ -35,6 +62,16 @@ module.exports = Ractive.extend({
     $(this.el)
       .find('.sortable-blocks')
       .sortable();
+  },
+  addSequence: function() {
+    var seq ={
+      id: uuid.v4(),
+      name: 'Sequence ' + this.get('sequences').length,
+      blocks: []
+    };
+
+    this.push('sequences', seq);
+    return seq;
   },
   rename: function() {
     this.set('nameBackup', this.get('name'));
@@ -53,6 +90,6 @@ module.exports = Ractive.extend({
     return 'To be overriden';
   },
   components: {
-    sequence: require('../sequence')
+    seqsurrogate: require('../seqsurrogate')
   }
 });

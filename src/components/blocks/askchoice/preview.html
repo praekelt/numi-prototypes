@@ -5,13 +5,28 @@
     </div>
     <p class="nm-block-title">Ask and provide choices</p>
 
-    {{#text}}<p>{{text}}</p>{{/text}}
-    {{^text}}<p><i>No content</i></p>{{/text}}
+    <br/>
+    <div class="list-group">
+      <div class="list-group-item">
+        {{#text}}<p>{{text}}</p>{{/text}}
+        {{^text}}<p><i>No content</i></p>{{/text}}
+      </div>
 
-    <ol>
-      {{#choices}}
-      <li>{{text}}</li>
+      {{#choices:i}}
+        {{#route}}
+        <a class="list-group-item" on-click="onChoiceClick(event, route, id)" href="#">
+          <p>{{i + 1}}. {{text}}</p>
+
+          <p>&nbsp↳ {{getSequenceName(route)}}</p>
+        </a>
+        {{/route}}
+
+        {{^route}}
+        <div class="list-group-item"href="#">
+          <p>{{i + 1}}. {{text}}</p>
+        </div>
+        {{/route}}
       {{/choices}}
-    </ol>
+    </div>
   </div>
 </div>

@@ -1,73 +1,82 @@
 <div>
   <p class="nm-block-title">Ask and provide choices</p>
 
-  <form class="grid-form">
-      <fieldset>
-          <div data-row-span="3">
-              <div data-field-span="3">
-                  <label>Question</label>
-                  <textarea value="{{text}}"></textarea>
-              </div>
+  <div class="grid-form">
+    <fieldset>
+      <div data-row-span="3">
+        <div data-field-span="3">
+          <label>Question</label>
+          <textarea value="{{text}}"></textarea>
+        </div>
+      </div>
+
+      {{#allChoices:i}}
+      <div data-row-span="2" class="nm-choice-row {{# i === 0 }}nm-choice-row-first{{/}}">
+        <div
+          data-field-span="{{2 - useAnswerSaving}}"
+          class="nm-choice {{# i === allChoices.length - 1}}nm-choice-placeholder{{/}}"
+          >
+
+          {{#i === 0}}
+          <label>Choices</label>
+          {{/}}
+
+          <div class="nm-choice-text">
+            <span class="nm-input-prefix">{{i + 1}}.&nbsp</span>
+
+            <input
+            type="text"
+            value="{{text}}"
+            on-keyup="onChoiceKeyDown(i)">
           </div>
 
-          {{#allChoices:i}}
-          <div data-row-span="2" class="nm-choice-row {{# i === 0 }}nm-choice-row-first{{/}}">
-              <div
-                 data-field-span="{{2 - useAnswerSaving}}"
-                 class="nm-choice {{# i === allChoices.length - 1}}nm-choice-placeholder{{/}}"
-                 >
+          {{#route}}
+          <p>
+          &nbsp↳ <a href="#">{{getSequenceName(route)}}</a>
+          <button class="btn btn-xs btn-default">Edit</button>
+          </p>
+          {{/route}}
+        </div>
 
-                {{#i === 0}}
-                <label>Choices</label>
-                {{/}}
+        {{#useAnswerSaving}}
+        <div data-field-span="1" class="nm-choice-save-as">
+          {{#i === 0}}
+          <label>Save as</label>
+          {{/}}
 
-                <div class="nm-choice-text">
-                  <span class="nm-input-prefix">{{i + 1}}.&nbsp</span>
+          <input type="text"
+          {{#.saveAs}}
+          value="{{.saveAs}}"
+          {{/.saveAs}}
 
-                  <input
-                  type="text"
-                  value="{{text}}"
-                  on-keyup="onChoiceKeyDown(i)">
-                </div>
-              </div>
+          {{^.saveAs}}
+          value="{{.text}} "
+          {{/.saveAs}}
+          >
+        </div>
+        {{/useAnswerSaving}}
 
-              {{#useAnswerSaving}}
-              <div data-field-span="1" class="nm-choice-save-as">
-                {{#i === 0}}
-                <label>Save as</label>
-                {{/}}
+        <div class="nm-choice-actions pull-right">
+          {{^route}}
+          <button class="btn btn-xs btn-default" on-click="setRoute(id)">↳ Route</button>&nbsp
+          {{/route}}
 
-                <input type="text"
-                {{#.saveAs}}
-                value="{{.saveAs}}"
-                {{/.saveAs}}
+          <button class="close">&times</button>
+        </div>
+      </div>
+      {{/allChoices}}
 
-                {{^.saveAs}}
-                value="{{.text}} "
-                {{/.saveAs}}
-                >
-              </div>
-              {{/useAnswerSaving}}
+      <div data-row-span="3">
+        <div data-field-span="3">
+          <label {{^useAnswerSaving}}class="nm-unused"{{/useAnswerSaving}}>
+            Save answer as (optional)
+          </label>
 
-              <div class="nm-choice-actions pull-right">
-                <button class="btn btn-xs btn-default">↳ Route</button>
-                &nbsp
-                <button class="close">&times</button>
-              </div>
-          </div>
-          {{/allChoices}}
-
-          <div data-row-span="3">
-              <div data-field-span="3">
-                <label {{^useAnswerSaving}}class="nm-unused"{{/useAnswerSaving}}>
-                  Save answer as (optional)
-                </label>
-
-                <input type="text" value="{{saveAs}}">
-              </div>
-          </div>
-      </fieldset>
-  </form>
+          <input type="text" value="{{saveAs}}">
+        </div>
+      </div>
+    </fieldset>
+  </div>
 
   <br/>
 
