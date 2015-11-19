@@ -230,7 +230,7 @@ hr {
 }
 
 .nm-choice-actions {
-  padding: 4px;
+  padding: 8px 4px;
 
   .btn {
     padding-top: 4px;
@@ -285,19 +285,20 @@ hr {
 }
 
 .grid-form {
-  * {
-    border-color: $fg4 !important;
-  }
-
   label {
     color: $fg0 !important;
   }
 
   [data-row-span] {
     border: 1px solid;
+    border-color: $fg4 !important;
 
     &:not(:last-child) {
       border-bottom: 0;
+    }
+
+    &:not(:first-child) {
+      border-top-color: $bg1 !important;
     }
 
     &:first-child {
@@ -305,7 +306,6 @@ hr {
       -webkit-border-top-left-radius: 4px;
       border-top-right-radius: 4px;
       -webkit-border-right-radius: 4px;
-
     }
 
     &:last-child {
@@ -316,8 +316,15 @@ hr {
     }
 
     [data-field-span] {
+      padding-top: 14px !important;
+      padding-bottom: 14px !important;
+
       &:hover, &.focus {
         background: $bg1 !important;
+      }
+
+      &:not(:last-child) {
+        border-right-color: $bg1 !important;
       }
 
       input {
