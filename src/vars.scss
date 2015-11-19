@@ -2,11 +2,17 @@ $bg0: #fff;
 $bg1: #efefef;
 $bg2: darken($bg0, 4%);
 $bg3: darken($bg0, 2%);
+$bg4: darken($bg0, 6%);
+$bg5: darken($bg0, 10%);
+$bg-active0: #d9edf7;
+$bg-active1: darken($bg-active0, 4%);
+
 $fg0: #666;
 $fg1: #999;
 $fg2: #ccc;
 $fg3: #eee;
 $fg4: #ddd;
+
 $head-height: 50px;
 $body-height: calc(100vh - 50px);
 $sequence-header-height: 50px;

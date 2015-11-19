@@ -204,11 +204,22 @@ hr {
 }
 
 .nm-sequence-wrapper {
+  $bg-sequence-odd: $bg4;
+  $bg-sequence-even: $bg5;
+
   width: 420px;
   display: inline-block;
   height: $body-height;
   white-space: nowrap;
   vertical-align: top;
+
+  .nm-sequence {
+    background: $bg-sequence-even;
+  }
+
+  &:nth-child(2n+1) .nm-sequence {
+    background: $bg-sequence-odd;
+  }
 
   &:not(:first-child) .nm-sequence {
     border-left: none;
@@ -248,7 +259,6 @@ hr {
   h4 {
     padding: 5px;
   }
-
 }
 
 .nm-sequence-header {
@@ -256,7 +266,8 @@ hr {
 }
 
 .nm-sequence-title {
-  margin: 8px 5px;
+  color: $fg0;
+  padding: 12px 14px;
   font-size: 1.2em;
 }
 
@@ -433,14 +444,15 @@ hr {
 
   &.active {
     color: $fg0;
-    background: $fg3;
-    border: $fg3;
+    background: $bg-active0;
+    border: $bg-active0;
+    margin-right: -26px;
   }
 
   &.active:hover, &.active:focus {
     color: $fg0;
-    background: $fg4;
-    border: $fg4;
+    background: $bg-active1;
+    border: $bg-active1;
   }
 }
 
