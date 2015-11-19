@@ -22,8 +22,7 @@
                 {{/}}
 
                 <div class="nm-choice-text">
-                  <span class="nm-input-prefix">{{i + 1}}.&nbsp
-                  </span>
+                  <span class="nm-input-prefix">{{i + 1}}.&nbsp</span>
 
                   <input
                   type="text"
@@ -33,12 +32,10 @@
               </div>
 
               {{#useAnswerSaving}}
-              <div data-field-span="1">
+              <div data-field-span="1" class="nm-choice-save-as">
                 {{#i === 0}}
                 <label>Save as</label>
                 {{/}}
-
-                <button class="close">&times</button>
 
                 <input type="text"
                 {{#.saveAs}}
@@ -49,9 +46,14 @@
                 value="{{.text}} "
                 {{/.saveAs}}
                 >
-
               </div>
               {{/useAnswerSaving}}
+
+              <div class="nm-actions pull-right">
+                <button class="btn btn-xs btn-default"><strong>Route</strong></button>
+                &nbsp
+                <button class="close">&times</button>
+              </div>
           </div>
           {{/allChoices}}
 

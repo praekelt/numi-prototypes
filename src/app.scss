@@ -230,7 +230,7 @@ hr {
 }
 
 .nm-actions {
-  line-height: 0;
+  padding: 6px;
 }
 
 .nm-drawer {
@@ -324,11 +324,26 @@ hr {
         display: block;
       }
     }
+
+    .nm-choice-save-as {
+      width: 29% !important;
+      border-right: 0 !important;
+    }
   }
 
-  [data-field-span] {
+  [data-row-span] {
     background: $bg0;
   }
+
+  [data-row-span="2"] > [data-field-span="2"] {
+    &.nm-choice {
+      width: 80%;
+      border-right: 0;
+    }
+  }
+}
+
+.nm-choice {
 }
 
 .nm-choice-placeholder {
