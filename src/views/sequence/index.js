@@ -1,5 +1,4 @@
 var $ = require('jquery');
-var _ = require('lodash');
 var drawers = require('../../drawers');
 var BlockLibrary = require('../block-library');
 var Ractive = require('ractive');
@@ -31,11 +30,7 @@ module.exports = Ractive.extend({
   addBlock: function() {
     var self = this;
 
-    var library = BlockLibrary({
-      el: $('<div>'),
-      data: dashboard.get('blockLibrary')
-    });
-
+    var library = BlockLibrary({el: $('<div>')});
     library.set('source', this);
     drawers.change(library);
     this.once('blockAdded', function(d) { self.editBlock(d.id); });

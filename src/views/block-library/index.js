@@ -4,17 +4,11 @@ var uuid = require('node-uuid');
 var Ractive = require('ractive');
 var blockTypes = require('../../components/blocks');
 
-
 // TODO something similar to this for filters
 var BlockLibrary = Ractive.extend({
   template: require('./template.html'),
   data: function() {
-    return {
-      key: 'blocks',
-      recent: [],
-      activePalleteKey: 'standard',
-      palletes: _.cloneDeep(BlockLibrary.palletes)
-    };
+    return BlockLibrary.data;
   },
   computed: {
     activePallete: function() {
@@ -104,5 +98,13 @@ BlockLibrary.palletes = [{
   }]
 }];
 
+
+// data persists for session
+BlockLibrary.data = {
+  key: 'blocks',
+  recent: [],
+  activePalleteKey: 'standard',
+  palletes: _.cloneDeep(BlockLibrary.palletes)
+};
 
 module.exports = BlockLibrary;

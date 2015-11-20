@@ -26184,8 +26184,7 @@
 	      values: [],
 	      labels: [],
 	      filters: [],
-	      dialogues: [],
-	      blockLibrary: {}
+	      dialogues: []
 	    };
 	  },
 	  addFilter: function(name) {
@@ -60378,7 +60377,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var _ = __webpack_require__(17);
 	var drawers = __webpack_require__(86);
 	var BlockLibrary = __webpack_require__(87);
 	var Ractive = __webpack_require__(42);
@@ -60410,11 +60408,7 @@
 	  addBlock: function() {
 	    var self = this;
 
-	    var library = BlockLibrary({
-	      el: $('<div>'),
-	      data: dashboard.get('blockLibrary')
-	    });
-
+	    var library = BlockLibrary({el: $('<div>')});
 	    library.set('source', this);
 	    drawers.change(library);
 	    this.once('blockAdded', function(d) { self.editBlock(d.id); });
@@ -60550,17 +60544,11 @@
 	var Ractive = __webpack_require__(42);
 	var blockTypes = __webpack_require__(88);
 
-
 	// TODO something similar to this for filters
 	var BlockLibrary = Ractive.extend({
 	  template: __webpack_require__(136),
 	  data: function() {
-	    return {
-	      key: 'blocks',
-	      recent: [],
-	      activePalleteKey: 'standard',
-	      palletes: _.cloneDeep(BlockLibrary.palletes)
-	    };
+	    return BlockLibrary.data;
 	  },
 	  computed: {
 	    activePallete: function() {
@@ -60650,6 +60638,14 @@
 	  }]
 	}];
 
+
+	// data persists for session
+	BlockLibrary.data = {
+	  key: 'blocks',
+	  recent: [],
+	  activePalleteKey: 'standard',
+	  palletes: _.cloneDeep(BlockLibrary.palletes)
+	};
 
 	module.exports = BlockLibrary;
 
