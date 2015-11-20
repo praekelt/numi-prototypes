@@ -24594,7 +24594,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(6)();
-	exports.push([module.id, "@charset \"UTF-8\";\nhtml {\n  margin: 0 auto; }\n\nbody {\n  background-color: #fff;\n  overflow: hidden; }\n\n.breadcrumb {\n  width: 80vw;\n  margin-left: 10vw;\n  margin-bottom: 4px; }\n\n.nm-placeholder {\n  border-style: dashed; }\n\n.nm-dialogue-title {\n  font-size: 1.5em;\n  margin: 8px; }\n\n.nm-block-title {\n  color: #666;\n  font-weight: bold; }\n\n.btn-library {\n  margin: .5em .75em .5em 0; }\n\n.screen {\n  border-bottom: solid 1px #666;\n  margin-bottom: 2em;\n  padding-bottom: 2em; }\n\n.page-header {\n  margin-top: 0; }\n\n.sortable-blocks .nm-block-title:hover,\n.sortable-blocks .panel-heading:hover {\n  cursor: move; }\n\n.panel-highlighted {\n  border: solid 1px #999; }\n\n.text-left .btn {\n  text-align: left; }\n\n.panel {\n  clear: both; }\n  .panel .close {\n    position: relative;\n    right: -10px;\n    top: -15px; }\n\n.btn.close-screen {\n  margin-bottom: 1em; }\n\n.close-screen-text {\n  font-size: small;\n  left: -4px;\n  position: relative;\n  top: -2px; }\n\n.panel-title a {\n  display: block; }\n\n[data-toggle=\"collapse\"] {\n  position: relative; }\n  [data-toggle=\"collapse\"]:before {\n    content: '▼';\n    position: absolute;\n    right: 0; }\n  [data-toggle=\"collapse\"].collapsed:before {\n    content: '▲';\n    position: absolute;\n    right: 0; }\n\n[data-toggle=\"collapse\"]:before {\n  content: ''; }\n\n[data-toggle=\"collapse\"]:after {\n  content: ''; }\n\n.nm-rename-value {\n  width: 100%; }\n\n.alert-lib {\n  padding-right: 16px; }\n\nhr {\n  border-color: #999; }\n\n.popover {\n  display: none; }\n\n.nm-container * {\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none; }\n\n.nm-head {\n  position: fixed;\n  height: 50px; }\n\n.nm-body {\n  position: absolute;\n  top: 50px;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  padding-left: 20px;\n  padding-right: 20px;\n  height: calc(100vh - 50px);\n  overflow-y: hidden;\n  overflow-x: auto;\n  white-space: nowrap; }\n  .nm-body::-webkit-scrollbar-track {\n    background: #efefef; }\n  .nm-body::-webkit-scrollbar {\n    height: 5px;\n    width: 5px;\n    background: #efefef; }\n  .nm-body::-webkit-scrollbar-thumb {\n    background: #c9c9c9; }\n\n.nm-sequence-wrapper {\n  width: 420px;\n  display: inline-block;\n  height: calc(100vh - 50px);\n  white-space: nowrap;\n  vertical-align: top; }\n  .nm-sequence-wrapper .nm-sequence {\n    background: #e6e6e6; }\n  .nm-sequence-wrapper:nth-child(2n+1) .nm-sequence {\n    background: #f0f0f0; }\n  .nm-sequence-wrapper:not(:first-child) .nm-sequence {\n    border-left: none; }\n  .nm-sequence-wrapper:first-child .nm-sequence {\n    border-top-left-radius: 4px;\n    border-bottom-left-radius: 4px;\n    -webkit-border-top-left-radius: 4px;\n    -webkit-border-bottom-left-radius: 4px; }\n  .nm-sequence-wrapper:last-child .nm-sequence {\n    border-top-right-radius: 4px;\n    border-bottom-right-radius: 4px;\n    -webkit-border-top-right-radius: 4px;\n    -webkit-border-bottom-right-radius: 4px; }\n\n.nm-sequence {\n  min-height: 50px;\n  max-height: calc(100vh - 50px);\n  border: 1px solid #e0e0e0;\n  user-select: none; }\n  .nm-sequence * {\n    -webkit-touch-callout: none;\n    -webkit-user-select: none;\n    -khtml-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none; }\n  .nm-sequence h4 {\n    padding: 5px; }\n\n.nm-sequence-header {\n  height: 50px; }\n\n.nm-sequence-title {\n  color: #666;\n  padding: 12px 14px;\n  font-size: 1.2em; }\n\n.nm-sequence-body {\n  max-height: calc(100vh - 180px);\n  overflow-y: auto;\n  padding: 10px; }\n  .nm-sequence-body::-webkit-scrollbar-track {\n    background: #efefef; }\n  .nm-sequence-body::-webkit-scrollbar {\n    width: 5px;\n    background: #efefef; }\n  .nm-sequence-body::-webkit-scrollbar-thumb {\n    background: #c9c9c9; }\n\n.nm-sequence-footer {\n  height: 50px;\n  padding: 8px 5px; }\n\n.nm-block {\n  background: #fafafa;\n  margin-bottom: 0; }\n\n.nm-choice-actions {\n  padding: 8px 4px; }\n  .nm-choice-actions .btn {\n    padding-top: 4px;\n    padding-bottom: 4px; }\n\n.nm-drawer {\n  z-index: 9000;\n  pointer-events: none;\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0; }\n  .nm-drawer .row {\n    height: 100%; }\n\n.nm-drawer-body {\n  background: whitesmoke;\n  overflow-y: auto;\n  margin-left: auto;\n  padding: 20px;\n  height: 100%;\n  border-left: 1px solid #eee;\n  pointer-events: auto; }\n  .nm-drawer-body::-webkit-scrollbar-track {\n    background: #efefef; }\n  .nm-drawer-body::-webkit-scrollbar {\n    width: 5px;\n    background: #efefef; }\n  .nm-drawer-body::-webkit-scrollbar-thumb {\n    background: #c9c9c9; }\n  @media (min-width: 768px) {\n    .nm-drawer-body {\n      width: 50%; } }\n  @media (min-width: 992px) {\n    .nm-drawer-body {\n      width: 36%; } }\n  .nm-drawer-body .nav-tabs > li.active > a {\n    background: whitesmoke; }\n  .nm-drawer-body .list-group-item {\n    background: whitesmoke; }\n\n.nm-divider {\n  border-color: #ddd; }\n\n.grid-form label {\n  color: #666 !important; }\n\n.grid-form [data-row-span] {\n  border: 1px solid;\n  border-color: #ddd !important; }\n  .grid-form [data-row-span]:not(:last-child) {\n    border-bottom: 0; }\n  .grid-form [data-row-span]:not(:first-child) {\n    border-top-color: #efefef !important; }\n  .grid-form [data-row-span]:first-child {\n    border-top-left-radius: 4px;\n    -webkit-border-top-left-radius: 4px;\n    border-top-right-radius: 4px;\n    -webkit-border-right-radius: 4px; }\n  .grid-form [data-row-span]:last-child {\n    border-bottom-left-radius: 4px;\n    -webkit-border-bottom-left-radius: 4px;\n    border-bottom-right-radius: 4px;\n    -webkit-border-bottom-right-radius: 4px; }\n  .grid-form [data-row-span] [data-field-span] {\n    padding-top: 14px !important;\n    padding-bottom: 14px !important; }\n    .grid-form [data-row-span] [data-field-span]:hover, .grid-form [data-row-span] [data-field-span].focus {\n      background: #efefef !important; }\n    .grid-form [data-row-span] [data-field-span]:not(:last-child) {\n      border-right-color: #efefef !important; }\n    .grid-form [data-row-span] [data-field-span] input {\n      font-size: 1em;\n      width: auto !important; }\n    .grid-form [data-row-span] [data-field-span] .nm-choice-text {\n      width: 100%;\n      display: block; }\n  .grid-form [data-row-span] .nm-choice-save-as {\n    width: 29% !important;\n    border-right: 0 !important; }\n\n.grid-form [data-row-span] {\n  background: #fff; }\n\n.grid-form [data-row-span=\"2\"] > [data-field-span=\"2\"].nm-choice {\n  width: 79%;\n  border-right: 0; }\n\n.nm-choice-placeholder {\n  color: #999 !important; }\n\n.nm-choice-row-first .nm-choice-actions {\n  margin-top: 18px; }\n\n.nm-preview-list {\n  padding: 0; }\n\n.nm-preview-list-item {\n  color: #666;\n  background: 0;\n  margin: 0 -15px;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  border-bottom: 1px solid #eee; }\n  .nm-preview-list-item:last-child {\n    border: 0; }\n  .nm-preview-list-item.active {\n    color: #666;\n    background: #d9edf7;\n    border: #d9edf7;\n    margin-right: -26px; }\n  .nm-preview-list-item.active:hover, .nm-preview-list-item.active:focus {\n    color: #666;\n    background: #c8e5f3;\n    border: #c8e5f3; }\n\na.nm-preview-list-item {\n  color: #666; }\n  a.nm-preview-list-item:hover, a.nm-preview-list-item:focus {\n    text-decoration: none; }\n\n.nm-preview-arrow {\n  position: absolute;\n  right: 8px;\n  top: calc(50% - 14px); }\n\n.nm-block-separator {\n  color: #999;\n  margin-top: 14px;\n  margin-bottom: 14px; }\n", ""]);
+	exports.push([module.id, "@charset \"UTF-8\";\nhtml {\n  margin: 0 auto; }\n\nbody {\n  color: #666;\n  background-color: #fff;\n  overflow: hidden; }\n\n.breadcrumb {\n  width: 80vw;\n  margin-left: 10vw;\n  margin-bottom: 4px; }\n\n.nm-placeholder {\n  color: #666;\n  border-style: dashed;\n  background: #fafafa; }\n\n.nm-placeholder-block {\n  padding: 21px 12px; }\n\n.nm-dialogue-title {\n  font-size: 1.5em;\n  margin: 8px; }\n\n.nm-block-title {\n  color: #666;\n  font-weight: bold; }\n\n.btn-library {\n  margin: .5em .75em .5em 0; }\n\n.screen {\n  border-bottom: solid 1px #666;\n  margin-bottom: 2em;\n  padding-bottom: 2em; }\n\n.page-header {\n  margin-top: 0; }\n\n.sortable-blocks .nm-block-title:hover,\n.sortable-blocks .panel-heading:hover {\n  cursor: move; }\n\n.panel-highlighted {\n  border: solid 1px #999; }\n\n.text-left .btn {\n  text-align: left; }\n\n.panel {\n  clear: both; }\n  .panel .close {\n    position: relative;\n    right: -10px;\n    top: -15px; }\n\n.btn.close-screen {\n  margin-bottom: 1em; }\n\n.close-screen-text {\n  font-size: small;\n  left: -4px;\n  position: relative;\n  top: -2px; }\n\n.panel-title a {\n  display: block; }\n\n[data-toggle=\"collapse\"] {\n  position: relative; }\n  [data-toggle=\"collapse\"]:before {\n    content: '▼';\n    position: absolute;\n    right: 0; }\n  [data-toggle=\"collapse\"].collapsed:before {\n    content: '▲';\n    position: absolute;\n    right: 0; }\n\n[data-toggle=\"collapse\"]:before {\n  content: ''; }\n\n[data-toggle=\"collapse\"]:after {\n  content: ''; }\n\n.nm-rename-value {\n  width: 100%; }\n\n.alert-lib {\n  padding-right: 16px; }\n\nhr {\n  border-color: #999; }\n\n.popover {\n  display: none; }\n\n.nm-container * {\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none; }\n\n.nm-head {\n  position: fixed;\n  height: 50px; }\n\n.nm-body {\n  position: absolute;\n  top: 50px;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  padding-left: 20px;\n  padding-right: 20px;\n  height: calc(100vh - 50px);\n  overflow-y: hidden;\n  overflow-x: auto;\n  white-space: nowrap; }\n  .nm-body::-webkit-scrollbar-track {\n    background: #efefef; }\n  .nm-body::-webkit-scrollbar {\n    height: 5px;\n    width: 5px;\n    background: #efefef; }\n  .nm-body::-webkit-scrollbar-thumb {\n    background: #c9c9c9; }\n\n.nm-sequence-wrapper {\n  width: 420px;\n  display: inline-block;\n  height: calc(100vh - 50px);\n  white-space: nowrap;\n  vertical-align: top; }\n  .nm-sequence-wrapper .nm-sequence {\n    background: #e6e6e6; }\n  .nm-sequence-wrapper:nth-child(2n+1) .nm-sequence {\n    background: #f0f0f0; }\n  .nm-sequence-wrapper:not(:first-child) .nm-sequence {\n    border-left: none; }\n  .nm-sequence-wrapper:first-child .nm-sequence {\n    border-top-left-radius: 4px;\n    border-bottom-left-radius: 4px;\n    -webkit-border-top-left-radius: 4px;\n    -webkit-border-bottom-left-radius: 4px; }\n  .nm-sequence-wrapper:last-child .nm-sequence {\n    border-top-right-radius: 4px;\n    border-bottom-right-radius: 4px;\n    -webkit-border-top-right-radius: 4px;\n    -webkit-border-bottom-right-radius: 4px; }\n\n.nm-sequence {\n  min-height: 50px;\n  max-height: calc(100vh - 50px);\n  border: 1px solid #e0e0e0;\n  user-select: none; }\n  .nm-sequence * {\n    -webkit-touch-callout: none;\n    -webkit-user-select: none;\n    -khtml-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none; }\n  .nm-sequence h4 {\n    padding: 5px; }\n\n.nm-sequence-header {\n  height: 50px; }\n\n.nm-sequence-title {\n  color: #666;\n  padding: 12px 14px;\n  font-size: 1.2em; }\n\n.nm-sequence-body {\n  max-height: calc(100vh - 180px);\n  overflow-y: auto;\n  padding: 10px; }\n  .nm-sequence-body::-webkit-scrollbar-track {\n    background: #efefef; }\n  .nm-sequence-body::-webkit-scrollbar {\n    width: 5px;\n    background: #efefef; }\n  .nm-sequence-body::-webkit-scrollbar-thumb {\n    background: #c9c9c9; }\n\n.nm-sequence-footer {\n  height: 50px;\n  padding: 8px 5px; }\n\n.nm-block {\n  background: #fafafa;\n  margin-bottom: 0; }\n\n.nm-choice-actions {\n  padding: 8px 4px; }\n  .nm-choice-actions .btn {\n    padding-top: 4px;\n    padding-bottom: 4px; }\n\n.nm-drawer {\n  z-index: 9000;\n  pointer-events: none;\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0; }\n  .nm-drawer .row {\n    height: 100%; }\n\n.nm-drawer-body {\n  background: whitesmoke;\n  overflow-y: auto;\n  margin-left: auto;\n  padding: 20px;\n  height: 100%;\n  border-left: 1px solid #eee;\n  pointer-events: auto; }\n  .nm-drawer-body::-webkit-scrollbar-track {\n    background: #efefef; }\n  .nm-drawer-body::-webkit-scrollbar {\n    width: 5px;\n    background: #efefef; }\n  .nm-drawer-body::-webkit-scrollbar-thumb {\n    background: #c9c9c9; }\n  @media (min-width: 768px) {\n    .nm-drawer-body {\n      width: 50%; } }\n  .nm-drawer-body .nav-tabs > li.active > a {\n    background: whitesmoke; }\n  .nm-drawer-body .list-group-item {\n    background: whitesmoke; }\n\n.nm-divider {\n  border-color: #ddd; }\n\n.grid-form label {\n  color: #666 !important; }\n\n.grid-form [data-row-span] {\n  border: 1px solid;\n  border-color: #ddd !important; }\n  .grid-form [data-row-span]:not(:last-child) {\n    border-bottom: 0; }\n  .grid-form [data-row-span]:not(:first-child) {\n    border-top-color: #efefef !important; }\n  .grid-form [data-row-span]:first-child {\n    border-top-left-radius: 4px;\n    -webkit-border-top-left-radius: 4px;\n    border-top-right-radius: 4px;\n    -webkit-border-right-radius: 4px; }\n  .grid-form [data-row-span]:last-child {\n    border-bottom-left-radius: 4px;\n    -webkit-border-bottom-left-radius: 4px;\n    border-bottom-right-radius: 4px;\n    -webkit-border-bottom-right-radius: 4px; }\n  .grid-form [data-row-span] [data-field-span] {\n    padding-top: 14px !important;\n    padding-bottom: 14px !important; }\n    .grid-form [data-row-span] [data-field-span]:hover, .grid-form [data-row-span] [data-field-span].focus {\n      background: #efefef !important; }\n    .grid-form [data-row-span] [data-field-span]:not(:last-child) {\n      border-right-color: #efefef !important; }\n    .grid-form [data-row-span] [data-field-span] input {\n      font-size: 1em;\n      width: auto !important; }\n    .grid-form [data-row-span] [data-field-span] .nm-choice-text {\n      width: 100%;\n      display: block; }\n  .grid-form [data-row-span] .nm-choice-save-as {\n    width: 29% !important;\n    border-right: 0 !important; }\n\n.grid-form [data-row-span] {\n  background: #fff; }\n\n.grid-form [data-row-span=\"2\"] > [data-field-span=\"2\"].nm-choice {\n  width: 79%;\n  border-right: 0; }\n\n.nm-choice-placeholder {\n  color: #999 !important; }\n\n.nm-choice-row-first .nm-choice-actions {\n  margin-top: 18px; }\n\n.nm-preview-list {\n  padding: 0; }\n\n.nm-preview-list-item {\n  color: #666;\n  background: 0;\n  margin: 0 -15px;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  border-bottom: 1px solid #eee; }\n  .nm-preview-list-item:last-child {\n    border: 0; }\n  .nm-preview-list-item.active {\n    color: #666;\n    background: #d9edf7;\n    border: #d9edf7;\n    margin-right: -26px; }\n  .nm-preview-list-item.active:hover, .nm-preview-list-item.active:focus {\n    color: #666;\n    background: #c8e5f3;\n    border: #c8e5f3; }\n\na.nm-preview-list-item {\n  color: #666; }\n  a.nm-preview-list-item:hover, a.nm-preview-list-item:focus {\n    text-decoration: none; }\n\n.nm-preview-arrow {\n  position: absolute;\n  right: 8px;\n  top: calc(50% - 14px); }\n\n.nm-block-separator {\n  color: #999;\n  margin-top: 14px;\n  margin-bottom: 14px; }\n\n.nm-block-category-heading {\n  color: #666 !important;\n  background: #f0f0f0 !important; }\n\n.nm-block-category-title:hover, .nm-block-category-title:focus {\n  text-decoration: none; }\n\n.nm-panel-body-drawer {\n  background: whitesmoke !important; }\n\n.nm-block-palletes {\n  width: 100%;\n  padding: 4px; }\n\n.nm-block-pallete-menu {\n  width: 25%;\n  display: inline-block;\n  vertical-align: top; }\n  .nm-block-pallete-menu li > a {\n    border-top-right-radius: 0;\n    border-bottom-right-radius: 0; }\n  .nm-block-pallete-menu li.active > a {\n    color: #666;\n    background: #e0e0e0; }\n  .nm-block-pallete-menu li.active {\n    color: #666;\n    background: #d9edf7;\n    border: #d9edf7;\n    margin-right: -26px; }\n  .nm-block-pallete-menu li a {\n    color: #666;\n    background: #f0f0f0;\n    border-top-right-radius: 0;\n    border-bottom-right-radius: 0; }\n  .nm-block-pallete-menu li:hover a, .nm-block-pallete-menu li:focus a {\n    background: #e6e6e6; }\n  .nm-block-pallete-menu li.active a {\n    color: #666;\n    background: #d9edf7; }\n  .nm-block-pallete-menu li.active:hover a, .nm-block-pallete-menu li.active:focus a {\n    color: #666;\n    background: #c8e5f3; }\n\n.nm-block-pallete {\n  width: 74.999%;\n  display: inline-block;\n  vertical-align: top;\n  margin-left: -6px; }\n  .nm-block-pallete .list-group-item:first-child, .nm-block-pallete .list-group-item:last-child {\n    border-top-left-radius: 0;\n    border-bottom-left-radius: 0; }\n", ""]);
 
 /***/ },
 /* 6 */
@@ -26184,7 +26184,8 @@
 	      values: [],
 	      labels: [],
 	      filters: [],
-	      dialogues: []
+	      dialogues: [],
+	      blockLibrary: {}
 	    };
 	  },
 	  addFilter: function(name) {
@@ -60341,7 +60342,7 @@
 /* 82 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-container"},"f":[{"t":7,"e":"div","a":{"class":"nm-head"},"f":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Dialogue: ",{"t":2,"r":"name"}]}]}," ",{"t":4,"f":[{"t":7,"e":"a","a":{"href":[{"t":2,"r":"href"}]},"f":["Go back to ",{"t":2,"r":"name"}]}],"r":"prev"}," ",{"t":7,"e":"div","a":{"class":"nm-dialogue-title"},"f":[{"t":7,"e":"div","a":{"class":"nm-name"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename well"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"h3","f":[{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-body"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-sequence-wrapper"},"f":[{"t":7,"e":"div","a":{"class":"nm-sequence"},"f":[{"t":7,"e":"seqsurrogate"}]}]}],"r":"sequenceChain"}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-container"},"f":[{"t":7,"e":"div","a":{"class":"nm-head"},"f":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Dialogue: ",{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-dialogue-title"},"f":[{"t":7,"e":"div","a":{"class":"nm-name"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename well"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"h3","f":[{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-body"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-sequence-wrapper"},"f":[{"t":7,"e":"div","a":{"class":"nm-sequence"},"f":[{"t":7,"e":"seqsurrogate"}]}]}],"r":"sequenceChain"}]}]}]};
 
 /***/ },
 /* 83 */
@@ -60377,8 +60378,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var pg = __webpack_require__(44);
-	var BlockLibrary = __webpack_require__(86);
+	var _ = __webpack_require__(17);
+	var drawers = __webpack_require__(86);
+	var BlockLibrary = __webpack_require__(87);
 	var Ractive = __webpack_require__(42);
 
 
@@ -60406,10 +60408,21 @@
 	    this.hideRename();
 	  },
 	  addBlock: function() {
-	    var library = BlockLibrary({el: $('<div>')});
+	    var self = this;
+
+	    var library = BlockLibrary({
+	      el: $('<div>'),
+	      data: dashboard.get('blockLibrary')
+	    });
+
 	    library.set('source', this);
-	    library.set('dialogueView', this);
-	    pg.push(library);
+	    drawers.change(library);
+	    this.once('blockAdded', function(d) { self.editBlock(d.id); });
+	  },
+	  editBlock: function(id) {
+	    $(this.el)
+	      .find('.nm-block-wrapper[data-id="' + id + '"] .nm-block-edit')
+	      .click();
 	  },
 	  components: {
 	    ask: __webpack_require__(92),
@@ -60428,7 +60441,7 @@
 	    shownext9months: __webpack_require__(124),
 	    standardmessageset: __webpack_require__(126),
 	    latermessageset: __webpack_require__(112),
-	    acceleratedmessageset: __webpack_require__(88),
+	    acceleratedmessageset: __webpack_require__(89),
 	    calcweeks: __webpack_require__(100),
 	    filter: __webpack_require__(108)
 	  }
@@ -60439,249 +60452,18 @@
 /* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(1);
-	var uuid = __webpack_require__(19);
-	var Ractive = __webpack_require__(42);
-	var pg = __webpack_require__(44);
-	var NewFilter = __webpack_require__(47);
-	var blockTypes = __webpack_require__(87);
-
-
-	// TODO something similar to this for filters
-	var BlockLibrary = Ractive.extend({
-	  template: __webpack_require__(136),
-	  data: function() {
-	    return {
-	      key: 'blocks',
-	      extra: {},
-	      events: BlockLibrary.events,
-	      types: BlockLibrary.types,
-	      disableEvents: false
-	    };
-	  },
-	  computed: {
-	    dialogue: function() {
-	      var dialogue = this.get('dialogueView');
-	      if (!dialogue) return null;
-
-	      return {
-	        id: dialogue.get('id'),
-	        name: dialogue.get('name')
-	      };
-	    },
-	    filters: function() {
-	      dashboard.update();
-	      return dashboard.get('filters');
-	    }
-	  },
-	  _addBlock: function(d) {
-	    var key = this.get('key');
-	    var source = this.get('source');
-	    d.id = uuid.v4();
-	    source.push(key, d);
-	    source.fire('blockAdded');
-	  },
-	  addBlock: function(type) {
-	    var d = blockTypes[type]().get();
-	    d.type = type;
-	    d.mode = 'edit';
-	    this._addBlock(d);
-	    pg.pop();
-	  },
-	  addFilter: function(filter) {
-	    this._addBlock({type: 'filter'});
-	    pg.pop();
-	  },
-	  newFilter: function()  {
-	    var newFilter = NewFilter({el: $('<div>')});
-	    var self = this;
-
-	    newFilter.on('created', function(filter) {
-	      self.addFilter({
-	        id: filter.get('id'),
-	        name: filter.get('name')
-	      });
-	    });
-
-	    pg.pop();
-	    pg.push(newFilter);
-	  }
-	});
-
-
-	BlockLibrary.types = [{
-	  title: 'Events',
-	  name: 'events',
-	  blocks: [{
-	    title: 'User dials in',
-	    type: 'userdialsin',
-	    helptext: 'Run this dialogue when the user dials in'
-	  }]
-	}, {
-	  title: 'Interactions',
-	  name: 'interactions',
-	  blocks: [{
-	    title: 'Ask',
-	    type: 'ask',
-	    helptext: 'Asks the user a question, and wait for a response.'
-	  }, {
-	    title: 'Ask and provide choices',
-	    type: 'askchoice',
-	    helptext: 'Asks the user a question, provide choices and expect the user to respond with a choice'
-	  }, {
-	    title: 'Send',
-	    type: 'send',
-	    helptext: 'Send the user a message.'
-	  }]
-	}, {
-	  title: 'User data actions',
-	  name: 'user-data',
-	  blocks: [{
-	    title: 'Save Answer',
-	    type: 'saveas',
-	    helptext: 'Save the user\'s answers for use in a Dialogue or a filter.'
-	  }, {
-	    title: 'Add label to user',
-	    type: 'label',
-	    helptext: 'Add a label to the user to refer to them in a Dialogue or a filter.'
-	  }, {
-	    title: 'Remove label',
-	    type: 'rmlabel',
-	    helptext: 'Remove a label from a user.'
-	  }]
-	}, {
-	  title: 'Calculations',
-	  name: 'custom-components',
-	  blocks: [{
-	    title: 'Validate Clinic Code',
-	    type: 'validatecliniccode',
-	    userinput: 'Clinic Code.',
-	    action: 'Checks user input against our approved list of Clinic Codes, supplied by NDOH and stored in Django, etc.',
-	    output: 'Valid or Invalid status.'
-	  }, {
-	    title: 'Calculate weeks until due',
-	    type: 'calcweeks',
-	    userinput: 'Month that baby is due.',
-	    action: 'Calculates number of weeks until baby is due.',
-	    output: 'Number.'
-	  }]
-	}];
-
-
-	BlockLibrary.isEvent = function(type) {
-	  return !!BlockLibrary.events
-	    .blocks
-	    .filter(function(d) {
-	      return d.type === type;
-	    })
-	    .length;
-	};
-
-
-	module.exports = BlockLibrary;
-
-
-/***/ },
-/* 87 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports.acceleratedmessageset = __webpack_require__(88);
-	exports.ask = __webpack_require__(92);
-	exports.askchoice = __webpack_require__(97);
-	exports.base = __webpack_require__(89);
-	exports.calcweeks = __webpack_require__(100);
-	exports.choice = __webpack_require__(104);
-	exports.end = __webpack_require__(106);
-	exports.filter = __webpack_require__(108);
-	exports.interaction = __webpack_require__(93);
-	exports.label = __webpack_require__(110);
-	exports.latermessageset = __webpack_require__(112);
-	exports.manual = __webpack_require__(114);
-	exports.rmlabel = __webpack_require__(116);
-	exports.saveas = __webpack_require__(118);
-	exports.scheduled = __webpack_require__(120);
-	exports.send = __webpack_require__(122);
-	exports.shownext9months = __webpack_require__(124);
-	exports.standardmessageset = __webpack_require__(126);
-	exports.userdialsin = __webpack_require__(128);
-	exports.usersendsmessage = __webpack_require__(132);
-	exports.validatecliniccode = __webpack_require__(134);
-
-
-/***/ },
-/* 88 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Base = __webpack_require__(89);
-
-
-	module.exports = Base.extend({
-	  template: __webpack_require__(91)
-	});
-
-
-/***/ },
-/* 89 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(1);
-	var _ = __webpack_require__(17);
-	var Ractive = __webpack_require__(42);
-	var drawers = __webpack_require__(90);
-
-	var Base = Ractive.extend({
-	  destroy: function() {
-	    var seq = this.get('sequence');
-	    var blocks = seq.get('blocks');
-	    seq.set('blocks', _.reject(blocks, {id: this.get('id')}));
-	  },
-	  edit: function() {
-	    var self = this;
-
-	    var edit = this.constructor.Edit({
-	      el: $('<div>'),
-	      data: _.extend(this.get(), {dialogue: this.get('dialogue')})
-	    });
-
-	    edit.on('change', function() { self.set(_.omit(edit.get(), 'dialogue')); });
-	    drawers.open(edit);
-	  },
-	  computed: {
-	    dialogue: function() {
-	      return this.parent.parent.parent;
-	    },
-	    sequence: function() {
-	      return this.parent;
-	    }
-	  }
-	});
-
-
-	Base.Edit = Ractive.extend({
-	  close: function() {
-	    drawers.close(this);
-	  }
-	});
-
-
-	module.exports = Base;
-
-
-/***/ },
-/* 90 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var _ = __webpack_require__(17);
 	var $ = __webpack_require__(1);
 
 
-	var duration = 200;
+	var openDuration = 200;
+	var closeDuration = 100;
 	var stack = [];
 
 
 	function close(view) {
 	  var i = _.findIndex(stack, {view: view});
-	  if (i < 0) return;
+	  if (i < 0) return Promise.resolve();
 	  var drawer = stack[i];
 	  stack.splice(i, 1);
 
@@ -60689,12 +60471,11 @@
 	    drawer.$el
 	      .hide({
 	        effect: 'slide',
-	        duration: duration,
+	        duration: closeDuration,
 	        direction: 'right',
 	        complete: function() {
-	          drawer.view
-	            .teardown()
-	            .then(resolve, reject);
+	          drawer.view.teardown();
+	          resolve();
 	        }
 	      });
 	  });
@@ -60717,7 +60498,7 @@
 	    drawer.$el
 	      .show({
 	        effect: 'slide',
-	        duration: duration,
+	        duration: openDuration,
 	        direction: 'right',
 	        complete: function() {
 	          focusFirstInput(view.el);
@@ -60729,7 +60510,11 @@
 
 
 	function change(view) {
-	  close().then(function() { open(view); });
+	  var curr = _.last(stack);
+
+	  return curr
+	    ? close(curr.view).then(function() { return open(view); })
+	    : open(view);
 	}
 
 
@@ -60753,6 +60538,205 @@
 	exports.close = close;
 	exports.open = open;
 	exports.change = change;
+
+
+/***/ },
+/* 87 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $ = __webpack_require__(1);
+	var _ = __webpack_require__(17);
+	var uuid = __webpack_require__(19);
+	var Ractive = __webpack_require__(42);
+	var blockTypes = __webpack_require__(88);
+
+
+	// TODO something similar to this for filters
+	var BlockLibrary = Ractive.extend({
+	  template: __webpack_require__(136),
+	  data: function() {
+	    return {
+	      key: 'blocks',
+	      recent: [],
+	      activePalleteKey: 'standard',
+	      palletes: _.cloneDeep(BlockLibrary.palletes)
+	    };
+	  },
+	  computed: {
+	    activePallete: function() {
+	      return _.find(this.get('palletes'), {key: this.get('activePalleteKey')});
+	    }
+	  },
+	  add: function(type) {
+	    var key = this.get('key');
+	    var source = this.get('source');
+	    var d = blockTypes[type]().get();
+	    d.type = type;
+	    d.unedited = true;
+	    d.id = uuid.v4();
+	    source.push(key, d);
+	    this.pushRecent(type);
+	    source.fire('blockAdded', d);
+	  },
+	  pushRecent: function(type) {
+	    var d = _.chain(this.get('palletes'))
+	      .pluck('categories')
+	      .flatten()
+	      .pluck('blocks')
+	      .flatten()
+	      .find({type: type})
+	      .value();
+
+	    if (_.find(this.get('recent'), d)) return;
+	    this.push('recent', d);
+	  },
+	  toggle: function(e, key) {
+	    e.original.preventDefault();
+
+	    $(this.el)
+	      .find('.nm-pallete[data-key="' + key + '"] .collapse')
+	      .collapse('toggle');
+
+	    var pallete = _.find(this.get('palletes'), {key: key});
+	    pallete.collapsed = !pallete.collapsed;
+	    this.update();
+	  }
+	});
+
+
+	BlockLibrary.palletes = [{
+	  name: 'Standard Blocks',
+	  key: 'standard',
+	  categories: [{
+	    key: 'events',
+	    name: 'Events',
+	    blocks: [{
+	      name: 'User dials in',
+	      type: 'userdialsin',
+	      helptext: 'Run this dialogue when the user dials in'
+	    }]
+	  }, {
+	    key: 'screens',
+	    name: 'Screens',
+	    blocks: [{
+	      name: 'Free Text',
+	      type: 'ask',
+	      helptext: 'Users are asked a question and can respond with any text'
+	    }, {
+	      name: 'Choices',
+	      type: 'askchoice',
+	      helptext: 'Users are asked a question with numbered choices and can respond with their choice'
+	    }, {
+	      name: 'End',
+	      type: 'send',
+	      helptext: 'Users are sent content and the session ends.'
+	    }]
+	  }]
+	}, {
+	  name: 'MomConnect',
+	  key: 'momconnect',
+	  categories: [{
+	    key: 'screens',
+	    name: 'Screens',
+	    blocks: [{
+	      name: 'Enter Clinic Code',
+	      type: 'entercliniccode',
+	      helptext: 'Users are asked to enter their clinic code. The code is then validated. If users enter an invalid code, they are asked to re-enter the code.'
+	    }]
+	  }]
+	}];
+
+
+	module.exports = BlockLibrary;
+
+
+/***/ },
+/* 88 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports.acceleratedmessageset = __webpack_require__(89);
+	exports.ask = __webpack_require__(92);
+	exports.askchoice = __webpack_require__(97);
+	exports.base = __webpack_require__(90);
+	exports.calcweeks = __webpack_require__(100);
+	exports.choice = __webpack_require__(104);
+	exports.end = __webpack_require__(106);
+	exports.filter = __webpack_require__(108);
+	exports.interaction = __webpack_require__(93);
+	exports.label = __webpack_require__(110);
+	exports.latermessageset = __webpack_require__(112);
+	exports.manual = __webpack_require__(114);
+	exports.rmlabel = __webpack_require__(116);
+	exports.saveas = __webpack_require__(118);
+	exports.scheduled = __webpack_require__(120);
+	exports.send = __webpack_require__(122);
+	exports.shownext9months = __webpack_require__(124);
+	exports.standardmessageset = __webpack_require__(126);
+	exports.userdialsin = __webpack_require__(128);
+	exports.usersendsmessage = __webpack_require__(132);
+	exports.validatecliniccode = __webpack_require__(134);
+
+
+/***/ },
+/* 89 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Base = __webpack_require__(90);
+
+
+	module.exports = Base.extend({
+	  template: __webpack_require__(91)
+	});
+
+
+/***/ },
+/* 90 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $ = __webpack_require__(1);
+	var _ = __webpack_require__(17);
+	var Ractive = __webpack_require__(42);
+	var drawers = __webpack_require__(86);
+
+	var Base = Ractive.extend({
+	  destroy: function() {
+	    var seq = this.get('sequence');
+	    var blocks = seq.get('blocks');
+	    seq.set('blocks', _.reject(blocks, {id: this.get('id')}));
+	  },
+	  edit: function() {
+	    drawers.change(this.getEditView());
+	  },
+	  getEditView: function() {
+	    var self = this;
+
+	    var edit = this.constructor.Edit({
+	      el: $('<div>'),
+	      data: _.extend(this.get(), {dialogue: this.get('dialogue')})
+	    });
+
+	    edit.on('change', function() { self.set(_.omit(edit.get(), 'dialogue')); });
+	    return edit;
+	  },
+	  computed: {
+	    dialogue: function() {
+	      return this.parent.parent.parent;
+	    },
+	    sequence: function() {
+	      return this.parent;
+	    }
+	  }
+	});
+
+
+	Base.Edit = Ractive.extend({
+	  close: function() {
+	    drawers.close(this);
+	  }
+	});
+
+
+	module.exports = Base;
 
 
 /***/ },
@@ -60784,7 +60768,7 @@
 
 	var $ = __webpack_require__(1);
 	var pg = __webpack_require__(44);
-	var Base = __webpack_require__(89);
+	var Base = __webpack_require__(90);
 	var ContentLibrary = __webpack_require__(94);
 
 
@@ -60880,7 +60864,7 @@
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(17);
 	var uuid = __webpack_require__(19);
-	var Base = __webpack_require__(89);
+	var Base = __webpack_require__(90);
 
 
 	var AskChoice = Base.extend({
@@ -60969,7 +60953,7 @@
 /* 98 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Ask and provide choices"]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":4,"f":[{"t":7,"e":"p","f":[{"t":2,"r":"text"}]}],"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"p","f":[{"t":7,"e":"i","f":["No content"]}]}],"n":51,"r":"text"}]}," ",{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"a","a":{"class":["list-group-item nm-preview-list-item ",{"t":4,"f":["active"],"x":{"r":["activeBlockItemId","id"],"s":"_0===_1"}}],"href":"#"},"v":{"click":{"m":"onChoiceClick","a":{"r":["event","route","id"],"s":"[_0,_1,_2]"}}},"f":[{"t":7,"e":"span","a":{"class":"nm-preview-arrow glyphicon glyphicon-menu-right pull-right"}}," ",{"t":7,"e":"p","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". ",{"t":2,"r":"text"}]}," ",{"t":7,"e":"p","f":[" ↳ ",{"t":2,"x":{"r":["getSequenceName","route"],"s":"_0(_1)"}}]}]}],"r":"route"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item","href":"#"},"f":[{"t":7,"e":"p","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". ",{"t":2,"r":"text"}]}]}],"n":51,"r":"route"}],"i":"i","r":"choices"}]}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Ask and provide choices"]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":4,"f":[{"t":7,"e":"p","f":[{"t":2,"r":"text"}]}],"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"p","f":[{"t":7,"e":"i","f":["No content"]}]}],"n":51,"r":"text"}]}," ",{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"a","a":{"class":["list-group-item nm-preview-list-item ",{"t":4,"f":["active"],"x":{"r":["activeBlockItemId","id"],"s":"_0===_1"}}],"href":"#"},"v":{"click":{"m":"onChoiceClick","a":{"r":["event","route","id"],"s":"[_0,_1,_2]"}}},"f":[{"t":7,"e":"span","a":{"class":"nm-preview-arrow glyphicon glyphicon-menu-right pull-right"}}," ",{"t":7,"e":"p","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". ",{"t":2,"r":"text"}]}," ",{"t":7,"e":"p","f":[" ↳ ",{"t":2,"x":{"r":["getSequenceName","route"],"s":"_0(_1)"}}]}]}],"r":"route"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item","href":"#"},"f":[{"t":7,"e":"p","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". ",{"t":2,"r":"text"}]}]}],"n":51,"r":"route"}],"i":"i","r":"choices"}]}]}]}]};
 
 /***/ },
 /* 99 */
@@ -60982,7 +60966,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(89);
+	var Base = __webpack_require__(90);
 	var pg = __webpack_require__(44);
 	var ChooseDialogue = __webpack_require__(101);
 	var ChooseValue = __webpack_require__(53);
@@ -61072,7 +61056,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(89);
+	var Base = __webpack_require__(90);
 	var pg = __webpack_require__(44);
 	var ChooseDialogue = __webpack_require__(101);
 
@@ -61097,7 +61081,7 @@
 /* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Base = __webpack_require__(89);
+	var Base = __webpack_require__(90);
 
 
 	module.exports = Base.extend({
@@ -61116,10 +61100,10 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(89);
+	var Base = __webpack_require__(90);
 	var pg = __webpack_require__(44);
 	var ChooseFilter = __webpack_require__(77);
-	var BlockLibrary = __webpack_require__(86);
+	var BlockLibrary = __webpack_require__(87);
 
 
 	module.exports = Base.extend({
@@ -61168,7 +61152,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(89);
+	var Base = __webpack_require__(90);
 
 
 	module.exports = Base.extend({
@@ -61199,7 +61183,7 @@
 /* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Base = __webpack_require__(89);
+	var Base = __webpack_require__(90);
 
 
 	module.exports = Base.extend({
@@ -61217,7 +61201,7 @@
 /* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Base = __webpack_require__(89);
+	var Base = __webpack_require__(90);
 
 
 	module.exports = Base.extend({
@@ -61236,7 +61220,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(89);
+	var Base = __webpack_require__(90);
 	var pg = __webpack_require__(44);
 	var ChooseLabel = __webpack_require__(71);
 
@@ -61275,7 +61259,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(89);
+	var Base = __webpack_require__(90);
 
 
 	module.exports = Base.extend({
@@ -61307,9 +61291,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(89);
+	var Base = __webpack_require__(90);
 	var pg = __webpack_require__(44);
-	var BlockLibrary = __webpack_require__(86);
+	var BlockLibrary = __webpack_require__(87);
 
 
 	module.exports = Base.extend({
@@ -61369,7 +61353,7 @@
 /* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Base = __webpack_require__(89);
+	var Base = __webpack_require__(90);
 
 
 	module.exports = Base.extend({
@@ -61387,7 +61371,7 @@
 /* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Base = __webpack_require__(89);
+	var Base = __webpack_require__(90);
 
 
 	module.exports = Base.extend({
@@ -61406,7 +61390,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(89);
+	var Base = __webpack_require__(90);
 	var pg = __webpack_require__(44);
 	var ChooseChannel = __webpack_require__(129);
 
@@ -61484,7 +61468,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(89);
+	var Base = __webpack_require__(90);
 	var pg = __webpack_require__(44);
 	var ChooseChannel = __webpack_require__(129);
 
@@ -61510,7 +61494,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(89);
+	var Base = __webpack_require__(90);
 	var pg = __webpack_require__(44);
 	var ChooseDialogue = __webpack_require__(101);
 	var ChooseValue = __webpack_require__(53);
@@ -61558,13 +61542,13 @@
 /* 136 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"container"},"f":[{"t":7,"e":"div","a":{"class":"row"},"f":[{"t":7,"e":"div","a":{"class":"col-md-12"},"f":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":["/numi-prototypes/dialogues/",{"t":2,"r":"dialogue.id"}]},"f":["Dialogue: ",{"t":2,"r":"dialogue.name"}]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Library"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Library"]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"panel-group","id":["accordion",{"t":2,"r":"name"}],"role":"tablist","aria-multiselectable":"true"},"f":[{"t":7,"e":"div","a":{"class":["panel panel-default ",{"t":4,"f":["panel-highlighted"],"x":{"r":["name"],"s":"_0===\"custom-components\""}}]},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"h2","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":["#collapse",{"t":2,"r":"name"}],"aria-expanded":"true","aria-controls":["collapse",{"t":2,"r":"name"}]},"f":[{"t":2,"r":"title"}]}]}]}," ",{"t":7,"e":"div","a":{"id":["collapse",{"t":2,"r":"name"}],"class":"panel-collapse collapse","role":"tabpanel","aria-labelledby":["heading",{"t":2,"r":"name"}]},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible alert-lib","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Interactions"]}," are messages that will be displayed to the user."]}]}],"x":{"r":["name"],"s":"_0===\"interactions\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible alert-lib","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["User data actions"]}," are used with an ",{"t":7,"e":"strong","f":["Interaction"]}," to be able to use a user field later, or to categorise a user."]}]}],"x":{"r":["name"],"s":"_0===\"user-data\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible alert-lib","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Placeholders"]}," are blocks of dynamically generated content that you can use inside an ",{"t":7,"e":"strong","f":["Interaction"]}," block."]}," ",{"t":7,"e":"p","f":["Use them by putting their keyword inside square brackets like this: ",{"t":7,"e":"code","f":["[keyword]"]}]}]}],"x":{"r":["name"],"s":"_0===\"placeholders\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible alert-lib","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Calculation blocks"]}," are written by developers to perform complex actions on user data."]}]}],"x":{"r":["name"],"s":"_0===\"custom-components\""}}," ",{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-library","role":"group"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default","data-toggle":"collapse","data-target":["#collapse",{"t":2,"r":"type"}],"aria-expanded":"false","aria-controls":"collapse"},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-question-sign","aria-hidden":"true"}}]}]}," ",{"t":7,"e":"div","a":{"class":"collapse alert alert-info alert-dismissible","role":"alert","id":["collapse",{"t":2,"r":"type"}],"data-toggle":"collapse","data-target":["#collapse",{"t":2,"r":"type"}],"aria-expanded":"false"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":2,"r":"helptext"}]}],"x":{"r":["name"],"s":"_0!==\"custom-components\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-library","role":"group"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default","style":"text-align: left;"},"v":{"click":{"m":"addBlock","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"title"}]}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default","data-toggle":"collapse","data-target":["#collapse",{"t":2,"r":"type"}],"aria-expanded":"false","aria-controls":"collapse"},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-question-sign","aria-hidden":"true"}}]}]}," ",{"t":7,"e":"div","a":{"class":"collapse","id":["collapse",{"t":2,"r":"type"}]},"f":[{"t":7,"e":"div","a":{"class":"well"},"f":[{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["User input"]},{"t":7,"e":"br"}," ",{"t":2,"r":"userinput"}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Action"]},{"t":7,"e":"br"}," ",{"t":2,"r":"action"}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Output"]},{"t":7,"e":"br"}," ",{"t":2,"r":"output"}]}]}]}],"x":{"r":["name"],"s":"_0===\"custom-components\""}}],"r":"blocks"}]}]}]}]}],"r":"types"}," ",{"t":7,"e":"div","a":{"class":"panel-group","id":"accordion","role":"tablist","aria-multiselectable":"true"},"f":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":"headingOne"},"f":[{"t":7,"e":"h4","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":"#collapseOne","aria-expanded":"true","aria-controls":"collapseOne"},"f":["Filters"]}]}]}," ",{"t":7,"e":"div","a":{"id":"collapseOne","class":"panel-collapse collapse","role":"tabpanel","aria-labelledby":"headingOne"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible alert-lib","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Filters"]}," select a group of users based on fields you have set up using ",{"t":7,"e":"strong","f":["Save Answer"]}," or ",{"t":7,"e":"strong","f":["Add label to user"]}," steps in a ",{"t":7,"e":"strong","f":["Dialogue"]},"."]}]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-library"},"v":{"click":{"m":"addFilter","a":{"r":["."],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}],"r":"filters"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-library nm-placeholder"},"v":{"click":{"m":"newFilter","a":{"r":[],"s":"[]"}}},"f":["+ Add filter"]}]}]}]}]}]}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"h4","a":{"class":"page-header"},"f":["Block Library"]}," ",{"t":7,"e":"div","a":{"class":"panel panel-default nm-pallet nm-block-category-recent"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading nm-block-category-heading"},"f":[{"t":7,"e":"span","a":{"class":"panel-title"},"f":["Recently Used"]}]}," ",{"t":7,"e":"div","a":{"class":"panel-body nm-panel-body-drawer"},"f":[{"t":4,"f":[" ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder nm-placeholder-block"},"v":{"click":{"m":"add","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}],"r":"recent"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-block-pallete-menu"},"f":[{"t":7,"e":"ul","a":{"class":"nav nav-pills nav-stacked"},"f":[{"t":4,"f":[{"t":7,"e":"li","a":{"class":[{"t":4,"f":["active"],"x":{"r":["activePalleteKey","key"],"s":"_0===_1"}}]},"f":[{"t":7,"e":"a","a":{"href":"#"},"v":{"click":{"m":"set","a":{"r":["key"],"s":"[\"activePalleteKey\",_0]"}}},"f":[{"t":2,"r":"name"}]}]}],"r":"palletes"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-block-pallete"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item-heading"},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"div","a":{"class":"list-body-item-text"},"f":[{"t":4,"f":[" ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder nm-placeholder-block"},"v":{"click":{"m":"add","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}],"r":"blocks"}]}]}],"r":"categories"}]}],"r":"activePallete"}]}]};
 
 /***/ },
 /* 137 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-sequence-header"},"f":[{"t":7,"e":"div","a":{"class":"nm-sequence-title"},"f":[{"t":7,"e":"div","a":{"class":"nm-name"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-sequence-body"},"f":[{"t":7,"e":"div","a":{"class":"sortable-blocks sortable-blocks-ordered"},"f":[{"t":4,"f":[{"t":8,"r":"blocks"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"text-center"},"f":[{"t":7,"e":"span","a":{"class":"nm-block-separator glyphicon glyphicon-menu-down"}}]}],"x":{"r":["i","blocks.length"],"s":"_0<_1-1"}}],"i":"i","r":"blocks"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-sequence-footer"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+"]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-sequence-header"},"f":[{"t":7,"e":"div","a":{"class":"nm-sequence-title"},"f":[{"t":7,"e":"div","a":{"class":"nm-name"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-sequence-body"},"f":[{"t":7,"e":"div","a":{"class":"sortable-blocks sortable-blocks-ordered"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-block-wrapper","data-id":[{"t":2,"r":"id"}]},"f":[{"t":8,"r":"blocks"}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"text-center"},"f":[{"t":7,"e":"span","a":{"class":"nm-block-separator glyphicon glyphicon-menu-down"}}]}],"x":{"r":["i","blocks.length"],"s":"_0<_1-1"}}],"i":"i","r":"blocks"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-sequence-footer"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+"]}]}]};
 
 /***/ },
 /* 138 */

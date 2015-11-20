@@ -10,6 +10,9 @@ var Base = Ractive.extend({
     seq.set('blocks', _.reject(blocks, {id: this.get('id')}));
   },
   edit: function() {
+    drawers.change(this.getEditView());
+  },
+  getEditView: function() {
     var self = this;
 
     var edit = this.constructor.Edit({
@@ -18,7 +21,7 @@ var Base = Ractive.extend({
     });
 
     edit.on('change', function() { self.set(_.omit(edit.get(), 'dialogue')); });
-    drawers.open(edit);
+    return edit;
   },
   computed: {
     dialogue: function() {

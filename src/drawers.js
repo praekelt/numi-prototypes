@@ -2,13 +2,14 @@ var _ = require('lodash');
 var $ = require('jquery');
 
 
-var duration = 200;
+var openDuration = 200;
+var closeDuration = 100;
 var stack = [];
 
 
 function close(view) {
   var i = _.findIndex(stack, {view: view});
-  if (i < 0) return;
+  if (i < 0) return Promise.resolve();
   var drawer = stack[i];
   stack.splice(i, 1);
 
@@ -16,12 +17,11 @@ function close(view) {
     drawer.$el
       .hide({
         effect: 'slide',
-        duration: duration,
+        duration: closeDuration,
         direction: 'right',
         complete: function() {
-          drawer.view
-            .teardown()
-            .then(resolve, reject);
+          drawer.view.teardown();
+          resolve();
         }
       });
   });
@@ -44,7 +44,7 @@ function open(view) {
     drawer.$el
       .show({
         effect: 'slide',
-        duration: duration,
+        duration: openDuration,
         direction: 'right',
         complete: function() {
           focusFirstInput(view.el);
@@ -56,7 +56,11 @@ function open(view) {
 
 
 function change(view) {
-  close().then(function() { open(view); });
+  var curr = _.last(stack);
+
+  return curr
+    ? close(curr.view).then(function() { return open(view); })
+    : open(view);
 }
 
 

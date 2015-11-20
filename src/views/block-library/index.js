@@ -1,8 +1,7 @@
 var $ = require('jquery');
+var _ = require('lodash');
 var uuid = require('node-uuid');
 var Ractive = require('ractive');
-var pg = require('../../pg');
-var NewFilter = require('../new-filter');
 var blockTypes = require('../../components/blocks');
 
 
@@ -12,129 +11,94 @@ var BlockLibrary = Ractive.extend({
   data: function() {
     return {
       key: 'blocks',
-      extra: {},
-      events: BlockLibrary.events,
-      types: BlockLibrary.types,
-      disableEvents: false
+      recent: [],
+      activePalleteKey: 'standard',
+      palletes: _.cloneDeep(BlockLibrary.palletes)
     };
   },
   computed: {
-    dialogue: function() {
-      var dialogue = this.get('dialogueView');
-      if (!dialogue) return null;
-
-      return {
-        id: dialogue.get('id'),
-        name: dialogue.get('name')
-      };
-    },
-    filters: function() {
-      dashboard.update();
-      return dashboard.get('filters');
+    activePallete: function() {
+      return _.find(this.get('palletes'), {key: this.get('activePalleteKey')});
     }
   },
-  _addBlock: function(d) {
+  add: function(type) {
     var key = this.get('key');
     var source = this.get('source');
-    d.id = uuid.v4();
-    source.push(key, d);
-    source.fire('blockAdded');
-  },
-  addBlock: function(type) {
     var d = blockTypes[type]().get();
     d.type = type;
-    d.mode = 'edit';
-    this._addBlock(d);
-    pg.pop();
+    d.unedited = true;
+    d.id = uuid.v4();
+    source.push(key, d);
+    this.pushRecent(type);
+    source.fire('blockAdded', d);
   },
-  addFilter: function(filter) {
-    this._addBlock({type: 'filter'});
-    pg.pop();
+  pushRecent: function(type) {
+    var d = _.chain(this.get('palletes'))
+      .pluck('categories')
+      .flatten()
+      .pluck('blocks')
+      .flatten()
+      .find({type: type})
+      .value();
+
+    if (_.find(this.get('recent'), d)) return;
+    this.push('recent', d);
   },
-  newFilter: function()  {
-    var newFilter = NewFilter({el: $('<div>')});
-    var self = this;
+  toggle: function(e, key) {
+    e.original.preventDefault();
 
-    newFilter.on('created', function(filter) {
-      self.addFilter({
-        id: filter.get('id'),
-        name: filter.get('name')
-      });
-    });
+    $(this.el)
+      .find('.nm-pallete[data-key="' + key + '"] .collapse')
+      .collapse('toggle');
 
-    pg.pop();
-    pg.push(newFilter);
+    var pallete = _.find(this.get('palletes'), {key: key});
+    pallete.collapsed = !pallete.collapsed;
+    this.update();
   }
 });
 
 
-BlockLibrary.types = [{
-  title: 'Events',
-  name: 'events',
-  blocks: [{
-    title: 'User dials in',
-    type: 'userdialsin',
-    helptext: 'Run this dialogue when the user dials in'
+BlockLibrary.palletes = [{
+  name: 'Standard Blocks',
+  key: 'standard',
+  categories: [{
+    key: 'events',
+    name: 'Events',
+    blocks: [{
+      name: 'User dials in',
+      type: 'userdialsin',
+      helptext: 'Run this dialogue when the user dials in'
+    }]
+  }, {
+    key: 'screens',
+    name: 'Screens',
+    blocks: [{
+      name: 'Free Text',
+      type: 'ask',
+      helptext: 'Users are asked a question and can respond with any text'
+    }, {
+      name: 'Choices',
+      type: 'askchoice',
+      helptext: 'Users are asked a question with numbered choices and can respond with their choice'
+    }, {
+      name: 'End',
+      type: 'send',
+      helptext: 'Users are sent content and the session ends.'
+    }]
   }]
 }, {
-  title: 'Interactions',
-  name: 'interactions',
-  blocks: [{
-    title: 'Ask',
-    type: 'ask',
-    helptext: 'Asks the user a question, and wait for a response.'
-  }, {
-    title: 'Ask and provide choices',
-    type: 'askchoice',
-    helptext: 'Asks the user a question, provide choices and expect the user to respond with a choice'
-  }, {
-    title: 'Send',
-    type: 'send',
-    helptext: 'Send the user a message.'
-  }]
-}, {
-  title: 'User data actions',
-  name: 'user-data',
-  blocks: [{
-    title: 'Save Answer',
-    type: 'saveas',
-    helptext: 'Save the user\'s answers for use in a Dialogue or a filter.'
-  }, {
-    title: 'Add label to user',
-    type: 'label',
-    helptext: 'Add a label to the user to refer to them in a Dialogue or a filter.'
-  }, {
-    title: 'Remove label',
-    type: 'rmlabel',
-    helptext: 'Remove a label from a user.'
-  }]
-}, {
-  title: 'Calculations',
-  name: 'custom-components',
-  blocks: [{
-    title: 'Validate Clinic Code',
-    type: 'validatecliniccode',
-    userinput: 'Clinic Code.',
-    action: 'Checks user input against our approved list of Clinic Codes, supplied by NDOH and stored in Django, etc.',
-    output: 'Valid or Invalid status.'
-  }, {
-    title: 'Calculate weeks until due',
-    type: 'calcweeks',
-    userinput: 'Month that baby is due.',
-    action: 'Calculates number of weeks until baby is due.',
-    output: 'Number.'
+  name: 'MomConnect',
+  key: 'momconnect',
+  categories: [{
+    key: 'screens',
+    name: 'Screens',
+    blocks: [{
+      name: 'Enter Clinic Code',
+      type: 'entercliniccode',
+      helptext: 'Users are asked to enter their clinic code. The code is then validated. If users enter an invalid code, they are asked to re-enter the code.'
+    }]
   }]
 }];
-
-
-BlockLibrary.isEvent = function(type) {
-  return !!BlockLibrary.events
-    .blocks
-    .filter(function(d) {
-      return d.type === type;
-    })
-    .length;
-};
 
 
 module.exports = BlockLibrary;

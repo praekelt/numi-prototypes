@@ -41,6 +41,7 @@ html {
 }
 
 body {
+  color: $fg0;
   background-color: $bg0;
   overflow: hidden;
 }
@@ -52,7 +53,13 @@ body {
 }
 
 .nm-placeholder {
+  color: $fg0;
   border-style: dashed;
+  background: $bg3;
+}
+
+.nm-placeholder-block {
+  padding: 21px 12px;
 }
 
 .nm-dialogue-title {
@@ -320,10 +327,6 @@ hr {
     width: 50%;
   }
 
-  @media (min-width: 992px) {
-    width: 36%;
-  }
-
   .nav-tabs > li.active > a {
     background: $bg2;
   }
@@ -469,4 +472,92 @@ a.nm-preview-list-item {
   color: $fg1;
   margin-top: 14px;
   margin-bottom: 14px;
+}
+
+.nm-block-category-heading {
+  color: $fg0 !important;
+  background: $bg4 !important;
+}
+
+.nm-block-category-title {
+  &:hover, &:focus {
+    text-decoration: none;
+  }
+}
+
+.nm-panel-body-drawer {
+  background: $bg2 !important;
+}
+
+.nm-block-palletes {
+  width: 100%;
+  padding: 4px;
+}
+
+.nm-block-pallete-menu {
+  width: 25%;
+  display: inline-block;
+  vertical-align: top;
+
+  li > a {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  li.active > a {
+    color: $fg0;
+    background: $bg7;
+  }
+  li.active {
+    color: $fg0;
+    background: $bg-active0;
+    border: $bg-active0;
+    margin-right: -26px;
+  }
+
+  li.active:hover, &.active:focus {
+  }
+
+  li {
+    a {
+      color: $fg0;
+      background: $bg4;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &:hover, &:focus {
+      a {
+        background: $bg5;
+      }
+    }
+
+    &.active {
+      a {
+        color: $fg0;
+        background: $bg-active0;
+      }
+
+      &:hover, &:focus {
+        a {
+          color: $fg0;
+          background: $bg-active1;
+        }
+      }
+    }
+  }
+}
+
+.nm-block-pallete {
+  width: 74.999%;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: -6px;
+
+  .list-group-item {
+    &:first-child, &:last-child {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
 }

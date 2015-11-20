@@ -1,5 +1,6 @@
 var $ = require('jquery');
-var pg = require('../../pg');
+var _ = require('lodash');
+var drawers = require('../../drawers');
 var BlockLibrary = require('../block-library');
 var Ractive = require('ractive');
 
@@ -28,10 +29,21 @@ module.exports = Ractive.extend({
     this.hideRename();
   },
   addBlock: function() {
-    var library = BlockLibrary({el: $('<div>')});
+    var self = this;
+
+    var library = BlockLibrary({
+      el: $('<div>'),
+      data: dashboard.get('blockLibrary')
+    });
+
     library.set('source', this);
-    library.set('dialogueView', this);
-    pg.push(library);
+    drawers.change(library);
+    this.once('blockAdded', function(d) { self.editBlock(d.id); });
+  },
+  editBlock: function(id) {
+    $(this.el)
+      .find('.nm-block-wrapper[data-id="' + id + '"] .nm-block-edit')
+      .click();
   },
   components: {
     ask: require('../../components/blocks/ask'),

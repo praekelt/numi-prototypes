@@ -1,120 +1,43 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <ol class="breadcrumb">
-        <li><a href="/numi-prototypes/">Home</a></li>
-        <li><a href="/numi-prototypes/dialogues/{{dialogue.id}}">Dialogue: {{dialogue.name}}</a></li>
-        <li class="active">Library</li>
-      </ol>
+<h4 class="page-header">Block Library</h4>
 
-      <h1 class="page-header">Library</h1>
+<div class="panel panel-default nm-pallet nm-block-category-recent">
+  <div class="panel-heading nm-block-category-heading">
+    <span class="panel-title">Recently Used</span>
+  </div>
 
-      {{#types}}
-      <div class="panel-group" id="accordion{{name}}" role="tablist" aria-multiselectable="true">
-        <div class="panel panel-default {{# name === 'custom-components'}}panel-highlighted{{/}}">
-          <div class="panel-heading" role="tab" id="heading{{name}}">
-            <h2 class="panel-title">
-              <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{name}}" aria-expanded="true" aria-controls="collapse{{name}}">
-                {{title}}
-              </a>
-            </h2>
-          </div>
-          <div id="collapse{{name}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{name}}">
-            <div class="panel-body">
+  <div class="panel-body nm-panel-body-drawer">
+    {{#recent}}
+      <!-- TODO something better-->
+      <button class="btn btn-default nm-placeholder nm-placeholder-block" on-click="add(type)">{{name}}</button>
+    {{/recent}}
+  </div>
+</div>
 
-              {{# name === 'interactions'}}
-              <div class="alert alert-info alert-dismissible alert-lib" role="alert">
+<div class="nm-block-pallete-menu">
+  <ul class="nav nav-pills nav-stacked">
+    {{#palletes}}
+    <li class="{{#activePalleteKey === key}}active{{/}}">
+    <a href="#" on-click="set('activePalleteKey', key)">{{name}}</a>
+    </li>
+    {{/pallete}}
+  </ul>
+</div>
 
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <p><strong>Interactions</strong> are messages that will be displayed to the user.</div>
-              {{/}}
+<div class="nm-block-pallete">
+  {{#activePallete}}
+  <div class="list-group">
+    {{#categories}}
+    <div class="list-group-item">
+      <div class="list-group-item-heading">{{name}}</div>
 
-              {{# name === 'user-data'}}
-              <div class="alert alert-info alert-dismissible alert-lib" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <p><strong>User data actions</strong> are used with an <strong>Interaction</strong> to be able to use a user field later, or to categorise a user.</p>
-              </div>
-              {{/}}
-
-              {{# name === 'placeholders'}}
-              <div class="alert alert-info alert-dismissible alert-lib" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <p><strong>Placeholders</strong> are blocks of dynamically generated content that you can use inside an <strong>Interaction</strong> block.</p>
-                <p>Use them by putting their keyword inside square brackets like this: <code>[keyword]</code></p>
-              </div>
-              {{/}}
-
-              {{# name === 'custom-components'}}
-              <div class="alert alert-info alert-dismissible alert-lib" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <p><strong>Calculation blocks</strong> are written by developers to perform complex actions on user data.</p>
-              </div>
-              {{/}}
-
-              {{#blocks}}
-
-              {{# name !== 'custom-components'}}
-              <div class="btn-group btn-library" role="group">
-                <button class="btn btn-default" on-click="addBlock(type)">{{title}}</button>
-                <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#collapse{{type}}" aria-expanded="false" aria-controls="collapse"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button>
-              </div>
-
-              <div class="collapse alert alert-info alert-dismissible" role="alert" id="collapse{{type}}" data-toggle="collapse" data-target="#collapse{{type}}" aria-expanded="false">
-                <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                {{helptext}}
-              </div>
-              {{/}}
-
-              {{# name === 'custom-components'}}
-              <div class="btn-group btn-library" role="group">
-                <button type="button" class="btn btn-default" on-click="addBlock(type)" style="text-align: left;">{{title}}</button>
-                <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#collapse{{type}}" aria-expanded="false" aria-controls="collapse"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button>
-              </div>
-
-              <div class="collapse" id="collapse{{type}}">
-                <div class="well">
-                  <p><strong>User input</strong><br />
-                  {{userinput}}</p>
-                  <p><strong>Action</strong><br />
-                  {{action}}</p>
-                  <p><strong>Output</strong><br />
-                  {{output}}</p>
-                </div>
-              </div>
-              {{/}}
-
-              {{/blocks}}
-            </div>
-          </div>
-        </div>
-      </div>
-      {{/types}}
-
-
-      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-        <div class="panel panel-default">
-          <div class="panel-heading" role="tab" id="headingOne">
-            <h4 class="panel-title">
-              <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                Filters
-              </a>
-            </h4>
-          </div>
-          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-            <div class="panel-body">
-              <div class="alert alert-info alert-dismissible alert-lib" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <p><strong>Filters</strong> select a group of users based on fields you have set up using <strong>Save Answer</strong> or <strong>Add label to user</strong> steps in a <strong>Dialogue</strong>.</p>
-              </div>
-              {{#filters}}
-              <button class="btn btn-default btn-library" on-click="addFilter(this)">{{name}}</button>
-              {{/filters}}
-
-              <button class="btn btn-default btn-library nm-placeholder" on-click="newFilter()">+ Add filter</button>
-            </div>
-          </div>
-        </div>
+      <div class="list-body-item-text">
+        {{#blocks}}
+        <!-- TODO something better-->
+        <button class="btn btn-default nm-placeholder nm-placeholder-block" on-click="add(type)">{{name}}</button>
+        {{/blocks}}
       </div>
     </div>
+    {{/categories}}
   </div>
+  {{/activePallete}}
 </div>

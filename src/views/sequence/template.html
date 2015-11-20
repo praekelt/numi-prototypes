@@ -18,7 +18,9 @@
 <div class="nm-sequence-body">
   <div class="sortable-blocks sortable-blocks-ordered">
     {{#blocks:i}}
-      {{>blocks}}
+      <div class="nm-block-wrapper" data-id="{{id}}">
+        {{>blocks}}
+      </div>
 
       {{#i < blocks.length - 1 }}
       <div class="text-center">

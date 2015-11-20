@@ -16,7 +16,8 @@ module.exports = Ractive.extend({
       values: [],
       labels: [],
       filters: [],
-      dialogues: []
+      dialogues: [],
+      blockLibrary: {}
     };
   },
   addFilter: function(name) {
