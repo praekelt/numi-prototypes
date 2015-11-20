@@ -46,6 +46,10 @@ body {
   overflow: hidden;
 }
 
+button {
+  color: $fg0;
+}
+
 .breadcrumb {
   width: 80vw;
   margin-left: 10vw;
@@ -287,6 +291,11 @@ hr {
 .nm-block {
   background: $bg3;
   margin-bottom: 0;
+}
+
+.nm-block-edit {
+  color: $fg0;
+  background: 0;
 }
 
 .nm-choice-actions {
