@@ -508,14 +508,12 @@ a.nm-preview-list-item {
     color: $fg0;
     background: $bg7;
   }
+
   li.active {
     color: $fg0;
     background: $bg-active0;
     border: $bg-active0;
     margin-right: -26px;
-  }
-
-  li.active:hover, &.active:focus {
   }
 
   li {
@@ -524,10 +522,8 @@ a.nm-preview-list-item {
       background: $bg4;
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
-    }
 
-    &:hover, &:focus {
-      a {
+      &:hover, &:focus {
         background: $bg5;
       }
     }
@@ -536,10 +532,8 @@ a.nm-preview-list-item {
       a {
         color: $fg0;
         background: $bg-active0;
-      }
 
-      &:hover, &:focus {
-        a {
+        &:hover, &:focus {
           color: $fg0;
           background: $bg-active1;
         }

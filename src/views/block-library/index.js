@@ -21,6 +21,10 @@ var BlockLibrary = Ractive.extend({
       return _.find(this.get('palletes'), {key: this.get('activePalleteKey')});
     }
   },
+  setActivePallete: function(event, key) {
+    event.original.preventDefault();
+    this.set('activePalleteKey', key);
+  },
   add: function(type) {
     var key = this.get('key');
     var source = this.get('source');

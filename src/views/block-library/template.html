@@ -17,7 +17,7 @@
   <ul class="nav nav-pills nav-stacked">
     {{#palletes}}
     <li class="{{#activePalleteKey === key}}active{{/}}">
-    <a href="#" on-click="set('activePalleteKey', key)">{{name}}</a>
+      <a href="#" on-click="setActivePallete(event, key)">{{name}}</a>
     </li>
     {{/pallete}}
   </ul>
