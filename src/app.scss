@@ -46,8 +46,8 @@ body {
   overflow: hidden;
 }
 
-button {
-  color: $fg0;
+.btn {
+  color: $fg0 !important;
 }
 
 .breadcrumb {
@@ -63,7 +63,10 @@ button {
 }
 
 .nm-placeholder-block {
-  padding: 21px 12px;
+  margin: 6px;
+  padding: 18px 12px;
+  font-size: 0.8em;
+  text-transform: uppercase;
 }
 
 .nm-dialogue-title {
@@ -73,7 +76,9 @@ button {
 
 .nm-block-title {
   color: $fg0;
+  font-size: 0.8em;
   font-weight: bold;
+  text-transform: uppercase;
 }
 
 .btn-library {
