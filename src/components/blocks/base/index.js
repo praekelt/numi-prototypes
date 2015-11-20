@@ -41,17 +41,7 @@ var Base = Ractive.extend({
 Base.Edit = Ractive.extend({
   close: function() {
     drawers.close(this);
-  },
-  oncomplete: function() {
-    var self = this;
-    var clicks = 0;
-
-    $('body')
-      .click(function(e) {
-        if (clicks++ < 1) return;
-        if (!$.contains(self.el, e.target)) self.close();
-      });
-  },
+  }
 });
 
 

@@ -60478,6 +60478,7 @@
 	        duration: duration || closeDuration,
 	        direction: 'right',
 	        complete: function() {
+	          $('body').unbind('click', drawer.onBodyClick);
 	          drawer.view.teardown();
 	          resolve();
 	        }
@@ -60488,8 +60489,9 @@
 
 	function open(view) {
 	  var drawer = {
+	    view: view,
 	    $el: newDrawer().appendTo('.nm-drawers'),
-	    view: view
+	    onBodyClick: onBodyClick
 	  };
 
 	  stack.push(drawer);
@@ -60505,11 +60507,17 @@
 	        duration: openDuration,
 	        direction: 'right',
 	        complete: function() {
+	          $('body').on('click', onBodyClick);
 	          focusFirstInput(view.el);
 	          resolve();
 	        }
 	      });
 	  });
+
+	  function onBodyClick(e) {
+	    if ($(e.target).parents('.nm-drawer').length > 0) return;
+	    close(drawer.view);
+	  }
 	}
 
 
@@ -60566,16 +60574,6 @@
 	    activePallete: function() {
 	      return _.find(this.get('palletes'), {key: this.get('activePalleteKey')});
 	    }
-	  },
-	  oncomplete: function() {
-	    var self = this;
-	    var clicks = 0;
-
-	    $('body')
-	      .click(function(e) {
-	        if (clicks++ < 1) return;
-	        if (!$.contains(self.el, e.target)) self.close();
-	      });
 	  },
 	  setActivePallete: function(event, key) {
 	    event.original.preventDefault();
@@ -60762,17 +60760,7 @@
 	Base.Edit = Ractive.extend({
 	  close: function() {
 	    drawers.close(this);
-	  },
-	  oncomplete: function() {
-	    var self = this;
-	    var clicks = 0;
-
-	    $('body')
-	      .click(function(e) {
-	        if (clicks++ < 1) return;
-	        if (!$.contains(self.el, e.target)) self.close();
-	      });
-	  },
+	  }
 	});
 
 

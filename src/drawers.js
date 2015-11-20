@@ -21,6 +21,7 @@ function close(view, duration) {
         duration: duration || closeDuration,
         direction: 'right',
         complete: function() {
+          $('body').unbind('click', drawer.onBodyClick);
           drawer.view.teardown();
           resolve();
         }
@@ -31,8 +32,9 @@ function close(view, duration) {
 
 function open(view) {
   var drawer = {
+    view: view,
     $el: newDrawer().appendTo('.nm-drawers'),
-    view: view
+    onBodyClick: onBodyClick
   };
 
   stack.push(drawer);
@@ -48,11 +50,17 @@ function open(view) {
         duration: openDuration,
         direction: 'right',
         complete: function() {
+          $('body').on('click', onBodyClick);
           focusFirstInput(view.el);
           resolve();
         }
       });
   });
+
+  function onBodyClick(e) {
+    if ($(e.target).parents('.nm-drawer').length > 0) return;
+    close(drawer.view);
+  }
 }
 
 
