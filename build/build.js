@@ -60528,7 +60528,7 @@
 
 
 	function focusFirstInput(el) {
-	  var $input = $(el).find(':input').eq(0);
+	  var $input = $(el).find(':not(button):input').eq(0);
 	  var val = $input.val();
 	  if (val) $input.val('').val(val);
 	  $input.focus();
