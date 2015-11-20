@@ -29,11 +29,19 @@ module.exports = Ractive.extend({
   },
   addBlock: function() {
     var self = this;
-
     var library = BlockLibrary({el: $('<div>')});
     library.set('source', this);
     drawers.change(library);
-    this.once('blockAdded', function(d) { self.editBlock(d.id); });
+
+    this.once('blockAdded', function(d) {
+      self.scrollToBlock(d.id);
+      self.editBlock(d.id);
+    });
+  },
+  scrollToBlock: function(id) {
+    $(this.el)
+      .find('.nm-sequence-body')
+      .scrollTo('.nm-block-wrapper[data-id="' + id + '"]');
   },
   editBlock: function(id) {
     $(this.el)

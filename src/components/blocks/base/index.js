@@ -14,13 +14,17 @@ var Base = Ractive.extend({
   },
   getEditView: function() {
     var self = this;
+    this.get('sequence').scrollToBlock(this.get('id'));
 
     var edit = this.constructor.Edit({
       el: $('<div>'),
       data: _.extend(this.get(), {dialogue: this.get('dialogue')})
     });
 
-    edit.on('change', function() { self.set(_.omit(edit.get(), 'dialogue')); });
+    edit.on('change', function() {
+      self.set(_.omit(edit.get(), 'dialogue'));
+    });
+
     return edit;
   },
   computed: {

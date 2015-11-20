@@ -3,6 +3,7 @@ window.$ = require('jquery');
 
 require('jquery-ui');
 require('jquery-mousewheel');
+require('jquery.scrollto');
 require('./app.scss');
 require('../bootstrap/js/bootstrap.min.js');
 require('gridforms/gridforms/gridforms');
