@@ -71,11 +71,11 @@ BlockLibrary.palletes = [{
     key: 'screens',
     name: 'Screens',
     blocks: [{
-      name: 'Free Text',
+      name: 'Question',
       type: 'ask',
       helptext: 'Users are asked a question and can respond with any text'
     }, {
-      name: 'Choices',
+      name: 'Multiple Choice',
       type: 'askchoice',
       helptext: 'Users are asked a question with numbered choices and can respond with their choice'
     }, {
