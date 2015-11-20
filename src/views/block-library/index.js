@@ -1,6 +1,7 @@
 var $ = require('jquery');
 var _ = require('lodash');
 var uuid = require('node-uuid');
+var drawers = require('../../drawers');
 var Ractive = require('ractive');
 var blockTypes = require('../../components/blocks');
 
@@ -14,6 +15,16 @@ var BlockLibrary = Ractive.extend({
     activePallete: function() {
       return _.find(this.get('palletes'), {key: this.get('activePalleteKey')});
     }
+  },
+  oncomplete: function() {
+    var self = this;
+    var clicks = 0;
+
+    $('body')
+      .click(function(e) {
+        if (clicks++ < 1) return;
+        if (!$.contains(self.el, e.target)) self.close();
+      });
   },
   setActivePallete: function(event, key) {
     event.original.preventDefault();
@@ -41,6 +52,9 @@ var BlockLibrary = Ractive.extend({
 
     if (_.find(this.get('recent'), d)) return;
     this.push('recent', d);
+  },
+  close() {
+    drawers.close(this);
   },
   toggle: function(e, key) {
     e.original.preventDefault();
@@ -106,5 +120,6 @@ BlockLibrary.data = {
   activePalleteKey: 'standard',
   palletes: _.cloneDeep(BlockLibrary.palletes)
 };
+
 
 module.exports = BlockLibrary;

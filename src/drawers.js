@@ -3,11 +3,12 @@ var $ = require('jquery');
 
 
 var openDuration = 200;
-var closeDuration = 100;
+var closeDuration = 200;
+var changeCloseDuration = 100;
 var stack = [];
 
 
-function close(view) {
+function close(view, duration) {
   var i = _.findIndex(stack, {view: view});
   if (i < 0) return Promise.resolve();
   var drawer = stack[i];
@@ -17,7 +18,7 @@ function close(view) {
     drawer.$el
       .hide({
         effect: 'slide',
-        duration: closeDuration,
+        duration: duration || closeDuration,
         direction: 'right',
         complete: function() {
           drawer.view.teardown();
@@ -59,7 +60,8 @@ function change(view) {
   var curr = _.last(stack);
 
   return curr
-    ? close(curr.view).then(function() { return open(view); })
+    ? close(curr.view, changeCloseDuration)
+      .then(function() { return open(view); })
     : open(view);
 }
 
