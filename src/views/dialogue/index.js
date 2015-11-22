@@ -55,11 +55,11 @@ module.exports = Ractive.extend({
         this.scrollLeft -= delta * 30;
       });
   },
-  addSequence: function() {
+  addSequence: function(name) {
     var seq ={
       id: uuid.v4(),
-      name: 'Sequence ' + this.get('sequences').length,
-      blocks: []
+      name: name || 'Sequence ' + this.get('sequences').length,
+      blocks: [],
     };
 
     this.push('sequences', seq);

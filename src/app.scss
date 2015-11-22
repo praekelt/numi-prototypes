@@ -510,19 +510,25 @@ a.nm-preview-list-item {
   margin-bottom: 14px;
 }
 
-.nm-block-category-heading {
-  color: $fg0 !important;
-  background: $bg4 !important;
-}
-
 .nm-block-category-title {
   &:hover, &:focus {
     text-decoration: none;
   }
 }
 
+.nm-panel-heading-drawer {
+  color: $fg0 !important;
+  background: $bg4 !important;
+}
+
 .nm-panel-body-drawer {
   background: $bg2 !important;
+}
+
+a.nm-list-group-item-drawer {
+  &:hover, &:focus {
+    background: $bg3;
+  }
 }
 
 .nm-block-palletes {

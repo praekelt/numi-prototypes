@@ -36,7 +36,8 @@
           {{#route}}
           <p>
           &nbsp↳ <a href="#">{{getSequenceName(route)}}</a>
-          <button class="btn btn-xs btn-default">Edit</button>
+          <button class="btn btn-xs btn-default" on-click="setRoute(id)">Change</button>
+          <button class="btn btn-xs btn-default" on-click="removeRoute(id)">Remove</button>
           </p>
           {{/route}}
         </div>

@@ -1,0 +1,36 @@
+<div>
+  <button class="btn btn-link pull-right" on-click="close()">
+    ← Back
+  </button>
+
+  <h4 class="page-header">
+    Route to another sequence
+  </h4>
+
+  <div class="panel panel-default">
+    <div class="panel-heading nm-panel-heading-drawer">
+      Route to a new sequence
+    </div>
+
+    <div class="panel-body nm-panel-body-drawer">
+      <div class="grid-form">
+        <fieldset>
+          <div data-row-span="1">
+            <div data-field-span="1">
+              <label>Name of the new sequence</label>
+              <input type="text" value="{{newSequenceName}}">
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      <br>
+      <button class="btn btn-default" on-click="addSequence()">Add</button>
+    </div>
+
+    <div class="list-group">
+      <a class="list-group-item nm-list-group-item-drawer" href="#" on-click="chooseSequence(event)">Route to a sequence in this dialogue</a>
+      <a class="list-group-item nm-list-group-item-drawer" href="#" on-click="chooseDialogue(event)">Route to the starting sequence of another dialogue</a>
+    </div>
+  </div>
+</div>
