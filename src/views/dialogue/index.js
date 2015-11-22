@@ -10,49 +10,32 @@ module.exports = Ractive.extend({
   template: require('./template.html'),
   data: function() {
     return {
+      silent: null,
       sequences: [],
+      lastEdit: null,
+      hasUnpublishedChanges: false,
       _prev: hist.pop()
     };
-  },
-  computed: {
-    href: function() {
-      return ['/numi-prototypes/dialogues', this.get('id'), 'edit'].join('/');
-    },
-    histName: function() {
-      return ['dialogue', this.get('name')].join(' ');
-    },
-    prev: function() {
-      return this.get('_prev');
-    },
-    backHref: function() {
-      return this.get('_prev')
-        ? this.get('_prev').href
-        : '/numi-prototypes/';
-    },
-    sequenceChain: function() {
-      var results = [];
-      var node = this.get('seqtree');
-      var seq;
-
-      while (node) {
-        seq = _.find(this.get('sequences'), {id: node.key[0]});
-
-        _.extend(_.last(results), {
-          activeBlockId: node.key[1],
-          activeBlockItemId: node.key[2]
-        });
-
-        results.push(_.extend({}, seq, {nodeId: node.id}));
-        node = node.current;
-      }
-
-      return results;
-    }
   },
   selectBlockItem: function(nodeId, seqId, blockId, itemId) {
     var node = seqtree.find(this.get('seqtree'), nodeId);
     seqtree.select(node, [seqId, blockId, itemId]);
     this.update('seqtree');
+  },
+  onchange: function(props) {
+    if ('silent' in props) return;
+
+    this.set({
+      silent: null,
+      lastEdit: +(new Date()),
+      hasUnpublishedChanges: true
+    });
+  },
+  publish: function() {
+    this.set({
+      silent: true,
+      hasUnpublishedChanges: false
+    });
   },
   onrender: function() {
     $(this.find('.nm-rename')).hide();
@@ -97,5 +80,40 @@ module.exports = Ractive.extend({
   },
   components: {
     seqsurrogate: require('../seqsurrogate')
+  },
+  computed: {
+    href: function() {
+      return ['/numi-prototypes/dialogues', this.get('id'), 'edit'].join('/');
+    },
+    histName: function() {
+      return ['dialogue', this.get('name')].join(' ');
+    },
+    prev: function() {
+      return this.get('_prev');
+    },
+    backHref: function() {
+      return this.get('_prev')
+        ? this.get('_prev').href
+        : '/numi-prototypes/';
+    },
+    sequenceChain: function() {
+      var results = [];
+      var node = this.get('seqtree');
+      var seq;
+
+      while (node) {
+        seq = _.find(this.get('sequences'), {id: node.key[0]});
+
+        _.extend(_.last(results), {
+          activeBlockId: node.key[1],
+          activeBlockItemId: node.key[2]
+        });
+
+        results.push(_.extend({}, seq, {nodeId: node.id}));
+        node = node.current;
+      }
+
+      return results;
+    }
   }
 });

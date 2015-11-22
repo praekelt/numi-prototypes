@@ -19,6 +19,12 @@ module.exports = Ractive.extend({
       dialogues: []
     };
   },
+  publish: function() {
+    this.get('dialogueViews')
+      .forEach(function(dialogue) {
+        dialogue.publish();
+      });
+  },
   addFilter: function(name) {
     var d = {
       id: 'filter' + this.get('filters').length,
