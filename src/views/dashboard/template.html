@@ -1,66 +1,47 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <ol class="breadcrumb">
-        <li class="active">Home</li>
-      </ol>
+<div class="nm-container">
+  <div class="nm-head">
+    <ol class="breadcrumb">
+      <li><a href="/numi-prototypes/">Home</a></li>
+    </ol>
+  </div>
 
-      <!-- Nav tabs -->
-      <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#dialogues" aria-controls="dialogues" role="tab" data-toggle="tab">Dialogues</a></li>
-        <li role="presentation"><a href="#filters" aria-controls="filters" role="tab" data-toggle="tab">Filters</a></li>
-      </ul>
+  <div class="nm-body nm-body-dashboard">
+    <div class="nm-dashboard-actions clearfix">
+      <div class="btn-group pull-right">
+        <button class="btn btn-default nm-placeholder nm-placeholder-default">+ Add dialogue</button>
+      </div>
+    </div>
 
-      <!-- Tab panes -->
-      <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="dialogues">
-          <br />
-          {{^dialogues}}
-          <div class="alert alert-info alert-dismissible" role="alert" style="width: 400px;">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <p>Add a <strong>Dialogue</strong> to get started.</p>
-          </div>
-          {{/dialogues}}
+    <div class="list-group nm-dashboard-dialogue-list">
+      {{#dialogues}}
+      <div class="list-group-item nm-dashboard-dialogue-item">
+        <a class="list-group-item-heading nm-dashboard-dialogue-header" href="./dialogues/{{id}}">
+          {{name}}
+        </a>
 
-          <div class="sortable-blocks">
-            {{#dialogues}}
-            <div class="panel panel-default text-left" id="coll{{id}}">
-              <button type="button" class="close" on-click="destroy(id)"><span>&times;</span></button>
-              {{#eventPreview}}
-              <div class="panel-heading">
-                {{eventPreview}}
-              </div>
-              {{/eventPreview}}
-              <a href="./dialogues/{{id}}" class="btn btn-link btn-block">{{name}}</a>
-            </div>
-            {{/dialogues}}
+        <div class="nm-dashboard-dialogue-body">
+          <div class="btn-group pull-right">
+            <button class="btn btn-default">
+              Download <span class="glyphicon glyphicon-chevron-down"></span>
+            </button>
+
+            <button class="btn btn-default">
+              Publish
+            </button>
+
+            <button class="btn btn-default">
+              <span class="glyphicon glyphicon-trash"></span> Archive
+            </button>
           </div>
 
-          <button class="btn btn-default nm-placeholder" on-click="newDialogue()">+ Add dialogue</button>
-        </div>
+          {{#lastEdit}}
+          <p><strong>Edited</strong> on {{lastEdit}} by you</p>
+          {{/lastEdit}}
 
-        <div role="tabpanel" class="tab-pane" id="filters">
-          <br />
-          {{^filters}}
-          <div class="alert alert-info alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <p><strong>Filters</strong> select a group of users based a set of <strong>conditions</strong> that you choose.</p>
-            <p>Add <strong>Save Answer</strong> or <strong>Add label to user</strong> steps in a <strong><a href="#dialogues">Dialogue</a></strong> to use them in filters.</p>
-          </div>
-          {{/filters}}
-
-          <div class="sortable-blocks">
-            {{#filters}}
-            <div class="panel panel-default text-left">
-              <a href="./filters/{{id}}" class="btn btn-link btn-block">{{name}}</a>
-            </div>
-            {{/filters}}
-          </div>
-
-          <button class="btn btn-default btn-block nm-placeholder" on-click="newFilter()">+ Add filter</button>
+          {{#hasUnpublishedChanges}}
+            <p class="label label-warning">Has unpublished changes</p>
+          {{/hasUnpublishedChanges}}
         </div>
       </div>
-
-    </div>
-  </div>
+      {{/dialogues}}
 </div>

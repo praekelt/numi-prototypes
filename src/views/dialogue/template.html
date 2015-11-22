@@ -4,21 +4,6 @@
       <li><a href="/numi-prototypes/">Home</a></li>
       <li class="active">Dialogue: {{name}}</li>
     </ol>
-
-    <div class="nm-dialogue-title">
-      <div class="nm-name" on-click="rename()">{{ name }}</div>
-
-      <div class="nm-rename well">
-        <div class="form-group">
-          <h3>
-            <textarea class="nm-rename-value" value="{{ name }}"></textarea>
-          </h3>
-        </div>
-
-        <button class="btn btn-sm btn-default" on-click="hideRename()">Save</button>
-        <button class="btn btn-sm btn-link" on-click="cancelRename()">Cancel</button>
-      </div>
-    </div>
   </div>
 
   <div class="nm-body">

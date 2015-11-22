@@ -1,5 +1,6 @@
 var $ = require('jquery');
 var _ = require('lodash');
+var moment = require('moment');
 var uuid = require('node-uuid');
 var Ractive = require('ractive');
 var hist = require('../../hist');
@@ -27,7 +28,7 @@ module.exports = Ractive.extend({
 
     this.set({
       silent: null,
-      lastEdit: +(new Date()),
+      lastEdit: moment().format("ddd, MMM D YYYY, h:mm a"),
       hasUnpublishedChanges: true
     });
   },

@@ -14,9 +14,10 @@ $fg1: #999;
 $fg2: #ccc;
 $fg3: #eee;
 $fg4: #ddd;
+$fg-link: #337ab7;
 
-$head-height: 50px;
-$body-height: calc(100vh - 50px);
+$head-height: 45px;
+$body-height: calc(100vh - 45px);
 $sequence-header-height: 50px;
 $sequence-footer-height: 50px;
-$sequence-body-height: calc(100vh - 180px); // account for scrollbars
+$sequence-body-height: calc(100vh - 175px); // account for scrollbars

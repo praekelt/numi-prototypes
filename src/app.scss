@@ -46,7 +46,7 @@ body {
   overflow: hidden;
 }
 
-.btn {
+.btn-default {
   color: $fg0 !important;
 }
 
@@ -60,6 +60,10 @@ body {
   color: $fg0;
   border-style: dashed;
   background: $bg3;
+}
+
+.nm-placeholder-default {
+  background: $bg0;
 }
 
 .nm-placeholder-block {
@@ -568,4 +572,40 @@ a.nm-preview-list-item {
       border-bottom-left-radius: 0;
     }
   }
+}
+
+.nm-body-dashboard {
+  margin: 0 auto;
+
+  @media (min-width: 768px) {
+    max-width: 80vw;
+  }
+}
+
+.nm-dashboard-actions {
+  margin: 14px;
+}
+
+.nm-dashboard-dialogue-item {
+  padding: 0;
+}
+
+.nm-dashboard-dialogue-header {
+  color: $fg-link;
+  display: block;
+  background: $bg2;
+  font-size: 1.3em;
+  width: 100%;
+  padding: 6px 12px;
+}
+
+.nm-dashboard-dialogue-body {
+  padding: 12px;
+}
+
+.nm-dashboard-dialogue-actions {
+}
+
+.nm-dashboard-dialogue-list {
+  margin: 14px;
 }
