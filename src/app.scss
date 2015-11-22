@@ -526,8 +526,10 @@ a.nm-preview-list-item {
 }
 
 a.nm-list-group-item-drawer {
+  background: $bg4 !important;
+
   &:hover, &:focus {
-    background: $bg3;
+    background: $bg3 !important;
   }
 }
 

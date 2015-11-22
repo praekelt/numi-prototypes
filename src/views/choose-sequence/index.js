@@ -23,7 +23,7 @@ module.exports = Ractive.extend({
     });
 
     list.once('chosen', function(id) {
-      this.choose(id);
+      self.choose(id);
       drawers.close(self);
       drawers.close(list);
     });
