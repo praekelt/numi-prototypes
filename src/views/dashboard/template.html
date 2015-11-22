@@ -8,7 +8,7 @@
   <div class="nm-body nm-body-dashboard">
     <div class="nm-dashboard-actions clearfix">
       <div class="btn-group pull-right">
-        <button class="btn btn-default nm-placeholder nm-placeholder-default">+ Add dialogue</button>
+        <button class="btn btn-default nm-placeholder nm-placeholder-default" on-click="createDialogue()">+ Add new dialogue</button>
       </div>
     </div>
 
@@ -26,10 +26,6 @@
             </button>
 
             <button class="btn btn-default">
-              Publish
-            </button>
-
-            <button class="btn btn-default">
               <span class="glyphicon glyphicon-trash"></span> Archive
             </button>
           </div>
@@ -39,7 +35,7 @@
           {{/lastEdit}}
 
           {{#hasUnpublishedChanges}}
-            <p class="label label-warning">Has unpublished changes</p>
+          <p class="label label-warning">Has unpublished changes</p>
           {{/hasUnpublishedChanges}}
         </div>
       </div>

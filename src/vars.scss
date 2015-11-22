@@ -16,8 +16,10 @@ $fg3: #eee;
 $fg4: #ddd;
 $fg-link: #337ab7;
 
-$head-height: 45px;
-$body-height: calc(100vh - 45px);
+$head-height: 35px;
+$body-height: calc(100vh - 35px);
 $sequence-header-height: 50px;
 $sequence-footer-height: 50px;
-$sequence-body-height: calc(100vh - 175px); // account for scrollbars
+
+// account for scrollbars and dashboard title
+$sequence-body-height: calc(100vh - 190px);

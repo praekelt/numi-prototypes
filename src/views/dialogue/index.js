@@ -13,7 +13,7 @@ module.exports = Ractive.extend({
     return {
       silent: null,
       sequences: [],
-      lastEdit: null,
+      lastEdit: newDate(),
       hasUnpublishedChanges: false,
       _prev: hist.pop()
     };
@@ -28,7 +28,7 @@ module.exports = Ractive.extend({
 
     this.set({
       silent: null,
-      lastEdit: moment().format("ddd, MMM D YYYY, h:mm a"),
+      lastEdit: newDate(),
       hasUnpublishedChanges: true
     });
   },
@@ -38,11 +38,13 @@ module.exports = Ractive.extend({
       hasUnpublishedChanges: false
     });
   },
-  onrender: function() {
-    $(this.find('.nm-rename')).hide();
-    hist.push(this);
-  },
   oncomplete: function() {
+    hist.push(this);
+
+    $(this.el)
+      .find('.nm-rename')
+      .hide();
+
     $(this.el)
       .find('.sortable-blocks')
       .sortable();
@@ -118,3 +120,8 @@ module.exports = Ractive.extend({
     }
   }
 });
+
+
+function newDate() {
+  return moment().format("ddd, MMM D YYYY, h:mm a");
+}

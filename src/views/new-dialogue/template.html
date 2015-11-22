@@ -1,0 +1,21 @@
+<div>
+  <h4 class="page-header">
+    Create new dialogue
+    <button class="close" on-click="close()">&times</button>
+  </h4>
+
+  <div class="grid-form">
+    <fieldset>
+      <div data-row-span="1">
+        <div data-field-span="1">
+          <label>Name of the new dialogue</label>
+          <input type="text" value="{{name}}">
+        </div>
+      </div>
+    </fieldset>
+  </div>
+
+  <br/>
+
+  <button type="button" class="btn btn-default pull-left" on-click="create()">Create <span class="glyphicon glyphicon-chevron-right"></span></button>
+</div>

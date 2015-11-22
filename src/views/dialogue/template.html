@@ -7,7 +7,20 @@
   </div>
 
   <div class="nm-body">
-    {{#sequenceChain}}
+    <div class="nm-dialogue-title">
+      <div class="nm-name" on-click="rename()">{{ name }}</div>
+
+      <div class="nm-rename well">
+        <div class="form-group">
+          <textarea class="nm-rename-value" value="{{ name }}"></textarea>
+        </div>
+
+        <button class="btn btn-sm btn-default" on-click="hideRename()">Save</button>
+        <button class="btn btn-sm btn-link" on-click="cancelRename()">Cancel</button>
+      </div>
+    </div>
+
+   {{#sequenceChain}}
     <div class="nm-sequence-wrapper">
       <div class="nm-sequence">
         <seqsurrogate></seqsurrogate>

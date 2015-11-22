@@ -4,8 +4,10 @@ var uuid = require('node-uuid');
 var Ractive = require('ractive');
 var FilterEdit = require('../filter-edit');
 var NewFilter = require('../new-filter');
+var NewDialogue = require('../new-dialogue');
 var Dialogue = require('../dialogue');
 var pg = require('../../pg');
+var drawers = require('../../drawers');
 var seqtree = require('../../seqtree');
 
 
@@ -25,6 +27,12 @@ module.exports = Ractive.extend({
         dialogue.publish();
       });
   },
+  createDialogue: function() {
+    drawers.open(NewDialogue({
+      el: $('<div>'),
+      data: {dashboard: this}
+    }));
+  },
   addFilter: function(name) {
     var d = {
       id: 'filter' + this.get('filters').length,
@@ -42,7 +50,7 @@ module.exports = Ractive.extend({
       name: name,
       sequences: [{
         id: entrySeqId,
-        name: 'Entry',
+        name: 'Start of ' + name,
         blocks: []
       }],
       seqtree: seqtree.create([entrySeqId, null, null])
