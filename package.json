@@ -4,6 +4,7 @@
   "description": "Vue project example using Webpack as the bundler.",
   "main": "src/main.js",
   "dependencies": {
+    "bootbox": "^4.4.0",
     "gridforms": "git+ssh://git@github.com/kumailht/gridforms.git",
     "jquery": "^2.1.4",
     "jquery-mousewheel": "^3.1.13",

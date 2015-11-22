@@ -9,6 +9,7 @@
     <div class="nm-dashboard-actions clearfix">
       <div class="btn-group pull-right">
         <button class="btn btn-default nm-placeholder nm-placeholder-default" on-click="createDialogue()">+ Add dialogue</button>
+        <button class="btn btn-default" on-click="confirmPublish()" {{^hasUnpublishedChanges}}disabled{{/hasUnpublishedChanges}}>Publish</button>
       </div>
     </div>
 

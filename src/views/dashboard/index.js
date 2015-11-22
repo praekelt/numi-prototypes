@@ -9,6 +9,7 @@ var Dialogue = require('../dialogue');
 var pg = require('../../pg');
 var drawers = require('../../drawers');
 var seqtree = require('../../seqtree');
+var bootbox = require('bootbox');
 
 
 module.exports = Ractive.extend({
@@ -26,6 +27,21 @@ module.exports = Ractive.extend({
       .forEach(function(dialogue) {
         dialogue.publish();
       });
+
+    this.update();
+  },
+  confirmPublish: function() {
+    var self = this;
+
+    bootbox.confirm({
+      message: [
+        "Publishing is irreversable. ",
+        "Are you sure you would like to publish?"
+      ].join(' '),
+      callback: function(result) {
+        if (result) self.publish();
+      }
+    });
   },
   createDialogue: function() {
     drawers.open(NewDialogue({
@@ -96,6 +112,9 @@ module.exports = Ractive.extend({
             data: d
           });
         });
+    },
+    hasUnpublishedChanges: function() {
+      return _.any(_.pluck(this.get('dialogues'), 'hasUnpublishedChanges'));
     }
   },
   oncomplete: function() {
