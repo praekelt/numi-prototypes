@@ -397,14 +397,14 @@ hr {
         border-right-color: $bg1 !important;
       }
 
-      input {
-        font-size: 1em;
-        width: auto !important;
-      }
-
       .nm-choice-text {
         width: 100%;
         display: block;
+
+        input {
+          width: 95% !important;
+          font-size: 1em;
+        }
       }
     }
 
