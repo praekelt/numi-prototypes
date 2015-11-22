@@ -43,7 +43,7 @@ html {
 body {
   color: $fg0;
   background-color: $bg0;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .btn-default {
@@ -194,24 +194,42 @@ hr {
   }
 }
 
+.nm-container-dashboard {
+  overflow-y: scroll;
+}
+
 .nm-head {
-  position: fixed;
+  position: absolute;
   height: $head-height;
 }
 
 .nm-body {
   position: absolute;
+
   top: $head-height;
   left: 0;
   right: 0;
   bottom: 0;
+
+}
+
+.nm-body-dialogue {
   padding-left: 20px;
   padding-right: 20px;
-  height: $body-height;
-  overflow-y: hidden;
-  overflow-x: auto;
+
   @include x-scrollbar();
+  overflow-x: auto;
+  overflow-y: hidden;
   white-space: nowrap;
+  height: $body-height;
+}
+
+.nm-body-dashboard {
+  margin: 0 auto;
+
+  @media (min-width: 768px) {
+    max-width: 70vw;
+  }
 }
 
 .nm-sequence-title {
@@ -571,14 +589,6 @@ a.nm-preview-list-item {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }
-  }
-}
-
-.nm-body-dashboard {
-  margin: 0 auto;
-
-  @media (min-width: 768px) {
-    max-width: 80vw;
   }
 }
 
