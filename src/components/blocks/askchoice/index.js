@@ -3,6 +3,7 @@ var _ = require('lodash');
 var uuid = require('node-uuid');
 var Base = require('../base');
 var drawers = require('../../../drawers');
+var seqtree = require('../../../seqtree');
 var ChooseSequence = require('../../../views/choose-sequence');
 
 

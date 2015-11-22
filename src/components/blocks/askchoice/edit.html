@@ -34,11 +34,13 @@
           </div>
 
           {{#route}}
-          <p>
-          &nbsp↳ <a href="#">{{getSequenceName(route)}}</a>
-          <button class="btn btn-xs btn-default" on-click="setRoute(id)">Change</button>
-          <button class="btn btn-xs btn-default" on-click="removeRoute(id)">Remove</button>
-          </p>
+          <div>
+            &nbsp↳ <a href="#">{{getSequenceName(route)}}</a>
+            <div class="btn-group btn-group-xs">
+              <button class="btn btn-default" on-click="setRoute(id)">Change</button>
+              <button class="btn btn-default" on-click="removeRoute(id)">Remove</button>
+            </div>
+          </div>
           {{/route}}
         </div>
 
@@ -60,12 +62,12 @@
         </div>
         {{/useAnswerSaving}}
 
-        <div class="nm-choice-actions pull-right">
+        <div class="nm-choice-actions pull-right btn-group btn-group-xs">
           {{^route}}
           <button class="btn btn-xs btn-default" on-click="setRoute(id)">↳ Route</button>&nbsp
           {{/route}}
 
-          <button class="close">&times</button>
+          <button class="btn btn-xs btn-default">Remove</button>
         </div>
       </div>
       {{/allChoices}}
