@@ -18,14 +18,24 @@ var Base = Ractive.extend({
 
     var edit = this.constructor.Edit({
       el: $('<div>'),
-      data: _.extend(this.get(), {dialogue: this.get('dialogue')})
+      data: _.extend(this.get(), {
+        block: this,
+        dialogue: this.get('dialogue')
+      })
     });
 
     edit.on('change', function() {
-      self.set(_.omit(edit.get(), 'dialogue'));
+      self.set(_.omit(edit.get(), 'block', 'dialogue'));
     });
 
     return edit;
+  },
+  selectItem: function(seqId, itemId) {
+    this.get('dialogue').selectBlockItem(
+      this.get('nodeId'),
+      seqId,
+      this.get('id'),
+      itemId);
   },
   computed: {
     dialogue: function() {

@@ -3,7 +3,6 @@ var _ = require('lodash');
 var uuid = require('node-uuid');
 var Base = require('../base');
 var drawers = require('../../../drawers');
-var seqtree = require('../../../seqtree');
 var ChooseSequence = require('../../../views/choose-sequence');
 
 
@@ -23,14 +22,13 @@ var AskChoice = Base.extend({
       }
     };
   },
-  onChoiceClick(e, seqId, id) {
+  selectChoice(id) {
+    var choice = _.find(this.get('allChoices'), {id: id});
+    this.selectItem(choice.route, id);
+  },
+  onChoiceClick(e, id) {
     e.original.preventDefault();
-
-    this.get('dialogue').selectBlockItem(
-      this.get('nodeId'),
-      seqId,
-      this.get('id'),
-      id);
+    this.selectChoice(id);
   },
   computed: {
     choices: function() {
@@ -59,9 +57,13 @@ AskChoice.Edit = Base.Edit.extend({
     choice.route = null;
     this.update('allChoices');
   },
+  onRouteClick: function(e, id) {
+    e.original.preventDefault();
+    this.get('block').selectChoice(id);
+  },
   setRoute: function(id) {
-    var self = this;
     var choice = _.find(this.get('allChoices'), {id: id});
+    var self = this;
 
     var chooser = ChooseSequence({
       el: $('<div>'),
@@ -70,17 +72,18 @@ AskChoice.Edit = Base.Edit.extend({
 
     chooser.once('chosen', function(seqId) {
       choice.route = seqId;
-      self.showRoute(id);
       self.update();
+      self.get('block').selectItem(seqId, id);
     });
 
     drawers.open(chooser);
   },
-  showRoute: function(id) {
-  },
   data: {
     getSequenceName: function(id) {
-      return _.find(this.get('dialogue').get('sequences'), {id: id}).name;
+      return _.find(this
+        .get('dialogue')
+        .get('sequences'), {id: id})
+        .name;
     }
   },
   computed: {

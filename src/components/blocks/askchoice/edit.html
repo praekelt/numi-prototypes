@@ -35,7 +35,7 @@
 
           {{#route}}
           <div>
-            &nbsp↳ <a href="#">{{getSequenceName(route)}}</a>
+            &nbsp↳ <a href="#" on-click="onRouteClick(event, id)">{{getSequenceName(route)}}</a>
             <div class="btn-group btn-group-xs">
               <button class="btn btn-default" on-click="setRoute(id)">Change</button>
               <button class="btn btn-default" on-click="removeRoute(id)">Remove</button>

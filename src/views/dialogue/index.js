@@ -32,12 +32,6 @@ module.exports = Ractive.extend({
       hasUnpublishedChanges: true
     });
   },
-  publish: function() {
-    this.set({
-      silent: true,
-      hasUnpublishedChanges: false
-    });
-  },
   oncomplete: function() {
     hist.push(this);
 
@@ -54,6 +48,12 @@ module.exports = Ractive.extend({
         if ($(e.target).parents('.nm-sequence').length) return;
         this.scrollLeft -= delta * 30;
       });
+  },
+  publish: function() {
+    this.set({
+      silent: true,
+      hasUnpublishedChanges: false
+    });
   },
   addSequence: function(name) {
     var seq ={
