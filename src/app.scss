@@ -383,6 +383,10 @@ hr {
 .grid-form {
   label {
     color: $fg0 !important;
+
+    &.nm-unused {
+      color: $fg1 !important;
+    }
   }
 
   [data-row-span] {
