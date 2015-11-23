@@ -504,10 +504,20 @@ a.nm-preview-list-item {
   top: calc(50% - 14px);
 }
 
+.nm-block-wrapper {
+  &:last-child {
+    .nm-block-separator {
+      display: none;
+    }
+  }
+}
+
 .nm-block-separator {
-  color: $fg1;
-  margin-top: 14px;
-  margin-bottom: 14px;
+  span {
+    color: $fg1;
+    margin-top: 14px;
+    margin-bottom: 14px;
+  }
 }
 
 .nm-block-category-title {

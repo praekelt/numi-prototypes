@@ -20,13 +20,11 @@
     {{#blocks:i}}
       <div class="nm-block-wrapper" data-id="{{id}}">
         {{>blocks}}
-      </div>
 
-      {{#i < blocks.length - 1 }}
-      <div class="text-center">
-        <span class="nm-block-separator glyphicon glyphicon-menu-down"></span>
+        <div class="text-center nm-block-separator">
+          <span class="glyphicon glyphicon-menu-down"></span>
+        </div>
       </div>
-      {{/}}
     {{/blocks}}
   </div>
 </div>
