@@ -117,7 +117,12 @@ module.exports = Ractive.extend({
       return _.any(_.pluck(this.get('dialogues'), 'hasUnpublishedChanges'));
     },
     userFields: function() {
-      return _(this.get('dialogues'))
+      return [{
+          id: 'msisdn',
+          name: 'msisdn',
+          special: true
+        }]
+        .concat(_(this.get('dialogues'))
         .pluck('sequences')
         .flatten()
         .pluck('blocks')
@@ -130,7 +135,7 @@ module.exports = Ractive.extend({
             name: v
           };
         })
-        .value();
+        .value());
     }
   },
   oncomplete: function() {

@@ -9,7 +9,8 @@
       <span class="panel-title">User fields</span>
     </div>
     <div class="list-group">
-    {{#fields}}
+
+    {{#parsedFields}}
       <div class="list-group-item">
         <div class="list-group-item-heading nm-type-heading">{{name}}</div>
         <div>
@@ -18,10 +19,13 @@
             <button class="btn btn-default" on-click="choose(key)">Change</button>
             <button class="btn btn-default" on-click="remove(key)">Remove</button>
           </div>
-
           {{/userField}}
+
           {{#userField}}
-          <p>{{userField}}</p>
+          <p>
+          {{#special}}<i>{{name}}</i>{{/special}}
+          {{^special}}{{name}}{{/special}}
+          </p>
           {{/userField}}
 
           {{^userField}}
@@ -29,7 +33,7 @@
           {{/userField}}
         </div>
       </div>
-    {{/fields}}
+    {{/parsedFields}}
     </div>
   </div>
 

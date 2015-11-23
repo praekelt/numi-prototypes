@@ -9,7 +9,10 @@
 
   <div class="list-group">
     {{#items}}
-    <a class="list-group-item nm-list-group-item-drawer" href="#" on-click="choose(event, id)">{{name}}</a>
+    <a class="list-group-item nm-list-group-item-drawer" href="#" on-click="choose(event, id)">
+      {{#special}}<i>{{name}}</i>{{/special}}
+      {{^special}}{{name}}{{/special}}
+    </a>
     {{/items}}
   </div>
 </div>

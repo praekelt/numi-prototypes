@@ -26502,7 +26502,12 @@
 	      return _.any(_.pluck(this.get('dialogues'), 'hasUnpublishedChanges'));
 	    },
 	    userFields: function() {
-	      return _(this.get('dialogues'))
+	      return [{
+	          id: 'msisdn',
+	          name: 'msisdn',
+	          special: true
+	        }]
+	        .concat(_(this.get('dialogues'))
 	        .pluck('sequences')
 	        .flatten()
 	        .pluck('blocks')
@@ -26515,7 +26520,7 @@
 	            name: v
 	          };
 	        })
-	        .value();
+	        .value());
 	    }
 	  },
 	  oncomplete: function() {
@@ -72934,7 +72939,7 @@
 /* 190 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"button","a":{"class":"btn btn-link pull-right"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["← Back"]}," ",{"t":7,"e":"h4","a":{"class":"page-header"},"f":[{"t":2,"r":"title"}]}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer","href":"#"},"v":{"click":{"m":"choose","a":{"r":["event","id"],"s":"[_0,_1]"}}},"f":[{"t":2,"r":"name"}]}],"r":"items"}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"button","a":{"class":"btn btn-link pull-right"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["← Back"]}," ",{"t":7,"e":"h4","a":{"class":"page-header"},"f":[{"t":2,"r":"title"}]}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer","href":"#"},"v":{"click":{"m":"choose","a":{"r":["event","id"],"s":"[_0,_1]"}}},"f":[{"t":4,"f":[{"t":7,"e":"i","f":[{"t":2,"r":"name"}]}],"r":"special"}," ",{"t":4,"f":[{"t":2,"r":"name"}],"n":51,"r":"special"}]}],"r":"items"}]}]}]};
 
 /***/ },
 /* 191 */
@@ -74709,13 +74714,17 @@
 	    return {
 	      title: 'MomConnect: Register the user',
 	      fields: [{
+	        key: 'msisdn',
+	        name: 'msisdn',
+	        userFieldId: 'msisdn'
+	      }, {
 	        key: 'clinic-code',
 	        name: 'Clinic Code',
-	        userField: null
+	        userFieldId: null
 	      }, {
 	        key: 'edd',
 	        name: 'Expected Due Date',
-	        userField: null
+	        userFieldId: null
 	      }]
 	    };
 	  }
@@ -74747,10 +74756,25 @@
 
 	Action.Edit = Base.Edit.extend({
 	  template: __webpack_require__(248),
+	  computed: {
+	    parsedFields: function() {
+	      var userFields = dashboard.get('userFields');
+
+	      return this.get('fields')
+	        .map(function(d) {
+	          return {
+	            key: d.key,
+	            name: d.name,
+	            userField: d.userFieldId
+	              ? _.find(userFields, {id: d.userFieldId})
+	              : null
+	          };
+	        });
+	    }
+	  },
 	  choose: function(key) {
 	    var self = this;
 	    var i = _.findIndex(this.get('fields'), {key: key});
-	    console.log(i);
 
 	    var list = Chooser({
 	      el: $('<div>'),
@@ -74761,7 +74785,7 @@
 	    });
 
 	    list.once('chosen', function(id) {
-	      self.set('fields.' + i + '.userField', id);
+	      self.set('fields.' + i + '.userFieldId', id);
 	      drawers.close(list);
 	    });
 
@@ -74769,7 +74793,7 @@
 	  },
 	  remove: function(key) {
 	    var i = _.findIndex(this.get('fields'), {key: key});
-	    this.set('fields.' + i + '.userField', null);
+	    this.set('fields.' + i + '.userFieldId', null);
 	  }
 	});
 
@@ -74787,7 +74811,7 @@
 /* 248 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h4","a":{"class":"page-header"},"f":[{"t":2,"r":"title"}," ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading nm-panel-heading-drawer"},"f":[{"t":7,"e":"span","a":{"class":"panel-title"},"f":["User fields"]}]}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item-heading nm-type-heading"},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"div","f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"pull-right btn-group btn-group-sm"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"choose","a":{"r":["key"],"s":"[_0]"}}},"f":["Change"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"remove","a":{"r":["key"],"s":"[_0]"}}},"f":["Remove"]}]}],"r":"userField"}," ",{"t":4,"f":[{"t":7,"e":"p","f":[{"t":2,"r":"userField"}]}],"r":"userField"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"choose","a":{"r":["key"],"s":"[_0]"}}},"f":["Choose user field"]}],"n":51,"r":"userField"}]}]}],"r":"fields"}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h4","a":{"class":"page-header"},"f":[{"t":2,"r":"title"}," ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading nm-panel-heading-drawer"},"f":[{"t":7,"e":"span","a":{"class":"panel-title"},"f":["User fields"]}]}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item-heading nm-type-heading"},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"div","f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"pull-right btn-group btn-group-sm"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"choose","a":{"r":["key"],"s":"[_0]"}}},"f":["Change"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"remove","a":{"r":["key"],"s":"[_0]"}}},"f":["Remove"]}]}],"r":"userField"}," ",{"t":4,"f":[{"t":7,"e":"p","f":[{"t":4,"f":[{"t":7,"e":"i","f":[{"t":2,"r":"name"}]}],"r":"special"}," ",{"t":4,"f":[{"t":2,"r":"name"}],"n":51,"r":"special"}]}],"r":"userField"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"choose","a":{"r":["key"],"s":"[_0]"}}},"f":["Choose user field"]}],"n":51,"r":"userField"}]}]}],"r":"parsedFields"}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ }
 /******/ ]);

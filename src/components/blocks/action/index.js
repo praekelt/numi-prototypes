@@ -11,10 +11,25 @@ var Action = Base.extend({
 
 Action.Edit = Base.Edit.extend({
   template: require('./edit.html'),
+  computed: {
+    parsedFields: function() {
+      var userFields = dashboard.get('userFields');
+
+      return this.get('fields')
+        .map(function(d) {
+          return {
+            key: d.key,
+            name: d.name,
+            userField: d.userFieldId
+              ? _.find(userFields, {id: d.userFieldId})
+              : null
+          };
+        });
+    }
+  },
   choose: function(key) {
     var self = this;
     var i = _.findIndex(this.get('fields'), {key: key});
-    console.log(i);
 
     var list = Chooser({
       el: $('<div>'),
@@ -25,7 +40,7 @@ Action.Edit = Base.Edit.extend({
     });
 
     list.once('chosen', function(id) {
-      self.set('fields.' + i + '.userField', id);
+      self.set('fields.' + i + '.userFieldId', id);
       drawers.close(list);
     });
 
@@ -33,7 +48,7 @@ Action.Edit = Base.Edit.extend({
   },
   remove: function(key) {
     var i = _.findIndex(this.get('fields'), {key: key});
-    this.set('fields.' + i + '.userField', null);
+    this.set('fields.' + i + '.userFieldId', null);
   }
 });
 

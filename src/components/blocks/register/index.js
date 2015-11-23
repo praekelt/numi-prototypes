@@ -6,13 +6,17 @@ var Register = Action.extend({
     return {
       title: 'MomConnect: Register the user',
       fields: [{
+        key: 'msisdn',
+        name: 'msisdn',
+        userFieldId: 'msisdn'
+      }, {
         key: 'clinic-code',
         name: 'Clinic Code',
-        userField: null
+        userFieldId: null
       }, {
         key: 'edd',
         name: 'Expected Due Date',
-        userField: null
+        userFieldId: null
       }]
     };
   }
