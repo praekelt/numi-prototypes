@@ -103,9 +103,17 @@ BlockLibrary.palletes = [{
     key: 'screens',
     name: 'Screens',
     blocks: [{
-      name: 'Enter Clinic Code',
+      name: 'Ask for Clinic Code',
       type: 'entercliniccode',
       helptext: 'Users are asked to enter their clinic code. The code is then validated. If users enter an invalid code, they are asked to re-enter the code.'
+    }]
+  }, {
+    key: 'actions',
+    name: 'Actions',
+    blocks: [{
+      name: 'Register the user',
+      type: 'register',
+      helptext: 'Users are registered to receive stage-based messages.'
     }]
   }]
 }];

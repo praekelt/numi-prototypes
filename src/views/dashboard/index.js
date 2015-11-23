@@ -115,6 +115,22 @@ module.exports = Ractive.extend({
     },
     hasUnpublishedChanges: function() {
       return _.any(_.pluck(this.get('dialogues'), 'hasUnpublishedChanges'));
+    },
+    userFields: function() {
+      return _(this.get('dialogues'))
+        .pluck('sequences')
+        .flatten()
+        .pluck('blocks')
+        .flatten()
+        .pluck('saveAs')
+        .compact()
+        .map(function(v) {
+          return {
+            id: v,
+            name: v
+          };
+        })
+        .value();
     }
   },
   oncomplete: function() {

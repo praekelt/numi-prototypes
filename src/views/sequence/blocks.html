@@ -1,5 +1,5 @@
 {{# type === 'ask' }}
-<ask text="{{text}}"></ask>
+<ask text="{{text}}" saveAs="{{saveAs}}"></ask>
 {{/}}
 
 {{# type === 'askchoice' }}
@@ -8,6 +8,10 @@
 
 {{# type === 'route' }}
 <route id="{{id}}" seqId="{{seqId}}" itemId="{{itemId}}"></route>
+{{/}}
+
+{{# type === 'register' }}
+<register fields="{{fields}}"></register>
 {{/}}
 
 {{# type === 'choice' }}
