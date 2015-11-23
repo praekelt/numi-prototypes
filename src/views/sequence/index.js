@@ -94,6 +94,8 @@ module.exports = Ractive.extend({
     ask: require('../../components/blocks/ask'),
     askchoice: require('../../components/blocks/askchoice'),
     register: require('../../components/blocks/register'),
+    unsubscribe: require('../../components/blocks/unsubscribe'),
+    optout: require('../../components/blocks/optout'),
     route: require('../../components/blocks/route'),
     choice: require('../../components/blocks/choice'),
     end: require('../../components/blocks/end'),

@@ -113,7 +113,15 @@ BlockLibrary.palletes = [{
     blocks: [{
       name: 'Register the user',
       type: 'register',
-      helptext: 'Users are registered to receive stage-based messages.'
+      helptext: 'The users is registered to receive stage-based messages.'
+    }, {
+      name: 'Unsubscribe the user',
+      type: 'unsubscribe',
+      helptext: 'The user is unsubscribed from receiving stage-based messages, but may be willing to subscribe again in future.'
+    }, {
+      name: 'Opt out the user',
+      type: 'optout',
+      helptext: 'The user is opted out of receiving stage-based messages, and will not resubscribed in the future.'
     }]
   }]
 }];
