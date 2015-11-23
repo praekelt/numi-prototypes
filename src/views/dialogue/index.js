@@ -19,9 +19,10 @@ module.exports = Ractive.extend({
     };
   },
   selectBlockItem: function(nodeId, seqId, blockId, itemId) {
-    var node = seqtree.find(this.get('seqtree'), nodeId);
+    var root = this.get('seqtree');
+    var node = seqtree.find(root, nodeId);
     seqtree.select(node, [seqId, blockId, itemId]);
-    this.update('seqtree');
+    this.set('seqtree', root);
   },
   onchange: function(props) {
     if ('silent' in props) return;
@@ -113,7 +114,7 @@ module.exports = Ractive.extend({
         });
 
         results.push(_.extend({}, seq, {nodeId: node.id}));
-        node = node.current;
+        node = node.children[node.currentIdx];
       }
 
       return results;

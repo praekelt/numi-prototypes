@@ -7,25 +7,38 @@ function create(key) {
     key: key,
     id: uuid.v4(),
     children: [],
-    current: null
+    currentIdx: null
   };
 }
 
 
 function select(node, key) {
-  var child = _.find(node.children, {key: key});
+  var i = _.findIndex(node.children, {key: key});
 
-  if (!child) {
+  if (i < 0) {
     child = create(key);
+    i = node.children.length;
     node.children.push(child);
   }
 
-  node.current = child;
+  node.currentIdx = i;
 }
 
 
 function find(root, id) {
-  return _.find(all(root), {id: id});
+  var result;
+  recur(root);
+  return result;
+
+  function recur(node) {
+    if (node.id === id) {
+      result = node;
+      return true;
+    }
+    else {
+      node.children.some(recur);
+    }
+  }
 }
 
 
