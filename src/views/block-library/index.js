@@ -83,7 +83,7 @@ BlockLibrary.palletes = [{
       type: 'askchoice',
       helptext: 'Users are asked a question with numbered choices and can respond with their choice'
     }, {
-      name: 'End',
+      name: 'End Session',
       type: 'end',
       helptext: 'Users are sent content and the session ends.'
     }]
@@ -91,7 +91,7 @@ BlockLibrary.palletes = [{
     key: 'routing',
     name: 'Routing',
     blocks: [{
-      name: 'Go to',
+      name: 'Go to another sequence',
       type: 'route',
       helptext: 'Route the user to another sequence'
     }]
