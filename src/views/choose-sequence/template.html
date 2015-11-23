@@ -1,7 +1,13 @@
 <div>
+  {{#useClose}}
+  <button class="close" on-click="close()">&times</button>
+  {{/useClose}}
+
+  {{^useClose}}
   <button class="btn btn-link pull-right" on-click="close()">
     ← Back
   </button>
+  {{/useClose}}
 
   <h4 class="page-header">
     Route to another sequence

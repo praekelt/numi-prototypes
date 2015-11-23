@@ -87,6 +87,14 @@ BlockLibrary.palletes = [{
       type: 'send',
       helptext: 'Users are sent content and the session ends.'
     }]
+  }, {
+    key: 'routing',
+    name: 'Routing',
+    blocks: [{
+      name: 'Go to',
+      type: 'route',
+      helptext: 'Route the user to another sequence'
+    }]
   }]
 }, {
   name: 'MomConnect',
