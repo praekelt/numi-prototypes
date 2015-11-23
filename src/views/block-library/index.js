@@ -84,7 +84,7 @@ BlockLibrary.palletes = [{
       helptext: 'Users are asked a question with numbered choices and can respond with their choice'
     }, {
       name: 'End',
-      type: 'send',
+      type: 'end',
       helptext: 'Users are sent content and the session ends.'
     }]
   }, {

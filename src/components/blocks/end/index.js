@@ -1,6 +1,19 @@
 var Base = require('../base');
 
 
-module.exports = Base.extend({
-  template: require('./template.html')
+var Ask = Base.extend({
+  template: require('./preview.html'),
+  data: function() {
+    return {
+      text: '',
+    };
+  }
 });
+
+
+Ask.Edit = Base.Edit.extend({
+  template: require('./edit.html')
+});
+
+
+module.exports = Ask;
