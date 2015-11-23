@@ -48,6 +48,11 @@ module.exports = Ractive.extend({
       .find('.nm-block-wrapper[data-id="' + id + '"] .nm-block-edit')
       .click();
   },
+  removeBlock: function(id) {
+    var blocks = this.get('blocks');
+    var i = _.indexOf(blocks, {id: id});
+    this.splice('blocks', i, 1);
+  },
   components: {
     ask: require('../../components/blocks/ask'),
     askchoice: require('../../components/blocks/askchoice'),

@@ -5,9 +5,7 @@ var drawers = require('../../../drawers');
 
 var Base = Ractive.extend({
   destroy: function() {
-    var seq = this.get('sequence');
-    var blocks = seq.get('blocks');
-    seq.set('blocks', _.reject(blocks, {id: this.get('id')}));
+    this.get('sequence').removeBlock(this.get('id'));
   },
   edit: function() {
     drawers.change(this.getEditView());
@@ -51,6 +49,10 @@ var Base = Ractive.extend({
 Base.Edit = Ractive.extend({
   close: function() {
     drawers.close(this);
+  },
+  destroy: function() {
+    this.get('block').destroy();
+    this.close();
   }
 });
 
