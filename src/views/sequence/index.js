@@ -91,30 +91,5 @@ module.exports = Ractive.extend({
     var i = _.indexOf(blocks, {id: id});
     this.splice('blocks', i, 1);
   },
-  components: {
-    ask: require('../../components/blocks/ask'),
-    askchoice: require('../../components/blocks/askchoice'),
-    register: require('../../components/blocks/register'),
-    unsubscribe: require('../../components/blocks/unsubscribe'),
-    optout: require('../../components/blocks/optout'),
-    askcliniccode: require('../../components/blocks/askcliniccode'),
-    route: require('../../components/blocks/route'),
-    choice: require('../../components/blocks/choice'),
-    end: require('../../components/blocks/end'),
-    send: require('../../components/blocks/send'),
-    saveas: require('../../components/blocks/saveas'),
-    lbl: require('../../components/blocks/label'),
-    rmlbl: require('../../components/blocks/rmlabel'),
-    userdialsin: require('../../components/blocks/userdialsin'),
-    usersendsmessage: require('../../components/blocks/usersendsmessage'),
-    scheduled: require('../../components/blocks/scheduled'),
-    manual: require('../../components/blocks/manual'),
-    validatecliniccode: require('../../components/blocks/validatecliniccode'),
-    shownext9months: require('../../components/blocks/shownext9months'),
-    standardmessageset: require('../../components/blocks/standardmessageset'),
-    latermessageset: require('../../components/blocks/latermessageset'),
-    acceleratedmessageset: require('../../components/blocks/acceleratedmessageset'),
-    calcweeks: require('../../components/blocks/calcweeks'),
-    filter: require('../../components/blocks/filter')
-  }
+  components: require('../../components/blocks')
 });

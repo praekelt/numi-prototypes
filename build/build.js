@@ -72397,32 +72397,7 @@
 	    var i = _.indexOf(blocks, {id: id});
 	    this.splice('blocks', i, 1);
 	  },
-	  components: {
-	    ask: __webpack_require__(182),
-	    askchoice: __webpack_require__(187),
-	    register: __webpack_require__(192),
-	    unsubscribe: __webpack_require__(196),
-	    optout: __webpack_require__(197),
-	    askcliniccode: __webpack_require__(198),
-	    route: __webpack_require__(201),
-	    choice: __webpack_require__(206),
-	    end: __webpack_require__(210),
-	    send: __webpack_require__(230),
-	    saveas: __webpack_require__(226),
-	    lbl: __webpack_require__(218),
-	    rmlbl: __webpack_require__(224),
-	    userdialsin: __webpack_require__(237),
-	    usersendsmessage: __webpack_require__(240),
-	    scheduled: __webpack_require__(228),
-	    manual: __webpack_require__(222),
-	    validatecliniccode: __webpack_require__(243),
-	    shownext9months: __webpack_require__(232),
-	    standardmessageset: __webpack_require__(235),
-	    latermessageset: __webpack_require__(220),
-	    acceleratedmessageset: __webpack_require__(179),
-	    calcweeks: __webpack_require__(203),
-	    filter: __webpack_require__(213)
-	  }
+	  components: __webpack_require__(178)
 	});
 
 
@@ -72599,7 +72574,6 @@
 /* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports.acceleratedmessageset = __webpack_require__(179);
 	exports.ask = __webpack_require__(182);
 	exports.askchoice = __webpack_require__(187);
 	exports.register = __webpack_require__(192);
@@ -72609,37 +72583,14 @@
 	exports.route = __webpack_require__(201);
 	exports.base = __webpack_require__(180);
 	exports.calcweeks = __webpack_require__(203);
-	exports.choice = __webpack_require__(206);
 	exports.end = __webpack_require__(210);
-	exports.filter = __webpack_require__(213);
-	exports.interaction = __webpack_require__(215);
-	exports.label = __webpack_require__(218);
-	exports.latermessageset = __webpack_require__(220);
-	exports.manual = __webpack_require__(222);
-	exports.rmlabel = __webpack_require__(224);
-	exports.saveas = __webpack_require__(226);
-	exports.scheduled = __webpack_require__(228);
-	exports.send = __webpack_require__(230);
 	exports.shownext9months = __webpack_require__(232);
-	exports.standardmessageset = __webpack_require__(235);
 	exports.userdialsin = __webpack_require__(237);
 	exports.usersendsmessage = __webpack_require__(240);
-	exports.validatecliniccode = __webpack_require__(243);
 
 
 /***/ },
-/* 179 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Base = __webpack_require__(180);
-
-
-	module.exports = Base.extend({
-	  template: __webpack_require__(181)
-	});
-
-
-/***/ },
+/* 179 */,
 /* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -72706,12 +72657,7 @@
 
 
 /***/ },
-/* 181 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Send accelerated message set"]}," "]}]}]};
-
-/***/ },
+/* 181 */,
 /* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -73401,76 +73347,10 @@
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h4","a":{"class":"page-header"},"f":["Calculate expected due date from weeks ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"grid-form"},"f":[{"t":7,"e":"fieldset","f":[{"t":7,"e":"div","a":{"data-row-span":"3"},"f":[{"t":7,"e":"div","a":{"data-field-span":"3","class":[{"t":4,"f":["nm-placeholder-col"],"n":51,"r":"inputFieldId"}]},"v":{"click":{"m":"choose","a":{"r":["inputFieldId"],"s":"[_0]"}}},"f":[{"t":7,"e":"label","f":["User field to use as input"]}," ",{"t":4,"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," ",{"t":7,"e":"span","a":{"class":"nm-static-input nm-static-input-placeholder"},"f":["Choose a user field"]}],"n":51,"r":"inputFieldId"}," ",{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":2,"r":"inputFieldName"}]}],"r":"inputFieldId"}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"pull-right btn-group btn-group-sm nm-row-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"choose","a":{"r":[],"s":"[]"}}},"f":["Change"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"remove","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}],"r":"inputFieldId"}]}," ",{"t":7,"e":"div","a":{"data-row-span":"3"},"f":[{"t":7,"e":"div","a":{"data-field-span":"3"},"f":[{"t":7,"e":"label","m":[{"t":4,"f":["class=\"nm-unused\""],"n":51,"r":"useAnswerSaving"}],"f":["Save result as"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 206 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(180);
-	var pg = __webpack_require__(45);
-	var ChooseDialogue = __webpack_require__(207);
-
-
-	module.exports = Base.extend({
-	  template: __webpack_require__(209),
-	  chooseDialogue: function() {
-	    var colls = ChooseDialogue({el: $('<div>')});
-	    colls.set('source', this);
-	    pg.push(colls);
-	  }
-	});
-
-
-/***/ },
-/* 207 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(1);
-	var Ractive = __webpack_require__(43);
-	var pg = __webpack_require__(45);
-
-
-	module.exports = Ractive.extend({
-	  template: __webpack_require__(208),
-	  computed: {
-	    dialogue: function() {
-	      var screen = this.get('source');
-	      if (!screen) return null;
-
-	      return {
-	        id: screen.parent.get('id'),
-	        name: screen.parent.get('name')
-	      };
-	    },
-	    dialogues: function() {
-	      return dashboard.get('dialogues');
-	    }
-	  },
-	  setChoice: function(dialogue) {
-	    this.get('source').set(this.get('fieldName') || 'dialogue', dialogue);
-	  },
-	  choose: function(dialogue) {
-	    this.setChoice(dialogue);
-	    pg.pop();
-	  },
-	  newDialogue: function() {
-	    // TODO
-	  }
-	});
-
-
-/***/ },
-/* 208 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":["/numi-prototypes/dialogues/",{"t":2,"r":"dialogue.id"}]},"f":["Dialogue: ",{"t":2,"r":"dialogue.name"}]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Choose dialogue"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Choose dialogue"]}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"type":"submit","class":"btn btn-default btn-block"},"v":{"click":{"m":"choose","a":{"r":["."],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}],"r":"dialogues"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"newdialogue","a":{"r":[],"s":"[]"}}},"f":["+ Add dialogue"]}]};
-
-/***/ },
-/* 209 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Choice"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"label","a":{"for":"choice-text"},"f":["Text"]}," ",{"t":7,"e":"input","a":{"type":"text","id":"choice-text","name":"choice-text","class":"form-control"}}," ",{"t":7,"e":"br"}," ",{"t":4,"f":[{"t":7,"e":"label","f":["Links to"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseDialogue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"p","a":{"class":"text-right"},"f":[{"t":7,"e":"a","a":{"href":["../../dialogues/",{"t":2,"r":"id"},"/edit"]},"f":["View dialogue"]}]}],"r":"dialogue"}," ",{"t":4,"f":[{"t":7,"e":"label","f":["Links to"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseDialogue","a":{"r":[],"s":"[]"}}},"f":["Choose dialogue"]}],"n":51,"r":"dialogue"}]}]}]}]};
-
-/***/ },
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */,
 /* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -73528,349 +73408,25 @@
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h4","a":{"class":"page-header"},"f":["End ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"grid-form"},"f":[{"t":7,"e":"fieldset","f":[{"t":7,"e":"div","a":{"data-row-span":"3"},"f":[{"t":7,"e":"div","a":{"data-field-span":"3"},"f":[{"t":7,"e":"label","f":["Content"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 213 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(180);
-	var pg = __webpack_require__(45);
-	var ChooseFilter = __webpack_require__(78);
-	var BlockLibrary = __webpack_require__(177);
-
-
-	module.exports = Base.extend({
-	  template: __webpack_require__(214),
-	  data: function() {
-	    return {
-	      blocks: []
-	    };
-	  },
-	  chooseFilter: function() {
-	    var filters = ChooseFilter({
-	      el: $('<div>'),
-	      data: {
-	        source: this,
-	        parent: {
-	          type: 'dialogues',
-	          id: this.parent.get('id'),
-	          name: this.parent.get('name')
-	        }
-	      }
-	    });
-
-	    pg.push(filters);
-	  },
-	  oncomplete: function() {
-	    $(this.el)
-	      .find('.sortable-blocks')
-	      .sortable();
-	  },
-	  addBlock: function() {
-	    var library = BlockLibrary({el: $('<div>')});
-	    library.set('source', this);
-	    pg.push(library);
-	  }
-	});
-
-
-/***/ },
-/* 214 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["With users matching the filter"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseFilter","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"p","a":{"class":"text-right"},"f":[{"t":7,"e":"a","a":{"href":["../../filters/",{"t":2,"r":"id"},"/edit"]},"f":["View filter"]}]}],"r":"filter"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseFilter","a":{"r":[],"s":"[]"}}},"f":["Choose filter"]}],"n":51,"r":"filter"}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"div","f":[{"t":7,"e":"block"}]}],"r":"blocks"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]}]}]}]}]};
-
-/***/ },
-/* 215 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(1);
-	var pg = __webpack_require__(45);
-	var Base = __webpack_require__(180);
-	var ContentLibrary = __webpack_require__(216);
-
-
-	module.exports = Base.extend({
-	  addContent: function() {
-	    var library = ContentLibrary({el: $('<div>')});
-	    library.set('source', this);
-	    library.set('dialogueView', this.parent.parent);
-	    pg.push(library);
-	  }
-	});
-
-
-/***/ },
-/* 216 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Ractive = __webpack_require__(43);
-	var pg = __webpack_require__(45);
-
-
-	var ContentLibrary = Ractive.extend({
-	  template: __webpack_require__(217),
-	  data: function() {
-	    return {placeholders: ContentLibrary.placeholders};
-	  },
-	  computed: {
-	    dialogue: function() {
-	      var dialogue = this.get('dialogueView');
-	      if (!dialogue) return null;
-
-	      return {
-	        id: dialogue.get('id'),
-	        name: dialogue.get('name')
-	      };
-	    }
-	  },
-	  addPlaceholder: function(placeholder) {
-	    var source = this.get('source');
-	    placeholder = ['[', placeholder.name, ']'].join('');
-	    source.set('text', [source.get('text'), placeholder].join(' '));
-	    source.set('notification', placeholder);
-	    pg.pop();
-	  }
-	});
-
-
-	ContentLibrary.placeholders = [{
-	  name: 'Show next nine months',
-	  helptext: 'A numbered list of the next 9 months of the year, excluding the current month.',
-	  exampletext: ['1. August',
-	                '2. September',
-	                '3. October',
-	                '4. November',
-	                '5. December',
-	                '6. January',
-	                '7. February',
-	                '8. March',
-	                '9. April'
-	                ]
-	}, {
-	  name: 'Days of the week',
-	  helptext: 'A numbered list of the days of the week.',
-	  exampletext: ['1. Monday',
-	                '2. Tuesday',
-	                '3. Wednesday',
-	                '4. Thursday',
-	                '5. Friday',
-	                '6. Saturday',
-	                '7. Sunday']
-	}];
-
-
-	module.exports = ContentLibrary;
-
-
-/***/ },
-/* 217 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":["/numi-prototypes/dialogues/",{"t":2,"r":"dialogue.id"}]},"f":["Dialogue: ",{"t":2,"r":"dialogue.name"}]}]}," ",{"t":7,"e":"li","a":{"class":"active"},"f":["Content Library"]}]}," ",{"t":7,"e":"h1","a":{"class":"page-header"},"f":["Content Library"]}," ",{"t":7,"e":"div","a":{"class":"panel-group","id":"accordionfilters","role":"tablist","aria-multiselectable":"true"},"f":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading","role":"tab","id":"headingfilters"},"f":[{"t":7,"e":"h2","a":{"class":"panel-title"},"f":[{"t":7,"e":"a","a":{"role":"button","data-toggle":"collapse","data-parent":"#accordion","href":["#collapse",{"t":2,"r":"id"}],"aria-expanded":"true","aria-controls":"collapsefilters"},"f":["Placeholders"]}]}]}," ",{"t":7,"e":"div","a":{"id":"collapsefilters","class":"panel-collapse collapse in","role":"tabpanel","aria-labelledby":"headingfilters"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["Placeholders"]}," are blocks of dynamically generated content that you can use inside an ",{"t":7,"e":"strong","f":["Interaction"]}," block."]}," ",{"t":7,"e":"p","f":["Use them by putting their keyword inside square brackets like this: ",{"t":7,"e":"code","f":["[keyword]"]}]}]}," ",{"t":4,"f":[{"t":7,"e":"hr"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-library","style":"text-align: left;"},"v":{"click":{"m":"addPlaceholder","a":{"r":["."],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["You see:"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"code","f":["[",{"t":2,"r":"name"},"]"]}]}," ",{"t":7,"e":"p","f":[{"t":7,"e":"strong","f":["The user sees:"]}]}," ",{"t":7,"e":"p","f":[{"t":2,"r":"helptext"}]}," ",{"t":7,"e":"code","a":{"style":"white-space: pre;"},"f":[{"t":4,"f":[{"t":2,"r":"."},{"t":7,"e":"br"}],"r":"exampletext"}]}],"r":"placeholders"}]}]}]}]}]};
-
-/***/ },
-/* 218 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(180);
-
-
-	module.exports = Base.extend({
-	  template: __webpack_require__(219),
-	  data: function() {
-	    return {label: ''}
-	  },
-	  oninit: function() {
-	    var self = this;
-
-	    this.on('labelChange', function(e) {
-	      var oldLabel = this.get('label');
-	      var newLabel = $(e.node).val();
-	      this.set('label', newLabel);
-	      dashboard.updateLabel(oldLabel, newLabel);
-	    });
-	  }
-	});
-
-
-/***/ },
-/* 219 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Add label to user"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"input","a":{"class":"form-control","type":"text"},"v":{"keyup":"labelChange"}}]}]}]}]};
-
-/***/ },
-/* 220 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Base = __webpack_require__(180);
-
-
-	module.exports = Base.extend({
-	  template: __webpack_require__(221)
-	});
-
-
-/***/ },
-/* 221 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Send later message set"]}," "]}]}]};
-
-/***/ },
-/* 222 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Base = __webpack_require__(180);
-
-
-	module.exports = Base.extend({
-	  template: __webpack_require__(223)
-	});
-
-
-/***/ },
-/* 223 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Manual"]}," "]}]}]};
-
-/***/ },
-/* 224 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(180);
-	var pg = __webpack_require__(45);
-	var ChooseLabel = __webpack_require__(72);
-
-
-	module.exports = Base.extend({
-	  template: __webpack_require__(225),
-	  data: function() {
-	    return {label: ''}
-	  },
-	  chooseLabel: function() {
-	    var labels = ChooseLabel({
-	      el: $('<div>'),
-	      data: {
-	        source: this,
-	        parent: {
-	          type: 'dialogues',
-	          id: this.parent.get('id'),
-	          name: this.parent.get('name')
-	        }
-	      }
-	    });
-
-	    pg.push(labels);
-	  }
-	});
-
-
-/***/ },
-/* 225 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Remove label from user"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseLabel","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"label"}]}],"r":"label"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseLabel","a":{"r":[],"s":"[]"}}},"f":["Choose label"]}],"n":51,"r":"label"}]}]}]}]};
-
-/***/ },
-/* 226 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(180);
-
-
-	module.exports = Base.extend({
-	  template: __webpack_require__(227),
-	  data: function() {
-	    return {value: ''}
-	  },
-	  oninit: function() {
-	    var self = this;
-
-	    this.on('valueChange', function(e) {
-	      var oldVal = this.get('value');
-	      var newVal = $(e.node).val();
-	      this.set('value', newVal);
-	      dashboard.updateValue(oldVal, newVal);
-	    });
-	  }
-	});
-
-
-/***/ },
-/* 227 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Save answer as user field"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"input","a":{"class":"form-control","type":"text"},"v":{"keyup":"valueChange"}}]}]}]}]};
-
-/***/ },
-/* 228 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(180);
-	var pg = __webpack_require__(45);
-	var BlockLibrary = __webpack_require__(177);
-
-
-	module.exports = Base.extend({
-	  template: __webpack_require__(229),
-	  data: function() {
-	    return {
-	      frequency: 1,
-	      interval: 'day',
-	      blocks: []
-	    };
-	  },
-	  oncomplete: function() {
-	    $(this.el)
-	      .find('.sortable-blocks')
-	      .sortable();
-	  },
-	  addBlock: function() {
-	    var library = BlockLibrary({el: $('<div>')});
-	    library.set('source', this);
-	    pg.push(library);
-	  },
-	  destroy: function() {
-	    this.parent.parent.set('schedule', null);
-	    $(this.el).remove();
-	  }
-	});
-
-
-/***/ },
-/* 229 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Scheduled"]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Every"]}," ",{"t":7,"e":"input","a":{"type":"number","value":[{"t":2,"r":"frequency"}],"class":"form-control"}}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-justified","data-toggle":"buttons"},"f":[{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"interval\",\"day\"]"}}},"a":{"class":"btn btn-default active"},"f":[{"t":7,"e":"input","a":{"type":"radio","checked":0}}," Days"]}," ",{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"interval\",\"week\"]"}}},"a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio"}}," Weeks"]}," ",{"t":7,"e":"label","v":{"click":{"m":"set","a":{"r":[],"s":"[\"interval\",\"month\"]"}}},"a":{"class":"btn btn-default"},"f":[{"t":7,"e":"input","a":{"type":"radio"}}," Months"]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"sortable-blocks"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"text-right","style":"clear: right;"},"f":["On ",{"t":7,"e":"strong","f":[{"t":2,"r":"interval"}," ",{"t":2,"x":{"r":["frequency","i"],"s":"_0*(_1+1)"}}]},"."]}," ",{"t":7,"e":"block"}],"i":"i","r":"blocks"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]}]}]}]};
-
-/***/ },
-/* 230 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Interaction = __webpack_require__(215);
-
-
-	module.exports = Interaction.extend({
-	  template: __webpack_require__(231),
-	  data: function() {
-	    return {isSessionLast: false};
-	  }
-	});
-
-
-/***/ },
-/* 231 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Send"]}," ",{"t":7,"e":"textarea","a":{"class":"form-control","rows":"3","value":[{"t":2,"r":"text"}]}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"alert alert-info alert-dismissible","role":"alert"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","data-dismiss":"alert","aria-label":"Close"},"f":[{"t":7,"e":"span","a":{"aria-hidden":"true"},"f":["×"]}]}," ",{"t":7,"e":"p","f":["Added placeholder text: ",{"t":7,"e":"code","f":[{"t":2,"r":"notification"}]}]}]}],"r":"notification"}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addContent","a":{"r":[],"s":"[]"}}},"f":["+ Insert special text"]}]}," ",{"t":4,"f":[{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":["The session ends after this message."]}],"r":"isSessionLast"}]}]};
-
-/***/ },
+/* 213 */,
+/* 214 */,
+/* 215 */,
+/* 216 */,
+/* 217 */,
+/* 218 */,
+/* 219 */,
+/* 220 */,
+/* 221 */,
+/* 222 */,
+/* 223 */,
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */,
+/* 230 */,
+/* 231 */,
 /* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -73955,24 +73511,8 @@
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h4","a":{"class":"page-header"},"f":["Show Next N Months ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"grid-form"},"f":[{"t":7,"e":"fieldset","f":[{"t":7,"e":"div","a":{"data-row-span":"1"},"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"label","f":["Question"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}," ",{"t":7,"e":"div","a":{"data-row-span":"1"},"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"label","m":[{"t":4,"f":["class=\"nm-unused\""],"n":51,"r":"useAnswerSaving"}],"f":["Save answer as"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}," ",{"t":7,"e":"div","a":{"data-row-span":"1"},"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"label","f":["Number of months after"]}," ",{"t":7,"e":"input","a":{"type":"number","min":"1","max":"10","value":[{"t":2,"r":"monthsAfter"}]}}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 235 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Base = __webpack_require__(180);
-
-
-	module.exports = Base.extend({
-	  template: __webpack_require__(236)
-	});
-
-
-/***/ },
-/* 236 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Send standard message set"]}," "]}]}]};
-
-/***/ },
+/* 235 */,
+/* 236 */,
 /* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -74162,55 +73702,8 @@
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h4","a":{"class":"page-header"},"f":["User sends in message ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"grid-form"},"f":[{"t":7,"e":"div","a":{"data-row-span":"1","class":"nm-heading-row"},"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"label","f":["Channels"]}]}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"data-row-span":"1"},"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"pull-right btn-group btn-group-sm nm-row-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"remove","a":{"r":["id"],"s":"[_0]"}}},"f":["Remove"]}]}]}],"r":"channels"}," ",{"t":7,"e":"div","a":{"data-row-span":"1"},"f":[{"t":7,"e":"div","a":{"data-field-span":"1","class":"nm-placeholder-col"},"v":{"click":{"m":"choose","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," ",{"t":7,"e":"span","a":{"class":"nm-static-input nm-static-input-placeholder"},"f":["+ Add a channel"]}]}]}," ",{"t":7,"e":"div","a":{"data-row-span":"1"},"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"label","f":["Only match the following terms (separate terms with a comma)"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"text"}]}}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 243 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(1);
-	var Base = __webpack_require__(180);
-	var pg = __webpack_require__(45);
-	var ChooseDialogue = __webpack_require__(207);
-	var ChooseValue = __webpack_require__(54);
-
-
-	module.exports = Base.extend({
-	  template: __webpack_require__(244),
-	  choosePassDialogue: function() {
-	    var colls = ChooseDialogue({el: $('<div>')});
-	    colls.set('source', this);
-	    colls.set('fieldName', 'passDialogue');
-	    colls.set('onlyLinked', true);
-	    pg.push(colls);
-	  },
-	  chooseFailDialogue: function() {
-	    var colls = ChooseDialogue({el: $('<div>')});
-	    colls.set('source', this);
-	    colls.set('fieldName', 'failDialogue');
-	    colls.set('onlyLinked', true);
-	    pg.push(colls);
-	  },
-	  chooseValue: function() {
-	    pg.push(ChooseValue({
-	      el: $('<div>'),
-	      data: {
-	        source: this,
-	        parent: {
-	          type: 'dialogues',
-	          id: this.parent.get('id'),
-	          name: this.parent.get('name')
-	        }
-	      }
-	    }));
-	  }
-	});
-
-
-/***/ },
-/* 244 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"panel panel-default panel-highlighted"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading"},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"strong","f":["Validate Clinic Code"]}]}," ",{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"p","a":{"class":"nm-block-title","style":"margin-bottom: 0;"},"f":["Use this as the clinic code:"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"value"}]}],"r":"value"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseValue","a":{"r":[],"s":"[]"}}},"f":["Choose user field"]}],"n":51,"r":"value"}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"ul","a":{"class":"nav nav-stacked"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"label","a":{"for":"choice-text-1"},"f":["If it's ",{"t":7,"e":"strong","f":["valid"]},", go to:"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"choosePassDialogue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"p","a":{"class":"text-right"},"f":[{"t":7,"e":"a","a":{"href":["../../dialogues/",{"t":2,"r":"id"},"/edit"]},"f":["View dialogue"]}]}],"r":"passDialogue"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"choosePassDialogue","a":{"r":[],"s":"[]"}}},"f":["Choose dialogue"]}],"n":51,"r":"passDialogue"}]}," ",{"t":7,"e":"li","f":[{"t":7,"e":"br"}," ",{"t":7,"e":"label","a":{"for":"choice-text-1"},"f":["If it's ",{"t":7,"e":"strong","f":["invalid"]},", go to:"]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block"},"v":{"click":{"m":"chooseFailDialogue","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"p","a":{"class":"text-right"},"f":[{"t":7,"e":"a","a":{"href":["../../dialogues/",{"t":2,"r":"id"},"/edit"]},"f":["View dialogue"]}]}],"r":"failDialogue"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"chooseFailDialogue","a":{"r":[],"s":"[]"}}},"f":["Choose dialogue"]}],"n":51,"r":"failDialogue"}]}]}]}]}]}]};
-
-/***/ },
+/* 243 */,
+/* 244 */,
 /* 245 */
 /***/ function(module, exports) {
 
