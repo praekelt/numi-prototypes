@@ -27,7 +27,7 @@ var NextNMonths = Base.extend({
         "Oct '16",
         "Nov '16",
         "Dec '16"
-      ].slice();
+      ].slice(0, this.get('monthsAfter'));
     }
   }
 });

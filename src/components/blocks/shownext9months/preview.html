@@ -12,12 +12,9 @@
         {{^text}}<i>No content</i>{{/text}}
       </div>
 
-      <div class="list-group-item nm-preview-list-item">
-        <i>If month is October, user sees:</i>
-      </div>
-
       {{#exampleMonths:i}}
       <div class="list-group-item nm-preview-list-item">
+        {{#i === 0}}<p><i>If month is October, user sees:</i></p>{{/}}
         {{i + 1}}. {{.}}
       </div>
       {{/exampleMonths}}
