@@ -10,8 +10,9 @@
 
   <div class="panel-body nm-panel-body-drawer">
     {{#recent}}
-      <!-- TODO something better-->
-      <button class="btn btn-default nm-placeholder nm-placeholder-block" on-click="add(type)">{{name}}</button>
+      <div class="btn-group nm-library-block">
+        <button class="btn btn-default nm-placeholder nm-placeholder-block" on-click="add(type)">{{name}}</button>
+      </div>
     {{/recent}}
   </div>
 </div>
@@ -43,7 +44,6 @@
         {{/blocks}}
 
         {{#blocks}}
-        <!-- TODO something better-->
         <div class="btn-group nm-library-block">
           <button class="btn btn-default nm-placeholder nm-placeholder-block" on-click="add(type)">{{name}}</button>
           <button type="button" class="btn btn-default nm-placeholder nm-placeholder-block" data-toggle="collapse" data-target="#{{type}}-help"><span class="glyphicon glyphicon-question-sign"></span></button>
