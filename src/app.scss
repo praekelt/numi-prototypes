@@ -331,8 +331,10 @@ hr {
 }
 
 .nm-block {
+  width: 100%;
   background: $bg3;
   margin-bottom: 0;
+  white-space: normal;
 }
 
 .nm-block-action {
