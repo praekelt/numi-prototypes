@@ -5,6 +5,10 @@ var drawers = require('../../../drawers');
 
 var Base = Ractive.extend({
   destroy: function() {
+    this.get('dialogue').deselectBlock(
+      this.get('nodeId'),
+      this.get('id'));
+
     this.get('sequence').removeBlock(this.get('id'));
   },
   drawerEdit: true,

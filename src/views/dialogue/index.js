@@ -24,6 +24,15 @@ module.exports = Ractive.extend({
     seqtree.select(node, [seqId, blockId, itemId]);
     this.set('seqtree', root);
   },
+  deselectBlock: function(nodeId, blockId) {
+    var root = this.get('seqtree');
+    var node = seqtree.find(root, nodeId);
+
+    if (seqtree.isOnBlock(node, blockId)) {
+      seqtree.deselect(node);
+      this.set('seqtree', root);
+    }
+  },
   onchange: function(props) {
     if ('silent' in props) return;
 

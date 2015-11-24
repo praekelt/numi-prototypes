@@ -25,6 +25,28 @@ function select(node, key) {
 }
 
 
+function deselect(node) {
+  node.currentIdx = null;
+}
+
+
+function search(root, fn) {
+  var result;
+  recur(root);
+  return result;
+
+  function recur(node) {
+    if (fn(node)) {
+      result = node;
+      return true;
+    }
+    else {
+      node.children.some(recur);
+    }
+  }
+}
+
+
 function find(root, id) {
   var result;
   recur(root);
@@ -55,7 +77,16 @@ function all(root) {
 }
 
 
+function isOnBlock(node, blockId) {
+  return node.currentIdx
+      && node.children[node.currentIdx].key[1] === blockId;
+}
+
+
 exports.create = create;
 exports.select = select;
 exports.find = find;
+exports.search = search;
 exports.all = all;
+exports.deselect = deselect;
+exports.isOnBlock = isOnBlock;

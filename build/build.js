@@ -60651,6 +60651,15 @@
 	    seqtree.select(node, [seqId, blockId, itemId]);
 	    this.set('seqtree', root);
 	  },
+	  deselectBlock: function(nodeId, blockId) {
+	    var root = this.get('seqtree');
+	    var node = seqtree.find(root, nodeId);
+
+	    if (seqtree.isOnBlock(node, blockId)) {
+	      seqtree.deselect(node);
+	      this.set('seqtree', root);
+	    }
+	  },
 	  onchange: function(props) {
 	    if ('silent' in props) return;
 
@@ -72230,6 +72239,28 @@
 	}
 
 
+	function deselect(node) {
+	  node.currentIdx = null;
+	}
+
+
+	function search(root, fn) {
+	  var result;
+	  recur(root);
+	  return result;
+
+	  function recur(node) {
+	    if (fn(node)) {
+	      result = node;
+	      return true;
+	    }
+	    else {
+	      node.children.some(recur);
+	    }
+	  }
+	}
+
+
 	function find(root, id) {
 	  var result;
 	  recur(root);
@@ -72260,10 +72291,19 @@
 	}
 
 
+	function isOnBlock(node, blockId) {
+	  return node.currentIdx
+	      && node.children[node.currentIdx].key[1] === blockId;
+	}
+
+
 	exports.create = create;
 	exports.select = select;
 	exports.find = find;
+	exports.search = search;
 	exports.all = all;
+	exports.deselect = deselect;
+	exports.isOnBlock = isOnBlock;
 
 
 /***/ },
@@ -72602,6 +72642,10 @@
 
 	var Base = Ractive.extend({
 	  destroy: function() {
+	    this.get('dialogue').deselectBlock(
+	      this.get('nodeId'),
+	      this.get('id'));
+
 	    this.get('sequence').removeBlock(this.get('id'));
 	  },
 	  drawerEdit: true,
