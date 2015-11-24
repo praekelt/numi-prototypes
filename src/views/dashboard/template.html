@@ -1,19 +1,28 @@
 <div class="nm-container nm-container-dashboard">
-  <div class="nm-head">
+  <div class="nm-head nm-head-dashboard">
     <ol class="breadcrumb">
       <li><a href="/numi-prototypes/">Home</a></li>
     </ol>
   </div>
 
   <div class="nm-body nm-body-dashboard">
-    <div class="nm-dashboard-actions clearfix">
+    <h3>
+      <small>Campaign</small>
+      <br>
+      MomConnect
+    </h3>
+
+    <div class="nm-dashboard-actions">
       <div class="btn-group pull-right">
         <button class="btn btn-default nm-placeholder nm-placeholder-default" on-click="createDialogue()">+ Add dialogue</button>
         <button class="btn btn-default" on-click="confirmPublish()" {{^hasUnpublishedChanges}}disabled{{/hasUnpublishedChanges}}>Publish</button>
       </div>
     </div>
+    <br>
 
     <div class="list-group nm-dashboard-dialogue-list">
+      <h4>Dialogues</h4>
+
       {{#dialogues}}
       <div class="list-group-item nm-dashboard-dialogue-item">
         <a class="list-group-item-heading nm-dashboard-dialogue-header" href="./dialogues/{{id}}">
