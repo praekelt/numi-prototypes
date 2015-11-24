@@ -343,15 +343,6 @@ hr {
   background: 0;
 }
 
-.nm-choice-actions {
-  padding: 8px 4px;
-
-  .btn {
-    padding-top: 4px;
-    padding-bottom: 4px;
-  }
-}
-
 .nm-drawer {
   z-index: 9000;
   pointer-events: none;
@@ -457,18 +448,10 @@ hr {
       }
 
       .nm-choice-text {
-        width: 100%;
-        display: block;
-
         input {
-          width: 95% !important;
+          width: 90% !important;
         }
       }
-    }
-
-    .nm-choice-save-as {
-      width: 27% !important;
-      border-right: 0 !important;
     }
 
     input, textarea {
@@ -479,13 +462,6 @@ hr {
 
   [data-row-span] {
     background: $bg0;
-  }
-
-  [data-row-span="2"] > [data-field-span="2"] {
-    &.nm-choice {
-      width: 76%;
-      border-right: 0;
-    }
   }
 }
 
@@ -500,6 +476,8 @@ hr {
   top: 0;
   right: 0;
   bottom: 0;
+  padding: 0;
+  margin: 0;
 
   button {
     height: 100%;
@@ -530,12 +508,6 @@ hr {
 
 .nm-choice-placeholder {
   color: $fg1 !important;
-}
-
-.nm-choice-row-first {
-  .nm-choice-actions {
-    margin-top: 18px;
-  }
 }
 
 .nm-preview-list {
@@ -725,7 +697,7 @@ a.nm-list-group-item-drawer {
 .nm-content-actions {
   position: absolute;
   margin-top: 6px;
-  right: 26px;
+  right: 6px;
 }
 
 .nm-content-actions-invalid {

@@ -6,8 +6,8 @@
 
   <div class="grid-form">
     <fieldset>
-      <div data-row-span="3">
-        <div data-field-span="3">
+      <div data-row-span="1">
+        <div data-field-span="1">
           <label>Question</label>
           <textarea value="{{text}}"></textarea>
         </div>
@@ -17,16 +17,24 @@
         </div>
       </div>
 
+      <div data-row-span="2" class="nm-heading-row">
+        <div data-field-span="{{2 - useAnswerSaving }}">
+          <label>Choices</label>
+        </div>
+
+        {{#useAnswerSaving}}
+        <div data-field-span="1">
+          <label>Save as</label>
+        </div>
+        {{/useAnswerSaving}}
+      </div>
+
       {{#allChoices:i}}
       <div data-row-span="2" class="nm-choice-row {{# i === 0 }}nm-choice-row-first{{/}}">
         <div
-          data-field-span="{{2 - useAnswerSaving}}"
+          data-field-span="{{2 - useAnswerSaving }}"
           class="nm-choice {{# i === allChoices.length - 1}}nm-choice-placeholder{{/}}"
           >
-
-          {{#i === 0}}
-          <label>Choices</label>
-          {{/}}
 
           <div class="nm-choice-text">
             <span class="nm-input-prefix">{{i + 1}}.&nbsp</span>
@@ -49,11 +57,7 @@
         </div>
 
         {{#useAnswerSaving}}
-        <div data-field-span="1" class="nm-choice-save-as">
-          {{#i === 0}}
-          <label>Save as</label>
-          {{/}}
-
+        <div data-field-span="1">
           <input type="text"
           {{#.saveAs}}
           value="{{.saveAs}}"
@@ -66,12 +70,12 @@
         </div>
         {{/useAnswerSaving}}
 
-        <div class="nm-choice-actions pull-right btn-group btn-group-xs">
+        <div class="btn-group btn-group-xs nm-row-actions">
           {{^route}}
-          <button class="btn btn-xs btn-default" on-click="setRoute(id)">↳ Route</button>&nbsp
+          <button class="btn btn-default" on-click="setRoute(id)">↳ Route</button>
           {{/route}}
 
-          <button class="btn btn-xs btn-default">Remove</button>
+          <button class="btn btn-default">Remove</button>
         </div>
       </div>
       {{/allChoices}}
