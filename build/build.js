@@ -72359,6 +72359,7 @@
 	    while (blocks.length) this.push('blocks', blocks.shift());
 	  },
 	  rename: function() {
+	    this.set('nameBackup', this.get('name'));
 	    $(this.find('.nm-name')).hide();
 	    $(this.find('.nm-rename')).show();
 	  },
