@@ -11,6 +11,15 @@ var Edd = Base.extend({
       inputFieldId: null,
       saveAs: ''
     };
+  },
+  computed: {
+    inputFieldName: function() {
+      return this.get('inputFieldId')
+        ? _
+        .find(dashboard.get('userFields'), {id: this.get('inputFieldId')})
+        .name
+        : null;
+    },
   }
 });
 

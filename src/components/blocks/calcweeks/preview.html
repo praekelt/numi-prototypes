@@ -5,5 +5,31 @@
       <button class="btn btn-default nm-block-action" on-click="destroy()">Remove</button>
     </div>
     <p class="nm-block-title">Calculate expected due date<br/>from weeks</p>
+
+    <div class="list-group nm-preview-list">
+      <div class="list-group-item nm-preview-list-item">
+        <div class="list-group-item-text nm-preview-annotation">
+          {{#inputFieldName}}
+          User field <strong>{{inputFieldName}} used as input</strong>
+          {{/inputFieldName}}
+
+          {{^inputFieldName}}
+          No input user field given
+          {{/inputFieldName}}
+        </div>
+      </div>
+
+      <div class="list-group-item nm-preview-list-item">
+        <div class="list-group-item-text nm-preview-annotation">
+          {{#saveAs}}
+          Result saved as <strong>{{saveAs}}</strong>
+          {{/saveAs}}
+
+          {{^saveAs}}
+          No result field given
+          {{/saveAs}}
+        </div>
+      </div>
+    </div>
   </div>
 </div>

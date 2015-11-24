@@ -6,7 +6,17 @@
     </div>
     <p class="nm-block-title">Question</p>
 
-    {{#text}}<p>{{text}}</p>{{/text}}
-    {{^text}}<span class="nm-preview-annotation">No content</span>{{/text}}
+    <div class="list-group nm-preview-list">
+      <div class="list-group-item nm-preview-list-item">
+        {{#text}}<p>{{text}}</p>{{/text}}
+        {{^text}}<span class="nm-preview-annotation">No content</span>{{/text}}
+      </div>
+
+      {{#saveAs}}
+      <div class="list-group-item nm-preview-list-item nm-preview-annotation">
+        Answer saved as <strong>{{saveAs}}</strong>
+      </div>
+      {{/saveAs}}
+    </div>
   </div>
 </div>

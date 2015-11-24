@@ -19,5 +19,17 @@
       </div>
       {{/exampleMonths}}
     </div>
+
+    <div class="list-group-item nm-preview-list-item">
+      <div class="list-group-item-text nm-preview-annotation">
+        {{#saveAs}}
+        Answer saved as <strong>{{saveAs}}</strong>
+        {{/saveAs}}
+
+        {{^saveAs}}
+        No answer field given
+        {{/saveAs}}
+      </div>
+    </div>
   </div>
 </div>
