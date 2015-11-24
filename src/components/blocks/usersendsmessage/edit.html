@@ -4,38 +4,41 @@
     <button class="close" on-click="close()">&times</button>
   </h4>
 
-  <label>Channels</label>
-  <div class="list-group">
+  <div class="grid-form">
+    <div data-row-span="1" class="nm-heading-row">
+      <div data-field-span="1">
+        <label>Channels</label>
+      </div>
+    </div>
+
     {{#channels}}
-    <div class="list-group-item nm-list-group-item-drawer">
-      <div class="btn-group btn-group-sm pull-right">
-        <button on-click="remove(id)" class="btn btn-default">Remove</button>
+    <div data-row-span="1">
+      <div data-field-span="1">
+        <span class="nm-static-input">{{name}}</span>
       </div>
 
-      <p>
-        {{name}}
-      </p>
+      <div class="pull-right btn-group btn-group-sm nm-row-actions">
+        <button class="btn btn-default" on-click="remove(id)">Remove</button>
+      </div>
     </div>
     {{/channels}}
 
-    <a class="list-group-item nm-list-group-item-drawer" href="#" on-click="onChooseClick(event)">
-      + Add a channel
-    </a>
-  </div>
-  <br/>
-
-  <div class="grid-form">
-    <fieldset>
-      <div data-row-span="3">
-        <div data-field-span="3">
-          <label {{^useAnswerSaving}}class="nm-unused"{{/useAnswerSaving}}>
-            Only match the following terms (separate terms with a ',')
-          </label>
-
-          <input type="text" value="{{text}}">
-        </div>
+    <div data-row-span="1">
+      <div data-field-span="1" class="nm-placeholder-col" on-click="choose()">
+        <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+        <span class="nm-static-input nm-static-input-placeholder">+ Add a channel</span>
       </div>
-    </fieldset>
+    </div>
+
+    <div data-row-span="1">
+      <div data-field-span="1">
+        <label>
+          Only match the following terms (separate terms with a comma)
+        </label>
+
+        <input type="text" value="{{text}}">
+      </div>
+    </div>
   </div>
   <br/>
 
