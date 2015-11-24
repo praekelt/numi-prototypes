@@ -29,7 +29,8 @@ Edd.Edit = Base.Edit.extend({
       return !!this.get('saveAs');
     }
   },
-  choose: function() {
+  choose: function(id) {
+    if (id) return;
     var self = this;
 
     var list = Chooser({

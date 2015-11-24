@@ -247,9 +247,6 @@ hr {
   }
 }
 
-.nm-sequence-title {
-}
-
 .nm-sequence-wrapper {
   $bg-sequence-odd: $bg4;
   $bg-sequence-even: $bg5;
@@ -403,6 +400,7 @@ hr {
   }
 
   [data-row-span] {
+    position: relative;
     border: 1px solid;
     border-color: $fg4 !important;
 
@@ -434,6 +432,10 @@ hr {
 
       &:hover, &.focus {
         background: $bg1 !important;
+
+        &.no-hover {
+        background: $bg0 !important;
+        }
       }
 
       &:not(:last-child) {
@@ -471,6 +473,45 @@ hr {
       border-right: 0;
     }
   }
+}
+
+.nm-placeholder-col {
+  background: lighten($bg0, 20%);
+  cursor: pointer !important;
+  color: $fg1;
+}
+
+.nm-row-actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  button {
+    height: 100%;
+    border-color: $bg1;
+    border-radius: 0 !important;
+    border-top: 0;
+    border-bottom: 0;
+
+    &:hover, &.focus {
+      border-color: $bg1;
+    }
+
+    &:last-child {
+      border-right: 0 !important;
+    }
+  }
+}
+
+.nm-static-input {
+  color: $fg5;
+  padding: 0;
+  margin: 0;
+}
+
+.nm-static-input-placeholder {
+  color: $fg6;
 }
 
 .nm-choice-placeholder {
@@ -662,12 +703,6 @@ a.nm-list-group-item-drawer {
 
 .nm-dashboard-dialogue-list {
   margin: 14px;
-}
-
-.nm-static-input {
-  color: $fg5;
-  padding: 0;
-  margin: 0;
 }
 
 .nm-content {

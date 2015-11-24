@@ -58,7 +58,9 @@ function open(view) {
   });
 
   function onBodyClick(e) {
-    if ($(e.target).parents('.nm-drawer').length > 0) return;
+    var $target = $(e.target);
+    if ($target.is(':input')) return;
+    if ($target.parents('.nm-drawer').length > 0) return;
     close(drawer.view);
   }
 }

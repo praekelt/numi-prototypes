@@ -1,27 +1,36 @@
 <div>
   <h4 class="page-header">
-    {{title}}
+    Calculate expected due date from weeks
     <button class="close" on-click="close()">&times</button>
   </h4>
 
   <div class="grid-form">
     <fieldset>
       <div data-row-span="3">
-        <div data-field-span="3">
-          <label>Input user field</label>
-          <div class="pull-right btn-group btn-group-sm">
-            {{#inputFieldId}}
-            <button class="btn btn-default" on-click="choose()">Change</button>
-            <button class="btn btn-default" on-click="remove()">Remove</button>
-            {{/inputFieldId}}
-          </div>
+        <div
+          data-field-span="3"
+          class="{{^inputFieldId}}nm-placeholder-col{{/inputFieldId}}"
+          on-click="choose(inputFieldId)">
 
-          <span class="nm-static-input">{{inputFieldName}}</span>
+          <label>User field to use as input</label>
 
           {{^inputFieldId}}
-          <button class="btn btn-default nm-placeholder" on-click="choose()">Choose</button>
+            <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+            <span class="nm-static-input nm-static-input-placeholder">Choose a user field</span>
           {{/inputFieldId}}
+
+          {{#inputFieldId}}
+          <span class="nm-static-input">{{inputFieldName}}</span>
+          {{/inputFieldName}}
+
         </div>
+
+        {{#inputFieldId}}
+        <div class="pull-right btn-group btn-group-sm nm-row-actions">
+          <button class="btn btn-default" on-click="choose()">Change</button>
+          <button class="btn btn-default" on-click="remove()">Remove</button>
+        </div>
+        {{/inputFieldId}}
       </div>
 
       <div data-row-span="3">
