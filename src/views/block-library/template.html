@@ -33,10 +33,21 @@
     <div class="list-group-item">
       <div class="list-group-item-heading">{{name}}</div>
 
+
       <div class="list-body-item-text">
         {{#blocks}}
+        <div class="collapse alert alert-info alert-dismissible" id="{{type}}-help" data-toggle="collapse" data-target="#{{type}}-help">
+          <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
+          <p>{{helptext}}</p>
+        </div>
+        {{/blocks}}
+
+        {{#blocks}}
         <!-- TODO something better-->
-        <button class="btn btn-default nm-placeholder nm-placeholder-block" on-click="add(type)">{{name}}</button>
+        <div class="btn-group nm-library-block">
+          <button class="btn btn-default nm-placeholder nm-placeholder-block" on-click="add(type)">{{name}}</button>
+          <button type="button" class="btn btn-default nm-placeholder nm-placeholder-block" data-toggle="collapse" data-target="#{{type}}-help"><span class="glyphicon glyphicon-question-sign"></span></button>
+        </div>
         {{/blocks}}
       </div>
     </div>

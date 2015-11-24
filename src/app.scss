@@ -67,10 +67,16 @@ body {
 }
 
 .nm-placeholder-block {
-  margin: 6px;
-  padding: 18px 12px;
   font-size: 0.8em;
   text-transform: uppercase;
+}
+
+.nm-library-block {
+  margin: 6px;
+
+  button {
+    padding: 18px 12px;
+  }
 }
 
 .nm-dialogue-title {
@@ -154,13 +160,11 @@ body {
   position: relative;
 
   &:before {
-    content: '▼';
     position: absolute;
     right: 0;
   }
 
   &.collapsed:before {
-    content: '▲';
     position: absolute;
     right: 0;
   }
