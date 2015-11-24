@@ -1,0 +1,38 @@
+<div>
+  <h4 class="page-header">
+    Ask for clinic code
+    <button class="close" on-click="close()">&times</button>
+  </h4>
+
+  <div class="grid-form">
+    <fieldset>
+      <div data-row-span="3">
+        <div data-field-span="3">
+          <label>Question</label>
+          <textarea value="{{text}}"></textarea>
+        </div>
+
+        <div data-field-span="3">
+          <label>Content to show for invalid input</label>
+          <textarea value="{{invalidInputText}}"></textarea>
+        </div>
+      </div>
+
+      <div data-row-span="3">
+        <div data-field-span="3">
+          <label {{^useAnswerSaving}}class="nm-unused"{{/useAnswerSaving}}>
+            Save answer as
+          </label>
+
+          <input type="text" value="{{saveAs}}">
+        </div>
+      </div>
+    </fieldset>
+  </div>
+
+  <br/>
+
+  <hr class="nm-divider">
+
+  <button type="button" class="btn btn-default pull-left" on-click="close()">Save and close <span class="glyphicon glyphicon-chevron-right"></span></button>
+</div>

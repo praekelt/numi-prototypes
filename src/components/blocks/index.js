@@ -4,6 +4,7 @@ exports.askchoice = require('./askchoice');
 exports.register = require('./register');
 exports.unsubscribe = require('./unsubscribe');
 exports.optout = require('./optout');
+exports.askcliniccode = require('./askcliniccode');
 exports.route = require('./route');
 exports.base = require('./base');
 exports.calcweeks = require('./calcweeks');

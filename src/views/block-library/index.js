@@ -104,7 +104,7 @@ BlockLibrary.palletes = [{
     name: 'Screens',
     blocks: [{
       name: 'Ask for Clinic Code',
-      type: 'entercliniccode',
+      type: 'askcliniccode',
       helptext: 'Users are asked to enter their clinic code. The code is then validated. If users enter an invalid code, they are asked to re-enter the code.'
     }]
   }, {

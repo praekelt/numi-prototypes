@@ -22,6 +22,10 @@
 <optout fields="{{fields}}"></optout>
 {{/}}
 
+{{# type === 'askcliniccode' }}
+<askcliniccode text="{{text}}" invalidInputText="{{invalidInputText}}" saveAs="{{saveAs}}"></askcliniccode>
+{{/}}
+
 {{# type === 'choice' }}
 <choice></choice>
 {{/}}

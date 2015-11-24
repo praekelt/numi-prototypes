@@ -96,6 +96,7 @@ module.exports = Ractive.extend({
     register: require('../../components/blocks/register'),
     unsubscribe: require('../../components/blocks/unsubscribe'),
     optout: require('../../components/blocks/optout'),
+    askcliniccode: require('../../components/blocks/askcliniccode'),
     route: require('../../components/blocks/route'),
     choice: require('../../components/blocks/choice'),
     end: require('../../components/blocks/end'),

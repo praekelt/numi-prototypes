@@ -1,0 +1,31 @@
+<div class="nm-block panel panel-default">
+  <div class="panel-body">
+    <div class="btn-group btn-group-sm pull-right">
+      <button class="btn btn-default nm-block-action nm-block-edit" on-click="edit()">Edit</button>
+      <button class="btn btn-default nm-block-action" on-click="destroy()">Remove</button>
+    </div>
+    <p class="nm-block-title">Ask for clinic code</p>
+
+    <br/>
+    <div class="list-group nm-preview-list">
+      <div class="list-group-item nm-preview-list-item">
+        <div class="list-group-item-text">
+          {{#text}}{{text}}{{/text}}
+          {{^text}}<i>No question content</i>{{/text}}
+        </div>
+      </div>
+
+      <div class="list-group-item nm-preview-list-item">
+        <div class="list-group-item-text">
+          {{^invalidInputText}}<i>No invalid input content</i>{{/invalidInputText}}
+          {{#invalidInputText}}
+          <p><i>If invalid input is given, show:</i></p>
+          <p>
+            {{invalidInputText}}
+          </p>
+          {{/invalidInputText}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
