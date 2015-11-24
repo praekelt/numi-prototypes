@@ -72760,6 +72760,7 @@
 	var Base = __webpack_require__(180);
 	var drawers = __webpack_require__(82);
 	var ChooseSequence = __webpack_require__(186);
+	var Chooser = __webpack_require__(187);
 
 
 	var AskChoice = Base.extend({
@@ -72849,6 +72850,24 @@
 	    useAnswerSaving: function() {
 	      return !!this.get('saveAs');
 	    }
+	  },
+	  insertUserField: function() {
+	    var self = this;
+
+	    var list = Chooser({
+	      el: $('<div>'),
+	      data: {
+	        title: 'Choose a user field',
+	        items: dashboard.get('userFields')
+	      }
+	    });
+
+	    list.once('chosen', function(id, d) {
+	      self.set('text', self.get('text') + ' [' + d.name + ']');
+	      drawers.close(list);
+	    });
+
+	    drawers.open(list);
 	  }
 	});
 
@@ -72956,7 +72975,7 @@
 /* 191 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h4","a":{"class":"page-header"},"f":["Multiple Choice ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"grid-form"},"f":[{"t":7,"e":"fieldset","f":[{"t":7,"e":"div","a":{"data-row-span":"3"},"f":[{"t":7,"e":"div","a":{"data-field-span":"3"},"f":[{"t":7,"e":"label","f":["Question"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"data-row-span":"2","class":["nm-choice-row ",{"t":4,"f":["nm-choice-row-first"],"x":{"r":["i"],"s":"_0===0"}}]},"f":[{"t":7,"e":"div","a":{"data-field-span":[{"t":2,"x":{"r":["useAnswerSaving"],"s":"2-_0"}}],"class":["nm-choice ",{"t":4,"f":["nm-choice-placeholder"],"x":{"r":["i","allChoices.length"],"s":"_0===_1-1"}}]},"f":[{"t":4,"f":[{"t":7,"e":"label","f":["Choices"]}],"x":{"r":["i"],"s":"_0===0"}}," ",{"t":7,"e":"div","a":{"class":"nm-choice-text"},"f":[{"t":7,"e":"span","a":{"class":"nm-input-prefix"},"f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". "]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"text"}]},"v":{"keyup":{"m":"onChoiceKeyDown","a":{"r":["i"],"s":"[_0]"}}}}]}," ",{"t":4,"f":[{"t":7,"e":"div","f":[" ↳ ",{"t":7,"e":"a","a":{"href":"#"},"v":{"click":{"m":"onRouteClick","a":{"r":["event","id"],"s":"[_0,_1]"}}},"f":[{"t":2,"x":{"r":["getSequenceName","route"],"s":"_0(_1)"}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"setRoute","a":{"r":["id"],"s":"[_0]"}}},"f":["Change"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"removeRoute","a":{"r":["id"],"s":"[_0]"}}},"f":["Remove"]}]}]}],"r":"route"}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"data-field-span":"1","class":"nm-choice-save-as"},"f":[{"t":4,"f":[{"t":7,"e":"label","f":["Save as"]}],"x":{"r":["i"],"s":"_0===0"}}," ",{"t":7,"e":"input","a":{"type":"text"},"m":[{"t":4,"f":["value=\"",{"t":2,"r":".saveAs"},"\""],"r":".saveAs"},{"t":4,"f":[" value=\"",{"t":2,"r":".text"}," \""],"n":51,"r":".saveAs"}]}]}],"r":"useAnswerSaving"}," ",{"t":7,"e":"div","a":{"class":"nm-choice-actions pull-right btn-group btn-group-xs"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-xs btn-default"},"v":{"click":{"m":"setRoute","a":{"r":["id"],"s":"[_0]"}}},"f":["↳ Route"]}," "],"n":51,"r":"route"}," ",{"t":7,"e":"button","a":{"class":"btn btn-xs btn-default"},"f":["Remove"]}]}]}],"i":"i","r":"allChoices"}," ",{"t":7,"e":"div","a":{"data-row-span":"3"},"f":[{"t":7,"e":"div","a":{"data-field-span":"3"},"f":[{"t":7,"e":"label","m":[{"t":4,"f":["class=\"nm-unused\""],"n":51,"r":"useAnswerSaving"}],"f":["Save answer as (optional)"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h4","a":{"class":"page-header"},"f":["Multiple Choice ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"grid-form"},"f":[{"t":7,"e":"fieldset","f":[{"t":7,"e":"div","a":{"data-row-span":"3"},"f":[{"t":7,"e":"div","a":{"data-field-span":"3"},"f":[{"t":7,"e":"label","f":["Question"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"data-row-span":"2","class":["nm-choice-row ",{"t":4,"f":["nm-choice-row-first"],"x":{"r":["i"],"s":"_0===0"}}]},"f":[{"t":7,"e":"div","a":{"data-field-span":[{"t":2,"x":{"r":["useAnswerSaving"],"s":"2-_0"}}],"class":["nm-choice ",{"t":4,"f":["nm-choice-placeholder"],"x":{"r":["i","allChoices.length"],"s":"_0===_1-1"}}]},"f":[{"t":4,"f":[{"t":7,"e":"label","f":["Choices"]}],"x":{"r":["i"],"s":"_0===0"}}," ",{"t":7,"e":"div","a":{"class":"nm-choice-text"},"f":[{"t":7,"e":"span","a":{"class":"nm-input-prefix"},"f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". "]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"text"}]},"v":{"keyup":{"m":"onChoiceKeyDown","a":{"r":["i"],"s":"[_0]"}}}}]}," ",{"t":4,"f":[{"t":7,"e":"div","f":[" ↳ ",{"t":7,"e":"a","a":{"href":"#"},"v":{"click":{"m":"onRouteClick","a":{"r":["event","id"],"s":"[_0,_1]"}}},"f":[{"t":2,"x":{"r":["getSequenceName","route"],"s":"_0(_1)"}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"setRoute","a":{"r":["id"],"s":"[_0]"}}},"f":["Change"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"removeRoute","a":{"r":["id"],"s":"[_0]"}}},"f":["Remove"]}]}]}],"r":"route"}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"data-field-span":"1","class":"nm-choice-save-as"},"f":[{"t":4,"f":[{"t":7,"e":"label","f":["Save as"]}],"x":{"r":["i"],"s":"_0===0"}}," ",{"t":7,"e":"input","a":{"type":"text"},"m":[{"t":4,"f":["value=\"",{"t":2,"r":".saveAs"},"\""],"r":".saveAs"},{"t":4,"f":[" value=\"",{"t":2,"r":".text"}," \""],"n":51,"r":".saveAs"}]}]}],"r":"useAnswerSaving"}," ",{"t":7,"e":"div","a":{"class":"nm-choice-actions pull-right btn-group btn-group-xs"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-xs btn-default"},"v":{"click":{"m":"setRoute","a":{"r":["id"],"s":"[_0]"}}},"f":["↳ Route"]}," "],"n":51,"r":"route"}," ",{"t":7,"e":"button","a":{"class":"btn btn-xs btn-default"},"f":["Remove"]}]}]}],"i":"i","r":"allChoices"}," ",{"t":7,"e":"div","a":{"data-row-span":"3"},"f":[{"t":7,"e":"div","a":{"data-field-span":"3"},"f":[{"t":7,"e":"label","m":[{"t":4,"f":["class=\"nm-unused\""],"n":51,"r":"useAnswerSaving"}],"f":["Save answer as (optional)"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
 /* 192 */
