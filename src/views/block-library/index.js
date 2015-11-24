@@ -124,6 +124,18 @@ BlockLibrary.palletes = [{
       helptext: 'The user is opted out of receiving stage-based messages, and will not resubscribed in the future.'
     }]
   }]
+}, {
+  name: 'Maternal Health Components',
+  key: 'maternal',
+  categories: [{
+    key: 'screens',
+    name: 'Screens',
+    blocks: [{
+      name: 'Next N Months',
+      type: 'shownext9months',
+      helptext: "The user is given a choice of N months after the current month"
+    }]
+  }]
 }];
 
 
