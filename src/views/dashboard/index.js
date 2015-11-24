@@ -19,7 +19,23 @@ module.exports = Ractive.extend({
       values: [],
       labels: [],
       filters: [],
-      dialogues: []
+      dialogues: [],
+      channels: [{
+        id: 'chan1',
+        name: '*120*123#',
+        available: true,
+        isSessionBased: true
+      }, {
+        id: 'chan2',
+        name: '*120*456#',
+        available: true,
+        isSessionBased: true
+      }, {
+        id: 'chan3',
+        name: '*120*789#',
+        available: true,
+        isSessionBased: true
+      }]
     };
   },
   publish: function() {
@@ -42,6 +58,14 @@ module.exports = Ractive.extend({
         if (result) self.publish();
       }
     });
+  },
+  takeChannel: function(id) {
+    var i = _.findIndex(this.get('channels'), {id: id});
+    this.set('channels.' + i + '.available', false);
+  },
+  releaseChannel: function(id) {
+    var i = _.findIndex(this.get('channels'), {id: id});
+    this.set('channels.' + i + '.available', true);
   },
   createDialogue: function() {
     drawers.open(NewDialogue({

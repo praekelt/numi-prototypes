@@ -1,0 +1,30 @@
+<div>
+  <h4 class="page-header">
+    User dials in
+    <button class="close" on-click="close()">&times</button>
+  </h4>
+
+  <div class="list-group">
+    {{#channels}}
+    <div class="list-group-item nm-list-group-item-drawer">
+      <div class="btn-group btn-group-sm pull-right">
+        <button on-click="remove(id)" class="btn btn-default">Remove</button>
+      </div>
+
+      <p>
+        {{name}}
+      </p>
+    </div>
+    {{/channels}}
+
+    <a class="list-group-item nm-list-group-item-drawer" href="#" on-click="onChooseClick(event)">
+      + Add a channel
+    </a>
+  </div>
+
+  <br/>
+
+  <hr class="nm-divider">
+
+  <button type="button" class="btn btn-default pull-left" on-click="close()">Save and close <span class="glyphicon glyphicon-chevron-right"></span></button>
+</div>
