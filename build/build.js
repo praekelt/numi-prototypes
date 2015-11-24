@@ -73399,6 +73399,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Base = __webpack_require__(180);
+	var drawers = __webpack_require__(82);
+	var Chooser = __webpack_require__(187);
 
 
 	var Ask = Base.extend({
@@ -73412,7 +73414,25 @@
 
 
 	Ask.Edit = Base.Edit.extend({
-	  template: __webpack_require__(211)
+	  template: __webpack_require__(211),
+	  insertUserField: function() {
+	    var self = this;
+
+	    var list = Chooser({
+	      el: $('<div>'),
+	      data: {
+	        title: 'Choose a user field',
+	        items: dashboard.get('userFields')
+	      }
+	    });
+
+	    list.once('chosen', function(id, d) {
+	      self.set('text', self.get('text') + ' [' + d.name + ']');
+	      drawers.close(list);
+	    });
+
+	    drawers.open(list);
+	  }
 	});
 
 
@@ -73429,7 +73449,7 @@
 /* 211 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h4","a":{"class":"page-header"},"f":["End ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"grid-form"},"f":[{"t":7,"e":"fieldset","f":[{"t":7,"e":"div","a":{"data-row-span":"3"},"f":[{"t":7,"e":"div","a":{"data-field-span":"3"},"f":[{"t":7,"e":"label","f":["Content"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h4","a":{"class":"page-header"},"f":["End ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"grid-form"},"f":[{"t":7,"e":"fieldset","f":[{"t":7,"e":"div","a":{"data-row-span":"3"},"f":[{"t":7,"e":"div","a":{"data-field-span":"3"},"f":[{"t":7,"e":"label","f":["Content"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
 /* 212 */
