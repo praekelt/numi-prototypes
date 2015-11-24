@@ -72548,7 +72548,11 @@
 	      name: 'Next N Months',
 	      type: 'shownext9months',
 	      helptext: "The user is given a choice of N months after the current month"
-	    }, {
+	    }]
+	  }, {
+	    key: 'calculations',
+	    name: 'Calculations',
+	    blocks: [{
 	      name: 'Calculate expected due date from weeks',
 	      type: 'calcweeks',
 	      helptext: "Saves a new expected due date user field from an expected due month user field"
