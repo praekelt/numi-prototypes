@@ -7,9 +7,15 @@
   <div class="grid-form">
     <fieldset>
       <div data-row-span="3">
-        <div data-field-span="3">
+        <div data-field-span="3" class="nm-content">
           <label>Question</label>
-          <textarea value="{{text}}"></textarea>
+
+          <textarea value="{{text}}">
+          </textarea>
+        </div>
+
+        <div class="btn-group btn-group-xs nm-content-actions">
+          <button class="btn btn-default nm-placeholder" on-click="insertUserField()">Insert user field</button>
         </div>
       </div>
 
