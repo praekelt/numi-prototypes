@@ -11,6 +11,7 @@ var Base = Ractive.extend({
   edit: function() {
     var view = this.getEditView();
     if (this.drawerEdit) drawers.change(view);
+    else drawers.close();
   },
   getEditView: function() {
     var self = this;

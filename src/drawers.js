@@ -9,7 +9,8 @@ var stack = [];
 
 
 function close(view, duration) {
-  var i = _.findIndex(stack, {view: view});
+  var i = stack.length - 1;
+  if (view) i = _.findIndex(stack, {view: view});
   if (i < 0) return Promise.resolve();
   var drawer = stack[i];
   stack.splice(i, 1);
