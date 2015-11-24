@@ -34,12 +34,6 @@ UserDialsIn.Edit = Base.Edit.extend({
         }, this);
     }
   },
-  oncomplete: function() {
-    if (!this.get('channelIds').length) {
-      drawers.close(this);
-      this.choose();
-    }
-  },
   getChooser: function() {
     return Chooser({
       el: $('<div>'),

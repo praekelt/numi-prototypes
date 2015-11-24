@@ -426,16 +426,26 @@ hr {
       -webkit-border-bottom-right-radius: 4px;
     }
 
+    &.nm-heading-row {
+      background: $bg3;
+
+      [data-field-span] {
+        padding-top: 8px !important;
+        padding-bottom: 0 !important;
+        border-bottom: 0;
+
+        &:hover, &.focus {
+          background: $bg3 !important;
+        }
+      }
+    }
+
     [data-field-span] {
       padding-top: 14px !important;
       padding-bottom: 14px !important;
 
       &:hover, &.focus {
         background: $bg1 !important;
-
-        &.no-hover {
-        background: $bg0 !important;
-        }
       }
 
       &:not(:last-child) {
