@@ -88,8 +88,8 @@ module.exports = Ractive.extend({
   },
   removeBlock: function(id) {
     var blocks = this.get('blocks');
-    var i = _.indexOf(blocks, {id: id});
-    this.splice('blocks', i, 1);
+    var i = _.findIndex(blocks, {id: id});
+    if (i > -1) this.splice('blocks', i, 1);
   },
   components: require('../../components/blocks')
 });
