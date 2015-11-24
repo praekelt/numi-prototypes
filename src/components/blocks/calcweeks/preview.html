@@ -8,29 +8,25 @@
 
     <div class="list-group nm-preview-list">
       <div class="list-group-item nm-preview-list-item">
-        <div class="list-group-item-text">
+        <div class="list-group-item-text nm-preview-annotation">
           {{#inputFieldName}}
           User field <strong>{{inputFieldName}}</strong> used as input
           {{/inputFieldName}}
 
           {{^inputFieldName}}
-          <p class="nm-preview-annotation">
-            No input user field given
-          </p>
+          No input user field given
           {{/inputFieldName}}
         </div>
       </div>
 
       <div class="list-group-item nm-preview-list-item">
-        <div class="list-group-item-text">
+        <div class="list-group-item-text nm-preview-annotation">
           {{#saveAs}}
           Result saved as <strong>{{saveAs}}</strong>
           {{/saveAs}}
 
           {{^saveAs}}
-          <p class="nm-preview-annotation">
-            No result field given
-          </p>
+          No result field given
           {{/saveAs}}
         </div>
       </div>
