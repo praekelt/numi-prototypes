@@ -4,40 +4,45 @@
     <button class="close" on-click="close()">&times</button>
   </h4>
 
-  <div class="panel panel-default">
-    <div class="panel-heading nm-panel-heading-drawer">
-      <span class="panel-title">User fields</span>
-    </div>
-    <div class="list-group">
-
-    {{#parsedFields}}
-      <div class="list-group-item">
-        <div class="list-group-item-heading nm-type-heading">{{name}}</div>
-        <div>
-          {{#userField}}
-          <div class="pull-right btn-group btn-group-sm">
-            <button class="btn btn-default" on-click="choose(key)">Change</button>
-            <button class="btn btn-default" on-click="remove(key)">Remove</button>
-          </div>
-          {{/userField}}
-
-          {{#userField}}
-          <p>
-          {{#special}}<i>{{name}}</i>{{/special}}
-          {{^special}}{{name}}{{/special}}
-          </p>
-          {{/userField}}
-
-          {{^userField}}
-          <button class="btn btn-default nm-placeholder" on-click="choose(key)">Choose user field</button>
-          {{/userField}}
+  <div class="grid-form">
+    <fieldset>
+      <div data-row-span="1" class="nm-heading-row">
+        <div data-field-span="1">
+          <label>User fields</label>
         </div>
       </div>
-    {{/parsedFields}}
-    </div>
-  </div>
 
-  <br/>
+      {{#parsedFields}}
+        {{^userField}}
+        <div data-row-span="1">
+          <div data-field-span="1" class="nm-placeholder-col" on-click="choose(key)">
+            <label>{{name}}</label>
+            <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+            <span class="nm-static-input nm-static-input-placeholder">Choose a user field</span>
+          </div>
+        </div>
+        {{/userField}}
+
+        {{#userField}}
+        <div data-row-span="1">
+          <div data-field-span="1">
+            <label>{{../name}}</label>
+
+            <span class="nm-static-input">
+              {{#special}}<i>{{name}}</i>{{/special}}
+              {{^special}}{{name}}{{/special}}
+            </span>
+          </div>
+
+          <div class="pull-right btn-group btn-group-sm nm-row-actions">
+            <button class="btn btn-default" on-click="change(key)">Change</button>
+            <button class="btn btn-default" on-click="remove(key)">Remove</button>
+          </div>
+        </div>
+        {{/userField}}
+      {{/parsedFields}}
+    </fieldset>
+  </div>
 
   <hr class="nm-divider">
 
