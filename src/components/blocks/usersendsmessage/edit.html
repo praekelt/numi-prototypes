@@ -1,6 +1,6 @@
 <div>
   <h4 class="page-header">
-    User dials in
+    User sends in message
     <button class="close" on-click="close()">&times</button>
   </h4>
 
@@ -22,7 +22,21 @@
       + Add a channel
     </a>
   </div>
+  <br/>
 
+  <div class="grid-form">
+    <fieldset>
+      <div data-row-span="3">
+        <div data-field-span="3">
+          <label {{^useAnswerSaving}}class="nm-unused"{{/useAnswerSaving}}>
+            Only match the following terms (separate terms with a ',')
+          </label>
+
+          <input type="text" value="{{text}}">
+        </div>
+      </div>
+    </fieldset>
+  </div>
   <br/>
 
   <hr class="nm-divider">

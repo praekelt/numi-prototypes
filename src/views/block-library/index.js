@@ -70,6 +70,10 @@ BlockLibrary.palletes = [{
       name: 'User dials in',
       type: 'userdialsin',
       helptext: 'Run this dialogue when the user dials in'
+    }, {
+      name: 'User sends in message',
+      type: 'usersendsmessage',
+      helptext: 'Run this dialogue when the user sends a message'
     }]
   }, {
     key: 'screens',

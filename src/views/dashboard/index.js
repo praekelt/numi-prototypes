@@ -35,6 +35,21 @@ module.exports = Ractive.extend({
         name: '*120*789#',
         available: true,
         isSessionBased: true
+      }, {
+        id: 'chan4',
+        name: '12345',
+        available: true,
+        isSessionBased: false
+      }, {
+        id: 'chan5',
+        name: '6789',
+        available: true,
+        isSessionBased: false
+      }, {
+        id: 'chan6',
+        name: '0123',
+        available: true,
+        isSessionBased: false
       }]
     };
   },
