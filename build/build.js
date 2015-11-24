@@ -73256,6 +73256,7 @@
 	    drawers.open(chooser);
 	  },
 	  oncomplete: function() {
+	    $(this.el).detach();
 	    drawers.close(this);
 	    this.setRoute();
 	  }
