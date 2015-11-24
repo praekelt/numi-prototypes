@@ -1,34 +1,56 @@
-var $ = require('jquery');
+var _ = require('lodash');
 var Base = require('../base');
-var pg = require('../../../pg');
-var ChooseDialogue = require('../../../views/choose-dialogue');
-var ChooseValue = require('../../../views/choose-value');
+var Chooser = require('../../../views/chooser');
+var drawers = require('../../../drawers');
 
 
-module.exports = Base.extend({
-  template: require('./template.html'),
-  oninit: function() {
-    var self = this;
-
-    this.on('valueChange', function(e) {
-      var oldVal = this.get('value');
-      var newVal = $(e.node).val();
-      this.set('value', newVal);
-      dashboard.updateValue(oldVal, newVal);
-    });
-  },
-  chooseValue: function() {
-    pg.push(ChooseValue({
-      el: $('<div>'),
-      data: {
-        source: this,
-        parent: {
-          type: 'dialogues',
-          id: this.parent.get('id'),
-          name: this.parent.get('name')
-        },
-        fieldName: 'inputValue'
-      }
-    }));
+var Edd = Base.extend({
+  template: require('./preview.html'),
+  data: function() {
+    return {
+      inputFieldId: null,
+      saveAs: ''
+    };
   }
 });
+
+
+Edd.Edit = Base.Edit.extend({
+  template: require('./edit.html'),
+  computed: {
+    inputFieldName: function() {
+      return this.get('inputFieldId')
+        ? _
+        .find(dashboard.get('userFields'), {id: this.get('inputFieldId')})
+        .name
+        : null;
+    },
+    useAnswerSaving: function() {
+      return !!this.get('saveAs');
+    }
+  },
+  choose: function() {
+    var self = this;
+
+    var list = Chooser({
+      el: $('<div>'),
+      data: {
+        title: 'Choose a user field',
+        items: dashboard.get('userFields')
+      }
+    });
+
+    list.once('chosen', function(id) {
+      self.set('inputFieldId', id);
+      drawers.close(list);
+    });
+
+    drawers.open(list);
+  },
+  remove: function() {
+    this.set('inputFieldId', null);
+  }
+});
+
+
+module.exports = Edd;
