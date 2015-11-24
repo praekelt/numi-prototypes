@@ -10,10 +10,6 @@
         <div data-field-span="3">
           <label>Input user field</label>
           <div class="pull-right btn-group btn-group-sm">
-            {{^inputFieldId}}
-            <button class="btn btn-default nm-placeholder" on-click="choose()">Choose</button>
-            {{/inputFieldId}}
-
             {{#inputFieldId}}
             <button class="btn btn-default" on-click="choose()">Change</button>
             <button class="btn btn-default" on-click="remove()">Remove</button>
@@ -21,6 +17,10 @@
           </div>
 
           <span class="nm-static-input">{{inputFieldName}}</span>
+
+          {{^inputFieldId}}
+          <button class="btn btn-default nm-placeholder" on-click="choose()">Choose</button>
+          {{/inputFieldId}}
         </div>
       </div>
 
