@@ -21,13 +21,15 @@
     </div>
 
     <div class="list-group-item nm-preview-list-item">
-      <div class="list-group-item-text nm-preview-annotation">
+      <div class="list-group-item-text">
         {{#saveAs}}
         Answer saved as <strong>{{saveAs}}</strong>
         {{/saveAs}}
 
         {{^saveAs}}
-        No answer field given
+        <p class="nm-preview-annotation">
+          No answer field given
+        </p>
         {{/saveAs}}
       </div>
     </div>
