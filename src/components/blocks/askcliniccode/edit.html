@@ -10,11 +10,21 @@
         <div data-field-span="3">
           <label>Question</label>
           <textarea value="{{text}}"></textarea>
+
         </div>
 
         <div data-field-span="3">
           <label>Content to show for invalid input</label>
           <textarea value="{{invalidInputText}}"></textarea>
+
+        </div>
+
+        <div class="btn-group btn-group-xs nm-content-actions">
+          <button class="btn btn-default nm-placeholder" on-click="insertUserField()">Insert user field</button>
+        </div>
+
+        <div class="btn-group btn-group-xs nm-content-actions-invalid">
+          <button class="btn btn-default nm-placeholder" on-click="insertUserFieldInvalid()">Insert user field</button>
         </div>
       </div>
 
