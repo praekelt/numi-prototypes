@@ -26,28 +26,8 @@
 <askcliniccode text="{{text}}" invalidInputText="{{invalidInputText}}" saveAs="{{saveAs}}"></askcliniccode>
 {{/}}
 
-{{# type === 'choice' }}
-<choice></choice>
-{{/}}
-
 {{# type === 'end' }}
-<end></end>
-{{/}}
-
-{{# type === 'send' }}
-<send></send>
-{{/}}
-
-{{# type === 'saveas' }}
-<saveas></saveas>
-{{/}}
-
-{{# type === 'label' }}
-<lbl></lbl>
-{{/}}
-
-{{# type === 'rmlabel' }}
-<rmlbl></rmlbl>
+<end text="{{text}}"></end>
 {{/}}
 
 {{# type === 'userdialsin' }}
@@ -58,38 +38,10 @@
 <usersendsmessage text="{{text}}" channelIds="{{channelIds}}"></usersendsmessage>
 {{/}}
 
-{{# type === 'scheduled' }}
-<scheduled></scheduled>
-{{/}}
-
-{{# type === 'manual' }}
-<manual></manual>
-{{/}}
-
-{{# type === 'validatecliniccode' }}
-<validatecliniccode></validatecliniccode>
-{{/}}
-
 {{# type === 'shownext9months' }}
 <shownext9months text="{{text}}" saveAs="{{saveAs}}" monthsBefore="{{monthsBefore}}"></shownext9months>
 {{/}}
 
-{{# type === 'standardmessageset' }}
-<standardmessageset></standardmessageset>
-{{/}}
-
-{{# type === 'latermessageset' }}
-<latermessageset></latermessageset>
-{{/}}
-
-{{# type === 'acceleratedmessageset' }}
-<acceleratedmessageset></acceleratedmessageset>
-{{/}}
-
 {{# type === 'calcweeks' }}
 <calcweeks inputFieldId="{{inputFieldId}}" saveAs="{{saveAs}}"></calcweeks>
-{{/}}
-
-{{# type === 'filter' }}
-<filter filter='{{filter}}'></filter>
 {{/}}
