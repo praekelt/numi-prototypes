@@ -691,9 +691,6 @@ a.nm-list-group-item-drawer {
   margin: 14px;
 }
 
-.nm-content {
-}
-
 .nm-content-actions {
   position: absolute;
   margin-top: 6px;
@@ -704,4 +701,8 @@ a.nm-list-group-item-drawer {
   position: absolute;
   margin-top: 106px;
   right: 26px;
+}
+
+.nm-preview-annotation {
+  color: $fg1;
 }

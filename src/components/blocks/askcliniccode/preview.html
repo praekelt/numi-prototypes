@@ -11,15 +11,20 @@
       <div class="list-group-item nm-preview-list-item">
         <div class="list-group-item-text">
           {{#text}}{{text}}{{/text}}
-          {{^text}}<i>No question content</i>{{/text}}
+          {{^text}}<p class="nm-preview-annotation">No question content</p>{{/text}}
         </div>
       </div>
 
       <div class="list-group-item nm-preview-list-item">
         <div class="list-group-item-text">
-          {{^invalidInputText}}<i>No invalid input content</i>{{/invalidInputText}}
+          {{^invalidInputText}}
+          <p class="nm-preview-annotation">
+            No invalid input content
+          </p>
+          {{/invalidInputText}}
+
           {{#invalidInputText}}
-          <p><i>If invalid input is given, show:</i></p>
+          <p class="nm-preview-annotation">If invalid input is given, show:</p>
           <p>
             {{invalidInputText}}
           </p>

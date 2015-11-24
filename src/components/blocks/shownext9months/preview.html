@@ -9,12 +9,12 @@
     <div class="list-group nm-preview-list">
       <div class="list-group-item nm-preview-list-item">
         {{#text}}{{text}}{{/text}}
-        {{^text}}<i>No content</i>{{/text}}
+        {{^text}}<span class="nm-preview-annotation">No content</span>{{/text}}
       </div>
 
       {{#exampleMonths:i}}
       <div class="list-group-item nm-preview-list-item">
-        {{#i === 0}}<p><i>If month is October, user sees:</i></p>{{/}}
+        {{#i === 0}}<p class="nm-preview-annotation">If month is October, user sees:</p>{{/}}
         {{i + 1}}. {{.}}
       </div>
       {{/exampleMonths}}

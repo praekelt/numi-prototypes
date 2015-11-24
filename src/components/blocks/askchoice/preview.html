@@ -9,8 +9,8 @@
     <br/>
     <div class="list-group nm-preview-list">
       <div class="list-group-item nm-preview-list-item">
-        {{#text}}<p>{{text}}</p>{{/text}}
-        {{^text}}<p><i>No content</i></p>{{/text}}
+        {{#text}}{{text}}{{/text}}
+        {{^text}}<span class="nm-preview-annotation">No content</span>{{/text}}
       </div>
 
       {{#choices:i}}
@@ -30,6 +30,12 @@
         </div>
         {{/route}}
       {{/choices}}
+
+      {{#saveAs}}
+      <div class="list-group-item nm-preview-list-item nm-preview-annotation">
+        Answer saved as <strong>{{saveAs}}</strong>
+      </div>
+      {{/saveAs}}
     </div>
   </div>
 </div>
