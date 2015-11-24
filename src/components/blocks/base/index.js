@@ -7,8 +7,10 @@ var Base = Ractive.extend({
   destroy: function() {
     this.get('sequence').removeBlock(this.get('id'));
   },
+  drawerEdit: true,
   edit: function() {
-    drawers.change(this.getEditView());
+    var view = this.getEditView();
+    if (this.drawerEdit) drawers.change(view);
   },
   getEditView: function() {
     var self = this;

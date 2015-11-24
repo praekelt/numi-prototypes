@@ -12,6 +12,7 @@ var Route = Base.extend({
     e.original.preventDefault();
     this.selectItem(this.get('seqId'), this.get('itemId'));
   },
+  drawerEdit: false,
   data: function() {
     return {
       itemId: uuid.v4(),
@@ -57,7 +58,6 @@ Route.Edit = Base.Edit.extend({
     drawers.open(chooser);
   },
   oncomplete: function() {
-    $(this.el).detach();
     drawers.close(this);
     this.setRoute();
   }

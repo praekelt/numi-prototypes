@@ -72603,8 +72603,10 @@
 	  destroy: function() {
 	    this.get('sequence').removeBlock(this.get('id'));
 	  },
+	  drawerEdit: true,
 	  edit: function() {
-	    drawers.change(this.getEditView());
+	    var view = this.getEditView();
+	    if (this.drawerEdit) drawers.change(view);
 	  },
 	  getEditView: function() {
 	    var self = this;
@@ -73211,6 +73213,7 @@
 	    e.original.preventDefault();
 	    this.selectItem(this.get('seqId'), this.get('itemId'));
 	  },
+	  drawerEdit: false,
 	  data: function() {
 	    return {
 	      itemId: uuid.v4(),
@@ -73256,7 +73259,6 @@
 	    drawers.open(chooser);
 	  },
 	  oncomplete: function() {
-	    $(this.el).detach();
 	    drawers.close(this);
 	    this.setRoute();
 	  }
