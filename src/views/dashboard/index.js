@@ -155,6 +155,13 @@ module.exports = Ractive.extend({
     hasUnpublishedChanges: function() {
       return _.any(_.pluck(this.get('dialogues'), 'hasUnpublishedChanges'));
     },
+    isComplete: function() {
+      return _.all(_.invoke(this.get('dialogueViews'), 'isComplete'));
+    },
+    canPublish: function() {
+      return this.get('hasUnpublishedChanges')
+          && this.get('isComplete');
+    },
     userFields: function() {
       return [{
           id: 'msisdn',

@@ -5,6 +5,7 @@ var uuid = require('node-uuid');
 var Ractive = require('ractive');
 var hist = require('../../hist');
 var seqtree = require('../../seqtree');
+var blockTypes = require('../../components/blocks');
 
 
 module.exports = Ractive.extend({
@@ -91,6 +92,14 @@ module.exports = Ractive.extend({
   previewEvent: function() {
     return 'To be overriden';
   },
+  isComplete: function() {
+    return _.chain(this.get('sequences'))
+      .pluck('blocks')
+      .flatten()
+      .invoke('isComplete')
+      .all()
+      .value();
+  },
   components: {
     seqsurrogate: require('../seqsurrogate')
   },
@@ -108,6 +117,9 @@ module.exports = Ractive.extend({
       return this.get('_prev')
         ? this.get('_prev').href
         : '/numi-prototypes/';
+    },
+    isComplete: function() {
+      return this.get('isComplete');
     },
     sequenceChain: function() {
       var results = [];

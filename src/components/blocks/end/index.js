@@ -9,6 +9,9 @@ var Ask = Base.extend({
     return {
       text: '',
     };
+  },
+  isComplete: function() {
+    return this.get('text');
   }
 });
 

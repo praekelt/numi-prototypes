@@ -42,12 +42,18 @@ var Base = Ractive.extend({
       this.get('id'),
       itemId);
   },
+  isComplete: function() {
+    return true;
+  },
   computed: {
     dialogue: function() {
       return this.parent.parent.parent;
     },
     sequence: function() {
       return this.parent;
+    },
+    isComplete: function() {
+      return this.isComplete();
     }
   }
 });

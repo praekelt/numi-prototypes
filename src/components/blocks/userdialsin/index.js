@@ -11,6 +11,9 @@ var UserDialsIn = Base.extend({
       channelIds: []
     };
   },
+  isComplete: function() {
+    return this.get('channelIds').length > 0;
+  },
   computed: {
     channels: function() {
       return dashboard

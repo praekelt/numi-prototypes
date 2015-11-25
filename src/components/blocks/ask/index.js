@@ -10,6 +10,10 @@ var Ask = Base.extend({
       text: '',
       saveAs: ''
     };
+  },
+  isComplete: function() {
+    return this.get('text')
+        && this.get('saveAs');
   }
 });
 

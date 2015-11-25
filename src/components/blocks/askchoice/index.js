@@ -23,6 +23,10 @@ var AskChoice = Base.extend({
       }
     };
   },
+  isComplete: function() {
+    return this.get('text')
+        && this.get('allChoices').length > 1;
+  },
   selectChoice(id) {
     var choice = _.find(this.get('allChoices'), {id: id});
     this.selectItem(choice.route, id);

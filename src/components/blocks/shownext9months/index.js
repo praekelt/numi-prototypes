@@ -31,6 +31,10 @@ var NextNMonths = Base.extend({
         "Dec '16"
       ].slice(0, this.get('monthsAfter'));
     }
+  },
+  isComplete: function() {
+    return this.get('text')
+        && this.get('saveAs');
   }
 });
 

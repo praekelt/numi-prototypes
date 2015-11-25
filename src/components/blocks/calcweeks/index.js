@@ -19,7 +19,11 @@ var Edd = Base.extend({
         .find(dashboard.get('userFields'), {id: this.get('inputFieldId')})
         .name
         : null;
-    },
+    }
+  },
+  isComplete: function() {
+    return this.get('inputFieldId')
+        && this.get('saveAs');
   }
 });
 
