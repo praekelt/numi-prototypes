@@ -12,6 +12,20 @@
         </div>
       </div>
 
+      {{^conditionSummary}}
+      <div data-row-span="1" class="is-incomplete">
+        <div data-field-span="1" class="nm-placeholder-col" on-click="setConditions()">
+          <label>Conditions that need to be met</label>
+          <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+          <span class="nm-static-input nm-static-input-placeholder">Choose conditions</span>
+        </div>
+      </div>
+      {{/conditionSummary}}
+
+      {{#conditionSummary}}
+      <!-- TODO -->
+      {{/conditionSummary}}
+
       {{^route}}
       <div data-row-span="1" class="is-incomplete">
         <div data-field-span="1" class="nm-placeholder-col" on-click="setRoute()">
