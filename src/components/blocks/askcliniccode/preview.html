@@ -11,16 +11,16 @@
       <div class="list-group-item nm-preview-list-item">
         <div class="list-group-item-text">
           {{#text}}{{text}}{{/text}}
-          {{^text}}<p class="nm-preview-annotation">No question content</p>{{/text}}
+          {{^text}}<i class="nm-preview-annotation">No question content</i>{{/text}}
         </div>
       </div>
 
       <div class="list-group-item nm-preview-list-item">
         <div class="list-group-item-text">
           {{^invalidInputText}}
-          <p class="nm-preview-annotation">
+          <i class="nm-preview-annotation">
             No invalid input content
-          </p>
+          </i>
           {{/invalidInputText}}
 
           {{#invalidInputText}}
@@ -39,7 +39,9 @@
           {{/saveAs}}
 
           {{^saveAs}}
-          No answer field given
+          <i>
+            No answer field given
+          </i>
           {{/saveAs}}
         </div>
       </div>

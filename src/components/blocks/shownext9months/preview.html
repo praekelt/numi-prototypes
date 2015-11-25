@@ -9,7 +9,7 @@
     <div class="list-group nm-preview-list">
       <div class="list-group-item nm-preview-list-item">
         {{#text}}{{text}}{{/text}}
-        {{^text}}<span class="nm-preview-annotation">No content</span>{{/text}}
+        {{^text}}<i class="nm-preview-annotation">No content</i>{{/text}}
       </div>
 
       {{#exampleMonths:i}}
@@ -27,7 +27,9 @@
         {{/saveAs}}
 
         {{^saveAs}}
-        No answer field given
+        <i>
+          No answer field given
+        </i>
         {{/saveAs}}
       </div>
     </div>
