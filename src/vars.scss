@@ -18,6 +18,9 @@ $fg5: lighten($fg0, 18%);
 $fg6: #aaa;
 $fg-link: #337ab7;
 
+$fg-incomplete: lighten(#f0ad4e, 15%);
+$bg-incomplete: lighten($fg-incomplete, 30%);
+
 $head-height: 35px;
 $body-height: calc(100vh - 35px);
 $sequence-header-height: 50px;

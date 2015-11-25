@@ -23,7 +23,7 @@
     </div>
     {{/channels}}
 
-    <div data-row-span="1">
+    <div data-row-span="1" class="{{^channels.length}}is-incomplete{{/channels.length}}">
       <div data-field-span="1" class="nm-placeholder-col" on-click="choose()">
         <span class="glyphicon glyphicon-chevron-right pull-right"></span>
         <span class="nm-static-input nm-static-input-placeholder">+ Add a channel</span>
@@ -32,7 +32,7 @@
 
     <div data-row-span="1">
       <div data-field-span="1">
-        <label>
+        <label class="{{^text}}nm-unused{{/text}}">
           Only match the following terms (separate terms with a comma)
         </label>
 

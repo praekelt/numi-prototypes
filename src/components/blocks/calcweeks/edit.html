@@ -6,7 +6,7 @@
 
   <div class="grid-form">
     <fieldset>
-      <div data-row-span="3">
+      <div data-row-span="3" class="{{^inputFieldId}}is-incomplete{{/inputFieldId}}">
         <div
           data-field-span="3"
           class="{{^inputFieldId}}nm-placeholder-col{{/inputFieldId}}"
@@ -33,9 +33,9 @@
         {{/inputFieldId}}
       </div>
 
-      <div data-row-span="3">
+      <div data-row-span="3" class="{{^saveAs}}is-incomplete{{/saveAs}}">
         <div data-field-span="3">
-          <label {{^useAnswerSaving}}class="nm-unused"{{/useAnswerSaving}}>
+          <label>
             Save result as
           </label>
 

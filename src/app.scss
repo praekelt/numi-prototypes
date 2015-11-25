@@ -435,6 +435,16 @@ hr {
       }
     }
 
+    &.is-incomplete {
+      border-color: $fg-incomplete !important;
+
+      &:not(:last-child) {
+        [data-field-span] {
+          border-bottom: 1px solid $fg-incomplete !important;
+        }
+      }
+    }
+
     [data-field-span] {
       padding-top: 14px !important;
       padding-bottom: 14px !important;
@@ -695,12 +705,6 @@ a.nm-list-group-item-drawer {
   position: absolute;
   margin-top: 6px;
   right: 6px;
-}
-
-.nm-content-actions-invalid {
-  position: absolute;
-  margin-top: 106px;
-  right: 26px;
 }
 
 .nm-preview-annotation {
