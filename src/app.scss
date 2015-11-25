@@ -710,3 +710,23 @@ a.nm-list-group-item-drawer {
 .nm-preview-annotation {
   color: $fg1;
 }
+
+.nm-button-row {
+  height: 50px;
+
+  > .btn-group {
+    height: 50px;
+    margin: 0;
+
+
+    .btn-group {
+      button {
+        padding: 0;
+      }
+    }
+  }
+}
+
+.is-pressed {
+  background: $bg5;
+}

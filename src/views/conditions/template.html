@@ -4,6 +4,35 @@
   </button>
 
   <h4 class="page-header">
-    Conditions
+    Condition Set
   </h4>
+
+  <div class="grid-form">
+    <fieldset>
+      <div data-row-span="3" class="{{^name}}is-incomplete{{/name}}">
+        <div data-field-span="3">
+          <label>Name of this set of conditions</label>
+          <input type="text" value="{{name}}">
+        </div>
+      </div>
+
+      <div data-row-span="1" on-click="addCondition()" class="nm-button-row">
+        <div class="btn-group btn-group-sm btn-group-justified nm-row-actions">
+          <div class="btn-group">
+            <button class="btn btn-default {{#type === 'all'}}is-pressed{{/}}" on-click="set('type', 'all')">Match all of the following</button>
+          </div>
+          <div class="btn-group {{#type === 'any'}}is-pressed{{/}}">
+            <button class="btn btn-default {{#type === 'any'}}is-pressed{{/}}" on-click="set('type', 'any')">Match any of the following</button>
+          </div>
+        </div>
+      </div>
+
+      <div data-row-span="1" on-click="addCondition()">
+        <div data-field-span="1" class="nm-placeholder-col">
+          <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+          <span class="nm-static-input nm-static-input-placeholder">+ Add a condition</span>
+        </div>
+      </div>
+    </fieldset>
+  </div>
 </div>
