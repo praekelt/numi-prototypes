@@ -39,7 +39,10 @@ var ConditionalRoute = Base.extend({
 
 ConditionalRoute.Edit = Base.Edit.extend({
   template: require('./edit.html'),
-  setConditionalRoute: function() {
+  removeRoute: function() {
+    this.set('seqId', null);
+  },
+  setRoute: function() {
     var self = this;
 
     var chooser = ChooseSequence({
@@ -57,6 +60,25 @@ ConditionalRoute.Edit = Base.Edit.extend({
     });
 
     drawers.open(chooser);
+  },
+  computed: {
+    route: {
+      get: function() {
+        var seqId = this.get('seqId');
+
+        return !seqId
+          ? null
+          : {
+            id: seqId,
+            name: _.find(this
+              .get('dialogue')
+              .get('sequences'), {id: seqId})
+              .name
+          };
+      },
+      set: function() {
+      }
+    }
   }
 });
 

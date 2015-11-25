@@ -4,5 +4,44 @@
     <button class="close" on-click="close()">&times</button>
   </h4>
 
+  <div class="grid-form">
+    <fieldset>
+      <div data-row-span="1" class="nm-heading-row">
+        <div data-field-span="1">
+          <label>Channels</label>
+        </div>
+      </div>
+
+      {{^route}}
+      <div data-row-span="1" class="is-incomplete">
+        <div data-field-span="1" class="nm-placeholder-col" on-click="setRoute()">
+          <label>Sequence to route to</label>
+          <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+          <span class="nm-static-input nm-static-input-placeholder">Choose a sequence</span>
+        </div>
+      </div>
+      {{/route}}
+
+      {{#route}}
+      <div data-row-span="1">
+        <div data-field-span="1">
+          <label>Route</label>
+
+          <span class="nm-static-input">
+            {{name}}
+          </span>
+        </div>
+
+        <div class="pull-right btn-group btn-group-sm nm-row-actions">
+          <button class="btn btn-default" on-click="setRoute()">Change</button>
+          <button class="btn btn-default" on-click="removeRoute()">Remove</button>
+        </div>
+      </div>
+      {{/route}}
+    </fieldset>
+  </div>
+
+  <hr class="nm-divider">
+
   <button type="button" class="btn btn-default pull-left" on-click="close()">Save and close <span class="glyphicon glyphicon-chevron-right"></span></button>
 </div>
