@@ -25,6 +25,9 @@ Ask.Edit = Base.Edit.extend({
       return !!this.get('saveAs');
     }
   },
+  onchange: function(d) {
+    if (d.saveAs) dashboard.update('dialogues');
+  },
   insertUserField: function() {
     var self = this;
 
