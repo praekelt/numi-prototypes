@@ -10,6 +10,10 @@
 <route id="{{id}}" seqId="{{seqId}}" itemId="{{itemId}}"></route>
 {{/}}
 
+{{# type === 'conditionalroute' }}
+<conditionalroute id="{{id}}" seqId="{{seqId}}" itemId="{{itemId}}" conditions="{{conditions}}"></conditionalroute>
+{{/}}
+
 {{# type === 'register' }}
 <register fields="{{fields}}"></register>
 {{/}}

@@ -98,6 +98,10 @@ BlockLibrary.palletes = [{
       name: 'Go to another sequence',
       type: 'route',
       helptext: 'Route the user to another sequence'
+    }, {
+      name: 'Conditionally go to another sequence',
+      type: 'conditionalroute',
+      helptext: 'Route the user to another sequence if a given set of condtions are met'
     }]
   }]
 }, {

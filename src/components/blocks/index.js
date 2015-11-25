@@ -5,6 +5,7 @@ exports.unsubscribe = require('./unsubscribe');
 exports.optout = require('./optout');
 exports.askcliniccode = require('./askcliniccode');
 exports.route = require('./route');
+exports.conditionalroute = require('./conditionalroute');
 exports.base = require('./base');
 exports.calcweeks = require('./calcweeks');
 exports.end = require('./end');
