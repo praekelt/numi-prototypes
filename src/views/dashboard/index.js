@@ -16,6 +16,7 @@ module.exports = Ractive.extend({
   template: require('./template.html'),
   data: function() {
     return {
+      publishCount: 0,
       values: [],
       labels: [],
       filters: [],
@@ -59,6 +60,7 @@ module.exports = Ractive.extend({
         dialogue.publish();
       });
 
+    this.add('publishCount');
     this.update();
   },
   confirmPublish: function() {
@@ -66,8 +68,8 @@ module.exports = Ractive.extend({
 
     bootbox.confirm({
       message: [
-        "Publishing is irreversable. ",
-        "Are you sure you would like to publish?"
+        "Making changes live is irreversable. ",
+        "Are you sure you would like to continue?"
       ].join(' '),
       callback: function(result) {
         if (result) self.publish();
