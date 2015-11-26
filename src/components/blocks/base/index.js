@@ -1,9 +1,36 @@
+var d3 = require('d3');
 var $ = require('jquery');
 var _ = require('lodash');
 var Ractive = require('ractive');
 var drawers = require('../../../drawers');
 
 var Base = Ractive.extend({
+  numDatapoints: 50,
+  randDatapoints: function(min, max) {
+    return d3
+      .range(this.numDatapoints)
+      .map(d3.random.bates(10))
+      .map(d3.scale.linear()
+        .domain([0, 1])
+        .range([min, max]))
+      .map(Math.floor);
+  },
+  data: function() {
+    var d = {};
+    d._ = _;
+    d.stats = {};
+    d.formatValue = d3.format(',');
+
+    d.stats.times = d3
+      .range(this.numDatapoints)
+      .map(function(d, i) { return +(new Date()) + (i * 1000); });
+
+    d.stats.timeouts = this.randDatapoints(0, 1000);
+    d.stats.answers = this.randDatapoints(0, 1000);
+    d.stats.views = _.zip(d.stats.timeouts, d.stats.answers).map(_.sum);
+
+    return d;
+  },
   destroy: function() {
     this.get('dialogue').deselectBlock(
       this.get('nodeId'),

@@ -24,5 +24,23 @@
     {{^isComplete}}
     <p class="label label-warning">Incomplete</p>
     {{/isComplete}}
+
+    {{#publishCount > 0}}
+      <div class="btn-group btn-group-xs pull-right">
+        <button class="btn btn-default nm-block-action">
+          Views
+          <span class="badge">
+            {{formatValue(_.sum(stats.views))}}
+          </span>
+        </button>
+
+        <button class="btn btn-default nm-block-action">
+          Timeouts
+          <span class="badge">
+            {{formatValue(_.sum(stats.timeouts))}}
+          </span>
+        </button>
+      </div>
+    {{/}}
   </div>
 </div>

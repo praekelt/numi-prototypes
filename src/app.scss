@@ -48,6 +48,11 @@ body {
 
 .btn-default {
   color: $fg0 !important;
+
+  .badge {
+    color: $bg0;
+    background: $fg1;
+  }
 }
 
 .breadcrumb {
