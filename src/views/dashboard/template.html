@@ -49,9 +49,17 @@
           <p>Last <strong>edited</strong> on {{lastEdit}} by you</p>
           {{/lastEdit}}
 
-          {{#hasUnpublishedChanges}}
-          <p class="label label-warning">Changes not live yet</p>
-          {{/hasUnpublishedChanges}}
+          {{#publishCount === 0}}
+          <p class="label label-warning">Not live yet</p>
+          {{/}}
+
+          {{#publishCount > 0}}
+            <p class="label label-info">Live</p>
+
+            {{#hasUnpublishedChanges}}
+              <p class="label label-warning">Changes not live yet</p>
+            {{/hasUnpublishedChanges}}
+          {{/}}
         </div>
       </div>
       {{/dialogues}}

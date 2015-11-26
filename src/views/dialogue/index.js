@@ -5,7 +5,6 @@ var uuid = require('node-uuid');
 var Ractive = require('ractive');
 var hist = require('../../hist');
 var seqtree = require('../../seqtree');
-var blockTypes = require('../../components/blocks');
 
 
 module.exports = Ractive.extend({
@@ -14,6 +13,7 @@ module.exports = Ractive.extend({
     return {
       silent: null,
       sequences: [],
+      publishCount: 0,
       lastEdit: newDate(),
       hasUnpublishedChanges: false,
       _prev: hist.pop()
@@ -63,6 +63,7 @@ module.exports = Ractive.extend({
   publish: function() {
     this.set({
       silent: true,
+      publishCount: this.get('publishCount') + 1,
       hasUnpublishedChanges: false
     });
   },
