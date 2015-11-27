@@ -83,7 +83,7 @@ BlockLibrary.palletes = [{
       type: 'ask',
       helptext: 'Users are asked a question and can respond with any text'
     }, {
-      name: 'Multiple Choice',
+      name: 'Multiple Choice Question',
       type: 'askchoice',
       helptext: 'Users are asked a question with numbered choices and can respond with their choice'
     }, {
