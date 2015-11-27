@@ -72945,7 +72945,7 @@
 	        .text('Changes went live');
 
 	      lastRow.select('.sph-col-lines-value')
-	        .text('');
+	        .remove();
 	  },
 	  drawTotalsChart() {
 	    d3.select(this.el)
