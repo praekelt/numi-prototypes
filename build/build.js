@@ -84071,8 +84071,7 @@
 	    };
 	  },
 	  isComplete: function() {
-	    return this.get('text')
-	        && this.get('saveAs');
+	    return this.get('text');
 	  }
 	});
 
