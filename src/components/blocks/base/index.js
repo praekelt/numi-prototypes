@@ -185,7 +185,7 @@ var totalsChart = sapphire.widgets.lines()
       title: 'Timeouts',
       values: _.zip(d.times, d.timeouts)
     }, {
-      title: 'Answers',
+      title: 'Replies',
       values: _.zip(d.times, d.answers)
     }];
   })
