@@ -82,6 +82,14 @@ var Base = Ractive.extend({
     isComplete: function() {
       return this.isComplete();
     }
+  },
+  showStats: function() {
+    var stats = this.constructor.Stats({
+      el: $('<div>'),
+      data: this.get()
+    });
+
+    drawers.open(stats);
   }
 });
 
@@ -93,6 +101,14 @@ Base.Edit = Ractive.extend({
   destroy: function() {
     this.get('block').destroy();
     this.close();
+  }
+});
+
+
+Base.Stats = Ractive.extend({
+  template: require('./stats.html'),
+  close: function() {
+    drawers.close(this);
   }
 });
 

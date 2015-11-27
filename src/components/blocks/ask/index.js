@@ -48,4 +48,7 @@ Ask.Edit = Base.Edit.extend({
 });
 
 
+Ask.Stats = Base.Stats.extend();
+
+
 module.exports = Ask;

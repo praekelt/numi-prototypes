@@ -16,7 +16,8 @@
     "page": "^1.6.3",
     "pagejs": "0.0.1-alpha",
     "ractive": "^0.7.3",
-    "ractive-loader": "^0.5.6"
+    "ractive-loader": "^0.5.6",
+    "strain": "^0.8.3"
   },
   "devDependencies": {
     "css-loader": "^0.12.1",

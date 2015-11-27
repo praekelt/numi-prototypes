@@ -1,0 +1,31 @@
+<h3 class="page-header">
+  User Interaction Statistics
+  <button class="close" on-click="close()">&times</button>
+</h3>
+
+<h4>Summary</h4>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <table class="sph-table">
+        <tbody>
+        <tr>
+          <td>Total views</td>
+          <td>{{formatValue(_.sum(stats.views))}}</td>
+        </tr>
+
+        <tr>
+          <td>Total timeouts</td>
+          <td>{{formatValue(_.sum(stats.timeouts))}}</td>
+        </tr>
+
+        <tr>
+          <td>Total successful user replies</td>
+          <td>{{formatValue(_.sum(stats.answers))}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
