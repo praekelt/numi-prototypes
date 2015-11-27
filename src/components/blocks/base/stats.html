@@ -5,27 +5,32 @@
 
 <h4>Summary</h4>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-4">
-      <table class="sph-table">
-        <tbody>
-        <tr>
-          <td>Total views</td>
-          <td>{{formatValue(_.sum(stats.views))}}</td>
-        </tr>
+<table class="sph-table nm-table-small">
+  <tbody>
+  <tr>
+    <td>Total views</td>
+    <td>{{formatValue(_.sum(stats.views))}}</td>
+  </tr>
 
-        <tr>
-          <td>Total timeouts</td>
-          <td>{{formatValue(_.sum(stats.timeouts))}}</td>
-        </tr>
+  <tr>
+    <td>Total timeouts</td>
+    <td>{{formatValue(_.sum(stats.timeouts))}}</td>
+  </tr>
 
-        <tr>
-          <td>Total successful user replies</td>
-          <td>{{formatValue(_.sum(stats.answers))}}</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+  <tr>
+    <td>Total successful user replies</td>
+    <td>{{formatValue(_.sum(stats.answers))}}</td>
+  </tr>
+  </tbody>
+</table>
+
+<hr class="nm-divider">
+
+<h4>Interactions over the last 7 days</h4>
+
+<div class="nm-charts">
+  <div class="nm-chart-totals">
+    <div data-widget-component="chart"></div>
+    <div data-widget-component="legend"></div>
   </div>
 </div>

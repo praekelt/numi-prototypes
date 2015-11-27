@@ -719,3 +719,15 @@ a.nm-list-group-item-drawer {
 .nm-preview-annotation {
   color: $fg1;
 }
+
+.nm-publish-time {
+  line {
+    stroke: $fg-chart-publish;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+  }
+}
+
+.nm-col-swatch-publish {
+  background: $fg-chart-publish !important;
+}
