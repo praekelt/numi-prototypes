@@ -67,4 +67,7 @@ NextNMonths.Edit = Base.Edit.extend({
 });
 
 
+NextNMonths.Stats = Base.Stats.extend();
+
+
 module.exports = NextNMonths;

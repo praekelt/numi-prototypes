@@ -120,6 +120,9 @@ AskChoice.Edit = Base.Edit.extend({
 });
 
 
+AskChoice.Stats = Base.Stats.extend();
+
+
 function newChoice() {
   return {
     id: uuid.v4(),
