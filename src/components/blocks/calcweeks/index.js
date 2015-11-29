@@ -16,7 +16,7 @@ var Edd = Base.extend({
     inputFieldName: function() {
       return this.get('inputFieldId')
         ? _
-        .find(dashboard.get('userFields'), {id: this.get('inputFieldId')})
+        .find(dashboard.getUserFields(), {id: this.get('inputFieldId')})
         .name
         : null;
     }
@@ -34,7 +34,7 @@ Edd.Edit = Base.Edit.extend({
     inputFieldName: function() {
       return this.get('inputFieldId')
         ? _
-        .find(dashboard.get('userFields'), {id: this.get('inputFieldId')})
+        .find(dashboard.getUserFields(), {id: this.get('inputFieldId')})
         .name
         : null;
     },
@@ -50,7 +50,7 @@ Edd.Edit = Base.Edit.extend({
       el: $('<div>'),
       data: {
         title: 'Choose a user field',
-        items: dashboard.get('userFields')
+        items: dashboard.getUserFields()
       }
     });
 

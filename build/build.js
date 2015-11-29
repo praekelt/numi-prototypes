@@ -26617,13 +26617,14 @@
 	      return this.get('hasUnpublishedChanges')
 	          && this.get('isComplete');
 	    },
-	    userFields: function() {
-	      return [{
-	          id: 'msisdn',
-	          name: 'msisdn',
-	          special: true
-	        }]
-	        .concat(_(this.get('dialogues'))
+	  },
+	  getUserFields: function() {
+	    return [{
+	      id: 'msisdn',
+	      name: 'msisdn',
+	      special: true
+	    }]
+	    .concat(_(this.get('dialogues'))
 	        .pluck('sequences')
 	        .flatten()
 	        .pluck('blocks')
@@ -26637,7 +26638,6 @@
 	          };
 	        })
 	        .value());
-	    }
 	  },
 	  oncomplete: function() {
 	    $(this.el)
@@ -72759,7 +72759,7 @@
 	      el: $('<div>'),
 	      data: {
 	        title: 'Choose a user field',
-	        items: dashboard.get('userFields')
+	        items: dashboard.getUserFields()
 	      }
 	    });
 
@@ -84470,7 +84470,7 @@
 	      el: $('<div>'),
 	      data: {
 	        title: 'Choose a user field',
-	        items: dashboard.get('userFields')
+	        items: dashboard.getUserFields()
 	      }
 	    });
 
@@ -84622,7 +84622,7 @@
 	  template: __webpack_require__(201),
 	  computed: {
 	    parsedFields: function() {
-	      var userFields = dashboard.get('userFields');
+	      var userFields = dashboard.getUserFields();
 
 	      return this.get('fields')
 	        .map(function(d) {
@@ -84644,7 +84644,7 @@
 	      el: $('<div>'),
 	      data: {
 	        title: 'Choose a user field for ' + this.get('fields.' + i).name,
-	        items: dashboard.get('userFields')
+	        items: dashboard.getUserFields()
 	      }
 	    });
 
@@ -84762,9 +84762,6 @@
 	      return !!this.get('saveAs');
 	    }
 	  },
-	  onchange: function(d) {
-	    if (d.saveAs) dashboard.update('dialogues');
-	  },
 	  insertUserField: function() {
 	    var self = this;
 
@@ -84772,7 +84769,7 @@
 	      el: $('<div>'),
 	      data: {
 	        title: 'Choose a user field',
-	        items: dashboard.get('userFields')
+	        items: dashboard.getUserFields()
 	      }
 	    });
 
@@ -84790,7 +84787,7 @@
 	      el: $('<div>'),
 	      data: {
 	        title: 'Choose a user field',
-	        items: dashboard.get('userFields')
+	        items: dashboard.getUserFields()
 	      }
 	    });
 
@@ -84923,7 +84920,7 @@
 	    inputFieldName: function() {
 	      return this.get('inputFieldId')
 	        ? _
-	        .find(dashboard.get('userFields'), {id: this.get('inputFieldId')})
+	        .find(dashboard.getUserFields(), {id: this.get('inputFieldId')})
 	        .name
 	        : null;
 	    }
@@ -84941,7 +84938,7 @@
 	    inputFieldName: function() {
 	      return this.get('inputFieldId')
 	        ? _
-	        .find(dashboard.get('userFields'), {id: this.get('inputFieldId')})
+	        .find(dashboard.getUserFields(), {id: this.get('inputFieldId')})
 	        .name
 	        : null;
 	    },
@@ -84957,7 +84954,7 @@
 	      el: $('<div>'),
 	      data: {
 	        title: 'Choose a user field',
-	        items: dashboard.get('userFields')
+	        items: dashboard.getUserFields()
 	      }
 	    });
 
@@ -85020,7 +85017,7 @@
 	      el: $('<div>'),
 	      data: {
 	        title: 'Choose a user field',
-	        items: dashboard.get('userFields')
+	        items: dashboard.getUserFields()
 	      }
 	    });
 
@@ -85111,7 +85108,7 @@
 	      el: $('<div>'),
 	      data: {
 	        title: 'Choose a user field',
-	        items: dashboard.get('userFields')
+	        items: dashboard.getUserFields()
 	      }
 	    });
 

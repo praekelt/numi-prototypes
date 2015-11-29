@@ -164,13 +164,14 @@ module.exports = Ractive.extend({
       return this.get('hasUnpublishedChanges')
           && this.get('isComplete');
     },
-    userFields: function() {
-      return [{
-          id: 'msisdn',
-          name: 'msisdn',
-          special: true
-        }]
-        .concat(_(this.get('dialogues'))
+  },
+  getUserFields: function() {
+    return [{
+      id: 'msisdn',
+      name: 'msisdn',
+      special: true
+    }]
+    .concat(_(this.get('dialogues'))
         .pluck('sequences')
         .flatten()
         .pluck('blocks')
@@ -184,7 +185,6 @@ module.exports = Ractive.extend({
           };
         })
         .value());
-    }
   },
   oncomplete: function() {
     $(this.el)

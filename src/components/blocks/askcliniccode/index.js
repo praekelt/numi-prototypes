@@ -25,9 +25,6 @@ Ask.Edit = Base.Edit.extend({
       return !!this.get('saveAs');
     }
   },
-  onchange: function(d) {
-    if (d.saveAs) dashboard.update('dialogues');
-  },
   insertUserField: function() {
     var self = this;
 
@@ -35,7 +32,7 @@ Ask.Edit = Base.Edit.extend({
       el: $('<div>'),
       data: {
         title: 'Choose a user field',
-        items: dashboard.get('userFields')
+        items: dashboard.getUserFields()
       }
     });
 
@@ -53,7 +50,7 @@ Ask.Edit = Base.Edit.extend({
       el: $('<div>'),
       data: {
         title: 'Choose a user field',
-        items: dashboard.get('userFields')
+        items: dashboard.getUserFields()
       }
     });
 

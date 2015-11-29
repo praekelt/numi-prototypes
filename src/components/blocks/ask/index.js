@@ -33,7 +33,7 @@ Ask.Edit = Base.Edit.extend({
       el: $('<div>'),
       data: {
         title: 'Choose a user field',
-        items: dashboard.get('userFields')
+        items: dashboard.getUserFields()
       }
     });
 
