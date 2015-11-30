@@ -51,9 +51,9 @@
 	__webpack_require__(3);
 	__webpack_require__(4);
 	__webpack_require__(5);
+	__webpack_require__(8);
 	__webpack_require__(9);
 	__webpack_require__(10);
-	__webpack_require__(11);
 	__webpack_require__(13);
 	__webpack_require__(15);
 
@@ -61,7 +61,7 @@
 	var Dashboard = __webpack_require__(21);
 	var pg = __webpack_require__(49);
 	var hist = __webpack_require__(50);
-	var persist = __webpack_require__(229);
+	var persist = __webpack_require__(231);
 
 	window.dashboard = Dashboard({
 	  el: $('<div>'),
@@ -24792,7 +24792,7 @@
 	var content = __webpack_require__(6);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(8)(content, {});
+	var update = __webpack_require__(7)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -24812,67 +24812,11 @@
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(7)();
-	exports.push([module.id, "html {\n  margin: 0 auto; }\n\nbody {\n  color: #666;\n  background-color: #fff;\n  overflow: auto; }\n\n.btn-default {\n  color: #666 !important; }\n  .btn-default .badge {\n    color: #fff;\n    background: #999; }\n\n.breadcrumb {\n  width: 70vw;\n  margin-left: 15vw;\n  margin-bottom: 4px; }\n\n.nm-placeholder {\n  color: #666;\n  border-style: dashed;\n  background: #fafafa; }\n\n.nm-placeholder-default {\n  background: #fff; }\n\n.nm-placeholder-block {\n  font-size: 0.8em;\n  text-transform: uppercase; }\n\n.nm-library-block {\n  margin: 6px; }\n  .nm-library-block button {\n    padding: 18px 12px; }\n\n.nm-dialogue-title {\n  font-size: 1.3em;\n  margin: 8px; }\n\n.nm-block-title {\n  color: #666;\n  font-size: 0.8em;\n  font-weight: bold;\n  text-transform: uppercase; }\n\n.nm-type-heading {\n  color: #666;\n  text-transform: uppercase;\n  font-size: 0.8em;\n  font-weight: bold; }\n\n.btn-library {\n  margin: .5em .75em .5em 0; }\n\n.screen {\n  border-bottom: solid 1px #666;\n  margin-bottom: 2em;\n  padding-bottom: 2em; }\n\n.page-header {\n  margin-top: 0; }\n\n.sortable-blocks .nm-block-title:hover,\n.sortable-blocks .panel-heading:hover {\n  cursor: move; }\n\n.panel-highlighted {\n  border: solid 1px #999; }\n\n.text-left .btn {\n  text-align: left; }\n\n.panel {\n  clear: both; }\n  .panel .close {\n    position: relative;\n    right: -10px;\n    top: -15px; }\n\n.btn.close-screen {\n  margin-bottom: 1em; }\n\n.close-screen-text {\n  font-size: small;\n  left: -4px;\n  position: relative;\n  top: -2px; }\n\n.panel-title a {\n  display: block; }\n\n[data-toggle=\"collapse\"] {\n  position: relative; }\n  [data-toggle=\"collapse\"]:before {\n    position: absolute;\n    right: 0; }\n  [data-toggle=\"collapse\"].collapsed:before {\n    position: absolute;\n    right: 0; }\n\n[data-toggle=\"collapse\"]:before {\n  content: ''; }\n\n[data-toggle=\"collapse\"]:after {\n  content: ''; }\n\n.nm-rename-value {\n  width: 100%; }\n\n.nm-rename-sequence {\n  position: absolute; }\n\n.alert-lib {\n  padding-right: 16px; }\n\nhr {\n  border-color: #999; }\n\n.popover {\n  display: none; }\n\n.nm-container * {\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none; }\n\n.nm-container-dashboard {\n  overflow-y: scroll; }\n\n.nm-head {\n  position: absolute;\n  height: 35px; }\n\n.nm-body {\n  position: absolute;\n  top: 35px;\n  left: 0;\n  right: 0;\n  bottom: 0; }\n\n.nm-body-dialogue {\n  padding-left: 20px;\n  padding-right: 20px;\n  overflow-x: auto;\n  overflow-y: hidden;\n  white-space: nowrap;\n  height: calc(100vh - 35px); }\n  .nm-body-dialogue::-webkit-scrollbar-track {\n    background: #efefef; }\n  .nm-body-dialogue::-webkit-scrollbar {\n    height: 8px;\n    width: 5px;\n    background: #efefef; }\n  .nm-body-dialogue::-webkit-scrollbar-thumb {\n    background: #c9c9c9; }\n\n.nm-body-dashboard {\n  margin: 0 auto; }\n  @media (min-width: 768px) {\n    .nm-body-dashboard {\n      max-width: 70vw; } }\n\n.nm-sequence-wrapper {\n  width: 430px;\n  display: inline-block;\n  height: calc(100vh - 35px);\n  white-space: nowrap;\n  vertical-align: top; }\n  .nm-sequence-wrapper .nm-sequence {\n    background: #e6e6e6; }\n  .nm-sequence-wrapper:nth-child(2n+1) .nm-sequence {\n    background: #f0f0f0; }\n  .nm-sequence-wrapper:not(:first-child) .nm-sequence {\n    border-left: none; }\n  .nm-sequence-wrapper:first-child .nm-sequence {\n    border-top-left-radius: 4px;\n    border-bottom-left-radius: 4px;\n    -webkit-border-top-left-radius: 4px;\n    -webkit-border-bottom-left-radius: 4px; }\n  .nm-sequence-wrapper:last-child .nm-sequence {\n    border-top-right-radius: 4px;\n    border-bottom-right-radius: 4px;\n    -webkit-border-top-right-radius: 4px;\n    -webkit-border-bottom-right-radius: 4px; }\n\n.nm-sequence {\n  min-height: 50px;\n  max-height: calc(100vh - 35px);\n  border: 1px solid #e0e0e0;\n  user-select: none; }\n  .nm-sequence * {\n    -webkit-touch-callout: none;\n    -webkit-user-select: none;\n    -khtml-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none; }\n  .nm-sequence h4 {\n    padding: 5px; }\n\n.nm-sequence-header {\n  height: 50px; }\n\n.nm-sequence-title {\n  color: #666;\n  padding: 12px 14px;\n  font-size: 1.2em; }\n\n.nm-sequence-body {\n  max-height: calc(100vh - 215px);\n  overflow-y: auto;\n  padding: 10px; }\n  .nm-sequence-body::-webkit-scrollbar-track {\n    background: #efefef; }\n  .nm-sequence-body::-webkit-scrollbar {\n    width: 5px;\n    background: #efefef; }\n  .nm-sequence-body::-webkit-scrollbar-thumb {\n    background: #c9c9c9; }\n\n.nm-sequence-footer {\n  height: 50px;\n  padding: 8px 5px; }\n\n.nm-block {\n  width: 100%;\n  background: #fafafa;\n  margin-bottom: 0;\n  white-space: normal; }\n  .nm-block .list-group {\n    margin-bottom: 0; }\n  .nm-block .panel-footer {\n    min-height: 41px; }\n\n.nm-block-action {\n  color: #666;\n  background: 0; }\n\n.nm-drawer {\n  z-index: 9000;\n  pointer-events: none;\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0; }\n  .nm-drawer .row {\n    height: 100%; }\n\n.nm-drawer-body {\n  background: whitesmoke;\n  overflow-y: auto;\n  margin-left: auto;\n  padding: 20px;\n  height: 100%;\n  border-left: 1px solid #eee;\n  pointer-events: auto; }\n  .nm-drawer-body::-webkit-scrollbar-track {\n    background: #efefef; }\n  .nm-drawer-body::-webkit-scrollbar {\n    width: 5px;\n    background: #efefef; }\n  .nm-drawer-body::-webkit-scrollbar-thumb {\n    background: #c9c9c9; }\n  @media (min-width: 768px) {\n    .nm-drawer-body {\n      width: 50%; } }\n  .nm-drawer-body .nav-tabs > li.active > a {\n    background: whitesmoke; }\n  .nm-drawer-body .list-group-item {\n    background: whitesmoke; }\n\n.nm-divider {\n  border-color: #ddd; }\n\n.grid-form label {\n  color: #666 !important; }\n  .grid-form label.nm-unused {\n    color: #999 !important; }\n\n.grid-form [data-row-span] {\n  position: relative;\n  border: 1px solid;\n  border-color: #ddd !important; }\n  .grid-form [data-row-span]:not(:last-child) {\n    border-bottom: 0; }\n  .grid-form [data-row-span]:not(:first-child) {\n    border-top-color: #efefef !important; }\n  .grid-form [data-row-span]:first-child {\n    border-top-left-radius: 4px;\n    -webkit-border-top-left-radius: 4px;\n    border-top-right-radius: 4px;\n    -webkit-border-right-radius: 4px; }\n  .grid-form [data-row-span]:last-child {\n    border-bottom-left-radius: 4px;\n    -webkit-border-bottom-left-radius: 4px;\n    border-bottom-right-radius: 4px;\n    -webkit-border-bottom-right-radius: 4px; }\n  .grid-form [data-row-span].nm-heading-row {\n    background: #fff; }\n    .grid-form [data-row-span].nm-heading-row [data-field-span] {\n      padding-top: 8px !important;\n      padding-bottom: 0 !important;\n      border-bottom: 0; }\n      .grid-form [data-row-span].nm-heading-row [data-field-span]:hover, .grid-form [data-row-span].nm-heading-row [data-field-span].focus {\n        background: #fff !important; }\n  .grid-form [data-row-span].is-incomplete {\n    border-color: #f6ce95 !important; }\n    .grid-form [data-row-span].is-incomplete:not(:last-child) [data-field-span] {\n      border-bottom: 1px solid #f6ce95 !important; }\n  .grid-form [data-row-span] [data-field-span] {\n    padding-top: 14px !important;\n    padding-bottom: 14px !important; }\n    .grid-form [data-row-span] [data-field-span]:hover, .grid-form [data-row-span] [data-field-span].focus {\n      background: #efefef !important; }\n    .grid-form [data-row-span] [data-field-span]:not(:last-child) {\n      border-right-color: #efefef !important; }\n    .grid-form [data-row-span] [data-field-span] .nm-choice-text input {\n      width: 90% !important; }\n  .grid-form [data-row-span] input, .grid-form [data-row-span] textarea {\n    color: #666;\n    font-size: 1em !important; }\n\n.grid-form [data-row-span] {\n  background: #fff; }\n\n.nm-placeholder-col {\n  background: white;\n  cursor: pointer !important;\n  color: #999; }\n\n.nm-row-actions {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  padding: 0;\n  margin: 0; }\n  .nm-row-actions button {\n    height: 100%;\n    border-color: #efefef;\n    border-radius: 0 !important;\n    border-top: 0;\n    border-bottom: 0; }\n    .nm-row-actions button:hover, .nm-row-actions button.focus {\n      border-color: #efefef; }\n    .nm-row-actions button:last-child {\n      border-right: 0 !important; }\n\n.nm-static-input {\n  color: #949494;\n  padding: 0;\n  margin: 0; }\n\n.nm-static-input-placeholder {\n  color: #aaa; }\n\n.nm-choice-placeholder {\n  color: #999 !important; }\n\n.nm-preview-list {\n  padding: 0; }\n\n.nm-preview-list-item {\n  color: #666;\n  background: 0;\n  margin: 0 -15px;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  border-bottom: 1px solid #eee; }\n  .nm-preview-list-item:last-child {\n    border: 0; }\n  .nm-preview-list-item.active {\n    color: #666;\n    background: #d9edf7;\n    border: #d9edf7;\n    margin-right: -26px; }\n  .nm-preview-list-item.active:hover, .nm-preview-list-item.active:focus {\n    color: #666;\n    background: #c8e5f3;\n    border: #c8e5f3; }\n\na.nm-preview-list-item {\n  color: #666; }\n  a.nm-preview-list-item:hover, a.nm-preview-list-item:focus {\n    text-decoration: none; }\n\n.nm-preview-arrow {\n  position: absolute;\n  right: 8px;\n  top: calc(50% - 14px); }\n\n.nm-block-wrapper:last-child .nm-block-separator {\n  display: none; }\n\n.nm-block-separator span {\n  color: #999;\n  margin-top: 14px;\n  margin-bottom: 14px; }\n\n.nm-block-category-title:hover, .nm-block-category-title:focus {\n  text-decoration: none; }\n\n.nm-panel-heading-drawer {\n  color: #666 !important;\n  background: #f0f0f0 !important; }\n\n.nm-panel-body-drawer {\n  background: whitesmoke !important; }\n\na.nm-list-group-item-drawer {\n  color: #666 !important;\n  background: #f0f0f0 !important; }\n  a.nm-list-group-item-drawer:hover, a.nm-list-group-item-drawer:focus {\n    background: #fafafa !important; }\n\n.nm-block-palletes {\n  width: 100%;\n  padding: 4px; }\n\n.nm-block-pallete-menu {\n  width: 25%;\n  display: inline-block;\n  vertical-align: top; }\n  .nm-block-pallete-menu li > a {\n    border-top-right-radius: 0;\n    border-bottom-right-radius: 0; }\n  .nm-block-pallete-menu li.active > a {\n    color: #666;\n    background: #e0e0e0; }\n  .nm-block-pallete-menu li.active {\n    color: #666;\n    background: #d9edf7;\n    border: #d9edf7;\n    margin-right: -26px; }\n  .nm-block-pallete-menu li a {\n    color: #666;\n    background: #f0f0f0;\n    border-top-right-radius: 0;\n    border-bottom-right-radius: 0; }\n    .nm-block-pallete-menu li a:hover, .nm-block-pallete-menu li a:focus {\n      background: #e6e6e6; }\n  .nm-block-pallete-menu li.active a {\n    color: #666;\n    background: #d9edf7; }\n    .nm-block-pallete-menu li.active a:hover, .nm-block-pallete-menu li.active a:focus {\n      color: #666;\n      background: #c8e5f3; }\n\n.nm-block-pallete {\n  width: 74.999%;\n  display: inline-block;\n  vertical-align: top;\n  margin-left: -6px; }\n  .nm-block-pallete .list-group-item:first-child, .nm-block-pallete .list-group-item:last-child {\n    border-top-left-radius: 0;\n    border-bottom-left-radius: 0; }\n\n.nm-dashboard-actions {\n  margin: 14px; }\n\n.nm-dashboard-dialogue-item {\n  padding: 0; }\n\n.nm-dashboard-dialogue-header {\n  color: #337ab7;\n  display: block;\n  background: whitesmoke;\n  font-size: 1.3em;\n  width: 100%;\n  padding: 6px 12px; }\n\n.nm-dashboard-dialogue-body {\n  padding: 12px; }\n\n.nm-dashboard-dialogue-list {\n  margin: 14px; }\n\n.nm-content-actions {\n  position: absolute;\n  margin-top: 6px;\n  right: 6px; }\n\n.nm-preview-annotation {\n  color: #999; }\n\n.nm-publish-time line {\n  stroke: #aec7e8;\n  stroke-width: 1px;\n  shape-rendering: crispEdges; }\n\n.nm-col-swatch-publish {\n  background: #aec7e8 !important; }\n", ""]);
+	exports = module.exports = __webpack_require__(12)();
+	exports.push([module.id, "html {\n  margin: 0 auto; }\n\nbody {\n  color: #666;\n  background-color: #fff;\n  overflow: auto; }\n\n.btn-default {\n  color: #666 !important; }\n  .btn-default .badge {\n    color: #fff;\n    background: #999; }\n\n.breadcrumb {\n  width: 70vw;\n  margin-left: 15vw;\n  margin-bottom: 4px; }\n\n.nm-placeholder {\n  color: #666;\n  border-style: dashed;\n  background: #fafafa; }\n\n.nm-placeholder-default {\n  background: #fff; }\n\n.nm-placeholder-block {\n  font-size: 0.8em;\n  text-transform: uppercase; }\n\n.nm-library-block {\n  margin: 6px; }\n  .nm-library-block button {\n    padding: 18px 12px; }\n\n.nm-dialogue-title {\n  font-size: 1.3em;\n  margin: 8px; }\n\n.nm-block-title {\n  color: #666;\n  font-size: 0.8em;\n  font-weight: bold;\n  text-transform: uppercase; }\n\n.nm-type-heading {\n  color: #666;\n  text-transform: uppercase;\n  font-size: 0.8em;\n  font-weight: bold; }\n\n.btn-library {\n  margin: .5em .75em .5em 0; }\n\n.screen {\n  border-bottom: solid 1px #666;\n  margin-bottom: 2em;\n  padding-bottom: 2em; }\n\n.page-header {\n  margin-top: 0; }\n\n.sortable-blocks .nm-block-title:hover,\n.sortable-blocks .panel-heading:hover {\n  cursor: move; }\n\n.panel-highlighted {\n  border: solid 1px #999; }\n\n.text-left .btn {\n  text-align: left; }\n\n.panel {\n  clear: both; }\n  .panel .close {\n    position: relative;\n    right: -10px;\n    top: -15px; }\n\n.btn.close-screen {\n  margin-bottom: 1em; }\n\n.close-screen-text {\n  font-size: small;\n  left: -4px;\n  position: relative;\n  top: -2px; }\n\n.panel-title a {\n  display: block; }\n\n[data-toggle=\"collapse\"] {\n  position: relative; }\n  [data-toggle=\"collapse\"]:before {\n    position: absolute;\n    right: 0; }\n  [data-toggle=\"collapse\"].collapsed:before {\n    position: absolute;\n    right: 0; }\n\n[data-toggle=\"collapse\"]:before {\n  content: ''; }\n\n[data-toggle=\"collapse\"]:after {\n  content: ''; }\n\n.nm-rename-value {\n  width: 100%; }\n\n.nm-rename-sequence {\n  position: absolute; }\n\n.alert-lib {\n  padding-right: 16px; }\n\nhr {\n  border-color: #999; }\n\n.popover {\n  display: none; }\n\n.nm-container * {\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none; }\n\n.nm-container-dashboard {\n  overflow-y: scroll; }\n\n.nm-head {\n  position: absolute;\n  height: 35px; }\n\n.nm-body {\n  position: absolute;\n  top: 35px;\n  left: 0;\n  right: 0;\n  bottom: 0; }\n\n.nm-body-dialogue {\n  padding-left: 20px;\n  padding-right: 20px;\n  overflow-x: auto;\n  overflow-y: hidden;\n  white-space: nowrap;\n  height: calc(100vh - 35px); }\n  .nm-body-dialogue::-webkit-scrollbar-track {\n    background: #efefef; }\n  .nm-body-dialogue::-webkit-scrollbar {\n    height: 8px;\n    width: 5px;\n    background: #efefef; }\n  .nm-body-dialogue::-webkit-scrollbar-thumb {\n    background: #c9c9c9; }\n\n.nm-body-dashboard {\n  margin: 0 auto; }\n  @media (min-width: 768px) {\n    .nm-body-dashboard {\n      max-width: 70vw; } }\n\n.nm-sequence-wrapper {\n  width: 430px;\n  display: inline-block;\n  height: calc(100vh - 35px);\n  white-space: nowrap;\n  vertical-align: top; }\n  .nm-sequence-wrapper .nm-sequence {\n    background: #e6e6e6; }\n  .nm-sequence-wrapper:nth-child(2n+1) .nm-sequence {\n    background: #f0f0f0; }\n  .nm-sequence-wrapper:not(:first-child) .nm-sequence {\n    border-left: none; }\n  .nm-sequence-wrapper:first-child .nm-sequence {\n    border-top-left-radius: 4px;\n    border-bottom-left-radius: 4px;\n    -webkit-border-top-left-radius: 4px;\n    -webkit-border-bottom-left-radius: 4px; }\n  .nm-sequence-wrapper:last-child .nm-sequence {\n    border-top-right-radius: 4px;\n    border-bottom-right-radius: 4px;\n    -webkit-border-top-right-radius: 4px;\n    -webkit-border-bottom-right-radius: 4px; }\n\n.nm-sequence {\n  min-height: 50px;\n  max-height: calc(100vh - 35px);\n  border: 1px solid #e0e0e0;\n  user-select: none; }\n  .nm-sequence * {\n    -webkit-touch-callout: none;\n    -webkit-user-select: none;\n    -khtml-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none; }\n  .nm-sequence h4 {\n    padding: 5px; }\n\n.nm-sequence-header {\n  height: 50px; }\n\n.nm-sequence-title {\n  color: #666;\n  padding: 12px 14px;\n  font-size: 1.2em; }\n\n.nm-sequence-body {\n  max-height: calc(100vh - 215px);\n  overflow-y: auto;\n  padding: 10px; }\n  .nm-sequence-body::-webkit-scrollbar-track {\n    background: #efefef; }\n  .nm-sequence-body::-webkit-scrollbar {\n    width: 5px;\n    background: #efefef; }\n  .nm-sequence-body::-webkit-scrollbar-thumb {\n    background: #c9c9c9; }\n\n.nm-sequence-footer {\n  height: 50px;\n  padding: 8px 5px; }\n\n.nm-block {\n  width: 100%;\n  background: #fafafa;\n  margin-bottom: 0;\n  white-space: normal; }\n  .nm-block .list-group {\n    margin-bottom: 0; }\n  .nm-block .panel-footer {\n    min-height: 41px; }\n\n.nm-block-action {\n  color: #666;\n  background: 0; }\n\n.nm-drawer {\n  z-index: 9000;\n  pointer-events: none;\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0; }\n  .nm-drawer .row {\n    height: 100%; }\n\n.nm-drawer-body {\n  background: whitesmoke;\n  overflow-y: auto;\n  margin-left: auto;\n  padding: 20px;\n  height: 100%;\n  border-left: 1px solid #eee;\n  pointer-events: auto; }\n  .nm-drawer-body::-webkit-scrollbar-track {\n    background: #efefef; }\n  .nm-drawer-body::-webkit-scrollbar {\n    width: 5px;\n    background: #efefef; }\n  .nm-drawer-body::-webkit-scrollbar-thumb {\n    background: #c9c9c9; }\n  @media (min-width: 768px) {\n    .nm-drawer-body {\n      width: 50%; } }\n  .nm-drawer-body .nav-tabs > li.active > a {\n    background: whitesmoke; }\n  .nm-drawer-body .list-group-item {\n    background: whitesmoke; }\n\n.nm-divider {\n  border-color: #ddd; }\n\n.grid-form label {\n  color: #666 !important; }\n  .grid-form label.nm-unused {\n    color: #999 !important; }\n\n.grid-form [data-row-span] {\n  position: relative;\n  border: 1px solid;\n  border-color: #ddd !important; }\n  .grid-form [data-row-span]:not(:last-child) {\n    border-bottom: 0; }\n  .grid-form [data-row-span]:not(:first-child) {\n    border-top-color: #efefef !important; }\n  .grid-form [data-row-span]:first-child {\n    border-top-left-radius: 4px;\n    -webkit-border-top-left-radius: 4px;\n    border-top-right-radius: 4px;\n    -webkit-border-right-radius: 4px; }\n  .grid-form [data-row-span]:last-child {\n    border-bottom-left-radius: 4px;\n    -webkit-border-bottom-left-radius: 4px;\n    border-bottom-right-radius: 4px;\n    -webkit-border-bottom-right-radius: 4px; }\n  .grid-form [data-row-span].nm-heading-row {\n    background: #fff; }\n    .grid-form [data-row-span].nm-heading-row [data-field-span] {\n      padding-top: 8px !important;\n      padding-bottom: 0 !important;\n      border-bottom: 0; }\n      .grid-form [data-row-span].nm-heading-row [data-field-span]:hover, .grid-form [data-row-span].nm-heading-row [data-field-span].focus {\n        background: #fff !important; }\n  .grid-form [data-row-span].is-incomplete {\n    border-color: #f6ce95 !important; }\n    .grid-form [data-row-span].is-incomplete:not(:last-child) [data-field-span] {\n      border-bottom: 1px solid #f6ce95 !important; }\n  .grid-form [data-row-span] [data-field-span] {\n    padding-top: 14px !important;\n    padding-bottom: 14px !important; }\n    .grid-form [data-row-span] [data-field-span]:hover, .grid-form [data-row-span] [data-field-span].focus {\n      background: #efefef !important; }\n    .grid-form [data-row-span] [data-field-span]:not(:last-child) {\n      border-right-color: #efefef !important; }\n    .grid-form [data-row-span] [data-field-span] .nm-choice-text input {\n      width: 90% !important; }\n  .grid-form [data-row-span] input, .grid-form [data-row-span] textarea {\n    color: #666;\n    font-size: 1em !important; }\n\n.grid-form [data-row-span] {\n  background: #fff; }\n\n.nm-placeholder-col {\n  background: white;\n  cursor: pointer !important;\n  color: #999; }\n\n.nm-row-actions {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  padding: 0;\n  margin: 0; }\n  .nm-row-actions button {\n    height: 100%;\n    border-color: #efefef;\n    border-radius: 0 !important;\n    border-top: 0;\n    border-bottom: 0; }\n    .nm-row-actions button:hover, .nm-row-actions button.focus {\n      border-color: #efefef; }\n    .nm-row-actions button:last-child {\n      border-right: 0 !important; }\n\n.nm-static-input {\n  color: #949494;\n  padding: 0;\n  margin: 0; }\n\n.nm-static-input-placeholder {\n  color: #aaa; }\n\n.nm-choice-placeholder {\n  color: #999 !important; }\n\n.nm-preview-list {\n  padding: 0; }\n\n.nm-preview-list-item {\n  color: #666;\n  background: 0;\n  margin: 0 -15px;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  border-bottom: 1px solid #eee; }\n  .nm-preview-list-item:last-child {\n    border: 0; }\n  .nm-preview-list-item.active {\n    color: #666;\n    background: #d9edf7;\n    border: #d9edf7;\n    margin-right: -26px; }\n  .nm-preview-list-item.active:hover, .nm-preview-list-item.active:focus {\n    color: #666;\n    background: #c8e5f3;\n    border: #c8e5f3; }\n\na.nm-preview-list-item {\n  color: #666; }\n  a.nm-preview-list-item:hover, a.nm-preview-list-item:focus {\n    text-decoration: none; }\n\n.nm-preview-arrow {\n  position: absolute;\n  right: 8px;\n  top: calc(50% - 14px); }\n\n.nm-block-wrapper:last-child .nm-block-separator {\n  display: none; }\n\n.nm-block-separator span {\n  color: #999;\n  margin-top: 14px;\n  margin-bottom: 14px; }\n\n.nm-block-category-title:hover, .nm-block-category-title:focus {\n  text-decoration: none; }\n\n.nm-panel-heading-drawer {\n  color: #666 !important;\n  background: #f0f0f0 !important; }\n\n.nm-panel-body-drawer {\n  background: whitesmoke !important; }\n\na.nm-list-group-item-drawer {\n  color: #666 !important;\n  background: #f0f0f0 !important; }\n  a.nm-list-group-item-drawer:hover, a.nm-list-group-item-drawer:focus {\n    background: #fafafa !important; }\n\n.nm-block-palletes {\n  width: 100%;\n  padding: 4px; }\n\n.nm-block-pallete-menu {\n  width: 25%;\n  display: inline-block;\n  vertical-align: top; }\n  .nm-block-pallete-menu li > a {\n    border-top-right-radius: 0;\n    border-bottom-right-radius: 0; }\n  .nm-block-pallete-menu li.active > a {\n    color: #666;\n    background: #e0e0e0; }\n  .nm-block-pallete-menu li.active {\n    color: #666;\n    background: #d9edf7;\n    border: #d9edf7;\n    margin-right: -26px; }\n  .nm-block-pallete-menu li a {\n    color: #666;\n    background: #f0f0f0;\n    border-top-right-radius: 0;\n    border-bottom-right-radius: 0; }\n    .nm-block-pallete-menu li a:hover, .nm-block-pallete-menu li a:focus {\n      background: #e6e6e6; }\n  .nm-block-pallete-menu li.active a {\n    color: #666;\n    background: #d9edf7; }\n    .nm-block-pallete-menu li.active a:hover, .nm-block-pallete-menu li.active a:focus {\n      color: #666;\n      background: #c8e5f3; }\n\n.nm-block-pallete {\n  width: 74.999%;\n  display: inline-block;\n  vertical-align: top;\n  margin-left: -6px; }\n  .nm-block-pallete .list-group-item:first-child, .nm-block-pallete .list-group-item:last-child {\n    border-top-left-radius: 0;\n    border-bottom-left-radius: 0; }\n\n.nm-dashboard-actions {\n  margin: 14px; }\n\n.nm-dashboard-dialogue-item {\n  padding: 0; }\n\n.nm-dashboard-dialogue-header {\n  color: #337ab7;\n  display: block;\n  background: whitesmoke;\n  font-size: 1.3em;\n  width: 100%;\n  padding: 6px 12px; }\n\n.nm-dashboard-dialogue-body {\n  padding: 12px; }\n\n.nm-dashboard-dialogue-list {\n  margin: 14px; }\n\n.nm-content-actions {\n  position: absolute;\n  margin-top: 6px;\n  right: 6px; }\n\n.nm-preview-annotation {\n  color: #999; }\n\n.nm-publish-time line {\n  stroke: #aec7e8;\n  stroke-width: 1px;\n  shape-rendering: crispEdges; }\n\n.nm-col-swatch-publish {\n  background: #aec7e8 !important; }\n\n.sph-chart-areas {\n  height: 210px;\n  padding: 10px;\n  padding-right: 5px; }\n\n.sph-areas-area {\n  stroke: none; }\n\n.sph-col-areas-title {\n  width: 70%; }\n\n.sph-col-areas-value {\n  text-align: right; }\n\n.sph-areas-metric {\n  stroke-width: 2px; }\n\n.sph-chart-areas .sph-axis-lines line {\n  stroke: whitesmoke;\n  stroke-opacity: 0.15; }\n\n.sph-chart-areas .nm-publish-time {\n  stroke-opacity: 0.8; }\n", ""]);
 
 /***/ },
 /* 7 */
-/***/ function(module, exports) {
-
-	/*
-		MIT License http://www.opensource.org/licenses/mit-license.php
-		Author Tobias Koppers @sokra
-	*/
-	// css base code, injected by the css-loader
-	module.exports = function() {
-		var list = [];
-
-		// return the list of modules as css string
-		list.toString = function toString() {
-			var result = [];
-			for(var i = 0; i < this.length; i++) {
-				var item = this[i];
-				if(item[2]) {
-					result.push("@media " + item[2] + "{" + item[1] + "}");
-				} else {
-					result.push(item[1]);
-				}
-			}
-			return result.join("");
-		};
-
-		// import a list of modules into the list
-		list.i = function(modules, mediaQuery) {
-			if(typeof modules === "string")
-				modules = [[null, modules, ""]];
-			var alreadyImportedModules = {};
-			for(var i = 0; i < this.length; i++) {
-				var id = this[i][0];
-				if(typeof id === "number")
-					alreadyImportedModules[id] = true;
-			}
-			for(i = 0; i < modules.length; i++) {
-				var item = modules[i];
-				// skip already imported module
-				// this implementation is not 100% perfect for weird media query combinations
-				//  when a module is imported multiple times with different media queries.
-				//  I hope this will never occur (Hey this way we have smaller bundles)
-				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-					if(mediaQuery && !item[2]) {
-						item[2] = mediaQuery;
-					} else if(mediaQuery) {
-						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-					}
-					list.push(item);
-				}
-			}
-		};
-		return list;
-	};
-
-
-/***/ },
-/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -25097,7 +25041,7 @@
 
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports) {
 
 	/*!
@@ -25114,7 +25058,7 @@
 	this.addAriaAndCollapsedClass(e(n),n)},this)).end()},o.prototype.addAriaAndCollapsedClass=function(t,e){var i=t.hasClass("in");t.attr("aria-expanded",i),e.toggleClass("collapsed",!i).attr("aria-expanded",i)};var n=t.fn.collapse;t.fn.collapse=i,t.fn.collapse.Constructor=o,t.fn.collapse.noConflict=function(){return t.fn.collapse=n,this},t(document).on("click.bs.collapse.data-api",'[data-toggle="collapse"]',function(o){var n=t(this);n.attr("data-target")||o.preventDefault();var s=e(n),a=s.data("bs.collapse"),r=a?"toggle":n.data();i.call(s,r)})}(jQuery),+function(t){"use strict";function e(i,o){this.$body=t(document.body),this.$scrollElement=t(t(i).is(document.body)?window:i),this.options=t.extend({},e.DEFAULTS,o),this.selector=(this.options.target||"")+" .nav li > a",this.offsets=[],this.targets=[],this.activeTarget=null,this.scrollHeight=0,this.$scrollElement.on("scroll.bs.scrollspy",t.proxy(this.process,this)),this.refresh(),this.process()}function i(i){return this.each(function(){var o=t(this),n=o.data("bs.scrollspy"),s="object"==typeof i&&i;n||o.data("bs.scrollspy",n=new e(this,s)),"string"==typeof i&&n[i]()})}e.VERSION="3.3.4",e.DEFAULTS={offset:10},e.prototype.getScrollHeight=function(){return this.$scrollElement[0].scrollHeight||Math.max(this.$body[0].scrollHeight,document.documentElement.scrollHeight)},e.prototype.refresh=function(){var e=this,i="offset",o=0;this.offsets=[],this.targets=[],this.scrollHeight=this.getScrollHeight(),t.isWindow(this.$scrollElement[0])||(i="position",o=this.$scrollElement.scrollTop()),this.$body.find(this.selector).map(function(){var e=t(this),n=e.data("target")||e.attr("href"),s=/^#./.test(n)&&t(n);return s&&s.length&&s.is(":visible")&&[[s[i]().top+o,n]]||null}).sort(function(t,e){return t[0]-e[0]}).each(function(){e.offsets.push(this[0]),e.targets.push(this[1])})},e.prototype.process=function(){var t,e=this.$scrollElement.scrollTop()+this.options.offset,i=this.getScrollHeight(),o=this.options.offset+i-this.$scrollElement.height(),n=this.offsets,s=this.targets,a=this.activeTarget;if(this.scrollHeight!=i&&this.refresh(),e>=o)return a!=(t=s[s.length-1])&&this.activate(t);if(a&&e<n[0])return this.activeTarget=null,this.clear();for(t=n.length;t--;)a!=s[t]&&e>=n[t]&&(void 0===n[t+1]||e<n[t+1])&&this.activate(s[t])},e.prototype.activate=function(e){this.activeTarget=e,this.clear();var i=this.selector+'[data-target="'+e+'"],'+this.selector+'[href="'+e+'"]',o=t(i).parents("li").addClass("active");o.parent(".dropdown-menu").length&&(o=o.closest("li.dropdown").addClass("active")),o.trigger("activate.bs.scrollspy")},e.prototype.clear=function(){t(this.selector).parentsUntil(this.options.target,".active").removeClass("active")};var o=t.fn.scrollspy;t.fn.scrollspy=i,t.fn.scrollspy.Constructor=e,t.fn.scrollspy.noConflict=function(){return t.fn.scrollspy=o,this},t(window).on("load.bs.scrollspy.data-api",function(){t('[data-spy="scroll"]').each(function(){var e=t(this);i.call(e,e.data())})})}(jQuery),+function(t){"use strict";function e(){var t=document.createElement("bootstrap"),e={WebkitTransition:"webkitTransitionEnd",MozTransition:"transitionend",OTransition:"oTransitionEnd otransitionend",transition:"transitionend"};for(var i in e)if(void 0!==t.style[i])return{end:e[i]};return!1}t.fn.emulateTransitionEnd=function(e){var i=!1,o=this;t(this).one("bsTransitionEnd",function(){i=!0});var n=function(){i||t(o).trigger(t.support.transition.end)};return setTimeout(n,e),this},t(function(){t.support.transition=e(),t.support.transition&&(t.event.special.bsTransitionEnd={bindType:t.support.transition.end,delegateType:t.support.transition.end,handle:function(e){return t(e.target).is(this)?e.handleObj.handler.apply(this,arguments):void 0}})})}(jQuery);
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports) {
 
 	//
@@ -25221,16 +25165,16 @@
 
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(12);
+	var content = __webpack_require__(11);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(8)(content, {});
+	var update = __webpack_require__(7)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -25247,11 +25191,67 @@
 	}
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(7)();
+	exports = module.exports = __webpack_require__(12)();
 	exports.push([module.id, ".grid-form *, .grid-form *:before, .grid-form *:after { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }\n.grid-form input[type=\"text\"], .grid-form input[type=\"email\"], .grid-form input[type=\"number\"], .grid-form input[type=\"password\"], .grid-form input[type=\"search\"], .grid-form input[type=\"tel\"], .grid-form input[type=\"url\"], .grid-form input[type=\"color\"], .grid-form input[type=\"date\"], .grid-form input[type=\"datetime\"], .grid-form input[type=\"datetime-local\"], .grid-form input[type=\"month\"], .grid-form input[type=\"time\"], .grid-form input[type=\"week\"], .grid-form textarea, .grid-form select { font-size: 18px; padding: 0; margin: 0; width: 100%; }\n.grid-form input[type=\"text\"], .grid-form input[type=\"email\"], .grid-form input[type=\"number\"], .grid-form input[type=\"password\"], .grid-form input[type=\"search\"], .grid-form input[type=\"tel\"], .grid-form input[type=\"url\"], .grid-form input[type=\"color\"], .grid-form input[type=\"date\"], .grid-form input[type=\"datetime\"], .grid-form input[type=\"datetime-local\"], .grid-form input[type=\"month\"], .grid-form input[type=\"time\"], .grid-form input[type=\"week\"], .grid-form textarea { border: 0; background: transparent; }\n.grid-form input[type=\"text\"]::-webkit-input-placeholder, .grid-form input[type=\"email\"]::-webkit-input-placeholder, .grid-form input[type=\"number\"]::-webkit-input-placeholder, .grid-form input[type=\"password\"]::-webkit-input-placeholder, .grid-form input[type=\"search\"]::-webkit-input-placeholder, .grid-form input[type=\"tel\"]::-webkit-input-placeholder, .grid-form input[type=\"url\"]::-webkit-input-placeholder, .grid-form input[type=\"color\"]::-webkit-input-placeholder, .grid-form input[type=\"date\"]::-webkit-input-placeholder, .grid-form input[type=\"datetime\"]::-webkit-input-placeholder, .grid-form input[type=\"datetime-local\"]::-webkit-input-placeholder, .grid-form input[type=\"month\"]::-webkit-input-placeholder, .grid-form input[type=\"time\"]::-webkit-input-placeholder, .grid-form input[type=\"week\"]::-webkit-input-placeholder, .grid-form textarea::-webkit-input-placeholder { font-weight: 100; color: #595959; }\n.grid-form input[type=\"text\"]:-moz-placeholder, .grid-form input[type=\"email\"]:-moz-placeholder, .grid-form input[type=\"number\"]:-moz-placeholder, .grid-form input[type=\"password\"]:-moz-placeholder, .grid-form input[type=\"search\"]:-moz-placeholder, .grid-form input[type=\"tel\"]:-moz-placeholder, .grid-form input[type=\"url\"]:-moz-placeholder, .grid-form input[type=\"color\"]:-moz-placeholder, .grid-form input[type=\"date\"]:-moz-placeholder, .grid-form input[type=\"datetime\"]:-moz-placeholder, .grid-form input[type=\"datetime-local\"]:-moz-placeholder, .grid-form input[type=\"month\"]:-moz-placeholder, .grid-form input[type=\"time\"]:-moz-placeholder, .grid-form input[type=\"week\"]:-moz-placeholder, .grid-form textarea:-moz-placeholder { font-weight: 100; color: #595959; }\n.grid-form input[type=\"text\"]:focus, .grid-form input[type=\"email\"]:focus, .grid-form input[type=\"number\"]:focus, .grid-form input[type=\"password\"]:focus, .grid-form input[type=\"search\"]:focus, .grid-form input[type=\"tel\"]:focus, .grid-form input[type=\"url\"]:focus, .grid-form input[type=\"color\"]:focus, .grid-form input[type=\"date\"]:focus, .grid-form input[type=\"datetime\"]:focus, .grid-form input[type=\"datetime-local\"]:focus, .grid-form input[type=\"month\"]:focus, .grid-form input[type=\"time\"]:focus, .grid-form input[type=\"week\"]:focus, .grid-form textarea:focus { outline: none; }\n.grid-form fieldset { border: none; padding: 0; margin: 0; }\n.grid-form fieldset legend { border: none; border-bottom: 4px solid #404040; color: #404040; font-size: 18px; font-weight: bold; padding-bottom: 5px; position: static; width: 100%; }\n.grid-form fieldset fieldset legend { border-bottom: 2px solid #404040; font-weight: normal; }\n.grid-form fieldset fieldset fieldset legend { border-bottom: 1px solid #404040; font-weight: normal; font-size: 15px; }\n.grid-form [data-row-span] { border-bottom: 1px solid #333; width: 100%; zoom: 1; }\n.grid-form [data-row-span]:before, .grid-form [data-row-span]:after { content: \"\"; display: table; }\n.grid-form [data-row-span]:after { clear: both; }\n@media only screen and (min-width: 0) and (max-width: 700px) { .grid-form [data-row-span] { border-bottom: none; } }\n.grid-form [data-row-span] [data-field-span] { padding: 8px; float: left; }\n@media only screen and (min-width: 0) and (max-width: 700px) { .grid-form [data-row-span] [data-field-span] { border-bottom: 1px solid #333; width: 100% !important; } }\n@media only screen and (min-width: 700px) { .grid-form [data-row-span] [data-field-span] { border-right: 1px solid #333; display: block; } }\n.grid-form [data-row-span] [data-field-span] label:first-child { margin-top: 0; text-transform: uppercase; letter-spacing: 1px; font-size: 10px; color: #333; display: block; margin-bottom: 4px; }\n.grid-form [data-row-span] [data-field-span] label:first-child:hover { cursor: text; }\n.grid-form [data-row-span] [data-field-span]:last-child { border-right: none; }\n.grid-form [data-row-span] [data-field-span].focus { background: #fffad4; }\n.grid-form [data-row-span] [data-field-span].focus label { color: #262626; }\n.grid-form [data-row-span] [data-field-span]:hover { background: #fffded; cursor: text; }\n@media print { .grid-form [data-row-span] { display: table; height: 56px; page-break-inside: avoid; }\n  .grid-form [data-row-span] [data-field-span] { border-right: 1px solid #333333; display: table-cell; float: none; }\n  .grid-form [data-row-span] [data-field-span].focus, .grid-form [data-row-span] [data-field-span]:hover { background: none; }\n  .grid-form [data-row-span] [data-field-span] label:first-child { letter-spacing: 0; } }\n.grid-form [data-row-span=\"1\"] > [data-field-span=\"1\"] { width: 100%; }\n.grid-form [data-row-span=\"2\"] > [data-field-span=\"1\"] { width: 50%; }\n.grid-form [data-row-span=\"2\"] > [data-field-span=\"2\"] { width: 100%; }\n.grid-form [data-row-span=\"3\"] > [data-field-span=\"1\"] { width: 33.33333%; }\n.grid-form [data-row-span=\"3\"] > [data-field-span=\"2\"] { width: 66.66667%; }\n.grid-form [data-row-span=\"3\"] > [data-field-span=\"3\"] { width: 100%; }\n.grid-form [data-row-span=\"4\"] > [data-field-span=\"1\"] { width: 25%; }\n.grid-form [data-row-span=\"4\"] > [data-field-span=\"2\"] { width: 50%; }\n.grid-form [data-row-span=\"4\"] > [data-field-span=\"3\"] { width: 75%; }\n.grid-form [data-row-span=\"4\"] > [data-field-span=\"4\"] { width: 100%; }\n.grid-form [data-row-span=\"5\"] > [data-field-span=\"1\"] { width: 20%; }\n.grid-form [data-row-span=\"5\"] > [data-field-span=\"2\"] { width: 40%; }\n.grid-form [data-row-span=\"5\"] > [data-field-span=\"3\"] { width: 60%; }\n.grid-form [data-row-span=\"5\"] > [data-field-span=\"4\"] { width: 80%; }\n.grid-form [data-row-span=\"5\"] > [data-field-span=\"5\"] { width: 100%; }\n.grid-form [data-row-span=\"6\"] > [data-field-span=\"1\"] { width: 16.66667%; }\n.grid-form [data-row-span=\"6\"] > [data-field-span=\"2\"] { width: 33.33333%; }\n.grid-form [data-row-span=\"6\"] > [data-field-span=\"3\"] { width: 50%; }\n.grid-form [data-row-span=\"6\"] > [data-field-span=\"4\"] { width: 66.66667%; }\n.grid-form [data-row-span=\"6\"] > [data-field-span=\"5\"] { width: 83.33333%; }\n.grid-form [data-row-span=\"6\"] > [data-field-span=\"6\"] { width: 100%; }\n.grid-form [data-row-span=\"7\"] > [data-field-span=\"1\"] { width: 14.28571%; }\n.grid-form [data-row-span=\"7\"] > [data-field-span=\"2\"] { width: 28.57143%; }\n.grid-form [data-row-span=\"7\"] > [data-field-span=\"3\"] { width: 42.85714%; }\n.grid-form [data-row-span=\"7\"] > [data-field-span=\"4\"] { width: 57.14286%; }\n.grid-form [data-row-span=\"7\"] > [data-field-span=\"5\"] { width: 71.42857%; }\n.grid-form [data-row-span=\"7\"] > [data-field-span=\"6\"] { width: 85.71429%; }\n.grid-form [data-row-span=\"7\"] > [data-field-span=\"7\"] { width: 100%; }\n.grid-form [data-row-span=\"8\"] > [data-field-span=\"1\"] { width: 12.5%; }\n.grid-form [data-row-span=\"8\"] > [data-field-span=\"2\"] { width: 25%; }\n.grid-form [data-row-span=\"8\"] > [data-field-span=\"3\"] { width: 37.5%; }\n.grid-form [data-row-span=\"8\"] > [data-field-span=\"4\"] { width: 50%; }\n.grid-form [data-row-span=\"8\"] > [data-field-span=\"5\"] { width: 62.5%; }\n.grid-form [data-row-span=\"8\"] > [data-field-span=\"6\"] { width: 75%; }\n.grid-form [data-row-span=\"8\"] > [data-field-span=\"7\"] { width: 87.5%; }\n.grid-form [data-row-span=\"8\"] > [data-field-span=\"8\"] { width: 100%; }\n.grid-form [data-row-span=\"9\"] > [data-field-span=\"1\"] { width: 11.11111%; }\n.grid-form [data-row-span=\"9\"] > [data-field-span=\"2\"] { width: 22.22222%; }\n.grid-form [data-row-span=\"9\"] > [data-field-span=\"3\"] { width: 33.33333%; }\n.grid-form [data-row-span=\"9\"] > [data-field-span=\"4\"] { width: 44.44444%; }\n.grid-form [data-row-span=\"9\"] > [data-field-span=\"5\"] { width: 55.55556%; }\n.grid-form [data-row-span=\"9\"] > [data-field-span=\"6\"] { width: 66.66667%; }\n.grid-form [data-row-span=\"9\"] > [data-field-span=\"7\"] { width: 77.77778%; }\n.grid-form [data-row-span=\"9\"] > [data-field-span=\"8\"] { width: 88.88889%; }\n.grid-form [data-row-span=\"9\"] > [data-field-span=\"9\"] { width: 100%; }\n.grid-form [data-row-span=\"10\"] > [data-field-span=\"1\"] { width: 10%; }\n.grid-form [data-row-span=\"10\"] > [data-field-span=\"2\"] { width: 20%; }\n.grid-form [data-row-span=\"10\"] > [data-field-span=\"3\"] { width: 30%; }\n.grid-form [data-row-span=\"10\"] > [data-field-span=\"4\"] { width: 40%; }\n.grid-form [data-row-span=\"10\"] > [data-field-span=\"5\"] { width: 50%; }\n.grid-form [data-row-span=\"10\"] > [data-field-span=\"6\"] { width: 60%; }\n.grid-form [data-row-span=\"10\"] > [data-field-span=\"7\"] { width: 70%; }\n.grid-form [data-row-span=\"10\"] > [data-field-span=\"8\"] { width: 80%; }\n.grid-form [data-row-span=\"10\"] > [data-field-span=\"9\"] { width: 90%; }\n.grid-form [data-row-span=\"10\"] > [data-field-span=\"10\"] { width: 100%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"1\"] { width: 9.09091%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"2\"] { width: 18.18182%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"3\"] { width: 27.27273%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"4\"] { width: 36.36364%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"5\"] { width: 45.45455%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"6\"] { width: 54.54545%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"7\"] { width: 63.63636%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"8\"] { width: 72.72727%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"9\"] { width: 81.81818%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"10\"] { width: 90.90909%; }\n.grid-form [data-row-span=\"11\"] > [data-field-span=\"11\"] { width: 100%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"1\"] { width: 8.33333%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"2\"] { width: 16.66667%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"3\"] { width: 25%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"4\"] { width: 33.33333%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"5\"] { width: 41.66667%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"6\"] { width: 50%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"7\"] { width: 58.33333%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"8\"] { width: 66.66667%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"9\"] { width: 75%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"10\"] { width: 83.33333%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"11\"] { width: 91.66667%; }\n.grid-form [data-row-span=\"12\"] > [data-field-span=\"12\"] { width: 100%; }\n\n/*# sourceMappingURL=gridforms.css.map */\n", ""]);
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	// css base code, injected by the css-loader
+	module.exports = function() {
+		var list = [];
+
+		// return the list of modules as css string
+		list.toString = function toString() {
+			var result = [];
+			for(var i = 0; i < this.length; i++) {
+				var item = this[i];
+				if(item[2]) {
+					result.push("@media " + item[2] + "{" + item[1] + "}");
+				} else {
+					result.push(item[1]);
+				}
+			}
+			return result.join("");
+		};
+
+		// import a list of modules into the list
+		list.i = function(modules, mediaQuery) {
+			if(typeof modules === "string")
+				modules = [[null, modules, ""]];
+			var alreadyImportedModules = {};
+			for(var i = 0; i < this.length; i++) {
+				var id = this[i][0];
+				if(typeof id === "number")
+					alreadyImportedModules[id] = true;
+			}
+			for(i = 0; i < modules.length; i++) {
+				var item = modules[i];
+				// skip already imported module
+				// this implementation is not 100% perfect for weird media query combinations
+				//  when a module is imported multiple times with different media queries.
+				//  I hope this will never occur (Hey this way we have smaller bundles)
+				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+					if(mediaQuery && !item[2]) {
+						item[2] = mediaQuery;
+					} else if(mediaQuery) {
+						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+					}
+					list.push(item);
+				}
+			}
+		};
+		return list;
+	};
+
 
 /***/ },
 /* 13 */
@@ -25263,7 +25263,7 @@
 	var content = __webpack_require__(14);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(8)(content, {});
+	var update = __webpack_require__(7)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -25283,7 +25283,7 @@
 /* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(7)();
+	exports = module.exports = __webpack_require__(12)();
 	exports.push([module.id, ".sph-axis {\n  /* .tick is a class generated by d3 */\n}\n.sph-axis line,\n.sph-axis path {\n  fill: none;\n  shape-rendering: crispEdges;\n}\n.sph-axis .tick text {\n  stroke: none;\n  font-size: 12px;\n}\n.sph-title {\n  padding: 6px 0;\n  text-align: center;\n}\n.sph-table {\n  width: 100%;\n  border-collapse: collapse;\n}\n.sph-table td {\n  padding: 4px 12px;\n}\n.sph-widget {\n  width: 100%;\n  height: 100%;\n  margin: 10px 0;\n}\n.sph-chart-bars {\n  height: 100%;\n  margin: 0 auto;\n  padding: 10px;\n}\n.sph-last-value {\n  text-align: right;\n  font-size: 3.75em;\n}\n.sph-summary {\n  padding: 0;\n  padding-bottom: 10px;\n  text-align: right;\n}\n.sph-chart-sparkline {\n  height: 25px;\n}\n.sph-sparkline-path {\n  fill: none;\n}\n.sph-chart-lines {\n  height: 160px;\n  padding: 10px;\n  padding-right: 5px;\n}\n.sph-lines-line {\n  fill: none;\n}\n.sph-row-lines-metric {\n  fill: none;\n}\n.sph-col-lines-title {\n  width: 70%;\n}\n.sph-col-lines-value {\n  text-align: right;\n}\n.sph-chart-pie {\n  padding: 0;\n  height: 220px;\n}\n.sph-pie-slice path {\n  stroke: none;\n}\n.sph-col-pie-percent {\n  width: 8%;\n  text-align: right;\n}\n.sph-col-pie-value {\n  text-align: right;\n}\n", ""]);
 
 /***/ },
@@ -25296,7 +25296,7 @@
 	var content = __webpack_require__(16);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(8)(content, {});
+	var update = __webpack_require__(7)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -25316,7 +25316,7 @@
 /* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(7)();
+	exports = module.exports = __webpack_require__(12)();
 	exports.push([module.id, ".sph-title {\n  color: #f2f2f2;\n  background: #3a3a3a;\n}\n.sph-axis {\n  /* .tick is a class set by d3 */\n}\n.sph-axis line,\n.sph-axis path {\n  stroke: #636363;\n}\n.sph-axis .tick text {\n  fill: #636363;\n}\n.sph-table {\n  border-spacing: 2px 0;\n  border-collapse: separate;\n}\n.sph-table td {\n  background: rgba(58, 58, 58, 0.07);\n}\n.sph-table tr:nth-child(2n) td {\n  background: rgba(58, 58, 58, 0.025);\n}\n.sph-table tr.sph-row-tfoot td {\n  border-top: 2px solid rgba(58, 58, 58, 0.16);\n}\n.sph-table tr td.sph-col-swatch {\n  padding: 0;\n  width: 12px;\n}\n.sph-table tr td.sph-col-none {\n  border-top: none;\n  background: transparent;\n}\n.sph-widget {\n  color: #3a3a3a;\n}\n.sph-chart-bars {\n  min-height: 180px;\n}\n.sph-axis-bars-y line {\n  stroke-width: 1px;\n  stroke: rgba(242, 242, 242, 0.5);\n}\n.sph-axis-bars-y path {\n  stroke: none;\n}\n.sph-sparkline-path {\n  stroke: #3a3a3a;\n  stroke-width: 4px;\n}\n.sph-sparkline-path-diff {\n  stroke-width: 4.5px;\n}\n.sph-last.sph-is-status-good .sph-summary-diff {\n  color: #2ca02c;\n}\n.sph-last.sph-is-status-good .sph-sparkline-path-diff {\n  stroke: #2ca02c;\n}\n.sph-last.sph-is-status-good .sph-sparkline-dot {\n  fill: #2ca02c;\n}\n.sph-last.sph-is-status-bad .sph-summary-diff {\n  color: #d62728;\n}\n.sph-last.sph-is-status-bad .sph-sparkline-path-diff {\n  stroke: #d62728;\n}\n.sph-last.sph-is-status-bad .sph-sparkline-dot {\n  fill: #d62728;\n}\n.sph-last.sph-is-status-neutral .sph-summary-diff {\n  color: #3a3a3a;\n}\n.sph-last.sph-is-status-neutral .sph-sparkline-path-diff {\n  stroke: #3a3a3a;\n}\n.sph-last.sph-is-status-neutral .sph-sparkline-dot {\n  fill: #3a3a3a;\n}\n.sph-lines-metric {\n  stroke-width: 2px;\n}\n.sph-axis-lines line {\n  stroke-width: 1px;\n  stroke: rgba(58, 58, 58, 0.07);\n}\n.sph-axis-lines path {\n  stroke: none;\n}\n", ""]);
 
 /***/ },
@@ -26462,11 +26462,11 @@
 	var pg = __webpack_require__(49);
 	var drawers = __webpack_require__(86);
 	var seqtree = __webpack_require__(176);
-	var bootbox = __webpack_require__(227);
+	var bootbox = __webpack_require__(229);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(228),
+	  template: __webpack_require__(230),
 	  data: function() {
 	    return {
 	      publishCount: 0,
@@ -72442,8 +72442,8 @@
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(225),
-	  partials: {blocks: __webpack_require__(226)},
+	  template: __webpack_require__(227),
+	  partials: {blocks: __webpack_require__(228)},
 	  data: function() {
 	    return {
 	      blocks: []
@@ -72545,7 +72545,7 @@
 
 	// TODO something similar to this for filters
 	var BlockLibrary = Ractive.extend({
-	  template: __webpack_require__(224),
+	  template: __webpack_require__(226),
 	  data: function() {
 	    return BlockLibrary.data;
 	  },
@@ -72707,17 +72707,17 @@
 
 	exports.ask = __webpack_require__(183);
 	exports.askchoice = __webpack_require__(193);
-	exports.register = __webpack_require__(198);
-	exports.unsubscribe = __webpack_require__(202);
-	exports.optout = __webpack_require__(203);
-	exports.askcliniccode = __webpack_require__(204);
-	exports.route = __webpack_require__(207);
+	exports.register = __webpack_require__(200);
+	exports.unsubscribe = __webpack_require__(204);
+	exports.optout = __webpack_require__(205);
+	exports.askcliniccode = __webpack_require__(206);
+	exports.route = __webpack_require__(209);
 	exports.base = __webpack_require__(184);
-	exports.calcweeks = __webpack_require__(209);
-	exports.end = __webpack_require__(212);
-	exports.shownext9months = __webpack_require__(215);
-	exports.userdialsin = __webpack_require__(218);
-	exports.usersendsmessage = __webpack_require__(221);
+	exports.calcweeks = __webpack_require__(211);
+	exports.end = __webpack_require__(214);
+	exports.shownext9months = __webpack_require__(217);
+	exports.userdialsin = __webpack_require__(220);
+	exports.usersendsmessage = __webpack_require__(223);
 
 
 /***/ },
@@ -72907,16 +72907,25 @@
 	  draw: function() {
 	    this.drawTotalsChart();
 	  },
-	  appendPublishTimes(el) {
+	  appendPublishTimes(el, append) {
 	    var chart = el.select('.sph-chart');
 
 	    var fx = d3.time.scale()
 	      .domain(d3.extent(times))
 	      .range([0, 600]);
 
-	    chart
-	      .select('.sph-chart svg > g')
-	      .insert('g', '.sph-lines-metrics,.sph-areas-metrics')
+	    if (append)
+	      chart
+	        .select('.sph-chart svg > g')
+	        .append('g')
+	          .attr('class', 'nm-publish-times');
+	    else
+	      chart
+	        .select('.sph-chart svg > g')
+	        .insert('g', '.sph-lines-metrics,.sph-areas-metrics')
+	          .attr('class', 'nm-publish-times');
+
+	    chart.select('.nm-publish-times')
 	      .attr('transform', sapphire.utils.translate(0, 110))
 	      .selectAll('.nm-publish-time')
 	      .data(publishTimes).enter()
@@ -84369,11 +84378,11 @@
 	var drawers = __webpack_require__(86);
 	var ChooseSequence = __webpack_require__(194);
 	var Chooser = __webpack_require__(189);
-	var Areas = __webpack_require__(232);
+	var Areas = __webpack_require__(196);
 
 
 	var AskChoice = Base.extend({
-	  template: __webpack_require__(196),
+	  template: __webpack_require__(197),
 	  data: function() {
 	    return {
 	      text: '',
@@ -84436,7 +84445,7 @@
 
 
 	AskChoice.Edit = Base.Edit.extend({
-	  template: __webpack_require__(197),
+	  template: __webpack_require__(198),
 	  showTab(e, to) {
 	    e.original.preventDefault();
 	    $(this.el).find('a[href="#' + to + '"]').tab('show');
@@ -84520,7 +84529,7 @@
 
 
 	AskChoice.Stats = Base.Stats.extend({
-	  template: __webpack_require__(231),
+	  template: __webpack_require__(199),
 	  draw() {
 	    this.drawTotalsChart();
 	    this.drawAnswersChart();
@@ -84556,13 +84565,10 @@
 	  drawAnswersChart() {
 	  },
 	  drawAnswersPercentageChart() {
-	    var totalAnswers = this.get('stats.answers');
-
 	    d3.select(this.el)
 	      .select('.nm-chart-answers-percentages')
 	      .datum({metrics: this.getPercentageMetrics()})
-	      .call(answerPercentagesChart)
-	      .call(this.appendPublishTimes.bind(this));
+	      .call(answerPercentagesChart);
 	  }
 	});
 
@@ -84636,21 +84642,396 @@
 
 /***/ },
 /* 196 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Multiple Choice Question"]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":4,"f":[{"t":2,"r":"text"}],"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No content"]}],"n":51,"r":"text"}]}," ",{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"a","a":{"class":["list-group-item nm-preview-list-item ",{"t":4,"f":["active"],"x":{"r":["activeBlockItemId","id"],"s":"_0===_1"}}],"href":"#"},"v":{"click":{"m":"onChoiceClick","a":{"r":["event","id"],"s":"[_0,_1]"}}},"f":[{"t":7,"e":"span","a":{"class":"nm-preview-arrow glyphicon glyphicon-menu-right pull-right"}}," ",{"t":7,"e":"p","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". ",{"t":2,"r":"text"}]}," ",{"t":7,"e":"p","f":[" ↳ ",{"t":2,"x":{"r":["getSequenceName","route"],"s":"_0(_1)"}}]}]}],"r":"route"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item","href":"#"},"f":[{"t":7,"e":"p","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". ",{"t":2,"r":"text"}]}]}],"n":51,"r":"route"}],"i":"i","r":"choices"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item nm-preview-annotation"},"f":["Answer saved as ",{"t":7,"e":"strong","f":[{"t":2,"r":"saveAs"}]}]}],"r":"saveAs"}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs pull-right"},"f":[{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Views ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.views"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Timeouts ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.timeouts"],"s":"_0(_1.sum(_2))"}}]}]}]}],"x":{"r":["publishCount"],"s":"_0>0"}}]}]}]};
+	var d3 = __webpack_require__(185);
+	var sapphire = __webpack_require__(186);
+	var utils = sapphire.utils;
+
+
+	module.exports = sapphire.widgets.widget.extend()
+	  .prop('title')
+	  .set(d3.functor)
+	  .default(function(d) { return d.title; })
+
+	  .prop('metrics')
+	  .set(d3.functor)
+	  .default(function(d) { return d.metrics; })
+
+	  .prop('key')
+	  .set(d3.functor)
+	  .default(function(d, i) { return i; })
+
+	  .prop('metricTitle')
+	  .set(d3.functor)
+	  .default(function(d) { return d.title; })
+
+	  .prop('values')
+	  .set(d3.functor)
+	  .default(function(d) { return d.values; })
+
+	  .prop('x')
+	  .set(d3.functor)
+	  .default(function(d) { return d.x; })
+
+	  .prop('y')
+	  .set(d3.functor)
+	  .default(function(d) { return d.y; })
+
+	  .prop('xTickFormat')
+	  .default(null)
+
+	  .prop('xTicks')
+	  .default(8)
+
+	  .prop('yFormat')
+	  .default(d3.format('.1p'))
+
+	  .prop('yTicks')
+	  .default(5)
+
+	  .prop('yTickFormat')
+	  .default(d3.format('.1p'))
+
+	  .prop('yMin')
+	  .set(d3.functor)
+	  .default(d3.min)
+
+	  .prop('yMax')
+	  .set(d3.functor)
+	  .default(d3.max)
+
+	  .prop('none')
+	  .default(0)
+
+	  .prop('chartMargin')
+	  .default({
+	    top: 10,
+	    left: 45,
+	    right: 5,
+	    bottom: 20
+	  })
+
+	  .prop('colors')
+	  .prop('chart')
+	  .prop('legend')
+
+	  .init(function() {
+	    this.colors(d3.scale.category10());
+	  })
+
+	  .draw(function(el) {
+	    var opts = this.props();
+	    normalize(el, opts);
+	    drawWidget(el, opts);
+	  });
+
+
+	function drawWidget(el, opts) {
+	  el.classed('sph-widget sph-areas', true);
+
+	  if (!opts.explicitComponents) initComponents(el);
+
+	  var component = el.select('[data-widget-component="title"]');
+	  if (component.size()) component.call(drawTitle);
+
+	  component = el.select('[data-widget-component="chart"]');
+	  if (component.size()) component.datum(getMetrics).call(drawChart, opts);
+
+	  component = el.select('[data-widget-component="legend"]');
+	  if (component.size()) component.datum(getMetrics).call(drawLegend, opts);
+	}
+
+
+	function initComponents(el) {
+	  el.append('div')
+	    .attr('data-widget-component', 'title');
+
+	  el.append('div')
+	    .attr('data-widget-component', 'chart');
+
+	  el.append('div')
+	    .attr('data-widget-component', 'legend');
+	}
+
+
+	function drawTitle(title) {
+	  title
+	    .classed('sph-title', true)
+	    .text(function(d) { return d.title; });
+	}
+
+
+	function drawChart(chart, opts) {
+	  chart
+	    .classed('sph-chart sph-chart-areas', true);
+
+	  var dims = utils.box()
+	    .margin(opts.chartMargin)
+	    .width(utils.innerWidth(chart))
+	    .height(utils.innerHeight(chart))
+	    .calc();
+
+	  var allValues = chart
+	    .datum()
+	    .reduce(function(results, metric) {
+	      results.push.apply(results, metric.values);
+	      return results;
+	    }, []);
+
+	  var fx = d3.time.scale()
+	    .domain(d3.extent(allValues, function(d) { return d.x; }))
+	    .range([0, dims.innerWidth]);
+
+	  var y0s = allValues
+	    .map(function(d) { return d.y0; });
+
+	  var y1s = allValues
+	    .map(function(d) { return d.y1; });
+
+	  var fy = d3.scale.linear()
+	    .domain([opts.yMin(y0s), opts.yMax(y1s)])
+	    .range([dims.innerHeight, 0]);
+
+	  chart
+	    .filter(utils.isEmptyNode)
+	    .call(initChart);
+
+	  chart.select('svg')
+	    .call(drawSvg, dims, fx, fy, opts);
+	}
+
+
+	function initChart(chart) {
+	  var svg = chart.append('svg')
+	    .append('g');
+
+	  svg.append('g')
+	    .attr('class', 'sph-areas-metrics');
+
+	  svg.append('g')
+	    .attr('class', 'sph-axis sph-axis-lines sph-axis-lines-x');
+
+	  svg.append('g')
+	    .attr('class', 'sph-axis sph-axis-lines sph-axis-lines-y');
+	}
+
+
+	function drawSvg(svg, dims, fx, fy, opts) {
+	  svg
+	    .attr('width', dims.width)
+	    .attr('height', dims.height)
+	    .select('g')
+	      .attr('transform', utils.translate(dims.margin.left, dims.margin.top));
+
+	  svg.select('.sph-areas-metrics')
+	    .call(drawChartMetrics, fx, fy);
+
+	  svg.select('.sph-axis-lines-x')
+	    .call(drawXAxis, dims, fx, opts);
+
+	  svg.select('.sph-axis-lines-y')
+	    .call(drawYAxis, dims, fy, opts);
+	}
+
+
+	function drawChartMetrics(metrics, fx, fy) {
+	  var area = d3.svg.area()
+	    .x(function(d) { return fx(d.x); })
+	    .y0(function(d) { return fy(d.y0); })
+	    .y1(function(d) { return fy(d.y1); });
+
+	  metrics.selectAll('.sph-areas-metric')
+	    .data(function(d) { return d; },
+	          function(d) { return d.key; })
+	    .call(drawChartMetric, fx, fy, area);
+	}
+
+
+	function drawChartMetric(metric, fx, fy, area) {
+	  metric.enter().append('g')
+	    .attr('class', 'sph-areas-metric')
+	    .attr('data-key', function(d) { return d.key; })
+	    .append('path')
+	      .attr('class', 'sph-areas-area');
+
+	  metric.select('.sph-areas-area')
+	    .attr('fill', function(d) { return d.color; })
+	    .attr('d', function(d) { return area(d.values); });
+
+	  metric.exit()
+	    .remove();
+	}
+
+
+	function drawXAxis(axis, dims, fx, opts) {
+	  axis
+	    .attr('transform', utils.translate(0, dims.innerHeight))
+	    .call(d3.svg.axis()
+	      .scale(fx)
+	      .tickPadding(8)
+	      .ticks(opts.xTicks)
+	      .tickFormat(opts.xTickFormat)
+	      .tickSize(-dims.innerHeight));
+	}
+
+
+	function drawYAxis(axis, dims, fy, opts) {
+	  axis.call(d3.svg.axis()
+	    .orient('left')
+	    .scale(fy)
+	    .tickPadding(8)
+	    .ticks(opts.yTicks)
+	    .tickFormat(opts.yTickFormat)
+	    .tickSize(-dims.innerWidth));
+	}
+
+
+	function drawLegend(legend, opts) {
+	  legend
+	    .filter(utils.isEmptyNode)
+	    .call(initLegend);
+
+	  legend.select('.sph-table-areas').selectAll('.sph-row-areas-metric')
+	    .data(function(d) { return d; },
+	          function(d) { return d.key; })
+	    .call(drawLegendMetric, opts);
+	}
+
+
+	function initLegend(legend) {
+	  legend.append('table')
+	    .classed('sph-table sph-table-areas', true);
+	}
+
+
+	function drawLegendMetric(metric, opts) {
+	  var none = opts.yFormat(opts.none);
+
+	  metric.enter().append('tr')
+	    .call(enterLegendMetric);
+
+	  metric.select('.sph-col-swatch')
+	    .style('background', function(d) { return d.color; });
+
+	  metric.select('.sph-col-areas-title')
+	    .text(function(d) { return d.title; });
+
+	  metric.select('.sph-col-areas-value')
+	    .text(function(d) {
+	      d = d.values[d.values.length - 1];
+
+	      return d
+	        ? opts.yFormat(d.y)
+	        : none;
+	    });
+
+	  metric.exit()
+	    .remove();
+	}
+
+
+	function enterLegendMetric(metric) {
+	  metric
+	    .attr('data-key', function(d) { return d.key; })
+	    .attr('class', 'sph-row-areas-metric');
+
+	  metric.append('td')
+	    .attr('class', 'sph-col-swatch');
+
+	  metric.append('td')
+	    .attr('class', 'sph-col-areas-title');
+
+	  metric.append('td')
+	    .attr('class', 'sph-col-areas-value');
+	}
+
+
+	function normalize(el, opts) {
+	  var node = el.node();
+
+	  el.datum(function(d, i) {
+	    var title = opts.title.call(node, d, i);
+
+	    return {
+	      title: title,
+	      metrics: opts.metrics.call(node, d, i).map(metric)
+	    };
+	  });
+
+	  el.datum(function(d) {
+	    var metrics = d.metrics;
+
+	    metrics
+	      .forEach(function(metric, i) {
+	        var values = metric.values;
+	        var n = values.length;
+	        var j = -1;
+	        var v;
+
+	        while (++j < n) {
+	          v = values[j];
+
+	          if (i > 0) v.y0 = metrics[i - 1].values[j].y1;
+	          else v.y0 = 0;
+
+	          v.y1 = v.y0 + v.y;
+	        }
+	      });
+
+	    return d;
+	  });
+
+	  function metric(d, i) {
+	    var key = opts.key
+	      .call(node, d, i)
+	      .toString();
+
+	    return {
+	      key: key,
+	      color: opts.colors(key),
+	      title: opts.metricTitle.call(node, d, i),
+	      values: opts.values.call(node, d, i).map(value)
+	    };
+	  }
+
+	  function value(d, i) {
+	    return {
+	      x: opts.x.call(node, d, i),
+	      y: opts.y.call(node, d, i)
+	    };
+	  }
+	}
+
+
+	function getMetrics(d) {
+	  return d.metrics;
+	}
+
 
 /***/ },
 /* 197 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Multiple Choice Question ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"grid-form"},"f":[{"t":7,"e":"fieldset","f":[{"t":7,"e":"div","a":{"data-row-span":"1","class":[{"t":4,"f":["is-incomplete"],"n":51,"r":"text"}]},"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"label","f":["Question"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}," ",{"t":7,"e":"div","a":{"data-row-span":"2","class":"nm-heading-row"},"f":[{"t":7,"e":"div","a":{"data-field-span":[{"t":2,"x":{"r":["useAnswerSaving"],"s":"2-_0"}}]},"f":[{"t":7,"e":"label","f":["Choices"]}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"label","f":["Save as"]}]}],"r":"useAnswerSaving"}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"data-row-span":"2","class":["nm-choice-row ",{"t":4,"f":["nm-choice-row-first"],"x":{"r":["i"],"s":"_0===0"}}]},"f":[{"t":7,"e":"div","a":{"data-field-span":[{"t":2,"x":{"r":["useAnswerSaving"],"s":"2-_0"}}],"class":["nm-choice ",{"t":4,"f":["nm-choice-placeholder"],"x":{"r":["i","allChoices.length"],"s":"_0===_1-1"}}]},"f":[{"t":7,"e":"div","a":{"class":"nm-choice-text"},"f":[{"t":7,"e":"span","a":{"class":"nm-input-prefix"},"f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". "]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"text"}]},"v":{"keyup":{"m":"onChoiceKeyDown","a":{"r":["i"],"s":"[_0]"}}}}]}," ",{"t":4,"f":[{"t":7,"e":"div","f":[" ↳ ",{"t":7,"e":"a","a":{"href":"#"},"v":{"click":{"m":"onRouteClick","a":{"r":["event","id"],"s":"[_0,_1]"}}},"f":[{"t":2,"x":{"r":["getSequenceName","route"],"s":"_0(_1)"}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"setRoute","a":{"r":["id"],"s":"[_0]"}}},"f":["Change"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"removeRoute","a":{"r":["id"],"s":"[_0]"}}},"f":["Remove"]}]}]}],"r":"route"}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"input","a":{"type":"text"},"m":[{"t":4,"f":["value=\"",{"t":2,"r":".saveAs"},"\""],"r":".saveAs"},{"t":4,"f":[" value=\"",{"t":2,"r":".text"}," \""],"n":51,"r":".saveAs"}]}]}],"r":"useAnswerSaving"}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-row-actions"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"setRoute","a":{"r":["id"],"s":"[_0]"}}},"f":["↳ Route"]}],"n":51,"r":"route"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"f":["Remove"]}]}]}],"i":"i","r":"allChoices"}," ",{"t":7,"e":"div","a":{"data-row-span":"3"},"f":[{"t":7,"e":"div","a":{"data-field-span":"3"},"f":[{"t":7,"e":"label","m":[{"t":4,"f":["class=\"nm-unused\""],"n":51,"r":"useAnswerSaving"}],"f":["Save answer as (optional)"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Multiple Choice Question"]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":4,"f":[{"t":2,"r":"text"}],"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No content"]}],"n":51,"r":"text"}]}," ",{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"a","a":{"class":["list-group-item nm-preview-list-item ",{"t":4,"f":["active"],"x":{"r":["activeBlockItemId","id"],"s":"_0===_1"}}],"href":"#"},"v":{"click":{"m":"onChoiceClick","a":{"r":["event","id"],"s":"[_0,_1]"}}},"f":[{"t":7,"e":"span","a":{"class":"nm-preview-arrow glyphicon glyphicon-menu-right pull-right"}}," ",{"t":7,"e":"p","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". ",{"t":2,"r":"text"}]}," ",{"t":7,"e":"p","f":[" ↳ ",{"t":2,"x":{"r":["getSequenceName","route"],"s":"_0(_1)"}}]}]}],"r":"route"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item","href":"#"},"f":[{"t":7,"e":"p","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". ",{"t":2,"r":"text"}]}]}],"n":51,"r":"route"}],"i":"i","r":"choices"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item nm-preview-annotation"},"f":["Answer saved as ",{"t":7,"e":"strong","f":[{"t":2,"r":"saveAs"}]}]}],"r":"saveAs"}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs pull-right"},"f":[{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Views ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.views"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Timeouts ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.timeouts"],"s":"_0(_1.sum(_2))"}}]}]}]}],"x":{"r":["publishCount"],"s":"_0>0"}}]}]}]};
 
 /***/ },
 /* 198 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Multiple Choice Question ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"grid-form"},"f":[{"t":7,"e":"fieldset","f":[{"t":7,"e":"div","a":{"data-row-span":"1","class":[{"t":4,"f":["is-incomplete"],"n":51,"r":"text"}]},"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"label","f":["Question"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}," ",{"t":7,"e":"div","a":{"data-row-span":"2","class":"nm-heading-row"},"f":[{"t":7,"e":"div","a":{"data-field-span":[{"t":2,"x":{"r":["useAnswerSaving"],"s":"2-_0"}}]},"f":[{"t":7,"e":"label","f":["Choices"]}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"label","f":["Save as"]}]}],"r":"useAnswerSaving"}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"data-row-span":"2","class":["nm-choice-row ",{"t":4,"f":["nm-choice-row-first"],"x":{"r":["i"],"s":"_0===0"}}]},"f":[{"t":7,"e":"div","a":{"data-field-span":[{"t":2,"x":{"r":["useAnswerSaving"],"s":"2-_0"}}],"class":["nm-choice ",{"t":4,"f":["nm-choice-placeholder"],"x":{"r":["i","allChoices.length"],"s":"_0===_1-1"}}]},"f":[{"t":7,"e":"div","a":{"class":"nm-choice-text"},"f":[{"t":7,"e":"span","a":{"class":"nm-input-prefix"},"f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". "]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"text"}]},"v":{"keyup":{"m":"onChoiceKeyDown","a":{"r":["i"],"s":"[_0]"}}}}]}," ",{"t":4,"f":[{"t":7,"e":"div","f":[" ↳ ",{"t":7,"e":"a","a":{"href":"#"},"v":{"click":{"m":"onRouteClick","a":{"r":["event","id"],"s":"[_0,_1]"}}},"f":[{"t":2,"x":{"r":["getSequenceName","route"],"s":"_0(_1)"}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"setRoute","a":{"r":["id"],"s":"[_0]"}}},"f":["Change"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"removeRoute","a":{"r":["id"],"s":"[_0]"}}},"f":["Remove"]}]}]}],"r":"route"}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"input","a":{"type":"text"},"m":[{"t":4,"f":["value=\"",{"t":2,"r":".saveAs"},"\""],"r":".saveAs"},{"t":4,"f":[" value=\"",{"t":2,"r":".text"}," \""],"n":51,"r":".saveAs"}]}]}],"r":"useAnswerSaving"}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-row-actions"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"setRoute","a":{"r":["id"],"s":"[_0]"}}},"f":["↳ Route"]}],"n":51,"r":"route"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"f":["Remove"]}]}]}],"i":"i","r":"allChoices"}," ",{"t":7,"e":"div","a":{"data-row-span":"3"},"f":[{"t":7,"e":"div","a":{"data-field-span":"3"},"f":[{"t":7,"e":"label","m":[{"t":4,"f":["class=\"nm-unused\""],"n":51,"r":"useAnswerSaving"}],"f":["Save answer as (optional)"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
+
+/***/ },
+/* 199 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["User Interaction Statistics ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"h4","f":["Summary"]}," ",{"t":7,"e":"table","a":{"class":"sph-table nm-table-small"},"f":[{"t":7,"e":"tbody","f":[{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":["Total views"]}," ",{"t":7,"e":"td","f":[{"t":2,"x":{"r":["formatValue","_","stats.views"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":["Total timeouts"]}," ",{"t":7,"e":"td","f":[{"t":2,"x":{"r":["formatValue","_","stats.timeouts"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":["Total replies"]}," ",{"t":7,"e":"td","f":[{"t":2,"x":{"r":["formatValue","_","stats.answers"],"s":"_0(_1.sum(_2))"}}]}]}]}]}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"div","a":{"class":"nm-charts"},"f":[{"t":7,"e":"h4","f":["Interactions over the last 7 days"]}," ",{"t":7,"e":"div","a":{"class":"nm-chart-totals"},"f":[{"t":7,"e":"div","a":{"data-widget-component":"chart"}}," ",{"t":7,"e":"div","a":{"data-widget-component":"legend"}}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"h4","f":["Answers over the last 7 days"]}," ",{"t":7,"e":"div","a":{"class":"nm-chart-answers"},"f":[{"t":7,"e":"div","a":{"data-widget-component":"chart"}}," ",{"t":7,"e":"div","a":{"data-widget-component":"legend"}}]}," ",{"t":7,"e":"div","a":{"class":"nm-chart-answers-percentages"},"f":[{"t":7,"e":"div","a":{"data-widget-component":"chart"}}," ",{"t":7,"e":"div","a":{"data-widget-component":"legend"}}]}]}]};
+
+/***/ },
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Action = __webpack_require__(199);
+	var Action = __webpack_require__(201);
 
 
 	var Register = Action.extend({
@@ -84682,7 +85063,7 @@
 
 
 /***/ },
-/* 199 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(22);
@@ -84692,7 +85073,7 @@
 
 
 	var Action = Base.extend({
-	  template: __webpack_require__(200),
+	  template: __webpack_require__(202),
 	  isComplete: function() {
 	    return _.all(_.pluck(this.get('fields'), 'userFieldId'));
 	  }
@@ -84700,7 +85081,7 @@
 
 
 	Action.Edit = Base.Edit.extend({
-	  template: __webpack_require__(201),
+	  template: __webpack_require__(203),
 	  computed: {
 	    parsedFields: function() {
 	      var userFields = dashboard.get('userFields');
@@ -84747,22 +85128,22 @@
 
 
 /***/ },
-/* 200 */
+/* 202 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":[{"t":2,"r":"title"}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}]}]}]};
 
 /***/ },
-/* 201 */
+/* 203 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":[{"t":2,"r":"title"}," ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"grid-form"},"f":[{"t":7,"e":"fieldset","f":[{"t":7,"e":"div","a":{"data-row-span":"1","class":"nm-heading-row"},"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"label","f":["User fields"]}]}]}," ",{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"data-row-span":"1","class":"is-incomplete"},"f":[{"t":7,"e":"div","a":{"data-field-span":"1","class":"nm-placeholder-col"},"v":{"click":{"m":"choose","a":{"r":["key"],"s":"[_0]"}}},"f":[{"t":7,"e":"label","f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," ",{"t":7,"e":"span","a":{"class":"nm-static-input nm-static-input-placeholder"},"f":["Choose a user field"]}]}]}],"n":51,"r":"userField"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"data-row-span":"1"},"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"label","f":[{"t":2,"r":"../name"}]}," ",{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":4,"f":[{"t":7,"e":"i","f":[{"t":2,"r":"name"}]}],"r":"special"}," ",{"t":4,"f":[{"t":2,"r":"name"}],"n":51,"r":"special"}]}]}," ",{"t":7,"e":"div","a":{"class":"pull-right btn-group btn-group-sm nm-row-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"choose","a":{"r":["key"],"s":"[_0]"}}},"f":["Change"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"remove","a":{"r":["key"],"s":"[_0]"}}},"f":["Remove"]}]}]}],"r":"userField"}],"r":"parsedFields"}]}]}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 202 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Action = __webpack_require__(199);
+	var Action = __webpack_require__(201);
 
 
 	var Unsubscribe = Action.extend({
@@ -84786,10 +85167,10 @@
 
 
 /***/ },
-/* 203 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Action = __webpack_require__(199);
+	var Action = __webpack_require__(201);
 
 
 	var OptOut = Action.extend({
@@ -84813,7 +85194,7 @@
 
 
 /***/ },
-/* 204 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Base = __webpack_require__(184);
@@ -84822,7 +85203,7 @@
 
 
 	var Ask = Base.extend({
-	  template: __webpack_require__(205),
+	  template: __webpack_require__(207),
 	  data: function() {
 	    return {
 	      text: '',
@@ -84837,7 +85218,7 @@
 
 
 	Ask.Edit = Base.Edit.extend({
-	  template: __webpack_require__(206),
+	  template: __webpack_require__(208),
 	  computed: {
 	    useAnswerSaving: function() {
 	      return !!this.get('saveAs');
@@ -84895,19 +85276,19 @@
 
 
 /***/ },
-/* 205 */
+/* 207 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Ask for clinic code"]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item-text"},"f":[{"t":4,"f":[{"t":2,"r":"text"}],"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No question content"]}],"n":51,"r":"text"}]}]}," ",{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item-text"},"f":[{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No invalid input content"]}],"n":51,"r":"invalidInputText"}," ",{"t":4,"f":[{"t":7,"e":"p","a":{"class":"nm-preview-annotation"},"f":["If invalid input is given, show:"]}," ",{"t":7,"e":"p","f":[{"t":2,"r":"invalidInputText"}]}],"r":"invalidInputText"}]}]}," ",{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item-text nm-preview-annotation"},"f":[{"t":4,"f":["Answer saved as ",{"t":7,"e":"strong","f":[{"t":2,"r":"saveAs"}]}],"r":"saveAs"}," ",{"t":4,"f":[{"t":7,"e":"i","f":["No answer field given"]}],"n":51,"r":"saveAs"}]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs pull-right"},"f":[{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Views ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.views"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Timeouts ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.timeouts"],"s":"_0(_1.sum(_2))"}}]}]}]}],"x":{"r":["publishCount"],"s":"_0>0"}}]}]}]};
 
 /***/ },
-/* 206 */
+/* 208 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Ask for clinic code ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"grid-form"},"f":[{"t":7,"e":"fieldset","f":[{"t":7,"e":"div","a":{"data-row-span":"3","class":[{"t":4,"f":["is-incomplete"],"n":51,"r":"text"}]},"f":[{"t":7,"e":"div","a":{"data-field-span":"3"},"f":[{"t":7,"e":"label","f":["Question"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}," ",{"t":7,"e":"div","a":{"data-row-span":"3","class":[{"t":4,"f":["is-incomplete"],"n":51,"r":"invalidInputText"}]},"f":[{"t":7,"e":"div","a":{"data-field-span":"3"},"f":[{"t":7,"e":"label","f":["Content to show for invalid input"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"invalidInputText"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserFieldInvalid","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}," ",{"t":7,"e":"div","a":{"data-row-span":"3","class":[{"t":4,"f":["is-incomplete"],"n":51,"r":"saveAs"}]},"f":[{"t":7,"e":"div","a":{"data-field-span":"3"},"f":[{"t":7,"e":"label","f":["Save answer as"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 207 */
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
@@ -84919,7 +85300,7 @@
 
 
 	var Route = Base.extend({
-	  template: __webpack_require__(208),
+	  template: __webpack_require__(210),
 	  onRouteClick: function(e) {
 	    e.original.preventDefault();
 	    this.selectItem(this.get('seqId'), this.get('itemId'));
@@ -84980,13 +85361,13 @@
 
 
 /***/ },
-/* 208 */
+/* 210 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Go to sequence"]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No sequence given"]}],"n":51,"r":"route"}," ",{"t":4,"f":[{"t":7,"e":"a","a":{"class":["list-group-item nm-preview-list-item ",{"t":4,"f":["active"],"x":{"r":["activeBlockItemId","itemId"],"s":"_0===_1"}}],"href":"#"},"v":{"click":{"m":"onRouteClick","a":{"r":["event"],"s":"[_0]"}}},"f":[{"t":7,"e":"span","a":{"class":"nm-preview-arrow glyphicon glyphicon-menu-right pull-right"}}," ",{"t":7,"e":"p","f":[" ↳ ",{"t":2,"r":"name"}]}]}],"r":"route"}]}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}]}]}]};
 
 /***/ },
-/* 209 */
+/* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(22);
@@ -84996,7 +85377,7 @@
 
 
 	var Edd = Base.extend({
-	  template: __webpack_require__(210),
+	  template: __webpack_require__(212),
 	  data: function() {
 	    return {
 	      inputFieldId: null,
@@ -85020,7 +85401,7 @@
 
 
 	Edd.Edit = Base.Edit.extend({
-	  template: __webpack_require__(211),
+	  template: __webpack_require__(213),
 	  computed: {
 	    inputFieldName: function() {
 	      return this.get('inputFieldId')
@@ -85062,19 +85443,19 @@
 
 
 /***/ },
-/* 210 */
+/* 212 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Calculate expected due date",{"t":7,"e":"br"},"from weeks"]}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item-text nm-preview-annotation"},"f":[{"t":4,"f":["User field ",{"t":7,"e":"strong","f":[{"t":2,"r":"inputFieldName"}]}," used as input"],"r":"inputFieldName"}," ",{"t":4,"f":[{"t":7,"e":"i","f":["No input user field given"]}],"n":51,"r":"inputFieldName"}]}]}," ",{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item-text nm-preview-annotation"},"f":[{"t":4,"f":["Result saved as ",{"t":7,"e":"strong","f":[{"t":2,"r":"saveAs"}]}],"r":"saveAs"}," ",{"t":4,"f":[{"t":7,"e":"i","f":["No result field given"]}],"n":51,"r":"saveAs"}]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}]}]}]};
 
 /***/ },
-/* 211 */
+/* 213 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Calculate expected due date from weeks ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"grid-form"},"f":[{"t":7,"e":"fieldset","f":[{"t":7,"e":"div","a":{"data-row-span":"3","class":[{"t":4,"f":["is-incomplete"],"n":51,"r":"inputFieldId"}]},"f":[{"t":7,"e":"div","a":{"data-field-span":"3","class":[{"t":4,"f":["nm-placeholder-col"],"n":51,"r":"inputFieldId"}]},"v":{"click":{"m":"choose","a":{"r":["inputFieldId"],"s":"[_0]"}}},"f":[{"t":7,"e":"label","f":["User field to use as input"]}," ",{"t":4,"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," ",{"t":7,"e":"span","a":{"class":"nm-static-input nm-static-input-placeholder"},"f":["Choose a user field"]}],"n":51,"r":"inputFieldId"}," ",{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":2,"r":"inputFieldName"}]}],"r":"inputFieldId"}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"pull-right btn-group btn-group-sm nm-row-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"choose","a":{"r":[],"s":"[]"}}},"f":["Change"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"remove","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}],"r":"inputFieldId"}]}," ",{"t":7,"e":"div","a":{"data-row-span":"3","class":[{"t":4,"f":["is-incomplete"],"n":51,"r":"saveAs"}]},"f":[{"t":7,"e":"div","a":{"data-field-span":"3"},"f":[{"t":7,"e":"label","f":["Save result as"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 212 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Base = __webpack_require__(184);
@@ -85083,7 +85464,7 @@
 
 
 	var Ask = Base.extend({
-	  template: __webpack_require__(213),
+	  template: __webpack_require__(215),
 	  data: function() {
 	    return {
 	      text: '',
@@ -85096,7 +85477,7 @@
 
 
 	Ask.Edit = Base.Edit.extend({
-	  template: __webpack_require__(214),
+	  template: __webpack_require__(216),
 	  insertUserField: function() {
 	    var self = this;
 
@@ -85125,19 +85506,19 @@
 
 
 /***/ },
-/* 213 */
+/* 215 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["End Session"]}," ",{"t":4,"f":[{"t":7,"e":"p","f":[{"t":2,"r":"text"}]}],"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No content"]}],"n":51,"r":"text"}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs pull-right"},"f":[{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Views ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.views"],"s":"_0(_1.sum(_2))"}}]}]}]}],"x":{"r":["publishCount"],"s":"_0>0"}}]}]}]};
 
 /***/ },
-/* 214 */
+/* 216 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["End ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"grid-form"},"f":[{"t":7,"e":"fieldset","f":[{"t":7,"e":"div","a":{"data-row-span":"3","class":[{"t":4,"f":["is-incomplete"],"n":51,"r":"text"}]},"f":[{"t":7,"e":"div","a":{"data-field-span":"3"},"f":[{"t":7,"e":"label","f":["Content"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 215 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Base = __webpack_require__(184);
@@ -85146,7 +85527,7 @@
 
 
 	var NextNMonths = Base.extend({
-	  template: __webpack_require__(216),
+	  template: __webpack_require__(218),
 	  data: function() {
 	    return {
 	      text: '',
@@ -85182,7 +85563,7 @@
 
 
 	NextNMonths.Edit = Base.Edit.extend({
-	  template: __webpack_require__(217),
+	  template: __webpack_require__(219),
 	  computed: {
 	    useAnswerSaving: function() {
 	      return !!this.get('saveAs');
@@ -85216,19 +85597,19 @@
 
 
 /***/ },
-/* 216 */
+/* 218 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Show next ",{"t":2,"r":"monthsAfter"}," months"]}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":4,"f":[{"t":2,"r":"text"}],"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No content"]}],"n":51,"r":"text"}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"nm-preview-annotation"},"f":["If month is October, user sees:"]}],"x":{"r":["i"],"s":"_0===0"}}," ",{"t":2,"x":{"r":["i"],"s":"_0+1"}},". ",{"t":2,"r":"."}]}],"i":"i","r":"exampleMonths"}]}," ",{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item-text nm-preview-annotation"},"f":[{"t":4,"f":["Answer saved as ",{"t":7,"e":"strong","f":[{"t":2,"r":"saveAs"}]}],"r":"saveAs"}," ",{"t":4,"f":[{"t":7,"e":"i","f":["No answer field given"]}],"n":51,"r":"saveAs"}]}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs pull-right"},"f":[{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Views ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.views"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Timeouts ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.timeouts"],"s":"_0(_1.sum(_2))"}}]}]}]}],"x":{"r":["publishCount"],"s":"_0>0"}}]}]}]};
 
 /***/ },
-/* 217 */
+/* 219 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Show Next N Months ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"grid-form"},"f":[{"t":7,"e":"fieldset","f":[{"t":7,"e":"div","a":{"data-row-span":"1","class":[{"t":4,"f":["is-incomplete"],"n":51,"r":"text"}]},"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"label","f":["Question"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}," ",{"t":7,"e":"div","a":{"data-row-span":"1","class":[{"t":4,"f":["is-incomplete"],"n":51,"r":"saveAs"}]},"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"label","f":["Save answer as"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}," ",{"t":7,"e":"div","a":{"data-row-span":"1"},"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"label","f":["Number of months after"]}," ",{"t":7,"e":"input","a":{"type":"number","min":"1","max":"10","value":[{"t":2,"r":"monthsAfter"}]}}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 218 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(22);
@@ -85238,7 +85619,7 @@
 
 
 	var UserDialsIn = Base.extend({
-	  template: __webpack_require__(219),
+	  template: __webpack_require__(221),
 	  data: function() {
 	    return {
 	      channelIds: []
@@ -85260,7 +85641,7 @@
 
 
 	UserDialsIn.Edit = Base.Edit.extend({
-	  template: __webpack_require__(220),
+	  template: __webpack_require__(222),
 	  computed: {
 	    channels: function() {
 	      return dashboard
@@ -85313,19 +85694,19 @@
 
 
 /***/ },
-/* 219 */
+/* 221 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["User dials in"]}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No channel given"]}]}],"n":51,"r":"channels.length"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":2,"r":"name"}]}],"r":"channels"}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}]}]}]};
 
 /***/ },
-/* 220 */
+/* 222 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["User dials in ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"grid-form"},"f":[{"t":7,"e":"fieldset","f":[{"t":7,"e":"div","a":{"data-row-span":"1","class":"nm-heading-row"},"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"label","f":["Channels"]}]}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"data-row-span":"1"},"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"pull-right btn-group btn-group-sm nm-row-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"remove","a":{"r":["id"],"s":"[_0]"}}},"f":["Remove"]}]}]}],"r":"channels"}," ",{"t":7,"e":"div","a":{"data-row-span":"1","class":[{"t":4,"f":["is-incomplete"],"n":51,"r":"channels.length"}]},"f":[{"t":7,"e":"div","a":{"data-field-span":"1","class":"nm-placeholder-col"},"v":{"click":{"m":"choose","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," ",{"t":7,"e":"span","a":{"class":"nm-static-input nm-static-input-placeholder"},"f":["+ Add a channel"]}]}]}]}]}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 221 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(22);
@@ -85335,7 +85716,7 @@
 
 
 	var UserDialsIn = Base.extend({
-	  template: __webpack_require__(222),
+	  template: __webpack_require__(224),
 	  data: function() {
 	    return {
 	      text: '',
@@ -85358,7 +85739,7 @@
 
 
 	UserDialsIn.Edit = Base.Edit.extend({
-	  template: __webpack_require__(223),
+	  template: __webpack_require__(225),
 	  computed: {
 	    channels: function() {
 	      return dashboard
@@ -85411,37 +85792,37 @@
 
 
 /***/ },
-/* 222 */
+/* 224 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["User sends in message"]}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No channel given"]}]}],"n":51,"r":"channels.length"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":2,"r":"name"}]}],"r":"channels"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":7,"e":"p","a":{"class":"nm-preview-annotation"},"f":["Only match the following terms:"]}," ",{"t":7,"e":"p","f":[{"t":2,"r":"text"}]}]}],"r":"text"}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}]}]}]};
 
 /***/ },
-/* 223 */
+/* 225 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["User sends in message ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"grid-form"},"f":[{"t":7,"e":"div","a":{"data-row-span":"1","class":"nm-heading-row"},"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"label","f":["Channels"]}]}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"data-row-span":"1"},"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"pull-right btn-group btn-group-sm nm-row-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"remove","a":{"r":["id"],"s":"[_0]"}}},"f":["Remove"]}]}]}],"r":"channels"}," ",{"t":7,"e":"div","a":{"data-row-span":"1","class":[{"t":4,"f":["is-incomplete"],"n":51,"r":"channels.length"}]},"f":[{"t":7,"e":"div","a":{"data-field-span":"1","class":"nm-placeholder-col"},"v":{"click":{"m":"choose","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," ",{"t":7,"e":"span","a":{"class":"nm-static-input nm-static-input-placeholder"},"f":["+ Add a channel"]}]}]}," ",{"t":7,"e":"div","a":{"data-row-span":"1"},"f":[{"t":7,"e":"div","a":{"data-field-span":"1"},"f":[{"t":7,"e":"label","a":{"class":[{"t":4,"f":["nm-unused"],"n":51,"r":"text"}]},"f":["Only match the following terms (separate terms with a comma)"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"text"}]}}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 224 */
+/* 226 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Block Library ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"panel panel-default nm-pallet"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading nm-panel-heading-drawer"},"f":[{"t":7,"e":"span","a":{"class":"panel-title"},"f":["Recently Used"]}]}," ",{"t":7,"e":"div","a":{"class":"panel-body nm-panel-body-drawer"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group nm-library-block"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder nm-placeholder-block"},"v":{"click":{"m":"add","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}]}],"r":"recent"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-block-pallete-menu"},"f":[{"t":7,"e":"ul","a":{"class":"nav nav-pills nav-stacked"},"f":[{"t":4,"f":[{"t":7,"e":"li","a":{"class":[{"t":4,"f":["active"],"x":{"r":["activePalleteKey","key"],"s":"_0===_1"}}]},"f":[{"t":7,"e":"a","a":{"href":"#"},"v":{"click":{"m":"setActivePallete","a":{"r":["event","key"],"s":"[_0,_1]"}}},"f":[{"t":2,"r":"name"}]}]}],"r":"palletes"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-block-pallete"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item-heading"},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"div","a":{"class":"list-body-item-text"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"collapse alert alert-info alert-dismissible","id":[{"t":2,"r":"type"},"-help"],"data-toggle":"collapse","data-target":["#",{"t":2,"r":"type"},"-help"]},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","aria-label":"Close"},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":2,"r":"helptext"}]}]}],"r":"blocks"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group nm-library-block"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder nm-placeholder-block"},"v":{"click":{"m":"add","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default nm-placeholder nm-placeholder-block","data-toggle":"collapse","data-target":["#",{"t":2,"r":"type"},"-help"]},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-question-sign"}}]}]}],"r":"blocks"}]}]}],"r":"categories"}]}],"r":"activePallete"}]}]};
 
 /***/ },
-/* 225 */
+/* 227 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-sequence-header"},"f":[{"t":7,"e":"div","a":{"class":"nm-sequence-title"},"f":[{"t":7,"e":"div","a":{"class":"nm-name"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename nm-rename-sequence well"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-sequence-body"},"f":[{"t":7,"e":"div","a":{"class":"sortable-blocks sortable-blocks-ordered"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-block-wrapper","data-id":[{"t":2,"r":"id"}]},"f":[{"t":8,"r":"blocks"}," ",{"t":7,"e":"div","a":{"class":"text-center nm-block-separator"},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-menu-down"}}]}]}],"i":"i","r":"blocks"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-sequence-footer"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]}]};
 
 /***/ },
-/* 226 */
+/* 228 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"ask","a":{"text":[{"t":2,"r":"text"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"ask\""}},{"t":4,"f":[{"t":7,"e":"askchoice","a":{"id":[{"t":2,"r":"id"}],"text":[{"t":2,"r":"text"}],"blocks":[{"t":2,"r":"blocks"}],"allChoices":[{"t":2,"r":"allChoices"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"askchoice\""}},{"t":4,"f":[{"t":7,"e":"route","a":{"id":[{"t":2,"r":"id"}],"seqId":[{"t":2,"r":"seqId"}],"itemId":[{"t":2,"r":"itemId"}]}}],"x":{"r":["type"],"s":"_0===\"route\""}},{"t":4,"f":[{"t":7,"e":"register","a":{"fields":[{"t":2,"r":"fields"}]}}],"x":{"r":["type"],"s":"_0===\"register\""}},{"t":4,"f":[{"t":7,"e":"unsubscribe","a":{"fields":[{"t":2,"r":"fields"}]}}],"x":{"r":["type"],"s":"_0===\"unsubscribe\""}},{"t":4,"f":[{"t":7,"e":"optout","a":{"fields":[{"t":2,"r":"fields"}]}}],"x":{"r":["type"],"s":"_0===\"optout\""}},{"t":4,"f":[{"t":7,"e":"askcliniccode","a":{"text":[{"t":2,"r":"text"}],"invalidInputText":[{"t":2,"r":"invalidInputText"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"askcliniccode\""}},{"t":4,"f":[{"t":7,"e":"end","a":{"text":[{"t":2,"r":"text"}]}}],"x":{"r":["type"],"s":"_0===\"end\""}},{"t":4,"f":[{"t":7,"e":"userdialsin","a":{"channelIds":[{"t":2,"r":"channelIds"}]}}],"x":{"r":["type"],"s":"_0===\"userdialsin\""}},{"t":4,"f":[{"t":7,"e":"usersendsmessage","a":{"text":[{"t":2,"r":"text"}],"channelIds":[{"t":2,"r":"channelIds"}]}}],"x":{"r":["type"],"s":"_0===\"usersendsmessage\""}},{"t":4,"f":[{"t":7,"e":"shownext9months","a":{"text":[{"t":2,"r":"text"}],"saveAs":[{"t":2,"r":"saveAs"}],"monthsBefore":[{"t":2,"r":"monthsBefore"}]}}],"x":{"r":["type"],"s":"_0===\"shownext9months\""}},{"t":4,"f":[{"t":7,"e":"calcweeks","a":{"inputFieldId":[{"t":2,"r":"inputFieldId"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"calcweeks\""}}]};
 
 /***/ },
-/* 227 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -86432,13 +86813,13 @@
 
 
 /***/ },
-/* 228 */
+/* 230 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-container nm-container-dashboard"},"f":[{"t":7,"e":"div","a":{"class":"nm-head nm-head-dashboard"},"f":[{"t":7,"e":"ol","a":{"class":"breadcrumb"},"f":[{"t":7,"e":"li","f":[{"t":7,"e":"a","a":{"href":"/numi-prototypes/"},"f":["Home"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-body nm-body-dashboard"},"f":[{"t":7,"e":"h3","f":[{"t":7,"e":"small","f":["Campaign"]}," ",{"t":7,"e":"br"}," MomConnect"]}," ",{"t":7,"e":"div","a":{"class":"nm-dashboard-actions"},"f":[{"t":7,"e":"div","a":{"class":"btn-group pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder nm-placeholder-default"},"v":{"click":{"m":"createDialogue","a":{"r":[],"s":"[]"}}},"f":["+ Add dialogue"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"confirmPublish","a":{"r":[],"s":"[]"}}},"m":[{"t":4,"f":["disabled"],"n":51,"r":"hasUnpublishedChanges"}],"f":[{"t":4,"f":["Go live"],"x":{"r":["publishCount"],"s":"_0===0"}}," ",{"t":4,"f":["Make changes live"],"x":{"r":["publishCount"],"s":"_0>0"}}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"list-group nm-dashboard-dialogue-list"},"f":[{"t":4,"f":[{"t":7,"e":"h4","f":["Dialogues"]}],"r":"dialogues.length"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-dashboard-dialogue-item"},"f":[{"t":7,"e":"a","a":{"class":"list-group-item-heading nm-dashboard-dialogue-header","href":["./dialogues/",{"t":2,"r":"id"}]},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"div","a":{"class":"nm-dashboard-dialogue-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"f":["Download ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-down"}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"f":["Archive"]}]}," ",{"t":4,"f":[{"t":7,"e":"p","f":["Last ",{"t":7,"e":"strong","f":["edited"]}," on ",{"t":2,"r":"lastEdit"}," by you"]}],"r":"lastEdit"}," ",{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Not live yet"]}],"x":{"r":["publishCount"],"s":"_0===0"}}," ",{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-info"},"f":["Live"]}," ",{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Changes not live yet"]}],"r":"hasUnpublishedChanges"}],"x":{"r":["publishCount"],"s":"_0>0"}}]}]}],"r":"dialogues"}]}]}]}]};
 
 /***/ },
-/* 229 */
+/* 231 */
 /***/ function(module, exports) {
 
 	var prefix = 'numi-prototype:';
@@ -86475,349 +86856,6 @@
 	exports.get = get;
 	exports.has = has;
 	exports.clear = clear;
-
-
-/***/ },
-/* 230 */,
-/* 231 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["User Interaction Statistics ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"h4","f":["Summary"]}," ",{"t":7,"e":"table","a":{"class":"sph-table nm-table-small"},"f":[{"t":7,"e":"tbody","f":[{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":["Total views"]}," ",{"t":7,"e":"td","f":[{"t":2,"x":{"r":["formatValue","_","stats.views"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":["Total timeouts"]}," ",{"t":7,"e":"td","f":[{"t":2,"x":{"r":["formatValue","_","stats.timeouts"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":["Total replies"]}," ",{"t":7,"e":"td","f":[{"t":2,"x":{"r":["formatValue","_","stats.answers"],"s":"_0(_1.sum(_2))"}}]}]}]}]}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"div","a":{"class":"nm-charts"},"f":[{"t":7,"e":"h4","f":["Interactions over the last 7 days"]}," ",{"t":7,"e":"div","a":{"class":"nm-chart-totals"},"f":[{"t":7,"e":"div","a":{"data-widget-component":"chart"}}," ",{"t":7,"e":"div","a":{"data-widget-component":"legend"}}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"h4","f":["Answers over the last 7 days"]}," ",{"t":7,"e":"div","a":{"class":"nm-chart-answers"},"f":[{"t":7,"e":"div","a":{"data-widget-component":"chart"}}," ",{"t":7,"e":"div","a":{"data-widget-component":"legend"}}]}," ",{"t":7,"e":"div","a":{"class":"nm-chart-answers-percentages"},"f":[{"t":7,"e":"div","a":{"data-widget-component":"chart"}}," ",{"t":7,"e":"div","a":{"data-widget-component":"legend"}}]}]}]};
-
-/***/ },
-/* 232 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var d3 = __webpack_require__(185);
-	var sapphire = __webpack_require__(186);
-	var utils = sapphire.utils;
-
-
-	module.exports = sapphire.widgets.widget.extend()
-	  .prop('title')
-	  .set(d3.functor)
-	  .default(function(d) { return d.title; })
-
-	  .prop('metrics')
-	  .set(d3.functor)
-	  .default(function(d) { return d.metrics; })
-
-	  .prop('key')
-	  .set(d3.functor)
-	  .default(function(d, i) { return i; })
-
-	  .prop('metricTitle')
-	  .set(d3.functor)
-	  .default(function(d) { return d.title; })
-
-	  .prop('values')
-	  .set(d3.functor)
-	  .default(function(d) { return d.values; })
-
-	  .prop('x')
-	  .set(d3.functor)
-	  .default(function(d) { return d.x; })
-
-	  .prop('y')
-	  .set(d3.functor)
-	  .default(function(d) { return d.y; })
-
-	  .prop('xTickFormat')
-	  .default(null)
-
-	  .prop('xTicks')
-	  .default(8)
-
-	  .prop('yFormat')
-	  .default(d3.format('.2p'))
-
-	  .prop('yTicks')
-	  .default(5)
-
-	  .prop('yTickFormat')
-	  .default(d3.format('.2p'))
-
-	  .prop('yMin')
-	  .set(d3.functor)
-	  .default(d3.min)
-
-	  .prop('yMax')
-	  .set(d3.functor)
-	  .default(d3.max)
-
-	  .prop('none')
-	  .default(0)
-
-	  .prop('chartMargin')
-	  .default({
-	    top: 10,
-	    left: 35,
-	    right: 5,
-	    bottom: 20
-	  })
-
-	  .prop('colors')
-	  .prop('chart')
-	  .prop('legend')
-
-	  .init(function() {
-	    this.colors(d3.scale.category10());
-	  })
-
-	  .draw(function(el) {
-	    var opts = this.props();
-	    normalize(el, opts);
-	    drawWidget(el, opts);
-	  });
-
-
-	function drawWidget(el, opts) {
-	  el.classed('sph-widget sph-areas', true);
-
-	  if (!opts.explicitComponents) initComponents(el);
-
-	  var component = el.select('[data-widget-component="title"]');
-	  if (component.size()) component.call(drawTitle);
-
-	  component = el.select('[data-widget-component="chart"]');
-	  if (component.size()) component.datum(getMetrics).call(drawChart, opts);
-
-	  component = el.select('[data-widget-component="legend"]');
-	  if (component.size()) component.datum(getMetrics).call(drawLegend, opts);
-	}
-
-
-	function initComponents(el) {
-	  el.append('div')
-	    .attr('data-widget-component', 'title');
-
-	  el.append('div')
-	    .attr('data-widget-component', 'chart');
-
-	  el.append('div')
-	    .attr('data-widget-component', 'legend');
-	}
-
-
-	function drawTitle(title) {
-	  title
-	    .classed('sph-title', true)
-	    .text(function(d) { return d.title; });
-	}
-
-
-	function drawChart(chart, opts) {
-	  chart
-	    .classed('sph-chart sph-chart-areas', true);
-
-	  var dims = utils.box()
-	    .margin(opts.chartMargin)
-	    .width(utils.innerWidth(chart))
-	    .height(utils.innerHeight(chart))
-	    .calc();
-
-	  var allValues = chart
-	    .datum()
-	    .reduce(function(results, metric) {
-	      results.push.apply(results, metric.values);
-	      return results;
-	    }, []);
-
-	  var fx = d3.time.scale()
-	    .domain(d3.extent(allValues, function(d) { return d.x; }))
-	    .range([0, dims.innerWidth]);
-
-	  var ys = allValues
-	    .map(function(d) { return d.y; });
-
-	  var fy = d3.scale.linear()
-	    .domain([opts.yMin(ys), opts.yMax(ys)])
-	    .range([dims.innerHeight, 0]);
-
-	  chart
-	    .filter(utils.isEmptyNode)
-	    .call(initChart);
-
-	  chart.select('svg')
-	    .call(drawSvg, dims, fx, fy, opts);
-	}
-
-
-	function initChart(chart) {
-	  var svg = chart.append('svg')
-	    .append('g');
-
-	  svg.append('g')
-	    .attr('class', 'sph-axis sph-axis-areas sph-axis-areas-x');
-
-	  svg.append('g')
-	    .attr('class', 'sph-axis sph-axis-areas sph-axis-areas-y');
-
-	  svg.append('g')
-	    .attr('class', 'sph-areas-metrics');
-	}
-
-
-	function drawSvg(svg, dims, fx, fy, opts) {
-	  svg
-	    .attr('width', dims.width)
-	    .attr('height', dims.height)
-	    .select('g')
-	      .attr('transform', utils.translate(dims.margin.left, dims.margin.top));
-
-	  svg.select('.sph-areas-metrics')
-	    .call(drawChartMetrics, fx, fy);
-
-	  svg.select('.sph-axis-areas-x')
-	    .call(drawXAxis, dims, fx, opts);
-
-	  svg.select('.sph-axis-areas-y')
-	    .call(drawYAxis, dims, fy, opts);
-	}
-
-
-	function drawChartMetrics(metrics, fx, fy) {
-	  var line = d3.svg.line()
-	    .x(function(d) { return fx(d.x); })
-	    .y(function(d) { return fy(d.y); });
-
-	  metrics.selectAll('.sph-areas-metric')
-	    .data(function(d) { return d; },
-	          function(d) { return d.key; })
-	    .call(drawChartMetric, fx, fy, line);
-	}
-
-
-	function drawChartMetric(metric, fx, fy, line) {
-	  metric.enter().append('g')
-	    .attr('class', 'sph-areas-metric')
-	    .attr('data-key', function(d) { return d.key; });
-
-	  metric.exit()
-	    .remove();
-	}
-
-
-	function drawXAxis(axis, dims, fx, opts) {
-	  axis
-	    .attr('transform', utils.translate(0, dims.innerHeight))
-	    .call(d3.svg.axis()
-	      .scale(fx)
-	      .tickPadding(8)
-	      .ticks(opts.xTicks)
-	      .tickFormat(opts.xTickFormat)
-	      .tickSize(-dims.innerHeight));
-	}
-
-
-	function drawYAxis(axis, dims, fy, opts) {
-	  axis.call(d3.svg.axis()
-	    .orient('left')
-	    .scale(fy)
-	    .tickPadding(8)
-	    .ticks(opts.yTicks)
-	    .tickFormat(opts.yTickFormat)
-	    .tickSize(-dims.innerWidth));
-	}
-
-
-	function drawLegend(legend, opts) {
-	  legend
-	    .filter(utils.isEmptyNode)
-	    .call(initLegend);
-
-	  legend.select('.sph-table-areas').selectAll('.sph-row-areas-metric')
-	    .data(function(d) { return d; },
-	          function(d) { return d.key; })
-	    .call(drawLegendMetric, opts);
-	}
-
-
-	function initLegend(legend) {
-	  legend.append('table')
-	    .classed('sph-table sph-table-areas', true);
-	}
-
-
-	function drawLegendMetric(metric, opts) {
-	  var none = opts.yFormat(opts.none);
-
-	  metric.enter().append('tr')
-	    .call(enterLegendMetric);
-
-	  metric.select('.sph-col-swatch')
-	    .style('background', function(d) { return d.color; });
-
-	  metric.select('.sph-col-areas-title')
-	    .text(function(d) { return d.title; });
-
-	  metric.select('.sph-col-areas-value')
-	    .text(function(d) {
-	      d = d.values[d.values.length - 1];
-
-	      return d
-	        ? opts.yFormat(d.y)
-	        : none;
-	    });
-
-	  metric.exit()
-	    .remove();
-	}
-
-
-	function enterLegendMetric(metric) {
-	  metric
-	    .attr('data-key', function(d) { return d.key; })
-	    .attr('class', 'sph-row-areas-metric');
-
-	  metric.append('td')
-	    .attr('class', 'sph-col-swatch');
-
-	  metric.append('td')
-	    .attr('class', 'sph-col-areas-title');
-
-	  metric.append('td')
-	    .attr('class', 'sph-col-areas-value');
-	}
-
-
-	function normalize(el, opts) {
-	  var node = el.node();
-
-	  el.datum(function(d, i) {
-	    var title = opts.title.call(node, d, i);
-
-	    return {
-	      title: title,
-	      metrics: opts.metrics.call(node, d, i).map(metric)
-	    };
-	  });
-
-	  function metric(d, i) {
-	    var key = opts.key
-	      .call(node, d, i)
-	      .toString();
-
-	    return {
-	      key: key,
-	      color: opts.colors(key),
-	      title: opts.metricTitle.call(node, d, i),
-	      values: opts.values.call(node, d, i).map(value)
-	    };
-	  }
-
-	  function value(d, i) {
-	    return {
-	      x: opts.x.call(node, d, i),
-	      y: opts.y.call(node, d, i)
-	    };
-	  }
-	}
-
-
-	function getMetrics(d) {
-	  return d.metrics;
-	}
 
 
 /***/ }

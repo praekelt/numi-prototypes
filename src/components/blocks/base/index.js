@@ -122,16 +122,25 @@ Base.Stats = Ractive.extend({
   draw: function() {
     this.drawTotalsChart();
   },
-  appendPublishTimes(el) {
+  appendPublishTimes(el, append) {
     var chart = el.select('.sph-chart');
 
     var fx = d3.time.scale()
       .domain(d3.extent(times))
       .range([0, 600]);
 
-    chart
-      .select('.sph-chart svg > g')
-      .insert('g', '.sph-lines-metrics,.sph-areas-metrics')
+    if (append)
+      chart
+        .select('.sph-chart svg > g')
+        .append('g')
+          .attr('class', 'nm-publish-times');
+    else
+      chart
+        .select('.sph-chart svg > g')
+        .insert('g', '.sph-lines-metrics,.sph-areas-metrics')
+          .attr('class', 'nm-publish-times');
+
+    chart.select('.nm-publish-times')
       .attr('transform', sapphire.utils.translate(0, 110))
       .selectAll('.nm-publish-time')
       .data(publishTimes).enter()

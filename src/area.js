@@ -39,13 +39,13 @@ module.exports = sapphire.widgets.widget.extend()
   .default(8)
 
   .prop('yFormat')
-  .default(d3.format('.2p'))
+  .default(d3.format('.1p'))
 
   .prop('yTicks')
   .default(5)
 
   .prop('yTickFormat')
-  .default(d3.format('.2p'))
+  .default(d3.format('.1p'))
 
   .prop('yMin')
   .set(d3.functor)
@@ -61,7 +61,7 @@ module.exports = sapphire.widgets.widget.extend()
   .prop('chartMargin')
   .default({
     top: 10,
-    left: 35,
+    left: 45,
     right: 5,
     bottom: 20
   })
@@ -137,11 +137,14 @@ function drawChart(chart, opts) {
     .domain(d3.extent(allValues, function(d) { return d.x; }))
     .range([0, dims.innerWidth]);
 
-  var ys = allValues
-    .map(function(d) { return d.y; });
+  var y0s = allValues
+    .map(function(d) { return d.y0; });
+
+  var y1s = allValues
+    .map(function(d) { return d.y1; });
 
   var fy = d3.scale.linear()
-    .domain([opts.yMin(ys), opts.yMax(ys)])
+    .domain([opts.yMin(y0s), opts.yMax(y1s)])
     .range([dims.innerHeight, 0]);
 
   chart
@@ -158,13 +161,13 @@ function initChart(chart) {
     .append('g');
 
   svg.append('g')
-    .attr('class', 'sph-axis sph-axis-areas sph-axis-areas-x');
-
-  svg.append('g')
-    .attr('class', 'sph-axis sph-axis-areas sph-axis-areas-y');
-
-  svg.append('g')
     .attr('class', 'sph-areas-metrics');
+
+  svg.append('g')
+    .attr('class', 'sph-axis sph-axis-lines sph-axis-lines-x');
+
+  svg.append('g')
+    .attr('class', 'sph-axis sph-axis-lines sph-axis-lines-y');
 }
 
 
@@ -178,30 +181,37 @@ function drawSvg(svg, dims, fx, fy, opts) {
   svg.select('.sph-areas-metrics')
     .call(drawChartMetrics, fx, fy);
 
-  svg.select('.sph-axis-areas-x')
+  svg.select('.sph-axis-lines-x')
     .call(drawXAxis, dims, fx, opts);
 
-  svg.select('.sph-axis-areas-y')
+  svg.select('.sph-axis-lines-y')
     .call(drawYAxis, dims, fy, opts);
 }
 
 
 function drawChartMetrics(metrics, fx, fy) {
-  var line = d3.svg.line()
+  var area = d3.svg.area()
     .x(function(d) { return fx(d.x); })
-    .y(function(d) { return fy(d.y); });
+    .y0(function(d) { return fy(d.y0); })
+    .y1(function(d) { return fy(d.y1); });
 
   metrics.selectAll('.sph-areas-metric')
     .data(function(d) { return d; },
           function(d) { return d.key; })
-    .call(drawChartMetric, fx, fy, line);
+    .call(drawChartMetric, fx, fy, area);
 }
 
 
-function drawChartMetric(metric, fx, fy, line) {
+function drawChartMetric(metric, fx, fy, area) {
   metric.enter().append('g')
     .attr('class', 'sph-areas-metric')
-    .attr('data-key', function(d) { return d.key; });
+    .attr('data-key', function(d) { return d.key; })
+    .append('path')
+      .attr('class', 'sph-areas-area');
+
+  metric.select('.sph-areas-area')
+    .attr('fill', function(d) { return d.color; })
+    .attr('d', function(d) { return area(d.values); });
 
   metric.exit()
     .remove();
@@ -301,6 +311,29 @@ function normalize(el, opts) {
       title: title,
       metrics: opts.metrics.call(node, d, i).map(metric)
     };
+  });
+
+  el.datum(function(d) {
+    var metrics = d.metrics;
+
+    metrics
+      .forEach(function(metric, i) {
+        var values = metric.values;
+        var n = values.length;
+        var j = -1;
+        var v;
+
+        while (++j < n) {
+          v = values[j];
+
+          if (i > 0) v.y0 = metrics[i - 1].values[j].y1;
+          else v.y0 = 0;
+
+          v.y1 = v.y0 + v.y;
+        }
+      });
+
+    return d;
   });
 
   function metric(d, i) {

@@ -192,13 +192,10 @@ AskChoice.Stats = Base.Stats.extend({
   drawAnswersChart() {
   },
   drawAnswersPercentageChart() {
-    var totalAnswers = this.get('stats.answers');
-
     d3.select(this.el)
       .select('.nm-chart-answers-percentages')
       .datum({metrics: this.getPercentageMetrics()})
-      .call(answerPercentagesChart)
-      .call(this.appendPublishTimes.bind(this));
+      .call(answerPercentagesChart);
   }
 });
 
