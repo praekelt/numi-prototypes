@@ -6,6 +6,7 @@ var drawers = require('../../../drawers');
 var ChooseSequence = require('../../../views/choose-sequence');
 var Chooser = require('../../../views/chooser');
 var Areas = require('../../../area');
+var sapphire = require('../../../../bower_components/sapphire/build/sapphire');
 
 
 var AskChoice = Base.extend({
@@ -190,6 +191,11 @@ AskChoice.Stats = Base.Stats.extend({
       });
   },
   drawAnswersChart() {
+    d3.select(this.el)
+      .select('.nm-chart-answers')
+      .datum({metrics: this.getMetrics()})
+      .call(answersChart)
+      .call(this.appendPublishTimes.bind(this));
   },
   drawAnswersPercentageChart() {
     d3.select(this.el)
@@ -203,6 +209,12 @@ AskChoice.Stats = Base.Stats.extend({
 function divide(d) {
   return d[0] / d[1];
 }
+
+
+var answersChart = sapphire.widgets.lines()
+  .explicitComponents(true)
+  .x(function(d) { return d[0]; })
+  .y(function(d) { return d[1]; });
 
 
 var answerPercentagesChart = Areas()
