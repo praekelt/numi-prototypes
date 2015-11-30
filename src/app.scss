@@ -46,12 +46,24 @@ body {
   overflow: auto;
 }
 
-.btn-default {
+.nm-block {
   color: $fg0 !important;
 
   .badge {
     color: $bg0;
-    background: $fg1;
+    background: transparentize($fg1, 0.5);
+  }
+
+  .nm-preview-list-item {
+    .badge {
+      margin-right: 20px;
+    }
+
+    &.active {
+      .badge {
+        margin-right: 33px;
+      }
+    }
   }
 }
 
@@ -730,4 +742,47 @@ a.nm-list-group-item-drawer {
 
 .nm-col-swatch-publish {
   background: $fg-chart-publish !important;
+}
+
+.sph-chart-areas {
+  height: 210px;
+  padding: 10px;
+  padding-right: 5px;
+}
+
+
+.sph-areas-area {
+  stroke: none;
+}
+
+
+.sph-row-areas-metric {
+  //fill: none;
+}
+
+
+.sph-col-areas-title {
+  width: 70%;
+}
+
+
+.sph-col-areas-value {
+  text-align: right;
+}
+
+.sph-areas-metric {
+  stroke-width: 2px;
+}
+
+.sph-chart-areas {
+  .sph-axis-lines {
+    line {
+      stroke: $bg2;
+      stroke-opacity: 0.15;
+    }
+  }
+
+  .nm-publish-time {
+    stroke-opacity: 0.8;
+  }
 }

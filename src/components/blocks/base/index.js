@@ -95,7 +95,7 @@ var Base = Ractive.extend({
   showStats: function() {
     var stats = this.constructor.Stats({
       el: $('<div>'),
-      data: this.get()
+      data: _.extend(this.get(), {block: this})
     });
 
     drawers.open(stats);
@@ -122,16 +122,25 @@ Base.Stats = Ractive.extend({
   draw: function() {
     this.drawTotalsChart();
   },
-  appendPublishTimes(el) {
+  appendPublishTimes(el, append) {
     var chart = el.select('.sph-chart');
 
     var fx = d3.time.scale()
       .domain(d3.extent(times))
       .range([0, 600]);
 
-    chart
-      .select('.sph-chart svg > g')
-      .insert('g', '.sph-lines-metrics')
+    if (append)
+      chart
+        .select('.sph-chart svg > g')
+        .append('g')
+          .attr('class', 'nm-publish-times');
+    else
+      chart
+        .select('.sph-chart svg > g')
+        .insert('g', '.sph-lines-metrics,.sph-areas-metrics')
+          .attr('class', 'nm-publish-times');
+
+    chart.select('.nm-publish-times')
       .attr('transform', sapphire.utils.translate(0, 110))
       .selectAll('.nm-publish-time')
       .data(publishTimes).enter()
@@ -156,10 +165,10 @@ Base.Stats = Ractive.extend({
         .style('background', null)
         .attr('class', 'nm-col-swatch-publish');
 
-      lastRow.select('.sph-col-lines-title')
+      lastRow.select('.sph-col-lines-title,.sph-col-areas-title')
         .text('Changes went live');
 
-      lastRow.select('.sph-col-lines-value')
+      lastRow.select('.sph-col-lines-value,.sph-col-areas-value')
         .remove();
   },
   drawTotalsChart() {
