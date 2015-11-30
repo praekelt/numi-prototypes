@@ -72880,7 +72880,7 @@
 	  showStats: function() {
 	    var stats = this.constructor.Stats({
 	      el: $('<div>'),
-	      data: this.get()
+	      data: _.extend(this.get(), {block: this})
 	    });
 
 	    drawers.open(stats);
@@ -72916,7 +72916,7 @@
 
 	    chart
 	      .select('.sph-chart svg > g')
-	      .insert('g', '.sph-lines-metrics')
+	      .insert('g', '.sph-lines-metrics,.sph-areas-metrics')
 	      .attr('transform', sapphire.utils.translate(0, 110))
 	      .selectAll('.nm-publish-time')
 	      .data(publishTimes).enter()
@@ -72941,10 +72941,10 @@
 	        .style('background', null)
 	        .attr('class', 'nm-col-swatch-publish');
 
-	      lastRow.select('.sph-col-lines-title')
+	      lastRow.select('.sph-col-lines-title,.sph-col-areas-title')
 	        .text('Changes went live');
 
-	      lastRow.select('.sph-col-lines-value')
+	      lastRow.select('.sph-col-lines-value,.sph-col-areas-value')
 	        .remove();
 	  },
 	  drawTotalsChart() {
@@ -84369,6 +84369,7 @@
 	var drawers = __webpack_require__(86);
 	var ChooseSequence = __webpack_require__(194);
 	var Chooser = __webpack_require__(189);
+	var Areas = __webpack_require__(232);
 
 
 	var AskChoice = Base.extend({
@@ -84377,7 +84378,7 @@
 	    return {
 	      text: '',
 	      saveAs: '',
-	      allChoices: [newChoice()],
+	      allChoices: [this.newChoice()],
 
 	      getSequenceName: function(id) {
 	        var seq = _.find(this.get('dialogue').get('sequences'), {id: id});
@@ -84385,6 +84386,15 @@
 	          ? seq.name
 	          : '';
 	      }
+	    };
+	  },
+	  newChoice: function() {
+	    return {
+	      id: uuid.v4(),
+	      text: '',
+	      saveAs: null,
+	      route: null,
+	      answerCounts: this.randDatapoints(0, 1000)
 	    };
 	  },
 	  isComplete: function() {
@@ -84398,6 +84408,24 @@
 	  onChoiceClick(e, id) {
 	    e.original.preventDefault();
 	    this.selectChoice(id);
+	  },
+	  oninit: function() {
+	    this.resetTotals();
+	  },
+	  getAnswerCounts() {
+	    return _.chain(this.get('allChoices'))
+	      .slice(0, -1)
+	      .pluck('answerCounts')
+	      .unzip()
+	      .map(_.sum)
+	      .value();
+	  },
+	  resetTotals: function() {
+	    var answers = this.getAnswerCounts();
+	    var timeouts = this.get('stats.timeouts');
+	    var views = _.zip(timeouts, answers).map(_.sum);
+	    this.set('stats.answers', answers);
+	    this.set('stats.views', views);
 	  },
 	  computed: {
 	    choices: function() {
@@ -84415,7 +84443,7 @@
 	    return false;
 	  },
 	  addChoice() {
-	    this.push('allChoices', newChoice());
+	    this.push('allChoices', this.get('block').newChoice());
 	  },
 	  onChoiceKeyDown(i) {
 	    if (i < this.get('allChoices').length - 1) return;
@@ -84455,6 +84483,13 @@
 	        .name;
 	    }
 	  },
+	  oninit: function(d) {
+	    var self = this;
+
+	    this.observe('allChoices', function() {
+	      self.get('block').resetTotals();
+	    });
+	  },
 	  computed: {
 	    choices: function() {
 	      return this.get('allChoices').slice(0, -1);
@@ -84484,17 +84519,63 @@
 	});
 
 
-	AskChoice.Stats = Base.Stats.extend();
+	AskChoice.Stats = Base.Stats.extend({
+	  template: __webpack_require__(231),
+	  draw() {
+	    this.drawTotalsChart();
+	    this.drawAnswersChart();
+	    this.drawAnswersPercentageChart();
+	  },
+	  getMetrics() {
+	    var times = this.get('stats.times');
+
+	    return this.get('allChoices')
+	      .slice(0, -1)
+	      .map(function(d) {
+	        return {
+	          key: d.id,
+	          title: d.text,
+	          values: _.zip(times, d.answerCounts)
+	        };
+	      });
+	  },
+	  getPercentageMetrics() {
+	    var times = this.get('stats.times');
+	    var answers = this.get('stats.answers');
+
+	    return this.get('allChoices')
+	      .slice(0, -1)
+	      .map(function(d) {
+	        return {
+	          key: d.id,
+	          title: d.text,
+	          values: _.zip(times, _.zip(d.answerCounts, answers).map(divide))
+	        };
+	      });
+	  },
+	  drawAnswersChart() {
+	  },
+	  drawAnswersPercentageChart() {
+	    var totalAnswers = this.get('stats.answers');
+
+	    d3.select(this.el)
+	      .select('.nm-chart-answers-percentages')
+	      .datum({metrics: this.getPercentageMetrics()})
+	      .call(answerPercentagesChart)
+	      .call(this.appendPublishTimes.bind(this));
+	  }
+	});
 
 
-	function newChoice() {
-	  return {
-	    id: uuid.v4(),
-	    text: '',
-	    saveAs: null,
-	    route: null
-	  };
+	function divide(d) {
+	  return d[0] / d[1];
 	}
+
+
+	var answerPercentagesChart = Areas()
+	  .explicitComponents(true)
+	  .x(function(d) { return d[0]; })
+	  .y(function(d) { return d[1]; });
 
 
 	module.exports = AskChoice;
@@ -84795,7 +84876,10 @@
 	    });
 
 	    list.once('chosen', function(id, d) {
-	      self.set('invalidInputText', self.get('invalidInputText') + ' [' + d.name + ']');
+	      self.set(
+	        'invalidInputText',
+	        self.get('invalidInputText') + ' [' + d.name + ']');
+
 	      drawers.close(list);
 	    });
 
@@ -86391,6 +86475,349 @@
 	exports.get = get;
 	exports.has = has;
 	exports.clear = clear;
+
+
+/***/ },
+/* 230 */,
+/* 231 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["User Interaction Statistics ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"h4","f":["Summary"]}," ",{"t":7,"e":"table","a":{"class":"sph-table nm-table-small"},"f":[{"t":7,"e":"tbody","f":[{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":["Total views"]}," ",{"t":7,"e":"td","f":[{"t":2,"x":{"r":["formatValue","_","stats.views"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":["Total timeouts"]}," ",{"t":7,"e":"td","f":[{"t":2,"x":{"r":["formatValue","_","stats.timeouts"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":["Total replies"]}," ",{"t":7,"e":"td","f":[{"t":2,"x":{"r":["formatValue","_","stats.answers"],"s":"_0(_1.sum(_2))"}}]}]}]}]}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"div","a":{"class":"nm-charts"},"f":[{"t":7,"e":"h4","f":["Interactions over the last 7 days"]}," ",{"t":7,"e":"div","a":{"class":"nm-chart-totals"},"f":[{"t":7,"e":"div","a":{"data-widget-component":"chart"}}," ",{"t":7,"e":"div","a":{"data-widget-component":"legend"}}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"h4","f":["Answers over the last 7 days"]}," ",{"t":7,"e":"div","a":{"class":"nm-chart-answers"},"f":[{"t":7,"e":"div","a":{"data-widget-component":"chart"}}," ",{"t":7,"e":"div","a":{"data-widget-component":"legend"}}]}," ",{"t":7,"e":"div","a":{"class":"nm-chart-answers-percentages"},"f":[{"t":7,"e":"div","a":{"data-widget-component":"chart"}}," ",{"t":7,"e":"div","a":{"data-widget-component":"legend"}}]}]}]};
+
+/***/ },
+/* 232 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var d3 = __webpack_require__(185);
+	var sapphire = __webpack_require__(186);
+	var utils = sapphire.utils;
+
+
+	module.exports = sapphire.widgets.widget.extend()
+	  .prop('title')
+	  .set(d3.functor)
+	  .default(function(d) { return d.title; })
+
+	  .prop('metrics')
+	  .set(d3.functor)
+	  .default(function(d) { return d.metrics; })
+
+	  .prop('key')
+	  .set(d3.functor)
+	  .default(function(d, i) { return i; })
+
+	  .prop('metricTitle')
+	  .set(d3.functor)
+	  .default(function(d) { return d.title; })
+
+	  .prop('values')
+	  .set(d3.functor)
+	  .default(function(d) { return d.values; })
+
+	  .prop('x')
+	  .set(d3.functor)
+	  .default(function(d) { return d.x; })
+
+	  .prop('y')
+	  .set(d3.functor)
+	  .default(function(d) { return d.y; })
+
+	  .prop('xTickFormat')
+	  .default(null)
+
+	  .prop('xTicks')
+	  .default(8)
+
+	  .prop('yFormat')
+	  .default(d3.format('.2p'))
+
+	  .prop('yTicks')
+	  .default(5)
+
+	  .prop('yTickFormat')
+	  .default(d3.format('.2p'))
+
+	  .prop('yMin')
+	  .set(d3.functor)
+	  .default(d3.min)
+
+	  .prop('yMax')
+	  .set(d3.functor)
+	  .default(d3.max)
+
+	  .prop('none')
+	  .default(0)
+
+	  .prop('chartMargin')
+	  .default({
+	    top: 10,
+	    left: 35,
+	    right: 5,
+	    bottom: 20
+	  })
+
+	  .prop('colors')
+	  .prop('chart')
+	  .prop('legend')
+
+	  .init(function() {
+	    this.colors(d3.scale.category10());
+	  })
+
+	  .draw(function(el) {
+	    var opts = this.props();
+	    normalize(el, opts);
+	    drawWidget(el, opts);
+	  });
+
+
+	function drawWidget(el, opts) {
+	  el.classed('sph-widget sph-areas', true);
+
+	  if (!opts.explicitComponents) initComponents(el);
+
+	  var component = el.select('[data-widget-component="title"]');
+	  if (component.size()) component.call(drawTitle);
+
+	  component = el.select('[data-widget-component="chart"]');
+	  if (component.size()) component.datum(getMetrics).call(drawChart, opts);
+
+	  component = el.select('[data-widget-component="legend"]');
+	  if (component.size()) component.datum(getMetrics).call(drawLegend, opts);
+	}
+
+
+	function initComponents(el) {
+	  el.append('div')
+	    .attr('data-widget-component', 'title');
+
+	  el.append('div')
+	    .attr('data-widget-component', 'chart');
+
+	  el.append('div')
+	    .attr('data-widget-component', 'legend');
+	}
+
+
+	function drawTitle(title) {
+	  title
+	    .classed('sph-title', true)
+	    .text(function(d) { return d.title; });
+	}
+
+
+	function drawChart(chart, opts) {
+	  chart
+	    .classed('sph-chart sph-chart-areas', true);
+
+	  var dims = utils.box()
+	    .margin(opts.chartMargin)
+	    .width(utils.innerWidth(chart))
+	    .height(utils.innerHeight(chart))
+	    .calc();
+
+	  var allValues = chart
+	    .datum()
+	    .reduce(function(results, metric) {
+	      results.push.apply(results, metric.values);
+	      return results;
+	    }, []);
+
+	  var fx = d3.time.scale()
+	    .domain(d3.extent(allValues, function(d) { return d.x; }))
+	    .range([0, dims.innerWidth]);
+
+	  var ys = allValues
+	    .map(function(d) { return d.y; });
+
+	  var fy = d3.scale.linear()
+	    .domain([opts.yMin(ys), opts.yMax(ys)])
+	    .range([dims.innerHeight, 0]);
+
+	  chart
+	    .filter(utils.isEmptyNode)
+	    .call(initChart);
+
+	  chart.select('svg')
+	    .call(drawSvg, dims, fx, fy, opts);
+	}
+
+
+	function initChart(chart) {
+	  var svg = chart.append('svg')
+	    .append('g');
+
+	  svg.append('g')
+	    .attr('class', 'sph-axis sph-axis-areas sph-axis-areas-x');
+
+	  svg.append('g')
+	    .attr('class', 'sph-axis sph-axis-areas sph-axis-areas-y');
+
+	  svg.append('g')
+	    .attr('class', 'sph-areas-metrics');
+	}
+
+
+	function drawSvg(svg, dims, fx, fy, opts) {
+	  svg
+	    .attr('width', dims.width)
+	    .attr('height', dims.height)
+	    .select('g')
+	      .attr('transform', utils.translate(dims.margin.left, dims.margin.top));
+
+	  svg.select('.sph-areas-metrics')
+	    .call(drawChartMetrics, fx, fy);
+
+	  svg.select('.sph-axis-areas-x')
+	    .call(drawXAxis, dims, fx, opts);
+
+	  svg.select('.sph-axis-areas-y')
+	    .call(drawYAxis, dims, fy, opts);
+	}
+
+
+	function drawChartMetrics(metrics, fx, fy) {
+	  var line = d3.svg.line()
+	    .x(function(d) { return fx(d.x); })
+	    .y(function(d) { return fy(d.y); });
+
+	  metrics.selectAll('.sph-areas-metric')
+	    .data(function(d) { return d; },
+	          function(d) { return d.key; })
+	    .call(drawChartMetric, fx, fy, line);
+	}
+
+
+	function drawChartMetric(metric, fx, fy, line) {
+	  metric.enter().append('g')
+	    .attr('class', 'sph-areas-metric')
+	    .attr('data-key', function(d) { return d.key; });
+
+	  metric.exit()
+	    .remove();
+	}
+
+
+	function drawXAxis(axis, dims, fx, opts) {
+	  axis
+	    .attr('transform', utils.translate(0, dims.innerHeight))
+	    .call(d3.svg.axis()
+	      .scale(fx)
+	      .tickPadding(8)
+	      .ticks(opts.xTicks)
+	      .tickFormat(opts.xTickFormat)
+	      .tickSize(-dims.innerHeight));
+	}
+
+
+	function drawYAxis(axis, dims, fy, opts) {
+	  axis.call(d3.svg.axis()
+	    .orient('left')
+	    .scale(fy)
+	    .tickPadding(8)
+	    .ticks(opts.yTicks)
+	    .tickFormat(opts.yTickFormat)
+	    .tickSize(-dims.innerWidth));
+	}
+
+
+	function drawLegend(legend, opts) {
+	  legend
+	    .filter(utils.isEmptyNode)
+	    .call(initLegend);
+
+	  legend.select('.sph-table-areas').selectAll('.sph-row-areas-metric')
+	    .data(function(d) { return d; },
+	          function(d) { return d.key; })
+	    .call(drawLegendMetric, opts);
+	}
+
+
+	function initLegend(legend) {
+	  legend.append('table')
+	    .classed('sph-table sph-table-areas', true);
+	}
+
+
+	function drawLegendMetric(metric, opts) {
+	  var none = opts.yFormat(opts.none);
+
+	  metric.enter().append('tr')
+	    .call(enterLegendMetric);
+
+	  metric.select('.sph-col-swatch')
+	    .style('background', function(d) { return d.color; });
+
+	  metric.select('.sph-col-areas-title')
+	    .text(function(d) { return d.title; });
+
+	  metric.select('.sph-col-areas-value')
+	    .text(function(d) {
+	      d = d.values[d.values.length - 1];
+
+	      return d
+	        ? opts.yFormat(d.y)
+	        : none;
+	    });
+
+	  metric.exit()
+	    .remove();
+	}
+
+
+	function enterLegendMetric(metric) {
+	  metric
+	    .attr('data-key', function(d) { return d.key; })
+	    .attr('class', 'sph-row-areas-metric');
+
+	  metric.append('td')
+	    .attr('class', 'sph-col-swatch');
+
+	  metric.append('td')
+	    .attr('class', 'sph-col-areas-title');
+
+	  metric.append('td')
+	    .attr('class', 'sph-col-areas-value');
+	}
+
+
+	function normalize(el, opts) {
+	  var node = el.node();
+
+	  el.datum(function(d, i) {
+	    var title = opts.title.call(node, d, i);
+
+	    return {
+	      title: title,
+	      metrics: opts.metrics.call(node, d, i).map(metric)
+	    };
+	  });
+
+	  function metric(d, i) {
+	    var key = opts.key
+	      .call(node, d, i)
+	      .toString();
+
+	    return {
+	      key: key,
+	      color: opts.colors(key),
+	      title: opts.metricTitle.call(node, d, i),
+	      values: opts.values.call(node, d, i).map(value)
+	    };
+	  }
+
+	  function value(d, i) {
+	    return {
+	      x: opts.x.call(node, d, i),
+	      y: opts.y.call(node, d, i)
+	    };
+	  }
+	}
+
+
+	function getMetrics(d) {
+	  return d.metrics;
+	}
 
 
 /***/ }

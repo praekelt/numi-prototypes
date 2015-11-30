@@ -58,7 +58,10 @@ Ask.Edit = Base.Edit.extend({
     });
 
     list.once('chosen', function(id, d) {
-      self.set('invalidInputText', self.get('invalidInputText') + ' [' + d.name + ']');
+      self.set(
+        'invalidInputText',
+        self.get('invalidInputText') + ' [' + d.name + ']');
+
       drawers.close(list);
     });
 

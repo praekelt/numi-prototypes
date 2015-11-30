@@ -1,0 +1,50 @@
+<h3 class="page-header">
+  User Interaction Statistics
+  <button class="close" on-click="close()">&times</button>
+</h3>
+
+<h4>Summary</h4>
+
+<table class="sph-table nm-table-small">
+  <tbody>
+  <tr>
+    <td>Total views</td>
+    <td>{{formatValue(_.sum(stats.views))}}</td>
+  </tr>
+
+  <tr>
+    <td>Total timeouts</td>
+    <td>{{formatValue(_.sum(stats.timeouts))}}</td>
+  </tr>
+
+  <tr>
+    <td>Total replies</td>
+    <td>{{formatValue(_.sum(stats.answers))}}</td>
+  </tr>
+  </tbody>
+</table>
+
+<hr class="nm-divider">
+
+<div class="nm-charts">
+  <h4>Interactions over the last 7 days</h4>
+
+  <div class="nm-chart-totals">
+    <div data-widget-component="chart"></div>
+    <div data-widget-component="legend"></div>
+  </div>
+
+  <br/>
+
+  <h4>Answers over the last 7 days</h4>
+
+  <div class="nm-chart-answers">
+    <div data-widget-component="chart"></div>
+    <div data-widget-component="legend"></div>
+  </div>
+
+  <div class="nm-chart-answers-percentages">
+    <div data-widget-component="chart"></div>
+    <div data-widget-component="legend"></div>
+  </div>
+</div>
