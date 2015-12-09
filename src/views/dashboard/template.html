@@ -15,7 +15,10 @@
     <div class="nm-dashboard-actions">
       <div class="btn-group pull-right">
         <button class="btn btn-default nm-placeholder nm-placeholder-default" on-click="createDialogue()">+ Add dialogue</button>
-        <button class="btn btn-default" on-click="confirmPublish()" {{^hasUnpublishedChanges}}disabled{{/hasUnpublishedChanges}}>Publish</button>
+        <button class="btn btn-default" on-click="confirmPublish()" {{^hasUnpublishedChanges}}disabled{{/hajUnpublishedChanges}}>
+          {{#publishCount === 0}}Go live{{/}}
+          {{#publishCount > 0}}Make changes live{{/}}
+        </button>
       </div>
     </div>
     <br>
@@ -46,9 +49,17 @@
           <p>Last <strong>edited</strong> on {{lastEdit}} by you</p>
           {{/lastEdit}}
 
-          {{#hasUnpublishedChanges}}
-          <p class="label label-warning">Has unpublished changes</p>
-          {{/hasUnpublishedChanges}}
+          {{#publishCount === 0}}
+          <p class="label label-warning">Not live yet</p>
+          {{/}}
+
+          {{#publishCount > 0}}
+            <p class="label label-info">Live</p>
+
+            {{#hasUnpublishedChanges}}
+              <p class="label label-warning">Changes not live yet</p>
+            {{/hasUnpublishedChanges}}
+          {{/}}
         </div>
       </div>
       {{/dialogues}}

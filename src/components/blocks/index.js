@@ -12,3 +12,4 @@ exports.end = require('./end');
 exports.shownext9months = require('./shownext9months');
 exports.userdialsin = require('./userdialsin');
 exports.usersendsmessage = require('./usersendsmessage');
+exports.annotation = require('./annotation');

@@ -25,7 +25,7 @@ Ask.Edit = Base.Edit.extend({
       el: $('<div>'),
       data: {
         title: 'Choose a user field',
-        items: dashboard.get('userFields')
+        items: dashboard.getUserFields()
       }
     });
 
@@ -37,6 +37,9 @@ Ask.Edit = Base.Edit.extend({
     drawers.open(list);
   }
 });
+
+
+Ask.Stats = Base.Stats.extend();
 
 
 module.exports = Ask;

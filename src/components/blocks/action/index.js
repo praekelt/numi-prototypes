@@ -16,7 +16,7 @@ Action.Edit = Base.Edit.extend({
   template: require('./edit.html'),
   computed: {
     parsedFields: function() {
-      var userFields = dashboard.get('userFields');
+      var userFields = dashboard.getUserFields();
 
       return this.get('fields')
         .map(function(d) {
@@ -38,7 +38,7 @@ Action.Edit = Base.Edit.extend({
       el: $('<div>'),
       data: {
         title: 'Choose a user field for ' + this.get('fields.' + i).name,
-        items: dashboard.get('userFields')
+        items: dashboard.getUserFields()
       }
     });
 

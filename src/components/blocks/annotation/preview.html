@@ -4,26 +4,16 @@
       <button class="btn btn-default nm-block-action nm-block-edit" on-click="edit()">Edit</button>
       <button class="btn btn-default nm-block-action" on-click="destroy()">Remove</button>
     </div>
-    <p class="nm-block-title">End Dialogue</p>
 
-    {{#text}}<p>{{text}}</p>{{/text}}
-    {{^text}}<i class="nm-preview-annotation">No content</i>{{/text}}
+    <p class="nm-block-title">Note</p>
+
+    {{#text}}<i>{{text}}</i>{{/text}}
+    {{^text}}<i class="nm-preview-annotation">No annotation text</i>{{/text}}
   </div>
 
   <div class="panel-footer">
     {{^isComplete}}
     <p class="label label-warning">Incomplete</p>
     {{/isComplete}}
-
-    {{#publishCount > 0}}
-      <div class="btn-group btn-group-xs pull-right">
-        <button on-click="showStats()" class="btn btn-default nm-block-action">
-          Views
-          <span class="badge">
-            {{formatValue(_.sum(stats.views))}}
-          </span>
-        </button>
-      </div>
-    {{/}}
   </div>
 </div>

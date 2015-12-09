@@ -8,6 +8,8 @@ require('./app.scss');
 require('../bootstrap/js/bootstrap.min.js');
 require('gridforms/gridforms/gridforms');
 require('gridforms/gridforms/gridforms.css');
+require('../bower_components/sapphire/build/sapphire.css');
+require('../bower_components/sapphire/build/sapphire-theme.css');
 
 var page = require('page');
 var Dashboard = require('./views/dashboard');

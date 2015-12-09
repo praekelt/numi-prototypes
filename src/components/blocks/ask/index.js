@@ -12,8 +12,7 @@ var Ask = Base.extend({
     };
   },
   isComplete: function() {
-    return this.get('text')
-        && this.get('saveAs');
+    return this.get('text');
   }
 });
 
@@ -34,7 +33,7 @@ Ask.Edit = Base.Edit.extend({
       el: $('<div>'),
       data: {
         title: 'Choose a user field',
-        items: dashboard.get('userFields')
+        items: dashboard.getUserFields()
       }
     });
 
@@ -46,6 +45,9 @@ Ask.Edit = Base.Edit.extend({
     drawers.open(list);
   }
 });
+
+
+Ask.Stats = Base.Stats.extend();
 
 
 module.exports = Ask;

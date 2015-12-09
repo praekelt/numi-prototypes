@@ -5,6 +5,8 @@ var Base = require('../base');
 var drawers = require('../../../drawers');
 var ChooseSequence = require('../../../views/choose-sequence');
 var Chooser = require('../../../views/chooser');
+var Areas = require('../../../area');
+var sapphire = require('../../../../bower_components/sapphire/build/sapphire');
 
 
 var AskChoice = Base.extend({
@@ -13,7 +15,7 @@ var AskChoice = Base.extend({
     return {
       text: '',
       saveAs: '',
-      allChoices: [newChoice()],
+      allChoices: [this.newChoice()],
 
       getSequenceName: function(id) {
         var seq = _.find(this.get('dialogue').get('sequences'), {id: id});
@@ -21,6 +23,15 @@ var AskChoice = Base.extend({
           ? seq.name
           : '';
       }
+    };
+  },
+  newChoice: function() {
+    return {
+      id: uuid.v4(),
+      text: '',
+      saveAs: null,
+      route: null,
+      answerCounts: this.randDatapoints(0, 1000)
     };
   },
   isComplete: function() {
@@ -34,6 +45,24 @@ var AskChoice = Base.extend({
   onChoiceClick(e, id) {
     e.original.preventDefault();
     this.selectChoice(id);
+  },
+  oninit: function() {
+    this.resetTotals();
+  },
+  getAnswerCounts() {
+    return _.chain(this.get('allChoices'))
+      .slice(0, -1)
+      .pluck('answerCounts')
+      .unzip()
+      .map(_.sum)
+      .value();
+  },
+  resetTotals: function() {
+    var answers = this.getAnswerCounts();
+    var timeouts = this.get('stats.timeouts');
+    var views = _.zip(timeouts, answers).map(_.sum);
+    this.set('stats.answers', answers);
+    this.set('stats.views', views);
   },
   computed: {
     choices: function() {
@@ -51,7 +80,7 @@ AskChoice.Edit = Base.Edit.extend({
     return false;
   },
   addChoice() {
-    this.push('allChoices', newChoice());
+    this.push('allChoices', this.get('block').newChoice());
   },
   onChoiceKeyDown(i) {
     if (i < this.get('allChoices').length - 1) return;
@@ -61,6 +90,12 @@ AskChoice.Edit = Base.Edit.extend({
     var choice = _.find(this.get('allChoices'), {id: id});
     choice.route = null;
     this.update('allChoices');
+  },
+  removeChoice: function(id) {
+    var choices = this.get('allChoices');
+    var i = _.findIndex(choices, {id: id});
+    if (i === choices.length - 1) return;
+    this.splice('allChoices', i, 1);
   },
   onRouteClick: function(e, id) {
     e.original.preventDefault();
@@ -91,6 +126,13 @@ AskChoice.Edit = Base.Edit.extend({
         .name;
     }
   },
+  oninit: function(d) {
+    var self = this;
+
+    this.observe('allChoices', function() {
+      self.get('block').resetTotals();
+    });
+  },
   computed: {
     choices: function() {
       return this.get('allChoices').slice(0, -1);
@@ -106,7 +148,7 @@ AskChoice.Edit = Base.Edit.extend({
       el: $('<div>'),
       data: {
         title: 'Choose a user field',
-        items: dashboard.get('userFields')
+        items: dashboard.getUserFields()
       }
     });
 
@@ -120,14 +162,71 @@ AskChoice.Edit = Base.Edit.extend({
 });
 
 
-function newChoice() {
-  return {
-    id: uuid.v4(),
-    text: '',
-    saveAs: null,
-    route: null
-  };
+AskChoice.Stats = Base.Stats.extend({
+  template: require('./stats.html'),
+  draw() {
+    this.drawTotalsChart();
+    this.drawAnswersChart();
+    this.drawAnswersPercentageChart();
+  },
+  getMetrics() {
+    var times = this.get('stats.times');
+
+    return this.get('allChoices')
+      .slice(0, -1)
+      .map(function(d) {
+        return {
+          key: d.id,
+          title: d.text,
+          values: _.zip(times, d.answerCounts)
+        };
+      });
+  },
+  getPercentageMetrics() {
+    var times = this.get('stats.times');
+    var answers = this.get('stats.answers');
+
+    return this.get('allChoices')
+      .slice(0, -1)
+      .map(function(d) {
+        return {
+          key: d.id,
+          title: d.text,
+          values: _.zip(times, _.zip(d.answerCounts, answers).map(divide))
+        };
+      });
+  },
+  drawAnswersChart() {
+    d3.select(this.el)
+      .select('.nm-chart-answers')
+      .datum({metrics: this.getMetrics()})
+      .call(answersChart)
+      .call(this.appendPublishTimes.bind(this));
+  },
+  drawAnswersPercentageChart() {
+    d3.select(this.el)
+      .select('.nm-chart-answers-percentages')
+      .datum({metrics: this.getPercentageMetrics()})
+      .call(answerPercentagesChart);
+  }
+});
+
+
+function divide(d) {
+  return d[0] / d[1];
 }
+
+
+var answersChart = sapphire.widgets.lines()
+  .explicitComponents(true)
+  .x(function(d) { return d[0]; })
+  .y(function(d) { return d[1]; });
+
+
+var answerPercentagesChart = Areas()
+  .explicitComponents(true)
+  .x(function(d) { return d[0]; })
+  .y(function(d) { return d[1]; });
 
 
 module.exports = AskChoice;

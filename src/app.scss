@@ -46,8 +46,25 @@ body {
   overflow: auto;
 }
 
-.btn-default {
+.nm-block {
   color: $fg0 !important;
+
+  .badge {
+    color: $bg0;
+    background: transparentize($fg1, 0.5);
+  }
+
+  .nm-preview-list-item {
+    .badge {
+      margin-right: 20px;
+    }
+
+    &.active {
+      .badge {
+        margin-right: 33px;
+      }
+    }
+  }
 }
 
 .breadcrumb {
@@ -335,6 +352,10 @@ hr {
 
   .list-group {
     margin-bottom: 0;
+  }
+
+  .panel-footer {
+    min-height: 41px;
   }
 }
 
@@ -666,10 +687,24 @@ a.nm-list-group-item-drawer {
   margin-left: -6px;
 
   .list-group-item {
-    &:first-child, &:last-child {
+    border-color: $bg2;
+    border-width: 2px;
+    background: $bg4;
+
+    &:first-child {
+      border-top: 0;
       border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+
+    &:first-child, &:last-child {
       border-bottom-left-radius: 0;
     }
+  }
+
+  .list-group-item-heading {
+    color: $fg7;
+    font-size: 0.9em;
   }
 }
 
@@ -692,9 +727,6 @@ a.nm-list-group-item-drawer {
 
 .nm-dashboard-dialogue-body {
   padding: 12px;
-}
-
-.nm-dashboard-dialogue-actions {
 }
 
 .nm-dashboard-dialogue-list {
@@ -729,4 +761,79 @@ a.nm-list-group-item-drawer {
 
 .is-pressed {
   background: $bg5;
+}
+
+.nm-publish-time {
+  line {
+    stroke: $fg-chart-publish;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+  }
+}
+
+.nm-col-swatch-publish {
+  background: $fg-chart-publish !important;
+}
+
+.sph-chart-areas {
+  height: 210px;
+  padding: 10px;
+  padding-right: 5px;
+}
+
+.sph-areas-area {
+  stroke: none;
+}
+
+
+.sph-col-areas-title {
+  width: 70%;
+}
+
+
+.sph-col-areas-value {
+  text-align: right;
+}
+
+.sph-areas-metric {
+  stroke-width: 2px;
+}
+
+.sph-chart-areas {
+  .sph-axis-lines {
+    line {
+      stroke: $bg2;
+      stroke-opacity: 0.15;
+    }
+  }
+
+  .nm-publish-time {
+    stroke-opacity: 0.8;
+  }
+}
+
+.nm-block-pallete-title {
+  font-size: 0.8em;
+  text-transform: uppercase;
+  padding: 4px;
+  padding-left: 6px;
+  background: $bg4;
+  color: $fg7;
+
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border: 2px solid $bg2;
+}
+
+.nm-block-pallete-title-palletes {
+  border-top-right-radius: 0;
+  border-right: 2px solid $bg2;
+}
+
+.nm-block-pallete-title-blocks {
+  border-left: 2px solid $bg2;
+}
+
+.nm-list-group-pallete-blocks {
+  border-top: 0;
 }

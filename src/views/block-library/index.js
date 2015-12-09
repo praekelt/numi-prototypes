@@ -83,13 +83,13 @@ BlockLibrary.palletes = [{
       type: 'ask',
       helptext: 'Users are asked a question and can respond with any text'
     }, {
-      name: 'Multiple Choice',
+      name: 'Multiple Choice Question',
       type: 'askchoice',
       helptext: 'Users are asked a question with numbered choices and can respond with their choice'
     }, {
-      name: 'End Session',
+      name: 'End dialogue',
       type: 'end',
-      helptext: 'Users are sent content and the session ends.'
+      helptext: 'Users are sent content and the dialogue ends.'
     }]
   }, {
     key: 'routing',
@@ -102,6 +102,14 @@ BlockLibrary.palletes = [{
       name: 'Conditionally go to another sequence',
       type: 'conditionalroute',
       helptext: 'Route the user to another sequence if a given set of condtions are met'
+    }]
+  }, {
+    key: 'annotations',
+    name: 'Annotations',
+    blocks: [{
+      name: 'Note',
+      type: 'annotation',
+      helptext: 'Annotate the dialogue with text'
     }]
   }]
 }, {

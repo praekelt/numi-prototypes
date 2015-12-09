@@ -1,6 +1,6 @@
 <div>
   <h3 class="page-header">
-    End dialogue
+    Note
     <button class="close" on-click="close()">&times</button>
   </h3>
 
@@ -8,12 +8,8 @@
     <fieldset>
       <div data-row-span="3" class="{{^text}}is-incomplete{{/text}}">
         <div data-field-span="3">
-          <label>Content</label>
+          <label>Text</label>
           <textarea value="{{text}}"></textarea>
-        </div>
-
-        <div class="btn-group btn-group-xs nm-content-actions">
-          <button class="btn btn-default nm-placeholder" on-click="insertUserField()">Insert user field</button>
         </div>
       </div>
     </fieldset>

@@ -1,0 +1,20 @@
+{
+  "name": "numi-prototypes",
+  "version": "0.0.0",
+  "private": true,
+  "homepage": "https://github.com/praekelt/numi-prototypes",
+  "authors": [
+    "Praekelt Foundation"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "sapphire": "~0.1.3"
+  }
+}
