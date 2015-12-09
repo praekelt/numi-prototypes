@@ -72621,8 +72621,8 @@
 	      helptext: 'Route the user to another sequence'
 	    }]
 	  }, {
-	    key: 'Annotations',
-	    name: 'annotations',
+	    key: 'annotations',
+	    name: 'Annotations',
 	    blocks: [{
 	      name: 'Note',
 	      type: 'annotation',
