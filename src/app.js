@@ -14,6 +14,7 @@ require('../bower_components/sapphire/build/sapphire-theme.css');
 var page = require('page');
 var Dashboard = require('./views/dashboard');
 var pg = require('./pg');
+var drawers = require('./drawers');
 var hist = require('./hist');
 var persist = require('./persist');
 
@@ -59,6 +60,11 @@ $(document).keydown(function(e) {
     persist.clear();
     reset = true;
     window.location = '/numi-prototypes';
+  }
+
+  // <Esc>
+  else if (e.keyCode === 27 && !e.ctrlKey) {
+    drawers.close();
   }
 });
 
