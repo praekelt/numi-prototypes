@@ -91,6 +91,12 @@ AskChoice.Edit = Base.Edit.extend({
     choice.route = null;
     this.update('allChoices');
   },
+  removeChoice: function(id) {
+    var choices = this.get('allChoices');
+    var i = _.findIndex(choices, {id: id});
+    if (i === choices.length - 1) return;
+    this.splice('allChoices', i, 1);
+  },
   onRouteClick: function(e, id) {
     e.original.preventDefault();
     this.get('block').selectChoice(id);

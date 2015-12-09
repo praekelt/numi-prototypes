@@ -72,10 +72,10 @@
 
         <div class="btn-group btn-group-xs nm-row-actions">
           {{^route}}
-          <button class="btn btn-default" on-click="setRoute(id)">↳ Route</button>
+          <button class="btn btn-default {{# i === allChoices.length - 1}}disabled{{/}}" on-click="setRoute(id)">↳ Route</button>
           {{/route}}
 
-          <button class="btn btn-default">Remove</button>
+          <button class="btn btn-default {{# i === allChoices.length - 1}}disabled{{/}}" on-click="removeChoice(id)">Remove</button>
         </div>
       </div>
       {{/allChoices}}
