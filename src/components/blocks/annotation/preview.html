@@ -1,0 +1,19 @@
+<div class="nm-block panel panel-default">
+  <div class="panel-body">
+    <div class="btn-group btn-group-sm pull-right">
+      <button class="btn btn-default nm-block-action nm-block-edit" on-click="edit()">Edit</button>
+      <button class="btn btn-default nm-block-action" on-click="destroy()">Remove</button>
+    </div>
+
+    <p class="nm-block-title">Note</p>
+
+    {{#text}}<p>{{text}}</p>{{/text}}
+    {{^text}}<i class="nm-preview-annotation">No annotation text</i>{{/text}}
+  </div>
+
+  <div class="panel-footer">
+    {{^isComplete}}
+    <p class="label label-warning">Incomplete</p>
+    {{/isComplete}}
+  </div>
+</div>

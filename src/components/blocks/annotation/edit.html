@@ -1,0 +1,23 @@
+<div>
+  <h3 class="page-header">
+    Note
+    <button class="close" on-click="close()">&times</button>
+  </h3>
+
+  <div class="grid-form">
+    <fieldset>
+      <div data-row-span="3" class="{{^text}}is-incomplete{{/text}}">
+        <div data-field-span="3">
+          <label>Text</label>
+          <textarea value="{{text}}"></textarea>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+
+  <br/>
+
+  <hr class="nm-divider">
+
+  <button type="button" class="btn btn-default pull-left" on-click="close()">Save and close <span class="glyphicon glyphicon-chevron-right"></span></button>
+</div>

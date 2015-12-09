@@ -99,6 +99,14 @@ BlockLibrary.palletes = [{
       type: 'route',
       helptext: 'Route the user to another sequence'
     }]
+  }, {
+    key: 'Annotations',
+    name: 'annotations',
+    blocks: [{
+      name: 'Note',
+      type: 'annotation',
+      helptext: 'Annotate the dialogue with text'
+    }]
   }]
 }, {
   name: 'MomConnect',
