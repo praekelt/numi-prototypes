@@ -2,7 +2,6 @@
   <button class="btn btn-link pull-right" on-click="close()">
     ← Back
   </button>
-
   <h4 class="page-header">
     Condition Set
   </h4>
@@ -16,7 +15,7 @@
         </div>
       </div>
 
-      <div data-row-span="1" on-click="addCondition()" class="nm-button-row">
+      <div data-row-span="1" class="nm-button-row">
         <div class="btn-group btn-group-sm btn-group-justified nm-row-actions">
           <div class="btn-group">
             <button class="btn btn-default {{#type === 'all'}}is-pressed{{/}}" on-click="set('type', 'all')">Match all of the following</button>
@@ -27,10 +26,18 @@
         </div>
       </div>
 
+      {{#conditions}}
+      <div data-row-span="1">
+        <div data-field-span="1">
+          {{>conditions}}
+        </div>
+      </div>
+      {{/conditions}}
+
       <div data-row-span="1" on-click="addCondition()">
         <div data-field-span="1" class="nm-placeholder-col">
           <span class="glyphicon glyphicon-chevron-right pull-right"></span>
-          <span class="nm-static-input nm-static-input-placeholder">+ Add a condition</span>
+          <span class="nm-static-input nm-static-input-placeholder" on-click="addCondition()">+ Add a condition</span>
         </div>
       </div>
     </fieldset>

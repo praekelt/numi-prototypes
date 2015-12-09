@@ -1,56 +1,53 @@
-<div class="popover left" style="left: 13em; top: 2em;">
-  <div class="arrow"></div>
-  <div class="popover-content">
-    <p>Since the library is likely to get quite big (and can be scary at a first glace seeing everything), we use accordions to keep the screen tidy.</p>
-  </div>
+<h3 class="page-header">
+  Condition Library
+
+  <button class="btn btn-link pull-right" on-click="close()">
+    ← Back
+  </button>
+</h3>
+
+<div class="nm-block-pallete-menu">
+  <div class="nm-block-pallete-title nm-block-pallete-title-palletes">Palletes</div>
+  <ul class="nav nav-pills nav-stacked">
+    {{#palletes}}
+    <li class="{{#activePalleteKey === key}}active{{/}}">
+      <a href="#" on-click="setActivePallete(event, key)">{{name}}</a>
+    </li>
+    {{/pallete}}
+  </ul>
 </div>
 
-<ol class="breadcrumb">
-  <li><a href="/numi-prototypes/">Home</a></li>
-  <li><a href="/numi-prototypes/filters/{{filterId}}">Filter: {{filterName}}</a></li>
-  <li class="active">Condition Library</li>
-</ol>
+<div class="nm-block-pallete">
+  <div class="nm-block-pallete-title nm-block-pallete-title-blocks">Conditions</div>
+  {{#activePallete}}
+  <div class="list-group">
+    {{#categories}}
+    <div class="list-group-item">
+      <div class="list-group-item-heading">{{name}}</div>
 
-<h1 class="page-header">Condition Library</h1>
 
-{{#types}}
-<div class="panel-group" id="accordion{{name}}" role="tablist" aria-multiselectable="true">
-  <div class="panel panel-default">
-      <div class="panel-heading" role="tab" id="heading{{name}}">
-          <h2 class="panel-title">
-            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{name}}" aria-expanded="true" aria-controls="collapse{{name}}">
-              {{title}}
-            </a>
-          </h2>
-      </div>
-      <div id="collapse{{name}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{name}}">
-        <div class="panel-body">
-          {{#blocks}}
-          <button class="btn btn-default btn-library" on-click="addCondition(type)">{{title}}</button>
-          {{/blocks}}
+      <div class="list-body-item-text">
+        {{#conditions}}
+        <div class="collapse alert alert-info alert-dismissible" id="{{type}}-help" data-toggle="collapse" data-target="#{{type}}-help">
+          <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
+          <p>{{helptext}}</p>
         </div>
-      </div>
-  </div>
-</div>
-{{/types}}
+        {{/conditions}}
 
-<div class="panel-group" id="accordionfilters" role="tablist" aria-multiselectable="true">
-  <div class="panel panel-default">
-      <div class="panel-heading" role="tab" id="headingfilters">
-          <h2 class="panel-title">
-            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{id}}" aria-expanded="true" aria-controls="collapsefilters">
-              Filters
-            </a>
-          </h2>
-      </div>
-      <div id="collapsefilters" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingfilters">
-        <div class="panel-body">
-          {{#filters}}
-          <button class="btn btn-default btn-library" on-click="addFilter(this)">{{name}}</button>
-          {{/filters}}
+        {{#conditions}}
+        <div class="btn-group nm-library-block">
+          <button class="btn btn-default nm-placeholder nm-placeholder-block" on-click="add(type)">{{name}}</button>
 
-          <button class="btn btn-default btn-library nm-placeholder" on-click="newFilter()">+ Add filter</button>
+          {{#helptext}}
+          <button type="button" class="btn btn-default nm-placeholder nm-placeholder-block" data-toggle="collapse" data-target="#{{type}}-help">
+            <span class="glyphicon glyphicon-question-sign"></span>
+          </button>
+          {{/helptext}}
         </div>
+        {{/conditions}}
       </div>
+    </div>
+    {{/categories}}
   </div>
+  {{/activePallete}}
 </div>

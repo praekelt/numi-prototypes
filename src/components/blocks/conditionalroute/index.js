@@ -17,11 +17,11 @@ var ConditionalRoute = Base.extend({
     return {
       itemId: uuid.v4(),
       seqId: null,
-      conditions: []
+      conditionSet: null
     };
   },
   computed: {
-    rosute: function() {
+    route: function() {
       var seqId = this.get('seqId');
 
       return !seqId
@@ -48,14 +48,11 @@ ConditionalRoute.Edit = Base.Edit.extend({
 
     var conditions = Conditions({
       el: $('<div>'),
-      data: {
-        useClose: true,
-        dialogue: this.get('dialogue')
-      }
+      data: _.extend({useClose: true}, this.get('conditionSet'))
     });
 
-    conditions.once('chosen', function(conditions) {
-      self.set('conditions', conditions);
+    conditions.on('change', function() {
+      self.set('conditionSet', conditions.get());
     });
 
     drawers.open(conditions);

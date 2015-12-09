@@ -1,103 +1,82 @@
-var $ = require('jquery');
+var uuid = require('node-uuid');
 var Ractive = require('ractive');
-var NewFilter = require('../new-filter');
-var pg = require('../../pg');
+var drawers = require('../../drawers');
+var conditionTypes = require('../../components/conditions');
 
 
 // TODO something similar to this for filters
 var ConditionLibrary = Ractive.extend({
   template: require('./template.html'),
+  close() {
+    drawers.close(this);
+  },
+  data: function() {
+    return ConditionLibrary.data;
+  },
   computed: {
-    types: function() {
-      return ConditionLibrary.types;
-    },
-    filters: function() {
-      var filter = this.get('filter');
-
-      return dashboard.get('filters')
-        .filter(function(otherFilter) {
-          return otherFilter.id !== filter.get('id');
-        });
-    },
-    filterId: function() {
-      return this.get('filter').get('id');
-    },
-    filterName: function() {
-      return this.get('filter').get('name');
+    activePallete: function() {
+      return _.find(this.get('palletes'), {key: this.get('activePalleteKey')});
     }
   },
-  addCondition: function(type) {
-    this.get('filter').push('conditions', {type: type});
-    pg.pop();
+  setActivePallete: function(event, key) {
+    event.original.preventDefault();
+    this.set('activePalleteKey', key);
   },
-  addFilter: function(filter) {
-    this.get('filter').push('conditions', {
-      type: 'filter',
-      filter: filter
-    });
-
-    pg.pop();
+  add: function(type) {
+    var d = conditionTypes[type]().get();
+    d.type = type;
+    d.unedited = true;
+    d.id = uuid.v4();
+    this.pushRecent(type);
+    this.fire('chosen', d);
   },
-  newFilter: function()  {
-    var newFilter = NewFilter({el: $('<div>')});
-    var self = this;
+  pushRecent: function(type) {
+    var d = _.chain(this.get('palletes'))
+      .pluck('categories')
+      .flatten()
+      .pluck('conditions')
+      .flatten()
+      .find({type: type})
+      .value();
 
-    newFilter.on('created', function(filter) {
-      self.addFilter({
-        id: filter.get('id'),
-        name: filter.get('name')
-      });
-    });
+    if (_.find(this.get('recent'), d)) return;
+    this.push('recent', d);
+  },
+  toggle: function(e, key) {
+    e.original.preventDefault();
 
-    pg.pop();
-    pg.push(newFilter);
+    $(this.el)
+      .find('.nm-pallete[data-key="' + key + '"] .collapse')
+      .collapse('toggle');
+
+    var pallete = _.find(this.get('palletes'), {key: key});
+    pallete.collapsed = !pallete.collapsed;
+    this.update();
   }
 });
 
 
-ConditionLibrary.types = [{
-  title: 'Labels added to dialogues',
-  name: 'labels',
-  blocks: [{
-    title: 'Has label',
-    type: 'has'
-  }, {
-    title: 'Does not have label',
-    type: 'nothas'
-  }]
-}, {
-  title: 'Number answer from the user',
-  name: 'numbers',
-  blocks: [{
-    title: 'Equals',
-    type: 'eq'
-  }, {
-    title: 'Not equal to',
-    type: 'neq'
-  }, {
-    title: 'Less than',
-    type: 'lt'
-  }, {
-    title: 'Less than or equal to',
-    type: 'lte'
-  }, {
-    title: 'Greater than',
-    type: 'gt'
-  }, {
-    title: 'Greater than or equal to',
-    type: 'gte'
-  }]
-}, {
-  title: 'Text answer from the user',
-  name: 'text',
-  blocks: [{
-    title: 'Equals',
-    type: 'teq'
-  }, {
-    title: 'Not equal to',
-    type: 'tneq'
+ConditionLibrary.palletes = [{
+  name: 'Standard Conditions',
+  key: 'standard',
+  categories: [{
+    key: 'numbers',
+    name: 'Number comparisons',
+    conditions: [{
+      name: '<',
+      type: 'lt',
+      helptext: null
+    }]
   }]
 }];
 
+
+// data persists for session
+ConditionLibrary.data = {
+  key: 'conditions',
+  recent: [],
+  activePalleteKey: 'standard',
+  palletes: _.cloneDeep(ConditionLibrary.palletes)
+};
 
 module.exports = ConditionLibrary;
