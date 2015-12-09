@@ -87,9 +87,9 @@ BlockLibrary.palletes = [{
       type: 'askchoice',
       helptext: 'Users are asked a question with numbered choices and can respond with their choice'
     }, {
-      name: 'End Session',
+      name: 'End dialogue',
       type: 'end',
-      helptext: 'Users are sent content and the session ends.'
+      helptext: 'Users are sent content and the dialogue ends.'
     }]
   }, {
     key: 'routing',
