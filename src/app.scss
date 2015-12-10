@@ -459,10 +459,12 @@ hr {
     &.is-incomplete {
       border-color: $fg-incomplete !important;
 
+      &:last-child {
+        border-top: 0 !important;
+      }
+
       &:not(:last-child) {
-        [data-field-span] {
-          border-bottom: 1px solid $fg-incomplete !important;
-        }
+        border-bottom: 1px solid $fg-incomplete !important;
       }
 
       .nm-row-actions {
