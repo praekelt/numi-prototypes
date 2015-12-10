@@ -8,6 +8,9 @@ var Base = Ractive.extend({
     if (this.drawerEdit) drawers.change(view);
     else drawers.close();
   },
+  isComplete: function() {
+    return true;
+  },
   getEditView: function() {
     var self = this;
 
@@ -21,6 +24,11 @@ var Base = Ractive.extend({
     });
 
     return edit;
+  },
+  computed: {
+    isComplete: function() {
+      return this.isComplete();
+    }
   }
 });
 

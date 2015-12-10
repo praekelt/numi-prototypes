@@ -7,10 +7,16 @@ var Comparison = Base.extend({
     return {
       a: null,
       b: null,
+      exists: function(name) {
+        return this.get(name) != null;
+      },
       preview: function(name) {
-        if (!this.get(name)) return '_';
       }
     };
+  },
+  isComplete: function() {
+    return this.get('a') != null
+        && this.get('b') != null;
   }
 });
 

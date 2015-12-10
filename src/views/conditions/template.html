@@ -27,9 +27,14 @@
       </div>
 
       {{#conditions}}
-      <div data-row-span="1">
+      <div data-row-span="1" class="{{#!isComplete}}is-incomplete{{/}}">
         <div data-field-span="1">
           {{>conditions}}
+        </div>
+
+        <div class="btn-group btn-group-xs nm-row-actions">
+          <button class="btn btn-default {{# i === allChoices.length - 1}}disabled{{/}}" on-click="changeCondition(id)">Change</button>
+          <button class="btn btn-default {{# i === allChoices.length - 1}}disabled{{/}}" on-click="removeCondition(id)">Remove</button>
         </div>
       </div>
       {{/conditions}}

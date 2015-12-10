@@ -26,6 +26,11 @@ module.exports = Ractive.extend({
 
     drawers.open(library);
   },
+  removeCondition: function(id) {
+    this.removeWhere('conditions', {id: id});
+  },
+  changeCondition: function(id) {
+  },
   close: function() {
     drawers.close(this);
   }
