@@ -2,8 +2,6 @@ var $ = require('jquery');
 var _ = require('lodash');
 var uuid = require('node-uuid');
 var Ractive = require('ractive');
-var FilterEdit = require('../filter-edit');
-var NewFilter = require('../new-filter');
 var NewDialogue = require('../new-dialogue');
 var Dialogue = require('../dialogue');
 var pg = require('../../pg');
@@ -19,7 +17,6 @@ module.exports = Ractive.extend({
       publishCount: 0,
       values: [],
       labels: [],
-      filters: [],
       dialogues: [],
       channels: [{
         id: 'chan1',
@@ -90,15 +87,6 @@ module.exports = Ractive.extend({
       data: {dashboard: this}
     }));
   },
-  addFilter: function(name) {
-    var d = {
-      id: 'filter' + this.get('filters').length,
-      name: name
-    };
-
-    this.push('filters', d);
-    return this.findFilterView(d.id);
-  },
   addDialogue: function(name) {
     var entrySeqId = uuid.v4();
 
@@ -136,15 +124,6 @@ module.exports = Ractive.extend({
     pg.push(newFilter);
   },
   computed: {
-    filterViews: function() {
-      return this.get('filters')
-        .map(function(d) {
-          return new FilterEdit({
-            el: $('<div>'),
-            data: d
-          });
-        });
-    },
     dialogueViews: function() {
       return this.get('dialogues')
         .map(function(d) {
@@ -205,11 +184,6 @@ module.exports = Ractive.extend({
   },
   findDialogueView: function(id) {
     return _.find(this.get('dialogueViews'), function(c) {
-      return c.get('id') === id;
-    });
-  },
-  findFilterView: function(id) {
-    return _.find(this.get('filterViews'), function(c) {
       return c.get('id') === id;
     });
   }

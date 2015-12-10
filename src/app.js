@@ -40,11 +40,6 @@ page('/dialogues/:id', function(ctx, next) {
 });
 
 
-page('/filters/:id', function(ctx, next) {
-  pg.push(dashboard.findFilterView(ctx.params.id));
-});
-
-
 page({hashbang: true});
 
 
