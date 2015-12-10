@@ -30,6 +30,7 @@ module.exports = Ractive.extend({
     this.removeWhere('conditions', {id: id});
   },
   changeCondition: function(id) {
+    this.findComponentWhere({id: id}).edit();
   },
   close: function() {
     drawers.close(this);

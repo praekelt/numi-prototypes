@@ -3,10 +3,12 @@ var drawers = require('../../../drawers');
 
 
 var Base = Ractive.extend({
+  data: function() {
+    return {id: null};
+  },
   edit: function() {
     var view = this.getEditView();
-    if (this.drawerEdit) drawers.change(view);
-    else drawers.close();
+    drawers.open(view);
   },
   isComplete: function() {
     return true;

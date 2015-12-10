@@ -8,7 +8,7 @@ var Lt = Comparison.extend({
 });
 
 
-Lt.Edit = Comparison.extend();
+Lt.Edit = Comparison.Edit.extend();
 
 
 module.exports = Lt;
