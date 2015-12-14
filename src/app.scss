@@ -831,9 +831,10 @@ a.nm-list-group-item-drawer {
 
   &:not(:last-child) {
     border-bottom: 1px solid $bg1;
-  }
 
-  @media (min-width: $screen-small) {
+    @media (max-width: ($screen-small - 1)) {
+      border-bottom-color: $fg4;
+    }
   }
 }
 
@@ -842,6 +843,10 @@ a.nm-list-group-item-drawer {
 
   &:not(:first-child) {
     border-top: 1px solid $bg1;
+
+    @media (max-width: ($screen-small - 1)) {
+      border-top-color: $fg4;
+    }
   }
 
   @media (min-width: $screen-small) {
@@ -920,6 +925,14 @@ a.nm-list-group-item-drawer {
 
   &:not(:first-child) {
     border-left: 1px solid $bg1;
+  }
+
+  &:not(:last-child) {
+    @media (max-width: ($screen-small - 1)) {
+      &, &.btn {
+        border-bottom: 1px solid $bg1;
+      }
+    }
   }
 }
 

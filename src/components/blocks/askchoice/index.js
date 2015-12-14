@@ -11,6 +11,9 @@ var sapphire = require('../../../../bower_components/sapphire/build/sapphire');
 
 var AskChoice = Base.extend({
   template: require('./preview.html'),
+  oncomplete: function() {
+    this.edit();
+  },
   data: function() {
     return {
       text: '',
