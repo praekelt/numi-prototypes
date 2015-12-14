@@ -259,7 +259,7 @@ hr {
 .nm-body-dashboard {
   margin: 0 auto;
 
-  @media (min-width: 768px) {
+  @media (min-width: $screen-medium) {
     max-width: 70vw;
   }
 }
@@ -389,7 +389,7 @@ hr {
   border-left: 1px solid $fg3;
   pointer-events: auto;
 
-  @media (min-width: 768px) {
+  @media (min-width: $screen-medium) {
     width: 50%;
   }
 
@@ -832,23 +832,74 @@ a.nm-list-group-item-drawer {
   &:not(:last-child) {
     border-bottom: 1px solid $bg1;
   }
+
+  @media (min-width: $screen-small) {
+  }
 }
 
 .nm-row {
-  display: flex;
   position: relative;
 
   &:not(:first-child) {
     border-top: 1px solid $bg1;
   }
+
+  @media (min-width: $screen-small) {
+    display: flex;
+  }
+}
+
+@mixin show() {
+  display: block;
+  position: static;
+}
+
+@mixin hide() {
+  display: none;
+  position: absolute;
+}
+
+@mixin small-only() {
+  &.nm-small-only {
+    @include show();
+
+    @media (min-width: $screen-small) {
+      @include hide();
+    }
+  }
+}
+
+@mixin hide-small() {
+  &.nm-hide-small {
+    @include hide();
+
+    @media (min-width: $screen-small) {
+      @include show();
+    }
+  }
+}
+
+@mixin cellspan($span) {
+  @media (min-width: $screen-small) {
+    width: (100% / 24) * $span;
+  }
 }
 
 .nm-cell {
+  @include small-only();
+  @include hide-small();
+
   flex-grow: 1;
   padding: 8px;
   background: $bg0;
 
+  width: 100%;
+  display: inline-block;
+
   label {
+    @include small-only();
+    @include hide-small();
+
     margin-top: 0;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -870,10 +921,6 @@ a.nm-list-group-item-drawer {
   &:not(:first-child) {
     border-left: 1px solid $bg1;
   }
-}
-
-@mixin cellspan($span) {
-  width: (99% / 24) * $span;
 }
 
 .nm-cell-1 { @include cellspan(1); }
@@ -931,9 +978,6 @@ a.nm-list-group-item-drawer {
 .nm-cell-filler {
   border: 0;
   width: auto;
-}
-
-.nm-actions {
 }
 
 .nm-prefixed-input {
