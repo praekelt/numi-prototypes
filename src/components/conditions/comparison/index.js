@@ -2,7 +2,7 @@ var Base = require('../base');
 
 
 var Comparison = Base.extend({
-  template: require('./preview.html'),
+  template: require('./template.html'),
   data: function() {
     return {
       a: null,
@@ -18,11 +18,6 @@ var Comparison = Base.extend({
     return this.get('a') != null
         && this.get('b') != null;
   }
-});
-
-
-Comparison.Edit = Base.Edit.extend({
-  template: require('./edit.html')
 });
 
 

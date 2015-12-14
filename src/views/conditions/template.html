@@ -21,13 +21,8 @@
       </div>
 
       {{#conditions}}
-      <div class="nm-row {{#!isComplete}}is-incomplete{{/}}">
-        <div class="nm-cell nm-cell-18">
-          {{>conditions}}
-        </div>
-
-        <button class="nm-cell nm-cell-btn nm-cell-3 btn" on-click="changeCondition(id)">Change</button>
-        <button class="nm-cell nm-cell-btn nm-cell-3 btn" on-click="removeCondition(id)">Remove</button>
+      <div class="nm-row">
+        {{>conditions}}
       </div>
       {{/conditions}}
 
