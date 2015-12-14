@@ -906,6 +906,10 @@ a.nm-list-group-item-drawer {
     @include small-only();
     @include hide-small();
 
+    &.nm-unused {
+      color: $fg2;
+    }
+
     margin-top: 0;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -924,6 +928,10 @@ a.nm-list-group-item-drawer {
     }
   }
 
+  &.is-incomplete {
+    border: 1px solid $fg-incomplete;
+  }
+
   &:not(:first-child) {
     border-left: 1px solid $bg1;
   }
@@ -932,6 +940,10 @@ a.nm-list-group-item-drawer {
     @media (max-width: ($screen-small - 1)) {
       &, &.btn {
         border-bottom: 1px solid $bg1;
+
+        &.is-incomplete {
+          border-bottom: 1px solid $fg-incomplete;
+        }
       }
     }
   }
