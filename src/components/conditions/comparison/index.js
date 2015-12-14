@@ -27,6 +27,8 @@ var Comparison = Base.extend({
     return {
       a: null,
       b: null,
+      dataType: null,
+      operator: null,
       exists: function(name) {
         return this.get(name) != null;
       },

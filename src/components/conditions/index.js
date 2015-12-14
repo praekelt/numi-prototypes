@@ -1,1 +1,1 @@
-exports.lt = require('./lt');
+exports.comparison = require('./comparison');

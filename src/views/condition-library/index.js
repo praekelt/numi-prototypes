@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var uuid = require('node-uuid');
 var Ractive = require('ractive');
 var drawers = require('../../drawers');
@@ -22,12 +23,9 @@ var ConditionLibrary = Ractive.extend({
     event.original.preventDefault();
     this.set('activePalleteKey', key);
   },
-  add: function(type) {
-    var d = conditionTypes[type]().get();
-    d.type = type;
-    d.unedited = true;
-    d.id = uuid.v4();
-    this.pushRecent(type);
+  add: function(d) {
+    d = _.extend({}, conditionTypes[d.type]().get(), d, {id: uuid.v4()});
+    this.pushRecent(d.type);
     this.fire('chosen', d);
   },
   pushRecent: function(type) {
@@ -60,13 +58,17 @@ ConditionLibrary.palletes = [{
   name: 'Standard Conditions',
   key: 'standard',
   categories: [{
-    key: 'numbers',
+    key: 'number',
     name: 'Number comparisons',
-    conditions: [{
-      name: '<',
-      type: 'lt',
-      helptext: null
-    }]
+    conditions: ['<', '>', '=', '≤', '≥']
+      .map(function(operator) {
+        return {
+          name: operator,
+          operator: operator,
+          type: 'comparison',
+          dataType: 'number'
+        };
+      })
   }]
 }];
 
@@ -78,5 +80,6 @@ ConditionLibrary.data = {
   activePalleteKey: 'standard',
   palletes: _.cloneDeep(ConditionLibrary.palletes)
 };
+
 
 module.exports = ConditionLibrary;
