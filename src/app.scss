@@ -406,7 +406,7 @@ hr {
   border-color: $fg4;
 }
 
-.nm-placeholder-col {
+.nm-cell-placeholder {
   background: lighten($bg0, 20%);
   cursor: pointer !important;
   color: $fg1;
@@ -745,12 +745,6 @@ a.nm-list-group-item-drawer {
   border-top: 0;
 }
 
-.nm-cond-operand {
-  &.is-incomplete {
-    color: $fg-incomplete;
-  }
-}
-
 .nm-form {
   background: $bg0;
   width: 100%;
@@ -866,6 +860,10 @@ a.nm-list-group-item-drawer {
 
   &:not(:first-child) {
     border-left: 1px solid $bg1;
+
+    &.is-incomplete {
+      border-left: 1px solid $fg-incomplete;
+    }
   }
 
   &:not(:last-child) {
@@ -949,4 +947,12 @@ a.nm-list-group-item-drawer {
     width: auto;
     overflow: hidden;
   }
+}
+
+.nm-cond-operator {
+  text-align: center;
+}
+
+.nm-cond-operand {
+  text-align: center;
 }

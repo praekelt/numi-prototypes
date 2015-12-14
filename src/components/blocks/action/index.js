@@ -1,7 +1,6 @@
 var _ = require('lodash');
 var Base = require('../base');
 var Chooser = require('../../../views/chooser');
-var drawers = require('../../../drawers');
 
 
 var Action = Base.extend({

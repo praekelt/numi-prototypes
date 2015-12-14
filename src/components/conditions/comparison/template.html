@@ -1,3 +1,15 @@
-<div class="nm-cell nm-cell-2">
-  {{operator}}
+<div class="nm-cell nm-cell-10 nm-cond-operand {{#!exists('a')}}is-incomplete nm-cell-placeholder{{/}}" on-click="chooseField('a')">
+  {{#exists('a')}}{{preview('a')}}{{/}}
+  {{#!exists('a')}}Choose a field{{/}}
 </div>
+
+<div class="nm-cell nm-cell-1 nm-cond-operator">
+  <span class="nm-static-input">{{operator}}</span>
+</div>
+
+<div class="nm-cell nm-cell-10 nm-cond-operand {{#!exists('b')}}is-incomplete nm-cell-placeholder{{/}}" on-click="chooseField('b')">
+  {{#exists('b')}}{{preview('b')}}{{/}}
+  {{#!exists('b')}}Choose a field{{/}}
+</div>
+
+<button class="nm-cell nm-cell-3 nm-cell-btn btn">Remove</button>

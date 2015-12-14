@@ -165,6 +165,9 @@ module.exports = Ractive.extend({
         })
         .value());
   },
+  getUserFieldName: function(id) {
+    return _.find(this.getUserFields(), {id: id}).name;
+  },
   oncomplete: function() {
     $(this.el)
       .find('.sortable-blocks')
