@@ -4,10 +4,10 @@
     <button class="close" on-click="close()">&times</button>
   </h3>
 
-  <div class="grid-form">
-    <fieldset>
-      <div data-row-span="3" class="{{^text}}is-incomplete{{/text}}">
-        <div data-field-span="3">
+  <div class="nm-form">
+    <div class="nm-rows">
+      <div class="nm-row {{^text}}is-incomplete{{/text}}">
+        <div class="nm-cell">
           <label>Content</label>
           <textarea value="{{text}}"></textarea>
         </div>
@@ -16,7 +16,7 @@
           <button class="btn btn-default nm-placeholder" on-click="insertUserField()">Insert user field</button>
         </div>
       </div>
-    </fieldset>
+    </div>
   </div>
 
   <br/>

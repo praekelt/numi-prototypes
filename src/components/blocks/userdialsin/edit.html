@@ -4,17 +4,17 @@
     <button class="close" on-click="close()">&times</button>
   </h3>
 
-  <div class="grid-form">
-    <fieldset>
-      <div data-row-span="1" class="nm-heading-row">
-        <div data-field-span="1">
+  <div class="nm-form">
+    <div class="nm-rows">
+      <div class="nm-row nm-row-heading">
+        <div class="nm-cell">
           <label>Channels</label>
         </div>
       </div>
 
       {{#channels}}
-      <div data-row-span="1">
-        <div data-field-span="1">
+      <div class="nm-row">
+        <div class="nm-cell">
           <span class="nm-static-input">{{name}}</span>
         </div>
 
@@ -24,13 +24,13 @@
       </div>
       {{/channels}}
 
-      <div data-row-span="1" class="{{^channels.length}}is-incomplete{{/channels.length}}">
-        <div data-field-span="1" class="nm-placeholder-col" on-click="choose()">
+      <div class="nm-row {{^channels.length}}is-incomplete{{/channels.length}}">
+        <div class="nm-cell nm-placeholder-col" on-click="choose()">
           <span class="glyphicon glyphicon-chevron-right pull-right"></span>
           <span class="nm-static-input nm-static-input-placeholder">+ Add a channel</span>
         </div>
       </div>
-    </fieldset>
+    </div>
   </div>
 
   <hr class="nm-divider">

@@ -4,10 +4,10 @@
     <button class="close" on-click="close()">&times</button>
   </h3>
 
-  <div class="grid-form">
-    <fieldset>
-      <div data-row-span="3" class="{{^text}}is-incomplete{{/text}}">
-        <div data-field-span="3" class="nm-content">
+  <div class="nm-form">
+    <div class="nm-rows">
+      <div class="nm-row {{^text}}is-incomplete{{/text}}">
+        <div class="nm-cell nm-content">
           <label>Question</label>
 
           <textarea value="{{text}}">
@@ -19,8 +19,8 @@
         </div>
       </div>
 
-      <div data-row-span="3">
-        <div data-field-span="3">
+      <div class="nm-rows">
+        <div class="nm-cell">
           <label {{^useAnswerSaving}}class="nm-unused"{{/useAnswerSaving}}>
             Save answer as (optional)
           </label>
@@ -28,7 +28,7 @@
           <input type="text" value="{{saveAs}}">
         </div>
       </div>
-    </fieldset>
+    </div>
   </div>
 
   <br/>
