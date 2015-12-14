@@ -259,7 +259,7 @@ hr {
 .nm-body-dashboard {
   margin: 0 auto;
 
-  @media (min-width: 768px) {
+  @media (min-width: $screen-medium) {
     max-width: 70vw;
   }
 }
@@ -389,7 +389,7 @@ hr {
   border-left: 1px solid $fg3;
   pointer-events: auto;
 
-  @media (min-width: 768px) {
+  @media (min-width: $screen-medium) {
     width: 50%;
   }
 
@@ -404,108 +404,6 @@ hr {
 
 .nm-divider {
   border-color: $fg4;
-}
-
-.grid-form {
-  label {
-    color: $fg0 !important;
-
-    &.nm-unused {
-      color: $fg1 !important;
-    }
-  }
-
-  [data-row-span] {
-    position: relative;
-    border: 1px solid !important;
-    border-color: $fg4 !important;
-
-    &:not(:last-child) {
-      border-bottom: 0 !important;
-    }
-
-    &:not(:first-child) {
-      border-top-color: $bg1 !important;
-    }
-
-    &:first-child {
-      border-top-left-radius: 4px !important;
-      -webkit-border-top-left-radius: 4px !important;
-      border-top-right-radius: 4px !important;
-      -webkit-border-right-radius: 4px !important;
-    }
-
-    &:last-child {
-      border-bottom-left-radius: 4px !important;
-      -webkit-border-bottom-left-radius: 4px !important;
-      border-bottom-right-radius: 4px !important;
-      -webkit-border-bottom-right-radius: 4px !important;
-    }
-
-    &.nm-heading-row {
-      background: $bg0;
-
-      [data-field-span] {
-        padding-top: 8px !important;
-        padding-bottom: 0 !important;
-        border-bottom: 0 !important;
-
-        &:hover, &.focus {
-          background: $bg0 !important;
-        }
-      }
-    }
-
-    &.is-incomplete {
-      border-color: $fg-incomplete !important;
-
-      &:last-child {
-        border-top: 0 !important;
-      }
-
-      &:not(:last-child) {
-        border-bottom: 1px solid $fg-incomplete !important;
-      }
-
-      .nm-row-actions {
-        margin-right: -1px;
-        margin-top: -1px;
-        margin-bottom: -1px;
-        border-left: 1px solid $fg-incomplete !important;
-        border-top: 1px solid $fg4 !important;
-        border-right: 1px solid $fg4 !important;
-      }
-    }
-
-    [data-field-span] {
-      padding-top: 14px !important;
-      padding-bottom: 14px !important;
-      border-bottom: 0 !important;
-
-      &:hover, &.focus {
-        background: $bg1 !important;
-      }
-
-      &:not(:last-child) {
-        border-right-color: $bg1 !important;
-      }
-
-      .nm-choice-text {
-        input {
-          width: 90% !important;
-        }
-      }
-    }
-
-    input, textarea {
-      color: $fg0;
-      font-size: 1em !important;
-    }
-  }
-
-  [data-row-span] {
-    background: $bg0;
-  }
 }
 
 .nm-placeholder-col {
@@ -854,5 +752,201 @@ a.nm-list-group-item-drawer {
 .nm-cond-operand {
   &.is-incomplete {
     color: $fg-incomplete;
+  }
+}
+
+.nm-form {
+  background: $bg0;
+  width: 100%;
+  border: 1px solid $fg4;
+  border-radius: 4px;
+}
+
+.nm-rows {
+  width: 100%;
+  border-collapse: collapse;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid $bg1;
+
+    @media (max-width: ($screen-small - 1)) {
+      border-bottom-color: $fg4;
+    }
+  }
+}
+
+.nm-row {
+  position: relative;
+
+  &:not(:first-child) {
+    border-top: 1px solid $bg1;
+
+    @media (max-width: ($screen-small - 1)) {
+      border-top-color: $fg4;
+    }
+  }
+
+  @media (min-width: $screen-small) {
+    display: flex;
+  }
+}
+
+@mixin show() {
+  display: block;
+  position: static;
+}
+
+@mixin hide() {
+  display: none;
+  position: absolute;
+}
+
+@mixin small-only() {
+  &.nm-small-only {
+    @include show();
+
+    @media (min-width: $screen-small) {
+      @include hide();
+    }
+  }
+}
+
+@mixin hide-small() {
+  &.nm-hide-small {
+    @include hide();
+
+    @media (min-width: $screen-small) {
+      @include show();
+    }
+  }
+}
+
+@mixin cellspan($span) {
+  @media (min-width: $screen-small) {
+    width: (100% / 24) * $span;
+  }
+}
+
+.nm-cell {
+  @include small-only();
+  @include hide-small();
+
+  flex-grow: 1;
+  padding: 8px;
+  background: $bg0;
+
+  width: 100%;
+  display: inline-block;
+
+  label {
+    @include small-only();
+    @include hide-small();
+
+    &.nm-unused {
+      color: $fg2;
+    }
+
+    margin-top: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 10px;
+    color: $fg1;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  textarea, input {
+    width: 100%;
+
+    &, &:hover, &:focus {
+      border: 0;
+      outline: none;
+    }
+  }
+
+  &.is-incomplete {
+    border: 1px solid $fg-incomplete;
+  }
+
+  &:not(:first-child) {
+    border-left: 1px solid $bg1;
+  }
+
+  &:not(:last-child) {
+    @media (max-width: ($screen-small - 1)) {
+      &, &.btn {
+        border-bottom: 1px solid $bg1;
+
+        &.is-incomplete {
+          border-bottom: 1px solid $fg-incomplete;
+        }
+      }
+    }
+  }
+}
+
+.nm-cell-1 { @include cellspan(1); }
+.nm-cell-2 { @include cellspan(2); }
+.nm-cell-3 { @include cellspan(3); }
+.nm-cell-4 { @include cellspan(4); }
+.nm-cell-5 { @include cellspan(5); }
+.nm-cell-6 { @include cellspan(6); }
+.nm-cell-7 { @include cellspan(7); }
+.nm-cell-8 { @include cellspan(8); }
+.nm-cell-9 { @include cellspan(9); }
+.nm-cell-10 { @include cellspan(10); }
+.nm-cell-11 { @include cellspan(11); }
+.nm-cell-12 { @include cellspan(12); }
+.nm-cell-13 { @include cellspan(13); }
+.nm-cell-14 { @include cellspan(14); }
+.nm-cell-15 { @include cellspan(15); }
+.nm-cell-16 { @include cellspan(16); }
+.nm-cell-17 { @include cellspan(17); }
+.nm-cell-18 { @include cellspan(18); }
+.nm-cell-19 { @include cellspan(19); }
+.nm-cell-20 { @include cellspan(20); }
+.nm-cell-21 { @include cellspan(21); }
+.nm-cell-22 { @include cellspan(22); }
+.nm-cell-23 { @include cellspan(23); }
+.nm-cell-24 { @include cellspan(24); }
+
+.nm-cell-heading {
+  padding: 4px;
+
+  label {
+    margin: 0;
+  }
+}
+
+.nm-cell-btn {
+  white-space: normal;
+  background: $bg3;
+  font-size: 0.85em;
+  border-radius: 0;
+
+  &, &:hover, &:focus {
+    border-top: 0;
+    border-bottom: 0;
+    border-right: 0;
+  }
+}
+
+.nm-cell-noborder {
+  &:not(:first-child) {
+    border-left: 0;
+  }
+}
+
+.nm-cell-filler {
+  border: 0;
+  width: auto;
+}
+
+.nm-prefixed-input {
+  width: 100%;
+
+  input {
+    width: auto;
+    overflow: hidden;
   }
 }

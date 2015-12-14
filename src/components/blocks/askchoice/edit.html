@@ -4,10 +4,10 @@
     <button class="close" on-click="close()">&times</button>
   </h3>
 
-  <div class="grid-form">
-    <fieldset>
-      <div data-row-span="1" class="{{^text}}is-incomplete{{/text}}">
-        <div data-field-span="1">
+  <div class="nm-form">
+    <div class="nm-rows">
+      <div class="nm-row">
+        <div class="nm-cell {{^text}}is-incomplete{{/text}}">
           <label>Question</label>
           <textarea value="{{text}}"></textarea>
         </div>
@@ -16,28 +16,28 @@
           <button class="btn btn-default nm-placeholder" on-click="insertUserField()">Insert user field</button>
         </div>
       </div>
+    </div>
 
-      <div data-row-span="2" class="nm-heading-row">
-        <div data-field-span="{{2 - useAnswerSaving }}">
+    <div class="nm-rows">
+      <div class="nm-row">
+        <div class="nm-cell nm-cell-heading nm-cell-{{choiceSpan}}">
           <label>Choices</label>
         </div>
 
         {{#useAnswerSaving}}
-        <div data-field-span="1">
+        <div class="nm-cell nm-cell-heading nm-cell-9 nm-hide-small">
           <label>Save as</label>
         </div>
+
         {{/useAnswerSaving}}
+        <div class="nm-cell nm-cell-6 nm-cell-noborder nm-hide-small"></div>
       </div>
 
       {{#allChoices:i}}
-      <div data-row-span="2" class="nm-choice-row {{# i === 0 }}nm-choice-row-first{{/}}">
-        <div
-          data-field-span="{{2 - useAnswerSaving }}"
-          class="nm-choice {{# i === allChoices.length - 1}}nm-choice-placeholder{{/}}"
-          >
-
-          <div class="nm-choice-text">
-            <span class="nm-input-prefix">{{i + 1}}.&nbsp</span>
+      <div class="nm-row">
+        <div class="nm-cell {{# i === allChoices.length - 1}}nm-choice-placeholder{{/}} nm-cell-{{choiceSpan}}">
+          <div class="nm-prefixed-input">
+            <span>{{i + 1}}.&nbsp</span>
 
             <input
             type="text"
@@ -48,16 +48,14 @@
           {{#route}}
           <div>
             &nbsp↳ <a href="#" on-click="onRouteClick(event, id)">{{getSequenceName(route)}}</a>
-            <div class="btn-group btn-group-xs">
-              <button class="btn btn-default" on-click="setRoute(id)">Change</button>
-              <button class="btn btn-default" on-click="removeRoute(id)">Remove</button>
-            </div>
           </div>
           {{/route}}
         </div>
 
         {{#useAnswerSaving}}
-        <div data-field-span="1">
+        <div class="nm-cell nm-cell-9">
+          <label class="nm-small-only">Save as</label>
+
           <input type="text"
           {{#.saveAs}}
           value="{{.saveAs}}"
@@ -70,18 +68,23 @@
         </div>
         {{/useAnswerSaving}}
 
-        <div class="btn-group btn-group-xs nm-row-actions">
+        <button class="nm-cell nm-cell-btn nm-cell-3 btn {{# i === allChoices.length - 1}}disabled{{/}}" on-click="setRoute(id)">
           {{^route}}
-          <button class="btn btn-default {{# i === allChoices.length - 1}}disabled{{/}}" on-click="setRoute(id)">↳ Route</button>
+          Add Route
           {{/route}}
 
-          <button class="btn btn-default {{# i === allChoices.length - 1}}disabled{{/}}" on-click="removeChoice(id)">Remove</button>
-        </div>
-      </div>
-      {{/allChoices}}
+          {{#route}}
+          Edit Route
+          {{/route}}
+        </button>
 
-      <div data-row-span="3">
-        <div data-field-span="3">
+        <button class="nm-cell nm-cell-btn nm-cell-3 btn {{# i === allChoices.length - 1}}disabled{{/}}" on-click="removeChoice(id)">Remove</button>
+      {{/allChoices}}
+    </div>
+
+    <div class="nm-rows">
+      <div class="nm-row">
+        <div class="nm-cell">
           <label {{^useAnswerSaving}}class="nm-unused"{{/useAnswerSaving}}>
             Save answer as (optional)
           </label>
@@ -89,7 +92,7 @@
           <input type="text" value="{{saveAs}}">
         </div>
       </div>
-    </fieldset>
+    </div>
   </div>
 
   <br/>

@@ -4,15 +4,15 @@
     <button class="close" on-click="close()">&times</button>
   </h3>
 
-  <div class="grid-form">
-    <fieldset>
-      <div data-row-span="3" class="{{^text}}is-incomplete{{/text}}">
-        <div data-field-span="3">
+  <div class="nm-form">
+    <div class="nm-rows">
+      <div class="nm-row">
+        <div class="nm-cell {{^text}}is-incomplete{{/text}}">
           <label>Text</label>
           <textarea value="{{text}}"></textarea>
         </div>
       </div>
-    </fieldset>
+    </div>
   </div>
 
   <br/>

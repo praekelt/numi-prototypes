@@ -4,10 +4,10 @@
     <button class="close" on-click="close()">&times</button>
   </h3>
 
-  <div class="grid-form">
-    <fieldset>
-      <div data-row-span="1" class="{{^text}}is-incomplete{{/text}}">
-        <div data-field-span="1">
+  <div class="nm-form">
+    <div class="nm-rows">
+      <div class="nm-row">
+        <div class="nm-cell {{^text}}is-incomplete{{/text}}">
           <label>Question</label>
           <textarea value="{{text}}"></textarea>
         </div>
@@ -17,8 +17,8 @@
         </div>
       </div>
 
-      <div data-row-span="1" class="{{^saveAs}}is-incomplete{{/saveAs}}">
-        <div data-field-span="1">
+      <div class="nm-row">
+        <div class="nm-cell {{^saveAs}}is-incomplete{{/saveAs}}">
           <label>
             Save answer as
           </label>
@@ -27,8 +27,8 @@
         </div>
       </div>
 
-      <div data-row-span="1">
-        <div data-field-span="1">
+      <div class="nm-row">
+        <div class="nm-cell">
           <label>
             Number of months after
           </label>
@@ -36,7 +36,7 @@
           <input type="number" min=1 max=10 value="{{monthsAfter}}">
         </div>
       </div>
-    </fieldset>
+    </div>
   </div>
 
   <br/>

@@ -4,37 +4,32 @@
     <button class="close" on-click="close()">&times</button>
   </h3>
 
-  <div class="grid-form">
-    <fieldset>
-      <div data-row-span="3" class="{{^inputFieldId}}is-incomplete{{/inputFieldId}}">
-        <div
-          data-field-span="3"
-          class="{{^inputFieldId}}nm-placeholder-col{{/inputFieldId}}"
+  <div class="nm-form">
+    <div class="nm-rows">
+      <div class="nm-row">
+        <div class="nm-cell nm-cell-18 {{^inputFieldId}}nm-placeholder-col is-incomplete{{/inputFieldId}}"
           on-click="choose(inputFieldId)">
 
           <label>User field to use as input</label>
 
           {{^inputFieldId}}
-            <span class="glyphicon glyphicon-chevron-right pull-right"></span>
-            <span class="nm-static-input nm-static-input-placeholder">Choose a user field</span>
+          <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+          <span class="nm-static-input nm-static-input-placeholder">Choose a user field</span>
           {{/inputFieldId}}
 
           {{#inputFieldId}}
           <span class="nm-static-input">{{inputFieldName}}</span>
           {{/inputFieldName}}
-
         </div>
 
         {{#inputFieldId}}
-        <div class="pull-right btn-group btn-group-sm nm-row-actions">
-          <button class="btn btn-default" on-click="choose()">Change</button>
-          <button class="btn btn-default" on-click="remove()">Remove</button>
-        </div>
+        <button class="nm-cell nm-cell-btn nm-cell-3 btn btn-default" on-click="choose()">Change</button>
+        <button class="nm-cell nm-cell-btn nm-cell-3 btn btn-default" on-click="remove()">Remove</button>
         {{/inputFieldId}}
       </div>
 
-      <div data-row-span="3" class="{{^saveAs}}is-incomplete{{/saveAs}}">
-        <div data-field-span="3">
+      <div class="nm-row">
+        <div class="nm-cell {{^saveAs}}is-incomplete{{/saveAs}}">
           <label>
             Save result as
           </label>
@@ -42,7 +37,7 @@
           <input type="text" value="{{saveAs}}">
         </div>
       </div>
-    </fieldset>
+    </div>
   </div>
 
   <br/>

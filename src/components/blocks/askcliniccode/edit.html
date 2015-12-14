@@ -4,21 +4,21 @@
     <button class="close" on-click="close()">&times</button>
   </h3>
 
-  <div class="grid-form">
-    <fieldset>
-      <div data-row-span="3" class="{{^text}}is-incomplete{{/text}}">
-        <div data-field-span="3">
+  <div class="nm-form">
+    <div class="nm-rows">
+      <div class="nm-row">
+        <div class="nm-cell {{^text}}is-incomplete{{/text}}">
           <label>Question</label>
           <textarea value="{{text}}"></textarea>
         </div>
 
-      <div class="btn-group btn-group-xs nm-content-actions">
-        <button class="btn btn-default nm-placeholder" on-click="insertUserField()">Insert user field</button>
-      </div>
+        <div class="btn-group btn-group-xs nm-content-actions">
+          <button class="btn btn-default nm-placeholder" on-click="insertUserField()">Insert user field</button>
+        </div>
       </div>
 
-      <div data-row-span="3" class="{{^invalidInputText}}is-incomplete{{/invalidInputText}}">
-        <div data-field-span="3">
+      <div class="nm-row">
+        <div class="nm-cell {{^invalidInputText}}is-incomplete{{/invalidInputText}}">
           <label>Content to show for invalid input</label>
           <textarea value="{{invalidInputText}}"></textarea>
         </div>
@@ -28,8 +28,8 @@
         </div>
       </div>
 
-      <div data-row-span="3" class="{{^saveAs}}is-incomplete{{/saveAs}}">
-        <div data-field-span="3">
+      <div class="nm-row">
+        <div class="nm-cell {{^saveAs}}is-incomplete{{/saveAs}}">
           <label>
             Save answer as
           </label>
@@ -37,7 +37,7 @@
           <input type="text" value="{{saveAs}}">
         </div>
       </div>
-    </fieldset>
+    </div>
   </div>
 
   <br/>
