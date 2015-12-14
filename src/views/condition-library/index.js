@@ -69,6 +69,19 @@ ConditionLibrary.palletes = [{
           dataType: 'number'
         };
       })
+  }, {
+    key: 'text',
+    name: 'Text comparisons',
+    conditions: [['=', 1], ['contains', 4]]
+      .map(function(d) {
+        return {
+          name: d[0],
+          operator: d[0],
+          type: 'comparison',
+          dataType: 'text',
+          operatorSpan: d[1]
+        };
+      })
   }]
 }];
 

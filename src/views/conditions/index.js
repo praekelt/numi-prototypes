@@ -11,8 +11,14 @@ module.exports = Ractive.extend({
     return {
       type: 'all',
       name: null,
-      conditions: []
+      conditions: [],
+      operatorSpan: 1
     };
+  },
+  computed: {
+    operandSpan: function() {
+      return Math.floor((21 - this.get('operatorSpan')) / 2);
+    }
   },
   addCondition: function() {
     var self = this;

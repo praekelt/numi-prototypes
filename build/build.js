@@ -84617,8 +84617,14 @@
 	    return {
 	      type: 'all',
 	      name: null,
-	      conditions: []
+	      conditions: [],
+	      operatorSpan: 1
 	    };
+	  },
+	  computed: {
+	    operandSpan: function() {
+	      return Math.floor((21 - this.get('operatorSpan')) / 2);
+	    }
 	  },
 	  addCondition: function() {
 	    var self = this;
@@ -84717,6 +84723,19 @@
 	          operator: operator,
 	          type: 'comparison',
 	          dataType: 'number'
+	        };
+	      })
+	  }, {
+	    key: 'text',
+	    name: 'Text comparisons',
+	    conditions: [['=', 1], ['contains', 4]]
+	      .map(function(d) {
+	        return {
+	          name: d[0],
+	          operator: d[0],
+	          type: 'comparison',
+	          dataType: 'text',
+	          operatorSpan: d[1]
 	        };
 	      })
 	  }]
@@ -86420,7 +86439,7 @@
 /* 242 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-10 nm-cond-operand ",{"t":4,"f":["is-incomplete nm-cell-placeholder"],"x":{"r":["exists"],"s":"!_0(\"a\")"}}]},"v":{"click":{"m":"chooseField","a":{"r":[],"s":"[\"a\"]"}}},"f":[{"t":4,"f":[{"t":2,"x":{"r":["preview"],"s":"_0(\"a\")"}}],"x":{"r":["exists"],"s":"_0(\"a\")"}}," ",{"t":4,"f":["Choose a field"],"x":{"r":["exists"],"s":"!_0(\"a\")"}}]}," ",{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-1 nm-cond-operator"},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":2,"r":"operator"}]}]}," ",{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-10 nm-cond-operand ",{"t":4,"f":["is-incomplete nm-cell-placeholder"],"x":{"r":["exists"],"s":"!_0(\"b\")"}}]},"v":{"click":{"m":"chooseField","a":{"r":[],"s":"[\"b\"]"}}},"f":[{"t":4,"f":[{"t":2,"x":{"r":["preview"],"s":"_0(\"b\")"}}],"x":{"r":["exists"],"s":"_0(\"b\")"}}," ",{"t":4,"f":["Choose a field"],"x":{"r":["exists"],"s":"!_0(\"b\")"}}]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-3 nm-cell-btn btn"},"f":["Remove"]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-",{"t":2,"r":"operandSpan"}," nm-cond-operand ",{"t":4,"f":["is-incomplete nm-cell-placeholder"],"x":{"r":["exists"],"s":"!_0(\"a\")"}}]},"v":{"click":{"m":"chooseField","a":{"r":[],"s":"[\"a\"]"}}},"f":[{"t":4,"f":[{"t":2,"x":{"r":["preview"],"s":"_0(\"a\")"}}],"x":{"r":["exists"],"s":"_0(\"a\")"}}," ",{"t":4,"f":["Choose a field"],"x":{"r":["exists"],"s":"!_0(\"a\")"}}]}," ",{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-",{"t":2,"r":"operatorSpan"}," nm-cond-operator"]},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":2,"r":"operator"}]}]}," ",{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-",{"t":2,"r":"operandSpan"}," nm-cond-operand ",{"t":4,"f":["is-incomplete nm-cell-placeholder"],"x":{"r":["exists"],"s":"!_0(\"b\")"}}]},"v":{"click":{"m":"chooseField","a":{"r":[],"s":"[\"b\"]"}}},"f":[{"t":4,"f":[{"t":2,"x":{"r":["preview"],"s":"_0(\"b\")"}}],"x":{"r":["exists"],"s":"_0(\"b\")"}}," ",{"t":4,"f":["Choose a field"],"x":{"r":["exists"],"s":"!_0(\"b\")"}}]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-3 nm-cell-btn btn"},"f":["Remove"]}]};
 
 /***/ }
 /******/ ]);
