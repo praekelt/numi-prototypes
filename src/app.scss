@@ -818,3 +818,129 @@ a.nm-list-group-item-drawer {
 .nm-list-group-pallete-blocks {
   border-top: 0;
 }
+
+.nm-form {
+  background: $bg0;
+  width: 100%;
+  border: 1px solid $fg4;
+}
+
+.nm-rows {
+  width: 100%;
+  border-collapse: collapse;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid $bg1;
+  }
+}
+
+.nm-row {
+  display: flex;
+  position: relative;
+
+  &:not(:first-child) {
+    border-top: 1px solid $bg1;
+  }
+}
+
+.nm-cell {
+  flex-grow: 1;
+  padding: 8px;
+  background: $bg0;
+
+  label {
+    margin-top: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 10px;
+    color: $fg1;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  textarea, input {
+    width: 100%;
+
+    &, &:hover, &:focus {
+      border: 0;
+      outline: none;
+    }
+  }
+
+  &:not(:first-child) {
+    border-left: 1px solid $bg1;
+  }
+}
+
+@mixin cellspan($span) {
+  width: (99% / 24) * $span;
+}
+
+.nm-cell-1 { @include cellspan(1); }
+.nm-cell-2 { @include cellspan(2); }
+.nm-cell-3 { @include cellspan(3); }
+.nm-cell-4 { @include cellspan(4); }
+.nm-cell-5 { @include cellspan(5); }
+.nm-cell-6 { @include cellspan(6); }
+.nm-cell-7 { @include cellspan(7); }
+.nm-cell-8 { @include cellspan(8); }
+.nm-cell-9 { @include cellspan(9); }
+.nm-cell-10 { @include cellspan(10); }
+.nm-cell-11 { @include cellspan(11); }
+.nm-cell-12 { @include cellspan(12); }
+.nm-cell-13 { @include cellspan(13); }
+.nm-cell-14 { @include cellspan(14); }
+.nm-cell-15 { @include cellspan(15); }
+.nm-cell-16 { @include cellspan(16); }
+.nm-cell-17 { @include cellspan(17); }
+.nm-cell-18 { @include cellspan(18); }
+.nm-cell-19 { @include cellspan(19); }
+.nm-cell-20 { @include cellspan(20); }
+.nm-cell-21 { @include cellspan(21); }
+.nm-cell-22 { @include cellspan(22); }
+.nm-cell-23 { @include cellspan(23); }
+.nm-cell-24 { @include cellspan(24); }
+
+.nm-cell-heading {
+  padding: 4px;
+
+  label {
+    margin: 0;
+  }
+}
+
+.nm-cell-btn {
+  white-space: normal;
+  background: $bg3;
+  font-size: 0.85em;
+  border-radius: 0;
+
+  &, &:hover, &:focus {
+    border-top: 0;
+    border-bottom: 0;
+    border-right: 0;
+  }
+}
+
+.nm-cell-noborder {
+  &:not(:first-child) {
+    border-left: 0;
+  }
+}
+
+.nm-cell-filler {
+  border: 0;
+  width: auto;
+}
+
+.nm-actions {
+}
+
+.nm-prefixed-input {
+  width: 100%;
+
+  input {
+    width: auto;
+    overflow: hidden;
+  }
+}

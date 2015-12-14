@@ -139,6 +139,11 @@ AskChoice.Edit = Base.Edit.extend({
     },
     useAnswerSaving: function() {
       return !!this.get('saveAs');
+    },
+    choiceSpan: function() {
+      return this.get('useAnswerSaving')
+        ? 9
+        : 18;
     }
   },
   insertUserField: function() {
