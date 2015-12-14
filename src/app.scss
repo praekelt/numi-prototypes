@@ -670,10 +670,6 @@ a.nm-list-group-item-drawer {
   }
 }
 
-.is-pressed {
-  background: $bg5;
-}
-
 .nm-publish-time {
   line {
     stroke: $fg-chart-publish;
@@ -928,6 +924,10 @@ a.nm-list-group-item-drawer {
     border-top: 0;
     border-bottom: 0;
     border-right: 0;
+  }
+
+  &.is-pressed {
+    background: $bg5;
   }
 }
 

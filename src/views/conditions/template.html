@@ -6,45 +6,37 @@
     Condition Set
   </h4>
 
-  <div class="grid-form">
-    <fieldset>
-      <div data-row-span="3" class="{{^name}}is-incomplete{{/name}}">
-        <div data-field-span="3">
+  <div class="nm-form">
+    <div class="nm-rows">
+      <div class="nm-row">
+        <div class="nm-cell {{^name}}is-incomplete{{/name}}">
           <label>Name of this set of conditions</label>
           <input type="text" value="{{name}}">
         </div>
       </div>
 
-      <div data-row-span="1" class="nm-button-row">
-        <div class="btn-group btn-group-sm btn-group-justified nm-row-actions">
-          <div class="btn-group">
-            <button class="btn btn-default {{#type === 'all'}}is-pressed{{/}}" on-click="set('type', 'all')">Match all of the following</button>
-          </div>
-          <div class="btn-group {{#type === 'any'}}is-pressed{{/}}">
-            <button class="btn btn-default {{#type === 'any'}}is-pressed{{/}}" on-click="set('type', 'any')">Match any of the following</button>
-          </div>
-        </div>
+      <div class="nm-row">
+        <button class="btn nm-cell nm-cell-btn nm-cell-12 {{#type === 'all'}}is-pressed{{/}}" on-click="set('type', 'all')">Match all of the following</button>
+        <button class="btn nm-cell nm-cell-btn nm-cell-12 {{#type === 'any'}}is-pressed{{/}}" on-click="set('type', 'any')">Match any of the following</button>
       </div>
 
       {{#conditions}}
-      <div data-row-span="1" class="{{#!isComplete}}is-incomplete{{/}}">
-        <div data-field-span="1">
+      <div class="nm-row {{#!isComplete}}is-incomplete{{/}}">
+        <div class="nm-cell nm-cell-18">
           {{>conditions}}
         </div>
 
-        <div class="btn-group btn-group-xs nm-row-actions">
-          <button class="btn btn-default {{# i === allChoices.length - 1}}disabled{{/}}" on-click="changeCondition(id)">Change</button>
-          <button class="btn btn-default {{# i === allChoices.length - 1}}disabled{{/}}" on-click="removeCondition(id)">Remove</button>
-        </div>
+        <button class="nm-cell nm-cell-btn nm-cell-3 btn" on-click="changeCondition(id)">Change</button>
+        <button class="nm-cell nm-cell-btn nm-cell-3 btn" on-click="removeCondition(id)">Remove</button>
       </div>
       {{/conditions}}
 
-      <div data-row-span="1" on-click="addCondition()">
-        <div data-field-span="1" class="nm-placeholder-col">
+      <div class="nm-row" on-click="addCondition()">
+        <div class="nm-cell nm-placeholder-col">
           <span class="glyphicon glyphicon-chevron-right pull-right"></span>
           <span class="nm-static-input nm-static-input-placeholder" on-click="addCondition()">+ Add a condition</span>
         </div>
       </div>
-    </fieldset>
+    </div>
   </div>
 </div>
