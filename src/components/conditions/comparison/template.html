@@ -1,15 +1,15 @@
-<div class="nm-cell nm-cell-{{operandSpan}} nm-cond-operand {{#!exists('a')}}is-incomplete nm-cell-placeholder{{/}}" on-click="chooseField('a')">
+<button class="nm-cell nm-cell-btn btn nm-cell-{{operandSpan}} nm-cond-operand {{#!exists('a')}}is-incomplete nm-cell-placeholder{{/}}" on-click="chooseOperand('a')">
   {{#exists('a')}}{{preview('a')}}{{/}}
-  {{#!exists('a')}}Choose a field{{/}}
-</div>
+  {{#!exists('a')}}Choose a value{{/}}
+</button>
 
-<div class="nm-cell nm-cell-{{operatorSpan}} nm-cond-operator">
+<div class="nm-cell nm-cell-btn btn nm-cell-{{operatorSpan}} nm-cond-operator">
   <span class="nm-static-input">{{operator}}</span>
 </div>
 
-<div class="nm-cell nm-cell-{{operandSpan}} nm-cond-operand {{#!exists('b')}}is-incomplete nm-cell-placeholder{{/}}" on-click="chooseField('b')">
+<div class="nm-cell nm-cell-{{operandSpan}} nm-cond-operand {{#!exists('b')}}is-incomplete nm-cell-placeholder{{/}}" on-click="chooseOperand('b')">
   {{#exists('b')}}{{preview('b')}}{{/}}
-  {{#!exists('b')}}Choose a field{{/}}
+  {{#!exists('b')}}Choose a value{{/}}
 </div>
 
 <button class="nm-cell nm-cell-3 nm-cell-btn btn">Remove</button>

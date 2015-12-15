@@ -1,27 +1,28 @@
+var _ = require('lodash');
 var Base = require('../base');
-var Chooser = require('../../../views/chooser');
+var ChooseOperand = require('../../../views/choose-operand');
 var drawers = require('../../../drawers');
 
 
 var Comparison = Base.extend({
   template: require('./template.html'),
-  chooseField: function(name) {
+  chooseOperand: function(name) {
     var self = this;
-
-    var list = Chooser({
+    var chooser = ChooseOperand({
       el: $('<div>'),
-      data: {
-        title: 'Choose a user field',
-        items: dashboard.getUserFields()
-      }
+      data: _.extend({dataType: this.get('dataType')}, this.get(name))
     });
 
-    list.once('chosen', function(id) {
-      self.set(name, id);
+    chooser.once('chosen', function(d) {
+      self.set(name, d);
       drawers.close();
     });
 
-    drawers.open(list);
+    drawers.open(chooser);
+  },
+  isComplete: function() {
+    return this.get('a') != null
+        && this.get('b') != null;
   },
   data: function() {
     return {
@@ -29,17 +30,24 @@ var Comparison = Base.extend({
       b: null,
       dataType: null,
       operator: null,
+      operatorSpan: 1,
       exists: function(name) {
         return this.get(name) != null;
       },
       preview: function(name) {
-        return dashboard.getUserFieldName(this.get(name));
+        var d = this.get(name);
+
+        if (d.type === 'userField')
+          return dashboard.getUserFieldName(d.userFieldId);
+        else if (d.type === 'value')
+          return d.value;
       }
     };
   },
-  isComplete: function() {
-    return this.get('a') != null
-        && this.get('b') != null;
+  computed: {
+    operandSpan: function() {
+      return Math.floor((21 - this.get('operatorSpan')) / 2);
+    }
   }
 });
 

@@ -72,7 +72,7 @@ ConditionLibrary.palletes = [{
   }, {
     key: 'text',
     name: 'Text comparisons',
-    conditions: [['=', 1], ['contains', 4]]
+    conditions: [['=', 1], ['contains', 3]]
       .map(function(d) {
         return {
           name: d[0],

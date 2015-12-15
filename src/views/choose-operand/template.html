@@ -1,0 +1,63 @@
+<div>
+  {{#useclose}}
+  <button class="close" on-click="close()">&times</button>
+  {{/useClose}}
+
+  {{^useClose}}
+  <button class="btn btn-link pull-right" on-click="close()">
+    ← Back
+  </button>
+  {{/useClose}}
+
+  <h3 class="page-header">
+    Choose a value
+  </h3>
+
+  <div class="nm-form">
+    <div class="nm-rows">
+      <div class="nm-row">
+        <button class="btn nm-cell nm-cell-btn nm-cell-12 {{#type === 'value'}}is-pressed{{/}}" on-click="set('type', 'value')">
+            {{#dataType === 'text'}}Choose text as the value{{/}}
+            {{#dataType === 'number'}}Choose a number as the value{{/}}
+        </button>
+
+        <button class="btn nm-cell nm-cell-btn nm-cell-12 {{#type === 'userField'}}is-pressed{{/}}" on-click="set('type', 'userField')">
+          Choose a user field as the value
+        </button>
+      </div>
+
+      <div class="nm-row">
+        {{#type === 'value'}}
+        <div class="nm-cell {{#type != null && type != 'value'}}is-inactive{{/}}">
+          <label>
+            {{#dataType === 'text'}}Text{{/}}
+            {{#dataType === 'number'}}Number{{/}}
+          </label>
+
+          {{#dataType === 'text'}}
+          <input type="text" value="{{value}}">
+          {{/}}
+
+          {{#dataType === 'number'}}
+          <input type="number" value="{{value}}">
+          {{/}}
+        </div>
+        {{/}}
+
+        {{#type === 'userField'}}
+        <div class="nm-cell nm-cell-button nm-cell-placeholder {{#type != null && type != 'userField'}}is-inactive{{/}}" on-click="chooseUserField()">
+          <label>User field</label>
+          <span class="pull-right glyphicon glyphicon-chevron-right"></span>
+          {{^userFieldId}}Choose a field{{/userFieldId}}
+          {{#userFieldId}}{{userFieldName}}{{/userFieldId}}
+        </div>
+        {{/}}
+      </div>
+    </div>
+  </div>
+  <br/>
+
+  <hr class="nm-divider">
+
+  <button type="button" class="btn btn-default pull-left" on-click="close()">Save and close <span class="glyphicon glyphicon-chevron-right"></span></button>
+</div>
