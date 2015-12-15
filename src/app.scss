@@ -828,6 +828,12 @@ a.nm-list-group-item-drawer {
   width: 100%;
   display: inline-block;
 
+  &:hover {
+    .nm-static-input {
+      color: $fg0;
+    }
+  }
+
   label {
     @include small-only();
     @include hide-small();

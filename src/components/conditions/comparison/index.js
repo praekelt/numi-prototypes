@@ -8,14 +8,14 @@ var Comparison = Base.extend({
   template: require('./template.html'),
   chooseOperand: function(name) {
     var self = this;
+
     var chooser = ChooseOperand({
       el: $('<div>'),
       data: _.extend({dataType: this.get('dataType')}, this.get(name))
     });
 
-    chooser.once('chosen', function(d) {
-      self.set(name, d);
-      drawers.close();
+    chooser.on('change', function() {
+      self.set(name, chooser.get());
     });
 
     drawers.open(chooser);
@@ -37,7 +37,7 @@ var Comparison = Base.extend({
       preview: function(name) {
         var d = this.get(name);
 
-        if (d.type === 'userField')
+        if (d.type === 'userField' && d.userFieldId != null)
           return dashboard.getUserFieldName(d.userFieldId);
         else if (d.type === 'value')
           return d.value;

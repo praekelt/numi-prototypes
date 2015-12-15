@@ -26,12 +26,19 @@
       </div>
       {{/conditions}}
 
-      <div class="nm-row" on-click="addCondition()">
-        <div class="nm-cell nm-cell-placeholder">
-          <span class="glyphicon glyphicon-chevron-right pull-right"></span>
-          <span class="nm-static-input nm-static-input-placeholder" on-click="addCondition()">+ Add a condition</span>
-        </div>
+      <div class="nm-row">
+        <button class="nm-cell nm-cell-btn btn nm-cell-12 nm-cell-placeholder" on-click="addCondition()">
+          + Add a condition
+        </button>
+
+        <button class="nm-cell nm-cell-btn btn nm-cell-12 nm-cell-placeholder" on-click="addGroup()">
+          + Add a set of conditions
+        </button>
       </div>
     </div>
   </div>
+
+  <hr class="nm-divider">
+
+  <button type="button" class="btn btn-default pull-left" on-click="close()">Save and close <span class="glyphicon glyphicon-chevron-right"></span></button>
 </div>

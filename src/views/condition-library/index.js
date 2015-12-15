@@ -1,8 +1,7 @@
 var _ = require('lodash');
-var uuid = require('node-uuid');
 var Ractive = require('ractive');
 var drawers = require('../../drawers');
-var conditionTypes = require('../../components/conditions');
+var conditions = require('../../components/conditions');
 
 
 // TODO something similar to this for filters
@@ -24,7 +23,7 @@ var ConditionLibrary = Ractive.extend({
     this.set('activePalleteKey', key);
   },
   add: function(d) {
-    d = _.extend({}, conditionTypes[d.type]().get(), d, {id: uuid.v4()});
+    d = conditions.create(d);
     this.pushRecent(d.type);
     this.fire('chosen', d);
   },

@@ -1,0 +1,14 @@
+{{^conditionSet}}
+<div class="nm-cell nm-cell-21 nm-cell-placeholder is-incomplete nm-cond-operand" on-click="setConditions()">
+  <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+  <span class="nm-static-input nm-static-input-placeholder">Choose a set of conditions</span>
+</div>
+{{/conditionSet}}
+
+{{#conditionSet}}
+<div class="nm-cell nm-cell-21 nm-cond-operand" on-click="setConditions()">
+  <span class="nm-static-input">{{name}}</span>
+</div>
+{{/conditionSet}}
+
+<button class="nm-cell nm-cell-btn nm-cell-3 btn" on-click="destroy()">Remove</button>

@@ -13,6 +13,15 @@ Ractive.prototype.findWhere = function(name, query) {
 };
 
 
+Ractive.prototype.updateDatum = function(name, datum) {
+  this.set(name, this.get(name).map(function(d) {
+    return d.id === datum.id
+      ? datum
+      : d;
+  }));
+};
+
+
 Ractive.prototype.findComponentWhere = function(query) {
   return _.find(this.findAllComponents(), function(c) {
     return _.isMatch(c.get(), query);

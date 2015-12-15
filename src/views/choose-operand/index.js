@@ -35,6 +35,7 @@ var ChooseOperand = Ractive.extend({
       });
 
       self.done();
+      drawers.close();
     });
 
     drawers.open(list);
