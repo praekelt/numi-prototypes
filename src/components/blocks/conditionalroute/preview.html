@@ -8,18 +8,33 @@
 
     <br/>
     <div class="list-group nm-preview-list">
+
       <div class="list-group-item nm-preview-list-item">
-        {{^route}}
-        <i class="nm-preview-annotation">No sequence given</i>
-        {{/route}}
+        <p>
+          {{#conditionSet}}
+          {{^name}}
+          <i class="nm-preview-annotation">No name given for condition set</i>
+          {{/name}}
 
-        {{#route}}
-        <a class="list-group-item nm-preview-list-item {{#activeBlockItemId === itemId}}active{{/}}" on-click="onRouteClick(event)" href="#">
-          <span class="nm-preview-arrow glyphicon glyphicon-menu-right pull-right"></span>
+          {{#name}}
+          <span>{{name}}</span>
+          {{/name}}
+          {{/conditionSet}}
+        </p>
 
-          <p>&nbsp↳ {{name}}</p>
-        </a>
-        {{/route}}
+        <p>
+          {{^route}}
+          <i class="nm-preview-annotation">No sequence given</i>
+          {{/route}}
+
+          {{#route}}
+          <a class="list-group-item nm-preview-list-item {{#activeBlockItemId === itemId}}active{{/}}" on-click="onRouteClick(event)" href="#">
+            <span class="nm-preview-arrow glyphicon glyphicon-menu-right pull-right"></span>
+
+            <p>&nbsp↳ {{name}}</p>
+          </a>
+          {{/route}}
+        </p>
       </div>
     </div>
   </div>

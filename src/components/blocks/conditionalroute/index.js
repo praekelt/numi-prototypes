@@ -13,6 +13,11 @@ var ConditionalRoute = Base.extend({
     e.original.preventDefault();
     this.selectItem(this.get('seqId'), this.get('itemId'));
   },
+  isComplete: function() {
+    // TODO more truthful condition set check
+    return this.get('route')
+        && this.get('conditionSet');
+  },
   data: function() {
     return {
       itemId: uuid.v4(),
