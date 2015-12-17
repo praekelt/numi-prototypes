@@ -87,11 +87,11 @@ BlockLibrary.palletes = [{
       type: 'askchoice',
       helptext: 'Users are asked a question with numbered choices and can respond with their choice'
     }, {
-      name: 'End dialogue',
+      name: 'End Dialogue',
       type: 'end',
       helptext: 'Users are sent content and the dialogue ends.'
     }, {
-      name: 'Language',
+      name: 'Choose Language',
       type: 'language',
       helptext: [
         "Users are given a choice of languages. Screens that follow",
