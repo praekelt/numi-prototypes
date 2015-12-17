@@ -1,5 +1,6 @@
 exports.ask = require('./ask');
 exports.askchoice = require('./askchoice');
+exports.language = require('./language');
 exports.register = require('./register');
 exports.unsubscribe = require('./unsubscribe');
 exports.optout = require('./optout');

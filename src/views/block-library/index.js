@@ -90,6 +90,13 @@ BlockLibrary.palletes = [{
       name: 'End dialogue',
       type: 'end',
       helptext: 'Users are sent content and the dialogue ends.'
+    }, {
+      name: 'Language',
+      type: 'language',
+      helptext: [
+        "Users are given a choice of languages. Screens that follow",
+        "will be shown in the user's chosen langauge."
+      ].join(' ')
     }]
   }, {
     key: 'routing',

@@ -1,0 +1,87 @@
+<div>
+  <h3 class="page-header">
+    Language
+    <button class="close" on-click="close()">&times</button>
+  </h3>
+
+  <div class="nm-form">
+    <div class="nm-rows">
+      <div class="nm-row">
+        <div class="nm-cell {{^text}}is-incomplete{{/text}}">
+          <label>Question</label>
+          <textarea value="{{text}}"></textarea>
+        </div>
+
+        <div class="btn-group btn-group-xs nm-content-actions">
+          <button class="btn btn-default nm-placeholder" on-click="insertUserField()">Insert user field</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="nm-rows">
+      <div class="nm-row">
+        <div class="nm-cell nm-cell-heading nm-cell-11">
+          <label>Choice</label>
+        </div>
+
+        <div class="nm-cell nm-cell-heading nm-cell-10 nm-hide-small">
+          <label>Language</label>
+        </div>
+
+        <div class="nm-cell nm-cell-3 nm-cell-noborder nm-hide-small"></div>
+      </div>
+
+      {{#allChoices:i}}
+      <div class="nm-row">
+        <div class="nm-cell {{# i === allChoices.length - 1}}nm-choice-placeholder{{/}} nm-cell-11">
+          <div class="nm-prefixed-input">
+            <span>{{i + 1}}.&nbsp</span>
+
+            <input
+            type="text"
+            value="{{text}}"
+            on-keyup="onChoiceKeyDown(i)">
+          </div>
+        </div>
+
+        {{^languageId}}
+        <div class="nm-cell nm-cell-10 nm-cell-placeholder" {{#i < allChoices.length - 1}}on-click="chooseLanguage(id)"{{/}}>
+          <label class="nm-small-only">Language</label>
+          <span class="pull-right glyphicon glyphicon-chevron-right"></span>
+          <span class="nm-static-input">Choose language</span>
+        </div>
+        {{/languageId}}
+
+        {{#languageId}}
+        <div class="nm-cell nm-cell-10 nm-cell-placeholder" on-click="chooseLanguage(id)">
+          <label class="nm-small-only">Language</label>
+          <span class="pull-right glyphicon glyphicon-chevron-right"></span>
+          <div class="nm-static-input">
+            {{dashboard.getLanguageName(languageId)}}
+          </div>
+        </div>
+        {{/languageId}}
+
+        <button class="nm-cell nm-cell-btn nm-cell-3 btn {{# i === allChoices.length - 1}}disabled{{/}}" on-click="removeChoice(id)">Remove</button>
+      {{/allChoices}}
+    </div>
+
+    <div class="nm-rows">
+      <div class="nm-row">
+        <div class="nm-cell">
+          <label {{^useAnswerSaving}}class="nm-unused"{{/useAnswerSaving}}>
+            Save answer as (optional)
+          </label>
+
+          <input type="text" value="{{saveAs}}">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br/>
+
+  <hr class="nm-divider">
+
+  <button type="button" class="btn btn-default pull-left" on-click="close()">Save and close <span class="glyphicon glyphicon-chevron-right"></span></button>
+</div>

@@ -17,6 +17,7 @@ module.exports = Ractive.extend({
       publishCount: 0,
       values: [],
       labels: [],
+      languages: [this.newLanguage('English')],
       dialogues: [],
       channels: [{
         id: 'chan1',
@@ -49,6 +50,12 @@ module.exports = Ractive.extend({
         available: true,
         isSessionBased: false
       }]
+    };
+  },
+  newLanguage: function(name) {
+    return {
+      id: uuid.v4(),
+      name: name
     };
   },
   publish: function() {
@@ -122,6 +129,9 @@ module.exports = Ractive.extend({
     var newFilter = NewFilter({el: $('<div>')});
     pg.pop();
     pg.push(newFilter);
+  },
+  getLanguageName: function(id) {
+    return this.findWhere('languages', {id: id}).name;
   },
   computed: {
     dialogueViews: function() {
