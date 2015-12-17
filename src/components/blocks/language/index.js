@@ -15,7 +15,9 @@ var Language = Base.extend({
     return {
       text: '',
       saveAs: '',
-      dashboard: dashboard,
+      getLanguageName: function(id) {
+        return dashboard.getLanguageName(id);
+      },
       allChoices: [this.newChoice()]
     };
   },
@@ -75,9 +77,24 @@ Language.Edit = Base.Edit.extend({
   addChoice() {
     this.push('allChoices', this.get('block').newChoice());
   },
-  onChoiceKeyDown(i) {
-    if (i < this.get('allChoices').length - 1) return;
-    this.addChoice();
+  onChoiceKeyDown(i, id) {
+    if (i < this.get('allChoices').length - 1) {
+      this.checkForLang(id);
+    } else {
+      this.addChoice();
+    }
+  },
+  checkForLang(id) {
+    var choice = this.findWhere('allChoices', {id: id});
+    if (choice.languageId) return;
+    var text = choice.text.toLowerCase();
+
+    var lang = _.find(dashboard.get('languages'), function(d) {
+      return text.match(d.name.toLowerCase());
+    });
+
+    if (!lang) return;
+    this.updateMatches('allChoices', {id: id}, {languageId: lang.id});
   },
   removeChoice: function(id) {
     var choices = this.get('allChoices');

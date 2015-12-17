@@ -20,7 +20,7 @@ Ractive.prototype.remap = function(name, fn) {
 
 Ractive.prototype.updateMatches = function(name, query, props) {
   this.remap(name, function(d) {
-    return _.matches(d, query)
+    return _.isMatch(d, query)
       ? _.extend({}, d, props)
       : d;
   });

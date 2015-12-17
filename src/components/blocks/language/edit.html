@@ -40,7 +40,7 @@
             <input
             type="text"
             value="{{text}}"
-            on-keyup="onChoiceKeyDown(i)">
+            on-keyup="onChoiceKeyDown(i, id)">
           </div>
         </div>
 
@@ -57,7 +57,7 @@
           <label class="nm-small-only">Language</label>
           <span class="pull-right glyphicon glyphicon-chevron-right"></span>
           <div class="nm-static-input">
-            {{dashboard.getLanguageName(languageId)}}
+            {{getLanguageName(languageId)}}
           </div>
         </div>
         {{/languageId}}
