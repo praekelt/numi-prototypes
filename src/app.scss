@@ -838,7 +838,7 @@ a.nm-list-group-item-drawer {
     @include small-only();
     @include hide-small();
 
-    &.nm-unused {
+    &.is-unused {
       color: $fg2;
     }
 
