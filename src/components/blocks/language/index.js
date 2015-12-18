@@ -102,7 +102,9 @@ Language.Edit = Base.Edit.extend({
     if (i === choices.length - 1) return;
     this.splice('allChoices', i, 1);
   },
-  chooseLanguage: function(id) {
+  chooseLanguage: function(i, id) {
+    if (i === this.get('allChoices').length - 1) return;
+
     var self = this;
     var chooser = ChooseLanguage({el: $('<div>')});
 

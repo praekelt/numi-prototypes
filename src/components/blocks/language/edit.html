@@ -45,7 +45,7 @@
         </div>
 
         {{^languageId}}
-        <div class="nm-cell nm-cell-10 nm-cell-placeholder" {{#i < allChoices.length - 1}}on-click="chooseLanguage(id)"{{/}}>
+        <div class="nm-cell nm-cell-10 nm-cell-placeholder" on-click="chooseLanguage(i, id)">
           <label class="nm-small-only">Language</label>
           <span class="pull-right glyphicon glyphicon-chevron-right"></span>
           <span class="nm-static-input">Choose language</span>
@@ -53,7 +53,7 @@
         {{/languageId}}
 
         {{#languageId}}
-        <div class="nm-cell nm-cell-10 nm-cell-placeholder" on-click="chooseLanguage(id)">
+        <div class="nm-cell nm-cell-10 nm-cell-placeholder" on-click="chooseLanguage(i, id)">
           <label class="nm-small-only">Language</label>
           <span class="pull-right glyphicon glyphicon-chevron-right"></span>
           <div class="nm-static-input">
