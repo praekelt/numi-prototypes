@@ -537,6 +537,10 @@ a.nm-list-group-item-drawer {
   }
 }
 
+a.nm-list-group-item-drawer-secondary {
+  color: $fg5 !important;
+}
+
 .nm-block-palletes {
   width: 100%;
   padding: 4px;
@@ -752,6 +756,13 @@ a.nm-list-group-item-drawer {
   border-radius: 4px;
 }
 
+.nm-list {
+  font-size: 1em;
+  width: 100%;
+  border: 1px solid $fg4;
+  border-radius: 4px;
+}
+
 .nm-rows {
   width: 100%;
   border-collapse: collapse;
@@ -931,6 +942,7 @@ a.nm-list-group-item-drawer {
   background: $bg3;
   font-size: 0.9em;
   border-radius: 0;
+  cursor: pointer !important;
 
   &, &:hover, &:focus {
     border-top: 0;
@@ -938,9 +950,18 @@ a.nm-list-group-item-drawer {
     border-right: 0;
   }
 
+  &:hover {
+    background: $bg2;
+  }
+
   &.is-pressed {
     background: $bg5;
   }
+}
+
+.nm-cell-btn-li {
+  font-size: 1em;
+  text-align: left;
 }
 
 .nm-cell-noborder {

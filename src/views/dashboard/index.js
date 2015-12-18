@@ -17,7 +17,7 @@ module.exports = Ractive.extend({
       publishCount: 0,
       values: [],
       labels: [],
-      languages: [this.newLanguage('English')],
+      languages: [_.extend(this.newLanguage('English'), {isParent: true})],
       dialogues: [],
       channels: [{
         id: 'chan1',
@@ -55,7 +55,8 @@ module.exports = Ractive.extend({
   newLanguage: function(name) {
     return {
       id: uuid.v4(),
-      name: name
+      name: name,
+      isParent: false
     };
   },
   publish: function() {

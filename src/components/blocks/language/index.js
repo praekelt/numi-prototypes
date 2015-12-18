@@ -15,9 +15,6 @@ var Language = Base.extend({
     return {
       text: '',
       saveAs: '',
-      getLanguageName: function(id) {
-        return dashboard.getLanguageName(id);
-      },
       allChoices: [this.newChoice()]
     };
   },
@@ -26,7 +23,10 @@ var Language = Base.extend({
       id: uuid.v4(),
       text: '',
       languageId: null,
-      answerCounts: this.randDatapoints(0, 1000)
+      answerCounts: this.randDatapoints(0, 1000),
+
+      // I'm out of ideas on how to compute this dynamically
+      languageName: null
     };
   },
   isComplete: function() {
@@ -43,6 +43,13 @@ var Language = Base.extend({
   },
   oninit: function() {
     this.resetTotals();
+  },
+  updateLanguageName: function() {
+    this.remap('allChoices', function(d) {
+      d = _.clone(d);
+      if (d.languageId) d.languageName = dashboard.getLanguageName(d.languageId);
+      return d;
+    });
   },
   getAnswerCounts() {
     return _.chain(this.get('allChoices'))
@@ -125,9 +132,21 @@ Language.Edit = Base.Edit.extend({
   },
   oninit: function(d) {
     var self = this;
+    this.updateLanguageName();
 
     this.observe('allChoices', function() {
       self.get('block').resetTotals();
+    });
+
+    dashboard.observe('languages', function() {
+      self.updateLanguageName();
+    });
+  },
+  updateLanguageName: function() {
+    this.remap('allChoices', function(d) {
+      d = _.clone(d);
+      if (d.languageId) d.languageName = dashboard.getLanguageName(d.languageId);
+      return d;
     });
   },
   computed: {
