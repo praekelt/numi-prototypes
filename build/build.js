@@ -25193,6 +25193,11 @@
 	};
 
 
+	Ractive.prototype.findIndex = function(name, query) {
+	  return _.find(this.get(name), query);
+	};
+
+
 	Ractive.prototype.findWhere = function(name, query) {
 	  return _.find(this.get(name), query);
 	};
@@ -55413,6 +55418,13 @@
 	      }]
 	    };
 	  },
+	  setAsParentLanguage: function(id) {
+	    this.remap('languages', function(d) {
+	      return d.id === id
+	        ? _.defaults({isParent: true}, d)
+	        : _.defaults({isParent: false}, d);
+	    });
+	  },
 	  addLanguage: function(name) {
 	    var lang = this.newLanguage(name);
 	    this.push('languages', lang);
@@ -84504,12 +84516,21 @@
 
 	module.exports = Ractive.extend({
 	  template: __webpack_require__(165),
+	  setAsParent: function(id) {
+	    dashboard.setAsParentLanguage(id);
+	    this.updateLanguages();
+	  },
 	  addLanguage: function() {
 	    dashboard.addLanguage('');
-	    this.update('languages');
+	    this.updateLanguages();
 	  },
 	  data: function() {
 	    return {languages: dashboard.get('languages')};
+	  },
+	  updateLanguages: function() {
+	    // TODO figure out why computed language that returns dashboard's languages
+	    // won't work, and why dashboard.update('languages') is not enough.
+	    this.set('languages', dashboard.get('languages'));
 	  },
 	  onchange: function(d) {
 	    dashboard.update();
@@ -84524,7 +84545,7 @@
 /* 165 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}],"r":"useclose"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-link pull-right"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["← Back"]}],"n":51,"r":"useClose"}," ",{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Languages"]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-17"},"f":[{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn nm-cell nm-cell-btn nm-cell-4"},"f":["Set as parent"]}," ",{"t":7,"e":"button","a":{"class":"btn nm-cell nm-cell-btn nm-cell-3"},"f":["Remove"]}]}],"r":"languages"}," ",{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-btn btn nm-cell-placeholder"},"v":{"click":{"m":"addLanguage","a":{"r":[],"s":"[]"}}},"f":["+ Add a language"]}]}]}]}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}],"r":"useclose"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-link pull-right"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["← Back"]}],"n":51,"r":"useClose"}," ",{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Languages"]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-17"},"f":[{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn nm-cell nm-cell-btn nm-cell-4"},"v":{"click":{"m":"setAsParent","a":{"r":["id"],"s":"[_0]"}}},"m":[{"t":4,"f":["disabled"],"r":"isParent"}],"f":["Set as parent"]}," ",{"t":7,"e":"button","a":{"class":"btn nm-cell nm-cell-btn nm-cell-3"},"f":["Remove"]}]}],"r":"languages"}," ",{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-btn btn nm-cell-placeholder"},"v":{"click":{"m":"addLanguage","a":{"r":[],"s":"[]"}}},"f":["+ Add a language"]}]}]}]}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
 /* 166 */

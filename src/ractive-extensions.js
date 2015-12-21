@@ -8,6 +8,11 @@ Ractive.prototype.removeWhere = function(name, query) {
 };
 
 
+Ractive.prototype.findIndex = function(name, query) {
+  return _.find(this.get(name), query);
+};
+
+
 Ractive.prototype.findWhere = function(name, query) {
   return _.find(this.get(name), query);
 };

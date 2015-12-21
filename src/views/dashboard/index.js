@@ -52,6 +52,13 @@ module.exports = Ractive.extend({
       }]
     };
   },
+  setAsParentLanguage: function(id) {
+    this.remap('languages', function(d) {
+      return d.id === id
+        ? _.defaults({isParent: true}, d)
+        : _.defaults({isParent: false}, d);
+    });
+  },
   addLanguage: function(name) {
     var lang = this.newLanguage(name);
     this.push('languages', lang);
