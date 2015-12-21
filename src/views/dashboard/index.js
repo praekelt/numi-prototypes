@@ -52,6 +52,11 @@ module.exports = Ractive.extend({
       }]
     };
   },
+  addLanguage: function(name) {
+    var lang = this.newLanguage(name);
+    this.push('languages', lang);
+    return lang;
+  },
   newLanguage: function(name) {
     return {
       id: uuid.v4(),
