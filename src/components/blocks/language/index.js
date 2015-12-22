@@ -44,8 +44,8 @@ var Language = Base.extend({
   oninit: function() {
     this.resetTotals();
   },
-  updateLanguageName: function() {
-    this.remap('allChoices', function(d) {
+  refreshLanguages: function() {
+    this.setMap('allChoices', function(d) {
       d = _.clone(d);
       if (d.languageId) d.languageName = dashboard.getLanguageName(d.languageId);
       return d;
@@ -132,20 +132,25 @@ Language.Edit = Base.Edit.extend({
   },
   oninit: function(d) {
     var self = this;
-    this.updateLanguageName();
+    this.refreshLanguages();
 
     this.observe('allChoices', function() {
       self.get('block').resetTotals();
     });
 
     dashboard.observe('languages', function() {
-      self.updateLanguageName();
+      self.refreshLanguages();
     });
   },
-  updateLanguageName: function() {
-    this.remap('allChoices', function(d) {
+  refreshLanguages: function() {
+    this.setMap('allChoices', function(d) {
+      var languageName;
       d = _.clone(d);
-      if (d.languageId) d.languageName = dashboard.getLanguageName(d.languageId);
+
+      if (d.languageId) languageName = dashboard.getLanguageName(d.languageId);
+      if (languageName) d.languageName = languageName;
+      else d.languageId = null;
+
       return d;
     });
   },

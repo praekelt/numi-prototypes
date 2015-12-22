@@ -25203,13 +25203,18 @@
 	};
 
 
-	Ractive.prototype.remap = function(name, fn) {
+	Ractive.prototype.setMap = function(name, fn) {
 	  this.set(name, this.get(name).map(fn));
 	};
 
 
+	Ractive.prototype.setFilter = function(name, fn) {
+	  this.set(name, this.get(name).filter(fn));
+	};
+
+
 	Ractive.prototype.updateMatches = function(name, query, props) {
-	  this.remap(name, function(d) {
+	  this.setMap(name, function(d) {
 	    return _.isMatch(d, query)
 	      ? _.extend({}, d, props)
 	      : d;
@@ -25218,7 +25223,7 @@
 
 
 	Ractive.prototype.updateDatum = function(name, datum) {
-	  this.remap(function(d) {
+	  this.setMap(function(d) {
 	    return d.id === datum.id
 	      ? datum
 	      : d;
@@ -55419,7 +55424,7 @@
 	    };
 	  },
 	  setAsParentLanguage: function(id) {
-	    this.remap('languages', function(d) {
+	    this.setMap('languages', function(d) {
 	      return d.id === id
 	        ? _.defaults({isParent: true}, d)
 	        : _.defaults({isParent: false}, d);
@@ -55510,7 +55515,10 @@
 	    pg.push(newFilter);
 	  },
 	  getLanguageName: function(id) {
-	    return this.findWhere('languages', {id: id}).name;
+	    var lang = this.findWhere('languages', {id: id});
+	    return lang != null
+	      ? lang.name
+	      : null;
 	  },
 	  computed: {
 	    dialogueViews: function() {
@@ -84267,8 +84275,8 @@
 	  oninit: function() {
 	    this.resetTotals();
 	  },
-	  updateLanguageName: function() {
-	    this.remap('allChoices', function(d) {
+	  refreshLanguages: function() {
+	    this.setMap('allChoices', function(d) {
 	      d = _.clone(d);
 	      if (d.languageId) d.languageName = dashboard.getLanguageName(d.languageId);
 	      return d;
@@ -84355,20 +84363,25 @@
 	  },
 	  oninit: function(d) {
 	    var self = this;
-	    this.updateLanguageName();
+	    this.refreshLanguages();
 
 	    this.observe('allChoices', function() {
 	      self.get('block').resetTotals();
 	    });
 
 	    dashboard.observe('languages', function() {
-	      self.updateLanguageName();
+	      self.refreshLanguages();
 	    });
 	  },
-	  updateLanguageName: function() {
-	    this.remap('allChoices', function(d) {
+	  refreshLanguages: function() {
+	    this.setMap('allChoices', function(d) {
+	      var languageName;
 	      d = _.clone(d);
-	      if (d.languageId) d.languageName = dashboard.getLanguageName(d.languageId);
+
+	      if (d.languageId) languageName = dashboard.getLanguageName(d.languageId);
+	      if (languageName) d.languageName = languageName;
+	      else d.languageId = null;
+
 	      return d;
 	    });
 	  },

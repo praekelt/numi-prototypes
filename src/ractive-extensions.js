@@ -18,13 +18,18 @@ Ractive.prototype.findWhere = function(name, query) {
 };
 
 
-Ractive.prototype.remap = function(name, fn) {
+Ractive.prototype.setMap = function(name, fn) {
   this.set(name, this.get(name).map(fn));
 };
 
 
+Ractive.prototype.setFilter = function(name, fn) {
+  this.set(name, this.get(name).filter(fn));
+};
+
+
 Ractive.prototype.updateMatches = function(name, query, props) {
-  this.remap(name, function(d) {
+  this.setMap(name, function(d) {
     return _.isMatch(d, query)
       ? _.extend({}, d, props)
       : d;
@@ -33,7 +38,7 @@ Ractive.prototype.updateMatches = function(name, query, props) {
 
 
 Ractive.prototype.updateDatum = function(name, datum) {
-  this.remap(function(d) {
+  this.setMap(function(d) {
     return d.id === datum.id
       ? datum
       : d;

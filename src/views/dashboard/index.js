@@ -53,7 +53,7 @@ module.exports = Ractive.extend({
     };
   },
   setAsParentLanguage: function(id) {
-    this.remap('languages', function(d) {
+    this.setMap('languages', function(d) {
       return d.id === id
         ? _.defaults({isParent: true}, d)
         : _.defaults({isParent: false}, d);
@@ -144,7 +144,10 @@ module.exports = Ractive.extend({
     pg.push(newFilter);
   },
   getLanguageName: function(id) {
-    return this.findWhere('languages', {id: id}).name;
+    var lang = this.findWhere('languages', {id: id});
+    return lang != null
+      ? lang.name
+      : null;
   },
   computed: {
     dialogueViews: function() {
