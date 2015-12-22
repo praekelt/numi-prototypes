@@ -21,7 +21,7 @@ module.exports = Ractive.extend({
     this.set('languages', dashboard.get('languages'));
   },
   onchange: function(d) {
-    dashboard.update();
+    dashboard.set('languages', this.get('languages'));
   },
   close: function() {
     drawers.close(this);

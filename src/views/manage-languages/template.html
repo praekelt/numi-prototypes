@@ -23,7 +23,7 @@
 
         <button class="btn nm-cell nm-cell-btn nm-cell-4" on-click="setAsParent(id)" {{#isParent}}disabled{{/isParent}}>Set as parent</button>
 
-        <button class="btn nm-cell nm-cell-btn nm-cell-3">Remove</button>
+        <button class="btn nm-cell nm-cell-btn nm-cell-3" on-click="removeWhere('languages', {id: id})">Remove</button>
       </div>
       {{/languages}}
 
