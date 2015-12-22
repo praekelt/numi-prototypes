@@ -23,13 +23,14 @@ $fg-chart-publish: #aec7e8;
 $fg-incomplete: lighten(#f0ad4e, 15%);
 $bg-incomplete: lighten($fg-incomplete, 30%);
 
-$head-height: 35px;
-$body-height: calc(100vh - 35px);
+$head-height: 85px;
+$body-height: calc(100vh - #{$head-height});
 $sequence-header-height: 50px;
 $sequence-footer-height: 50px;
 
 // account for scrollbars and dashboard title
-$sequence-body-height: calc(100vh - 215px);
+$sequence-body-height-offset: $head-height + 110px;
+$sequence-body-height: calc(100vh - #{$sequence-body-height-offset});
 
 $screen-medium: 768px;
 $screen-small: 480px;
