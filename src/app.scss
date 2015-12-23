@@ -1050,3 +1050,8 @@ a.nm-list-group-item-drawer-secondary {
   text-align: center;
   cursor: pointer;
 }
+
+.is-disabled {
+  opacity: .65;
+  cursor: default;
+}

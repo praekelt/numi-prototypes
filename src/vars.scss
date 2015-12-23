@@ -30,7 +30,7 @@ $sequence-header-height: 50px;
 $sequence-footer-height: 50px;
 
 // account for scrollbars and dashboard title
-$sequence-body-height-offset: $head-height + 110px;
+$sequence-body-height-offset: $head-height + 130px;
 $sequence-body-height: calc(100vh - #{$sequence-body-height-offset});
 
 $screen-medium: 768px;
