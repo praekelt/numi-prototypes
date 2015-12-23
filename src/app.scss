@@ -244,6 +244,12 @@ hr {
   }
 }
 
+a.nm-title {
+  &, &:hover, &:focus {
+    text-decoration: none;
+  }
+}
+
 .nm-title-divider {
   font-size: 1em;
   margin: 4px 8px;
