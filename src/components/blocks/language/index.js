@@ -136,6 +136,7 @@ Language.Edit = Base.Edit.extend({
 
     this.observe('allChoices', function() {
       self.get('block').resetTotals();
+      self.refreshLanguages();
     });
 
     dashboard.observe('languages', function() {
