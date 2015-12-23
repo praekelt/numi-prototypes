@@ -15,6 +15,7 @@ module.exports = Ractive.extend({
     return {
       silent: null,
       sequences: [],
+      shownLanguages: [],
       publishCount: 0,
       lastEdit: newDate(),
       hasUnpublishedChanges: false,
@@ -22,7 +23,10 @@ module.exports = Ractive.extend({
     };
   },
   showMenu: function() {
-    drawers.open(DialogueMenu({el: $('<div>')}), {isThin: true});
+    drawers.open(DialogueMenu({
+      el: $('<div>'),
+      data: {dialogue: this}
+    }), {isThin: true});
   },
   selectBlockItem: function(nodeId, seqId, blockId, itemId) {
     var root = this.get('seqtree');
@@ -149,6 +153,12 @@ module.exports = Ractive.extend({
 
       return results;
     }
+  },
+  showLanguage: function(languageId) {
+    this.set('shownLanguages', _(this.get('shownLanguages'))
+      .concat(languageId)
+      .uniq()
+      .value());
   }
 });
 

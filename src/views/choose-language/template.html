@@ -9,9 +9,11 @@
 
   <div class="list-group">
     {{#languages}}
+    {{#!isParent || showParent}}
     <a class="list-group-item nm-list-group-item-drawer" href="#" on-click="choose(event, id)">
       {{name}}
     </a>
+    {{/}}
     {{/languages}}
 
     <a class="list-group-item nm-list-group-item-drawer nm-list-group-item-drawer-secondary" href="#" on-click="manage(event)">

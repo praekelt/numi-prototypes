@@ -59850,6 +59850,7 @@
 	    return {
 	      silent: null,
 	      sequences: [],
+	      shownLanguages: [],
 	      publishCount: 0,
 	      lastEdit: newDate(),
 	      hasUnpublishedChanges: false,
@@ -59857,7 +59858,10 @@
 	    };
 	  },
 	  showMenu: function() {
-	    drawers.open(DialogueMenu({el: $('<div>')}), {isThin: true});
+	    drawers.open(DialogueMenu({
+	      el: $('<div>'),
+	      data: {dialogue: this}
+	    }), {isThin: true});
 	  },
 	  selectBlockItem: function(nodeId, seqId, blockId, itemId) {
 	    var root = this.get('seqtree');
@@ -59984,6 +59988,12 @@
 
 	      return results;
 	    }
+	  },
+	  showLanguage: function(languageId) {
+	    this.set('shownLanguages', _(this.get('shownLanguages'))
+	      .concat(languageId)
+	      .uniq()
+	      .value());
 	  }
 	});
 
@@ -71583,6 +71593,7 @@
 	var drawers = __webpack_require__(47);
 	var Ractive = __webpack_require__(17);
 	var ManageLanguages = __webpack_require__(166);
+	var ChooseLanguage = __webpack_require__(165);
 
 
 	module.exports = Ractive.extend({
@@ -71608,6 +71619,20 @@
 	    drawers.open(ManageLanguages({el: $('<div>')}));
 	  },
 	  showLanguage: function() {
+	    var self = this;
+
+	    var chooser = ChooseLanguage({
+	      el: $('<div>'),
+	      data: {showParent: false}
+	    });
+
+	    chooser.once('chosen', function(languageId) {
+	      self.get('dialogue').showLanguage(languageId);
+	      drawers.close(chooser);
+	      drawers.close(self);
+	    });
+
+	    drawers.open(chooser);
 	  }
 	});
 
@@ -84580,7 +84605,10 @@
 	    });
 	  },
 	  data: function() {
-	    return {languages: dashboard.get('languages')};
+	    return {
+	      showParent: true,
+	      languages: dashboard.get('languages')
+	    };
 	  },
 	  close: function() {
 	    drawers.close(this);
@@ -84633,7 +84661,7 @@
 /* 168 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"button","a":{"class":"btn btn-link pull-right"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["← Back"]}," ",{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Choose language"]}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer","href":"#"},"v":{"click":{"m":"choose","a":{"r":["event","id"],"s":"[_0,_1]"}}},"f":[{"t":2,"r":"name"}]}],"r":"languages"}," ",{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer nm-list-group-item-drawer-secondary","href":"#"},"v":{"click":{"m":"manage","a":{"r":["event"],"s":"[_0]"}}},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," Manage languages"]}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"button","a":{"class":"btn btn-link pull-right"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["← Back"]}," ",{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Choose language"]}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer","href":"#"},"v":{"click":{"m":"choose","a":{"r":["event","id"],"s":"[_0,_1]"}}},"f":[{"t":2,"r":"name"}]}],"x":{"r":["isParent","showParent"],"s":"!_0||_1"}}],"r":"languages"}," ",{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer nm-list-group-item-drawer-secondary","href":"#"},"v":{"click":{"m":"manage","a":{"r":["event"],"s":"[_0]"}}},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," Manage languages"]}]}]}]};
 
 /***/ },
 /* 169 */

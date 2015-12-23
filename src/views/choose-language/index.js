@@ -22,7 +22,10 @@ module.exports = Ractive.extend({
     });
   },
   data: function() {
-    return {languages: dashboard.get('languages')};
+    return {
+      showParent: true,
+      languages: dashboard.get('languages')
+    };
   },
   close: function() {
     drawers.close(this);
