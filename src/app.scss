@@ -67,12 +67,6 @@ body {
   }
 }
 
-.breadcrumb {
-  width: 70vw;
-  margin-left: 15vw;
-  margin-bottom: 4px;
-}
-
 .nm-placeholder {
   color: $fg0;
   border-style: dashed;
@@ -94,6 +88,10 @@ body {
   button {
     padding: 18px 12px;
   }
+}
+
+.nm-dialogue-head {
+  padding: 10px 20px;
 }
 
 .nm-dialogue-title {
@@ -230,19 +228,56 @@ hr {
   overflow-y: scroll;
 }
 
+.nm-title {
+  color: $fg1;
+  margin: 4px 8px;
+  display: inline-block;
+  font-size: 1.2em;
+
+  small {
+    font-size: 0.7em;
+    display: block;
+    margin-bottom: -3px;
+  }
+}
+
+.nm-title-divider {
+  font-size: 1em;
+  vertical-align: middle;
+  margin: 4px 8px;
+  margin-bottom: 23px;
+  display: inline-block;
+}
+
+.nm-title-active {
+  color: $fg0;
+}
+
 .nm-head {
+  padding: 4px;
+
   position: absolute;
   height: $head-height;
+  left: 0;
+  right: 0;
+}
+
+.nm-titles {
+  padding: 0 4px;
 }
 
 .nm-body {
+  padding-top: 10px;
   position: absolute;
 
   top: $head-height;
   left: 0;
   right: 0;
   bottom: 0;
+}
 
+.nm-breadcrumbs {
+  padding: 8px 20vw;
 }
 
 .nm-body-dialogue {

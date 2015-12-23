@@ -1,20 +1,23 @@
 <div class="nm-container">
   <div class="nm-head">
-    <ol class="breadcrumb">
-      <li><a href="/numi-prototypes/">Home</a></li>
-      <li class="active">Dialogue: {{name}}</li>
-    </ol>
+    <div class="btn btn-sm btn-default pull-right">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+      Show menu
+    </div>
 
-    <div class="nm-dialogue-title">
-      <div class="nm-name" on-click="rename()">{{ name }}</div>
+    <div class="nm-titles">
+      <div class="nm-title">
+        <small>Campaign</small>
+        {{campaignName}}
+      </div>
 
-      <div class="nm-rename well">
-        <div class="form-group">
-          <textarea class="nm-rename-value" value="{{ name }}"></textarea>
-        </div>
+      <div class="nm-title-divider">
+        <span class="glyphicon glyphicon-menu-right"></span>
+      </div>
 
-        <button class="btn btn-sm btn-default" on-click="hideRename()">Save</button>
-        <button class="btn btn-sm btn-link" on-click="cancelRename()">Cancel</button>
+      <div class="nm-title nm-title-active">
+        <small>Dialogue</small>
+        {{name}}
       </div>
     </div>
   </div>

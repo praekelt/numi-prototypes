@@ -105,6 +105,9 @@ module.exports = Ractive.extend({
     seqsurrogate: require('../seqsurrogate')
   },
   computed: {
+    campaignName: function() {
+      return dashboard.get('campaignName');
+    },
     href: function() {
       return ['/numi-prototypes/dialogues', this.get('id'), 'edit'].join('/');
     },

@@ -19,11 +19,12 @@ $fg6: #aaa;
 $fg7: #777;
 $fg-link: #337ab7;
 $fg-chart-publish: #aec7e8;
+$fg-active0: darken($bg-active0, 30%);
 
 $fg-incomplete: lighten(#f0ad4e, 15%);
 $bg-incomplete: lighten($fg-incomplete, 30%);
 
-$head-height: 85px;
+$head-height: 55px;
 $body-height: calc(100vh - #{$head-height});
 $sequence-header-height: 50px;
 $sequence-footer-height: 50px;
