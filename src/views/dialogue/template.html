@@ -1,13 +1,24 @@
 <div class="nm-container">
   <div class="nm-head">
-    <div class="pull-right">
-      <button class="btn btn-sm btn-default" on-click="showMenu()">
-        Menu
-      </button>
+    <div class="nm-toolbar pull-right">
+      <div class="nm-toolbar-group nm-state">
+        {{#shownLanguageName}}
+        <div class="btn-group btn-group-sm">
+          <button class="btn btn-default" on-click="changeLanguage()">{{shownLanguageName}}</button>
+          <button class="btn btn-default" on-click="hideLanguage()">&times</button>
+        </div>
+        {{/shownLanguageName}}
+      </div>
 
-      <button class="btn btn-sm btn-default">
-        Sarima
-      </button>
+      <div class="nm-toolbar-group nm-actions">
+        <button class="btn btn-sm btn-default" on-click="showMenu()">
+          Menu
+        </button>
+
+        <button class="btn btn-sm btn-default">
+          Sarima
+        </button>
+      </div>
     </div>
 
     <div class="nm-titles">

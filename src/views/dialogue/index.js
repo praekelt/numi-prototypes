@@ -7,6 +7,7 @@ var hist = require('../../hist');
 var seqtree = require('../../seqtree');
 var drawers = require('../../drawers');
 var DialogueMenu = require('../dialogue-menu');
+var ChooseLanguage = require('../choose-language');
 
 
 module.exports = Ractive.extend({
@@ -15,12 +16,22 @@ module.exports = Ractive.extend({
     return {
       silent: null,
       sequences: [],
-      shownLanguage: null,
+      shownLanguageId: null,
+      shownLanguageName: null,
       publishCount: 0,
       lastEdit: newDate(),
       hasUnpublishedChanges: false,
       _prev: hist.pop()
     };
+  },
+  oninit: function() {
+    var self = this;
+
+    dashboard.observe('languages', function() {
+      self.refreshShownLanguage();
+    });
+
+    this.refreshShownLanguage();
   },
   showMenu: function() {
     drawers.open(DialogueMenu({
@@ -110,6 +121,40 @@ module.exports = Ractive.extend({
       .all()
       .value();
   },
+  refreshShownLanguage: function() {
+    var id = this.get('shownLanguageId');
+    if (!id) return;
+    var lang = dashboard.findWhere('languages', {id: id});
+    if (!lang) this.setShownLanguage(null);
+    else this.setShownLanguage(id);
+  },
+  changeLanguage: function() {
+    var self = this;
+
+    var chooser = ChooseLanguage({
+      el: $('<div>'),
+      data: {showParent: false}
+    });
+
+    chooser.once('chosen', function(languageId) {
+      self.showLanguage(languageId);
+      drawers.close(chooser);
+    });
+
+    drawers.open(chooser);
+  },
+  hideLanguage: function() {
+    this.setShownLanguage(null);
+  },
+  showLanguage: function(languageId) {
+    this.setShownLanguage(languageId);
+  },
+  setShownLanguage: function(id) {
+    var name = null;
+    if (id) name = dashboard.getLanguageName(id);
+    this.set('shownLanguageId', id);
+    this.set('shownLanguageName', name);
+  },
   components: {
     seqsurrogate: require('../seqsurrogate')
   },
@@ -153,9 +198,6 @@ module.exports = Ractive.extend({
 
       return results;
     }
-  },
-  showLanguage: function(languageId) {
-    this.set('shownLanguage', languageId);
   }
 });
 

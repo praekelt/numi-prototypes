@@ -14,6 +14,7 @@ module.exports = Ractive.extend({
   },
   oninit: function() {
     var self = this;
+
     dashboard.observe('languages', function() {
       self.set('languages', dashboard.get('languages'));
     });
