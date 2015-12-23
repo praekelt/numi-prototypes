@@ -15,9 +15,24 @@
         <span class="glyphicon glyphicon-menu-right"></span>
       </div>
 
-      <div class="nm-title nm-title-active">
+      <div class="nm-name nm-title nm-title-active" on-click="rename()">
         <small>Dialogue</small>
-        {{name}}
+        <span class="nm-title-text">
+          {{name}}
+        </span>
+      </div>
+
+      <div class="nm-rename nm-title nm-title-active">
+        <div class="well">
+          <small>Dialogue</small>
+
+          <div class="form-group">
+            <textarea class="nm-rename-value" value="{{name}}"></textarea>
+          </div>
+
+          <button class="btn btn-sm btn-default" on-click="hideRename()">Save</button>
+          <button class="btn btn-sm btn-link" on-click="cancelRename()">Cancel</button>
+        </div>
       </div>
     </div>
   </div>

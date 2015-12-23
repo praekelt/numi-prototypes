@@ -193,6 +193,9 @@ body {
   content: '';
 }
 
+.nm-rename {
+}
+
 .nm-rename-value {
   width: 100%;
 }
@@ -229,6 +232,7 @@ hr {
 }
 
 .nm-title {
+  vertical-align: top;
   color: $fg1;
   margin: 4px 8px;
   display: inline-block;
@@ -237,15 +241,13 @@ hr {
   small {
     font-size: 0.7em;
     display: block;
-    margin-bottom: -3px;
   }
 }
 
 .nm-title-divider {
   font-size: 1em;
-  vertical-align: middle;
   margin: 4px 8px;
-  margin-bottom: 23px;
+  margin-top: 15px;
   display: inline-block;
 }
 
@@ -253,7 +255,12 @@ hr {
   color: $fg0;
 }
 
+.nm-title-text {
+  margin-top: -3px;
+}
+
 .nm-head {
+  z-index: 999;
   padding: 4px;
 
   position: absolute;
@@ -263,6 +270,8 @@ hr {
 }
 
 .nm-titles {
+  height: $head-height;
+  overflow: visible;
   padding: 0 4px;
 }
 
