@@ -7,13 +7,13 @@ var ChooseSequence = require('../../../views/choose-sequence');
 var Chooser = require('../../../views/chooser');
 var Areas = require('../../../area');
 var sapphire = require('../../../../bower_components/sapphire/build/sapphire');
+var newContentProp = Base.newContentProp;
 
 
 var AskChoice = Base.extend({
   template: require('./preview.html'),
   data: function() {
     return {
-      text: '',
       saveAs: '',
       allChoices: [this.newChoice()],
 
@@ -24,6 +24,12 @@ var AskChoice = Base.extend({
           : '';
       }
     };
+  },
+  computed: {
+    choices: function() {
+      return (this.get('allChoices') || []).slice(0, -1);
+    },
+    text: newContentProp('text')
   },
   newChoice: function() {
     return {
@@ -63,11 +69,6 @@ var AskChoice = Base.extend({
     var views = _.zip(timeouts, answers).map(_.sum);
     this.set('stats.answers', answers);
     this.set('stats.views', views);
-  },
-  computed: {
-    choices: function() {
-      return (this.get('allChoices') || []).slice(0, -1);
-    }
   }
 });
 

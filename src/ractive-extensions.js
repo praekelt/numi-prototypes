@@ -51,3 +51,8 @@ Ractive.prototype.findComponentWhere = function(query) {
     return _.isMatch(c.get(), query);
   });
 };
+
+
+Ractive.prototype.forceUpdate = function(name) {
+  this.set(name, this.get(name));
+};

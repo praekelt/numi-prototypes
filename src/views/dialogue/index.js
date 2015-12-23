@@ -128,6 +128,16 @@ module.exports = Ractive.extend({
     if (!lang) this.setShownLanguage(null);
     else this.setShownLanguage(id);
   },
+  getCurrentLanguageId: function() {
+    var id = this.get('shownLanguageId');
+
+    return !id
+      ? this.getParentLanguageId()
+      : id;
+  },
+  getParentLanguageId: function() {
+    return dashboard.findWhere('languages', {isParent: true}).id;
+  },
   changeLanguage: function() {
     var self = this;
 

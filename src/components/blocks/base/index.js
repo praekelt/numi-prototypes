@@ -27,7 +27,7 @@ var Base = Ractive.extend({
   },
   data: function() {
     var d = {};
-
+    d.content = {};
     d._ = _;
     d.stats = {};
     d.formatValue = d3.format(',');
@@ -82,9 +82,6 @@ var Base = Ractive.extend({
     return true;
   },
   computed: {
-    dialogue: function() {
-      return this.parent.parent.parent;
-    },
     sequence: function() {
       return this.parent;
     },
@@ -99,6 +96,36 @@ var Base = Ractive.extend({
     });
 
     drawers.open(stats);
+  },
+  hasManyLanguages: function() {
+    // TODO return false if block precedes language block
+    return true;
+  },
+  getCurrentLanguageId: function() {
+    var dialogue = this.get('dialogue');
+    if (!dialogue) return null;
+    return this.hasManyLanguages()
+      ? dialogue.getCurrentLanguageId()
+      : dialogue.getParentLanguageId();
+  },
+  ensureLangContent: function(id) {
+    var content = this.get('content');
+    var langContent;
+
+    if (id in content) langContent = content[id];
+    else content[id] = langContent = {};
+
+    return langContent;
+  },
+  ensureContentProp: function(name) {
+    var langContent = this.ensureLangContent(this.getCurrentLanguageId());
+    if (name in langContent) val = langContent[name];
+    else langContent[name] = val = '';
+    return val;
+  },
+  setContentProp: function(name, v) {
+    var langContent = this.ensureLangContent(this.getCurrentLanguageId());
+    langContent[name] = v;
   }
 });
 
@@ -180,8 +207,20 @@ Base.Stats = Ractive.extend({
   },
   close: function() {
     drawers.close(this);
-  }
+  },
 });
+
+
+function newContentProp(name) {
+  return {
+    get: function() {
+      return this.ensureContentProp(name);
+    },
+    set: function(v) {
+      this.setContentProp(name, v);
+    }
+  };
+}
 
 
 var totalsChart = sapphire.widgets.lines()
@@ -202,4 +241,5 @@ var totalsChart = sapphire.widgets.lines()
   .y(function(d) { return d[1]; });
 
 
+Base.newContentProp = newContentProp;
 module.exports = Base;
