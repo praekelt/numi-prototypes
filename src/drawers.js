@@ -31,10 +31,10 @@ function close(view, duration) {
 }
 
 
-function open(view) {
+function open(view, opts) {
   var drawer = {
     view: view,
-    $el: newDrawer().appendTo('.nm-drawers'),
+    $el: newDrawer(opts).appendTo('.nm-drawers'),
     onBodyClick: onBodyClick
   };
 
@@ -77,12 +77,18 @@ function change(view) {
 }
 
 
-function newDrawer() {
-  return $([
+function newDrawer(opts) {
+  opts = _.defaults({}, opts || {}, {isThin: false});
+
+  var $el = $([
     '<div class="nm-drawer" hidden>',
   '    <div class="nm-drawer-body"></div>',
     '</div>'
   ].join('\n'));
+
+  if (opts.isThin) $el.addClass('nm-drawer-thin');
+
+  return $el;
 }
 
 

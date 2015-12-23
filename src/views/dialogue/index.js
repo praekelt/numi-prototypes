@@ -5,6 +5,8 @@ var uuid = require('node-uuid');
 var Ractive = require('ractive');
 var hist = require('../../hist');
 var seqtree = require('../../seqtree');
+var drawers = require('../../drawers');
+var DialogueMenu = require('../dialogue-menu');
 
 
 module.exports = Ractive.extend({
@@ -18,6 +20,9 @@ module.exports = Ractive.extend({
       hasUnpublishedChanges: false,
       _prev: hist.pop()
     };
+  },
+  showMenu: function() {
+    drawers.open(DialogueMenu({el: $('<div>')}), {isThin: true});
   },
   selectBlockItem: function(nodeId, seqId, blockId, itemId) {
     var root = this.get('seqtree');

@@ -452,6 +452,14 @@ a.nm-title {
   }
 }
 
+.nm-drawer-thin {
+  .nm-drawer-body {
+    @media (min-width: $screen-medium) {
+      width: 25%;
+    }
+  }
+}
+
 .nm-divider {
   border-color: $fg4;
 }
