@@ -15,7 +15,7 @@ module.exports = Ractive.extend({
     return {
       silent: null,
       sequences: [],
-      shownLanguages: [],
+      shownLanguage: null,
       publishCount: 0,
       lastEdit: newDate(),
       hasUnpublishedChanges: false,
@@ -155,10 +155,7 @@ module.exports = Ractive.extend({
     }
   },
   showLanguage: function(languageId) {
-    this.set('shownLanguages', _(this.get('shownLanguages'))
-      .concat(languageId)
-      .uniq()
-      .value());
+    this.set('shownLanguage', languageId);
   }
 });
 

@@ -59850,7 +59850,7 @@
 	    return {
 	      silent: null,
 	      sequences: [],
-	      shownLanguages: [],
+	      shownLanguage: null,
 	      publishCount: 0,
 	      lastEdit: newDate(),
 	      hasUnpublishedChanges: false,
@@ -59990,10 +59990,7 @@
 	    }
 	  },
 	  showLanguage: function(languageId) {
-	    this.set('shownLanguages', _(this.get('shownLanguages'))
-	      .concat(languageId)
-	      .uniq()
-	      .value());
+	    this.set('shownLanguage', languageId);
 	  }
 	});
 
