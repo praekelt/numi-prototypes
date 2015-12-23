@@ -1,17 +1,43 @@
 <div class="nm-container nm-container-dashboard">
-  <div class="nm-head nm-head-dashboard">
-    <ol class="breadcrumb">
-      <li><a href="/numi-prototypes/">Home</a></li>
-    </ol>
+  <div class="nm-head">
+    <div class="pull-right">
+      <button class="btn btn-sm btn-default">
+        Menu
+      </button>
+
+      <button class="btn btn-sm btn-default">
+        Sarima
+      </button>
+    </div>
+
+    <div class="nm-titles">
+      {{^renamingCampaign}}
+      <div class="nm-name nm-title nm-title-active" on-click="renameCampaign()">
+        <small>Campaign</small>
+        <div class="nm-title-text">
+          {{campaignName}}
+        </div>
+      </div>
+      {{/renameCampaign}}
+
+      {{#renamingCampaign}}
+      <div class="nm-rename nm-title nm-title-active">
+        <div class="well">
+          <small>Campaign</small>
+
+          <div class="form-group">
+            <textarea class="nm-rename-value" value="{{campaignName}}"></textarea>
+          </div>
+
+          <button class="btn btn-sm btn-default" on-click="hideCampaignRename()">Save</button>
+          <button class="btn btn-sm btn-link" on-click="cancelCampaignRename()">Cancel</button>
+        </div>
+      </div>
+      {{/renamingCampaign}}
+    </div>
   </div>
 
   <div class="nm-body nm-body-dashboard">
-    <h3>
-      <small>Campaign</small>
-      <br>
-      {{campaignName}}
-    </h3>
-
     <div class="nm-dashboard-actions">
       <div class="btn-group pull-right">
         <button class="btn btn-default nm-placeholder nm-placeholder-default" on-click="createDialogue()">+ Add dialogue</button>

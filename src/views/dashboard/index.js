@@ -14,6 +14,7 @@ module.exports = Ractive.extend({
   template: require('./template.html'),
   data: function() {
     return {
+      renamingCampaign: false,
       campaignName: 'MomConnect',
       publishCount: 0,
       values: [],
@@ -216,5 +217,16 @@ module.exports = Ractive.extend({
     return _.find(this.get('dialogueViews'), function(c) {
       return c.get('id') === id;
     });
-  }
+  },
+  renameCampaign: function() {
+    this.set('campaignNameBackup', this.get('campaignName'));
+    this.set('renamingCampaign', true);
+  },
+  hideCampaignRename: function() {
+    this.set('renamingCampaign', false);
+  },
+  cancelCampaignRename: function() {
+    this.set('campaignName', this.get('campaignNameBackup'));
+    this.hideCampaignRename();
+  },
 });
