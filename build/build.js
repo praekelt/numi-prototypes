@@ -83996,9 +83996,6 @@
 	      }
 	    };
 	  },
-	  oncomplete: function() {
-	    console.log(this.get('stash'));
-	  },
 	  oninit: function() {
 	    if (this.get('allChoices').length < 1) {
 	      this.push('allChoices', this.newChoice());
