@@ -82,6 +82,12 @@ var Base = Ractive.extend({
     return true;
   },
   computed: {
+    dialogue: function() {
+      var dialogue = ((this.parent || 0).parent || 0).parent;
+      return dialogue
+        ? dialogue
+        : null;
+    },
     sequence: function() {
       return this.parent;
     },
@@ -214,7 +220,9 @@ Base.Stats = Ractive.extend({
 function newContentProp(name) {
   return {
     get: function() {
-      return this.ensureContentProp(name);
+      return this.get('content')
+        ? this.ensureContentProp(name)
+        : null;
     },
     set: function(v) {
       this.setContentProp(name, v);
