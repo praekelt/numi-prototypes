@@ -72223,6 +72223,7 @@
 	  data: function() {
 	    var d = {};
 	    d.content = {};
+	    d.stash = {};
 	    d._ = _;
 	    d.stats = {};
 	    d.formatValue = d3.format(',');
@@ -72311,8 +72312,11 @@
 	  },
 	  ensureLangContent: function(id) {
 	    var content = this.get('content');
-	    var langContent;
 
+	    // TODO figure out why we try ensure content when removing a block
+	    if (!content) return null;
+
+	    var langContent;
 	    if (id in content) langContent = content[id];
 	    else content[id] = langContent = {};
 
@@ -72324,9 +72328,41 @@
 	    else langContent[name] = val = '';
 	    return val;
 	  },
+	  ensureContentProps: function(id, names) {
+	    var result = {};
+	    var i = -1;
+	    var n = names.length;
+	    var name;
+
+	    while (++i < n) {
+	      name = names[i];
+	      result[name] = this.ensureContentProp([id, name].join('.'));
+	    }
+
+	    return result;
+	  },
 	  setContentProp: function(name, v) {
 	    var langContent = this.ensureLangContent(this.getCurrentLanguageId());
 	    langContent[name] = v;
+	  },
+	  setContentProps: function(id, names, d) {
+	    var i = -1;
+	    var n = names.length;
+	    var name;
+
+	    while (++i < n) {
+	      name = names[i];
+	      this.setContentProp([id, name].join('.'), d[name]);
+	    }
+	  },
+	  ensureStash: function(name) {
+	    var stash = this.get('stash.', name);
+	    if (!stash) this.set('stash.' + name, stash = []);
+	    return stash;
+	  },
+	  setStash: function(name, v) {
+	    this.ensureStash(name);
+	    this.set('stash.' + name, v);
 	  }
 	});
 
@@ -72408,22 +72444,43 @@
 	  },
 	  close: function() {
 	    drawers.close(this);
-	  },
+	  }
 	});
 
 
 	function newContentProp(name) {
 	  return {
 	    get: function() {
-	      return this.get('content')
-	        ? this.ensureContentProp(name)
-	        : null;
+	      return this.ensureContentProp(name);
 	    },
 	    set: function(v) {
 	      this.setContentProp(name, v);
 	    }
 	  };
 	}
+
+
+	function newNestedPropWithContent(name, contentProps) {
+	  return {
+	    get: function() {
+	      return this.ensureStash(name)
+	        .map(function(d) {
+	          var props = this.ensureContentProps(d.id, contentProps);
+	          return _.extend({}, d, props);
+	        });
+	    },
+	    set: function(data) {
+	      data.forEach(function(d) {
+	        this.setContentProps(d.id, contentProps, d);
+	      }, this);
+
+	      this.setStash(name, data.map(function(d) {
+	        return _.omit(d, contentProps);
+	      }));
+	    }
+	  };
+	}
+
 
 
 	var totalsChart = sapphire.widgets.lines()
@@ -72445,6 +72502,7 @@
 
 
 	Base.newContentProp = newContentProp;
+	Base.newNestedPropWithContent = newNestedPropWithContent;
 	module.exports = Base;
 
 
@@ -83839,6 +83897,7 @@
 	var Areas = __webpack_require__(164);
 	var sapphire = __webpack_require__(154);
 	var newContentProp = Base.newContentProp;
+	var newNestedPropWithContent = Base.newNestedPropWithContent;
 
 
 	var AskChoice = Base.extend({
@@ -83846,8 +83905,6 @@
 	  data: function() {
 	    return {
 	      saveAs: '',
-	      allChoices: [this.newChoice()],
-
 	      getSequenceName: function(id) {
 	        var seq = _.find(this.get('dialogue').get('sequences'), {id: id});
 	        return seq
@@ -83856,18 +83913,23 @@
 	      }
 	    };
 	  },
+	  oninit: function() {
+	    this.push('allChoices', this.newChoice());
+	    this.resetTotals();
+	  },
 	  computed: {
+	    text: newContentProp('text'),
 	    choices: function() {
 	      return (this.get('allChoices') || []).slice(0, -1);
 	    },
-	    text: newContentProp('text')
+	    allChoices: newNestedPropWithContent('allChoices', ['text'])
 	  },
 	  newChoice: function() {
 	    return {
 	      id: uuid.v4(),
 	      text: '',
-	      saveAs: null,
 	      route: null,
+	      saveAs: null,
 	      answerCounts: this.randDatapoints(0, 1000)
 	    };
 	  },
@@ -83882,9 +83944,6 @@
 	  onChoiceClick(e, id) {
 	    e.original.preventDefault();
 	    this.selectChoice(id);
-	  },
-	  oninit: function() {
-	    this.resetTotals();
 	  },
 	  getAnswerCounts() {
 	    return _.chain(this.get('allChoices'))
@@ -83966,6 +84025,14 @@
 	    });
 	  },
 	  computed: {
+	    allChoices: {
+	      set: function(v) {
+	        return this.get('block').set('allChoices', v);
+	      },
+	      get: function(v) {
+	        return this.get('block').get('allChoices');
+	      }
+	    },
 	    choices: function() {
 	      return this.get('allChoices').slice(0, -1);
 	    },
@@ -86129,7 +86196,7 @@
 /* 219 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"ask","a":{"text":[{"t":2,"r":"text"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"ask\""}},{"t":4,"f":[{"t":7,"e":"askchoice","a":{"id":[{"t":2,"r":"id"}],"content":[{"t":2,"r":"content"}],"blocks":[{"t":2,"r":"blocks"}],"allChoices":[{"t":2,"r":"allChoices"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"askchoice\""}},{"t":4,"f":[{"t":7,"e":"language","a":{"id":[{"t":2,"r":"id"}],"text":[{"t":2,"r":"text"}],"blocks":[{"t":2,"r":"blocks"}],"allChoices":[{"t":2,"r":"allChoices"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"language\""}},{"t":4,"f":[{"t":7,"e":"route","a":{"id":[{"t":2,"r":"id"}],"seqId":[{"t":2,"r":"seqId"}],"itemId":[{"t":2,"r":"itemId"}]}}],"x":{"r":["type"],"s":"_0===\"route\""}},{"t":4,"f":[{"t":7,"e":"conditionalroute","a":{"id":[{"t":2,"r":"id"}],"seqId":[{"t":2,"r":"seqId"}],"itemId":[{"t":2,"r":"itemId"}],"conditionSet":[{"t":2,"r":"conditionSet"}]}}],"x":{"r":["type"],"s":"_0===\"conditionalroute\""}},{"t":4,"f":[{"t":7,"e":"register","a":{"fields":[{"t":2,"r":"fields"}]}}],"x":{"r":["type"],"s":"_0===\"register\""}},{"t":4,"f":[{"t":7,"e":"unsubscribe","a":{"fields":[{"t":2,"r":"fields"}]}}],"x":{"r":["type"],"s":"_0===\"unsubscribe\""}},{"t":4,"f":[{"t":7,"e":"optout","a":{"fields":[{"t":2,"r":"fields"}]}}],"x":{"r":["type"],"s":"_0===\"optout\""}},{"t":4,"f":[{"t":7,"e":"askcliniccode","a":{"text":[{"t":2,"r":"text"}],"invalidInputText":[{"t":2,"r":"invalidInputText"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"askcliniccode\""}},{"t":4,"f":[{"t":7,"e":"end","a":{"text":[{"t":2,"r":"text"}]}}],"x":{"r":["type"],"s":"_0===\"end\""}},{"t":4,"f":[{"t":7,"e":"userdialsin","a":{"channelIds":[{"t":2,"r":"channelIds"}]}}],"x":{"r":["type"],"s":"_0===\"userdialsin\""}},{"t":4,"f":[{"t":7,"e":"usersendsmessage","a":{"text":[{"t":2,"r":"text"}],"channelIds":[{"t":2,"r":"channelIds"}]}}],"x":{"r":["type"],"s":"_0===\"usersendsmessage\""}},{"t":4,"f":[{"t":7,"e":"shownext9months","a":{"text":[{"t":2,"r":"text"}],"saveAs":[{"t":2,"r":"saveAs"}],"monthsBefore":[{"t":2,"r":"monthsBefore"}]}}],"x":{"r":["type"],"s":"_0===\"shownext9months\""}},{"t":4,"f":[{"t":7,"e":"calcweeks","a":{"inputFieldId":[{"t":2,"r":"inputFieldId"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"calcweeks\""}},{"t":4,"f":[{"t":7,"e":"annotation","a":{"text":[{"t":2,"r":"text"}]}}],"x":{"r":["type"],"s":"_0===\"annotation\""}}]};
+	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"ask","a":{"text":[{"t":2,"r":"text"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"ask\""}},{"t":4,"f":[{"t":7,"e":"askchoice","a":{"id":[{"t":2,"r":"id"}],"content":[{"t":2,"r":"content"}],"blocks":[{"t":2,"r":"blocks"}],"stash":[{"t":2,"r":"stash"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"askchoice\""}},{"t":4,"f":[{"t":7,"e":"language","a":{"id":[{"t":2,"r":"id"}],"text":[{"t":2,"r":"text"}],"blocks":[{"t":2,"r":"blocks"}],"allChoices":[{"t":2,"r":"allChoices"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"language\""}},{"t":4,"f":[{"t":7,"e":"route","a":{"id":[{"t":2,"r":"id"}],"seqId":[{"t":2,"r":"seqId"}],"itemId":[{"t":2,"r":"itemId"}]}}],"x":{"r":["type"],"s":"_0===\"route\""}},{"t":4,"f":[{"t":7,"e":"conditionalroute","a":{"id":[{"t":2,"r":"id"}],"seqId":[{"t":2,"r":"seqId"}],"itemId":[{"t":2,"r":"itemId"}],"conditionSet":[{"t":2,"r":"conditionSet"}]}}],"x":{"r":["type"],"s":"_0===\"conditionalroute\""}},{"t":4,"f":[{"t":7,"e":"register","a":{"fields":[{"t":2,"r":"fields"}]}}],"x":{"r":["type"],"s":"_0===\"register\""}},{"t":4,"f":[{"t":7,"e":"unsubscribe","a":{"fields":[{"t":2,"r":"fields"}]}}],"x":{"r":["type"],"s":"_0===\"unsubscribe\""}},{"t":4,"f":[{"t":7,"e":"optout","a":{"fields":[{"t":2,"r":"fields"}]}}],"x":{"r":["type"],"s":"_0===\"optout\""}},{"t":4,"f":[{"t":7,"e":"askcliniccode","a":{"text":[{"t":2,"r":"text"}],"invalidInputText":[{"t":2,"r":"invalidInputText"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"askcliniccode\""}},{"t":4,"f":[{"t":7,"e":"end","a":{"text":[{"t":2,"r":"text"}]}}],"x":{"r":["type"],"s":"_0===\"end\""}},{"t":4,"f":[{"t":7,"e":"userdialsin","a":{"channelIds":[{"t":2,"r":"channelIds"}]}}],"x":{"r":["type"],"s":"_0===\"userdialsin\""}},{"t":4,"f":[{"t":7,"e":"usersendsmessage","a":{"text":[{"t":2,"r":"text"}],"channelIds":[{"t":2,"r":"channelIds"}]}}],"x":{"r":["type"],"s":"_0===\"usersendsmessage\""}},{"t":4,"f":[{"t":7,"e":"shownext9months","a":{"text":[{"t":2,"r":"text"}],"saveAs":[{"t":2,"r":"saveAs"}],"monthsBefore":[{"t":2,"r":"monthsBefore"}]}}],"x":{"r":["type"],"s":"_0===\"shownext9months\""}},{"t":4,"f":[{"t":7,"e":"calcweeks","a":{"inputFieldId":[{"t":2,"r":"inputFieldId"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"calcweeks\""}},{"t":4,"f":[{"t":7,"e":"annotation","a":{"text":[{"t":2,"r":"text"}]}}],"x":{"r":["type"],"s":"_0===\"annotation\""}}]};
 
 /***/ },
 /* 220 */

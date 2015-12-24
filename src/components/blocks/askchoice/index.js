@@ -8,6 +8,7 @@ var Chooser = require('../../../views/chooser');
 var Areas = require('../../../area');
 var sapphire = require('../../../../bower_components/sapphire/build/sapphire');
 var newContentProp = Base.newContentProp;
+var newNestedPropWithContent = Base.newNestedPropWithContent;
 
 
 var AskChoice = Base.extend({
@@ -15,8 +16,6 @@ var AskChoice = Base.extend({
   data: function() {
     return {
       saveAs: '',
-      allChoices: [this.newChoice()],
-
       getSequenceName: function(id) {
         var seq = _.find(this.get('dialogue').get('sequences'), {id: id});
         return seq
@@ -25,18 +24,23 @@ var AskChoice = Base.extend({
       }
     };
   },
+  oninit: function() {
+    this.push('allChoices', this.newChoice());
+    this.resetTotals();
+  },
   computed: {
+    text: newContentProp('text'),
     choices: function() {
       return (this.get('allChoices') || []).slice(0, -1);
     },
-    text: newContentProp('text')
+    allChoices: newNestedPropWithContent('allChoices', ['text'])
   },
   newChoice: function() {
     return {
       id: uuid.v4(),
       text: '',
-      saveAs: null,
       route: null,
+      saveAs: null,
       answerCounts: this.randDatapoints(0, 1000)
     };
   },
@@ -51,9 +55,6 @@ var AskChoice = Base.extend({
   onChoiceClick(e, id) {
     e.original.preventDefault();
     this.selectChoice(id);
-  },
-  oninit: function() {
-    this.resetTotals();
   },
   getAnswerCounts() {
     return _.chain(this.get('allChoices'))
@@ -135,6 +136,14 @@ AskChoice.Edit = Base.Edit.extend({
     });
   },
   computed: {
+    allChoices: {
+      set: function(v) {
+        return this.get('block').set('allChoices', v);
+      },
+      get: function(v) {
+        return this.get('block').get('allChoices');
+      }
+    },
     choices: function() {
       return this.get('allChoices').slice(0, -1);
     },

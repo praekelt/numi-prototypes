@@ -28,6 +28,7 @@ var Base = Ractive.extend({
   data: function() {
     var d = {};
     d.content = {};
+    d.stash = {};
     d._ = _;
     d.stats = {};
     d.formatValue = d3.format(',');
@@ -116,8 +117,11 @@ var Base = Ractive.extend({
   },
   ensureLangContent: function(id) {
     var content = this.get('content');
-    var langContent;
 
+    // TODO figure out why we try ensure content when removing a block
+    if (!content) return null;
+
+    var langContent;
     if (id in content) langContent = content[id];
     else content[id] = langContent = {};
 
@@ -129,9 +133,41 @@ var Base = Ractive.extend({
     else langContent[name] = val = '';
     return val;
   },
+  ensureContentProps: function(id, names) {
+    var result = {};
+    var i = -1;
+    var n = names.length;
+    var name;
+
+    while (++i < n) {
+      name = names[i];
+      result[name] = this.ensureContentProp([id, name].join('.'));
+    }
+
+    return result;
+  },
   setContentProp: function(name, v) {
     var langContent = this.ensureLangContent(this.getCurrentLanguageId());
     langContent[name] = v;
+  },
+  setContentProps: function(id, names, d) {
+    var i = -1;
+    var n = names.length;
+    var name;
+
+    while (++i < n) {
+      name = names[i];
+      this.setContentProp([id, name].join('.'), d[name]);
+    }
+  },
+  ensureStash: function(name) {
+    var stash = this.get('stash.', name);
+    if (!stash) this.set('stash.' + name, stash = []);
+    return stash;
+  },
+  setStash: function(name, v) {
+    this.ensureStash(name);
+    this.set('stash.' + name, v);
   }
 });
 
@@ -213,22 +249,43 @@ Base.Stats = Ractive.extend({
   },
   close: function() {
     drawers.close(this);
-  },
+  }
 });
 
 
 function newContentProp(name) {
   return {
     get: function() {
-      return this.get('content')
-        ? this.ensureContentProp(name)
-        : null;
+      return this.ensureContentProp(name);
     },
     set: function(v) {
       this.setContentProp(name, v);
     }
   };
 }
+
+
+function newNestedPropWithContent(name, contentProps) {
+  return {
+    get: function() {
+      return this.ensureStash(name)
+        .map(function(d) {
+          var props = this.ensureContentProps(d.id, contentProps);
+          return _.extend({}, d, props);
+        });
+    },
+    set: function(data) {
+      data.forEach(function(d) {
+        this.setContentProps(d.id, contentProps, d);
+      }, this);
+
+      this.setStash(name, data.map(function(d) {
+        return _.omit(d, contentProps);
+      }));
+    }
+  };
+}
+
 
 
 var totalsChart = sapphire.widgets.lines()
@@ -250,4 +307,5 @@ var totalsChart = sapphire.widgets.lines()
 
 
 Base.newContentProp = newContentProp;
+Base.newNestedPropWithContent = newNestedPropWithContent;
 module.exports = Base;
