@@ -83,6 +83,17 @@ var Base = Ractive.extend({
     return true;
   },
   computed: {
+    isShowingLanguage: function() {
+      var dialogue = this.get('dialogue');
+      if (!dialogue) return false;
+      return !!dialogue.get('shownLanguageId');
+    },
+    parentLanguageName: function() {
+      return dashboard.getLanguageName(this.getParentLanguageId());
+    },
+    childLanguageName: function() {
+      return dashboard.getLanguageName(this.getCurrentLanguageId());
+    },
     dialogue: function() {
       var dialogue = ((this.parent || 0).parent || 0).parent;
       return dialogue
@@ -127,8 +138,8 @@ var Base = Ractive.extend({
     return dialogue.getParentLanguageId();
   },
   ensureLangContent: function(id) {
-    if (!id) id = this.getCurrentLanguageId();
-    if (id === 'parent') this.getParentLanguageId();
+    if (id === 'parent') id = this.getParentLanguageId();
+    else if (!id) id = this.getCurrentLanguageId();
 
     // TODO this shouldn't be necessary
     if (!id) return null;
@@ -188,6 +199,7 @@ var Base = Ractive.extend({
   },
   setForLang: function(langId, name, v) {
     this.setContentProp(langId, name, v);
+    this.update(name);
   },
   getForLangNested: function(langId, name, contentProps) {
     return this.ensureStash(name)
@@ -204,9 +216,11 @@ var Base = Ractive.extend({
     this.setStash(name, data.map(function(d) {
       return _.omit(d, contentProps);
     }));
+
+    this.update(name);
   },
   ensureStash: function(name) {
-    var stash = this.get('stash.', name);
+    var stash = this.get('stash.' + name);
     if (!stash) this.set('stash.' + name, stash = []);
     return stash;
   },
@@ -298,6 +312,23 @@ Base.Stats = Ractive.extend({
 });
 
 
+function proxyBlock(propName) {
+  return proxyProp('block', propName);
+}
+
+
+function proxyProp(targetName, propName) {
+  return {
+    get: function() {
+      return this.get(targetName).get(propName);
+    },
+    set: function(v) {
+      this.get(targetName).set(propName, v);
+    }
+  };
+}
+
+
 function newContentProp(name, langId) {
   langId = langId || null;
 
@@ -345,6 +376,8 @@ var totalsChart = sapphire.widgets.lines()
   .y(function(d) { return d[1]; });
 
 
+Base.proxyBlock = proxyBlock;
+Base.proxyProp = proxyProp;
 Base.newContentProp = newContentProp;
 Base.newNestedPropWithContent = newNestedPropWithContent;
 module.exports = Base;

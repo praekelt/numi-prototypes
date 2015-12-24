@@ -56,3 +56,11 @@ Ractive.prototype.findComponentWhere = function(query) {
 Ractive.prototype.forceUpdate = function(name) {
   this.set(name, this.get(name));
 };
+
+
+Ractive.prototype.deepUpdate = function() {
+  this.findAllComponents()
+    .forEach(function(c) { c.deepUpdate(); });
+
+  this.update();
+};

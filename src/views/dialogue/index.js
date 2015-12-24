@@ -164,6 +164,7 @@ module.exports = Ractive.extend({
     if (id) name = dashboard.getLanguageName(id);
     this.set('shownLanguageId', id);
     this.set('shownLanguageName', name);
+    this.deepUpdate();
   },
   components: {
     seqsurrogate: require('../seqsurrogate')

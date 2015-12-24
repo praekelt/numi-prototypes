@@ -25243,6 +25243,14 @@
 	};
 
 
+	Ractive.prototype.deepUpdate = function() {
+	  this.findAllComponents()
+	    .forEach(function(c) { c.deepUpdate(); });
+
+	  this.update();
+	};
+
+
 /***/ },
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
@@ -60004,6 +60012,7 @@
 	    if (id) name = dashboard.getLanguageName(id);
 	    this.set('shownLanguageId', id);
 	    this.set('shownLanguageName', name);
+	    this.deepUpdate();
 	  },
 	  components: {
 	    seqsurrogate: __webpack_require__(146)
@@ -72278,6 +72287,17 @@
 	    return true;
 	  },
 	  computed: {
+	    isShowingLanguage: function() {
+	      var dialogue = this.get('dialogue');
+	      if (!dialogue) return false;
+	      return !!dialogue.get('shownLanguageId');
+	    },
+	    parentLanguageName: function() {
+	      return dashboard.getLanguageName(this.getParentLanguageId());
+	    },
+	    childLanguageName: function() {
+	      return dashboard.getLanguageName(this.getCurrentLanguageId());
+	    },
 	    dialogue: function() {
 	      var dialogue = ((this.parent || 0).parent || 0).parent;
 	      return dialogue
@@ -72322,8 +72342,8 @@
 	    return dialogue.getParentLanguageId();
 	  },
 	  ensureLangContent: function(id) {
-	    if (!id) id = this.getCurrentLanguageId();
-	    if (id === 'parent') this.getParentLanguageId();
+	    if (id === 'parent') id = this.getParentLanguageId();
+	    else if (!id) id = this.getCurrentLanguageId();
 
 	    // TODO this shouldn't be necessary
 	    if (!id) return null;
@@ -72383,6 +72403,7 @@
 	  },
 	  setForLang: function(langId, name, v) {
 	    this.setContentProp(langId, name, v);
+	    this.update(name);
 	  },
 	  getForLangNested: function(langId, name, contentProps) {
 	    return this.ensureStash(name)
@@ -72399,9 +72420,11 @@
 	    this.setStash(name, data.map(function(d) {
 	      return _.omit(d, contentProps);
 	    }));
+
+	    this.update(name);
 	  },
 	  ensureStash: function(name) {
-	    var stash = this.get('stash.', name);
+	    var stash = this.get('stash.' + name);
 	    if (!stash) this.set('stash.' + name, stash = []);
 	    return stash;
 	  },
@@ -72493,6 +72516,23 @@
 	});
 
 
+	function proxyBlock(propName) {
+	  return proxyProp('block', propName);
+	}
+
+
+	function proxyProp(targetName, propName) {
+	  return {
+	    get: function() {
+	      return this.get(targetName).get(propName);
+	    },
+	    set: function(v) {
+	      this.get(targetName).set(propName, v);
+	    }
+	  };
+	}
+
+
 	function newContentProp(name, langId) {
 	  langId = langId || null;
 
@@ -72540,6 +72580,8 @@
 	  .y(function(d) { return d[1]; });
 
 
+	Base.proxyBlock = proxyBlock;
+	Base.proxyProp = proxyProp;
 	Base.newContentProp = newContentProp;
 	Base.newNestedPropWithContent = newNestedPropWithContent;
 	module.exports = Base;
@@ -83935,6 +83977,8 @@
 	var Chooser = __webpack_require__(157);
 	var Areas = __webpack_require__(164);
 	var sapphire = __webpack_require__(154);
+	var proxyBlock = Base.proxyBlock;
+	var proxyProp = Base.proxyProp;
 	var newContentProp = Base.newContentProp;
 	var newNestedPropWithContent = Base.newNestedPropWithContent;
 
@@ -83952,8 +83996,14 @@
 	      }
 	    };
 	  },
+	  oncomplete: function() {
+	    console.log(this.get('stash'));
+	  },
 	  oninit: function() {
-	    this.push('allChoices', this.newChoice());
+	    if (this.get('allChoices').length < 1) {
+	      this.push('allChoices', this.newChoice());
+	    }
+
 	    this.resetTotals();
 	  },
 	  computed: {
@@ -83961,6 +84011,9 @@
 	    textParent: newContentProp('text', 'parent'),
 	    choices: function() {
 	      return (this.get('allChoices') || []).slice(0, -1);
+	    },
+	    choicesParent: function() {
+	      return (this.get('allChoicesParent') || []).slice(0, -1);
 	    },
 	    allChoices: newNestedPropWithContent('allChoices', ['text']),
 	    allChoicesParent: newNestedPropWithContent('allChoices', ['text'], 'parent')
@@ -84058,7 +84111,7 @@
 	        .name;
 	    }
 	  },
-	  oninit: function(d) {
+	  oninit: function() {
 	    var self = this;
 
 	    this.observe('allChoices', function() {
@@ -84066,14 +84119,8 @@
 	    });
 	  },
 	  computed: {
-	    allChoices: {
-	      set: function(v) {
-	        return this.get('block').set('allChoices', v);
-	      },
-	      get: function(v) {
-	        return this.get('block').get('allChoices');
-	      }
-	    },
+	    text: proxyBlock('text'),
+	    allChoices: proxyBlock('allChoices'),
 	    choices: function() {
 	      return this.get('allChoices').slice(0, -1);
 	    },

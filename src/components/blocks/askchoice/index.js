@@ -7,6 +7,8 @@ var ChooseSequence = require('../../../views/choose-sequence');
 var Chooser = require('../../../views/chooser');
 var Areas = require('../../../area');
 var sapphire = require('../../../../bower_components/sapphire/build/sapphire');
+var proxyBlock = Base.proxyBlock;
+var proxyProp = Base.proxyProp;
 var newContentProp = Base.newContentProp;
 var newNestedPropWithContent = Base.newNestedPropWithContent;
 
@@ -24,8 +26,14 @@ var AskChoice = Base.extend({
       }
     };
   },
+  oncomplete: function() {
+    console.log(this.get('stash'));
+  },
   oninit: function() {
-    this.push('allChoices', this.newChoice());
+    if (this.get('allChoices').length < 1) {
+      this.push('allChoices', this.newChoice());
+    }
+
     this.resetTotals();
   },
   computed: {
@@ -33,6 +41,9 @@ var AskChoice = Base.extend({
     textParent: newContentProp('text', 'parent'),
     choices: function() {
       return (this.get('allChoices') || []).slice(0, -1);
+    },
+    choicesParent: function() {
+      return (this.get('allChoicesParent') || []).slice(0, -1);
     },
     allChoices: newNestedPropWithContent('allChoices', ['text']),
     allChoicesParent: newNestedPropWithContent('allChoices', ['text'], 'parent')
@@ -130,7 +141,7 @@ AskChoice.Edit = Base.Edit.extend({
         .name;
     }
   },
-  oninit: function(d) {
+  oninit: function() {
     var self = this;
 
     this.observe('allChoices', function() {
@@ -138,14 +149,8 @@ AskChoice.Edit = Base.Edit.extend({
     });
   },
   computed: {
-    allChoices: {
-      set: function(v) {
-        return this.get('block').set('allChoices', v);
-      },
-      get: function(v) {
-        return this.get('block').get('allChoices');
-      }
-    },
+    text: proxyBlock('text'),
+    allChoices: proxyBlock('allChoices'),
     choices: function() {
       return this.get('allChoices').slice(0, -1);
     },
