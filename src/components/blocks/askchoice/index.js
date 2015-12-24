@@ -30,10 +30,12 @@ var AskChoice = Base.extend({
   },
   computed: {
     text: newContentProp('text'),
+    textParent: newContentProp('text', 'parent'),
     choices: function() {
       return (this.get('allChoices') || []).slice(0, -1);
     },
-    allChoices: newNestedPropWithContent('allChoices', ['text'])
+    allChoices: newNestedPropWithContent('allChoices', ['text']),
+    allChoicesParent: newNestedPropWithContent('allChoices', ['text'], 'parent')
   },
   newChoice: function() {
     return {

@@ -72305,15 +72305,31 @@
 	  },
 	  getCurrentLanguageId: function() {
 	    var dialogue = this.get('dialogue');
+
+	    // TODO this shouldn't be necessary
 	    if (!dialogue) return null;
+
 	    return this.hasManyLanguages()
 	      ? dialogue.getCurrentLanguageId()
 	      : dialogue.getParentLanguageId();
 	  },
+	  getParentLanguageId: function() {
+	    var dialogue = this.get('dialogue');
+
+	    // TODO this shouldn't be necessary
+	    if (!dialogue) return null;
+
+	    return dialogue.getParentLanguageId();
+	  },
 	  ensureLangContent: function(id) {
-	    var content = this.get('content');
+	    if (!id) id = this.getCurrentLanguageId();
+	    if (id === 'parent') this.getParentLanguageId();
+
+	    // TODO this shouldn't be necessary
+	    if (!id) return null;
 
 	    // TODO figure out why we try ensure content when removing a block
+	    var content = this.get('content');
 	    if (!content) return null;
 
 	    var langContent;
@@ -72322,13 +72338,16 @@
 
 	    return langContent;
 	  },
-	  ensureContentProp: function(name) {
-	    var langContent = this.ensureLangContent(this.getCurrentLanguageId());
+	  ensureContentProp: function(langId, name) {
+	    // TODO this shouldn't be necessary
+	    var langContent = this.ensureLangContent(langId);
+	    if (!langContent) return null;
+
 	    if (name in langContent) val = langContent[name];
 	    else langContent[name] = val = '';
 	    return val;
 	  },
-	  ensureContentProps: function(id, names) {
+	  ensureContentProps: function(langId, id, names) {
 	    var result = {};
 	    var i = -1;
 	    var n = names.length;
@@ -72336,24 +72355,50 @@
 
 	    while (++i < n) {
 	      name = names[i];
-	      result[name] = this.ensureContentProp([id, name].join('.'));
+	      result[name] = this.ensureContentProp(langId, [id, name].join('.'));
 	    }
 
 	    return result;
 	  },
-	  setContentProp: function(name, v) {
-	    var langContent = this.ensureLangContent(this.getCurrentLanguageId());
+	  setContentProp: function(langId, name, v) {
+	    var langContent = this.ensureLangContent(langId);
+
+	    // TODO this shouldn't be necessary
+	    if (!langContent) return;
+
 	    langContent[name] = v;
 	  },
-	  setContentProps: function(id, names, d) {
+	  setContentProps: function(langId, id, names, d) {
 	    var i = -1;
 	    var n = names.length;
 	    var name;
 
 	    while (++i < n) {
 	      name = names[i];
-	      this.setContentProp([id, name].join('.'), d[name]);
+	      this.setContentProp(langId, [id, name].join('.'), d[name]);
 	    }
+	  },
+	  getForLang: function(langId, name) {
+	    return this.ensureContentProp(langId, name);
+	  },
+	  setForLang: function(langId, name, v) {
+	    this.setContentProp(langId, name, v);
+	  },
+	  getForLangNested: function(langId, name, contentProps) {
+	    return this.ensureStash(name)
+	      .map(function(d) {
+	        var props = this.ensureContentProps(langId, d.id, contentProps);
+	        return _.extend({}, d, props);
+	      }, this);
+	  },
+	  setForLangNested: function(langId, name, contentProps, data) {
+	    data.forEach(function(d) {
+	      this.setContentProps(langId, d.id, contentProps, d);
+	    }, this);
+
+	    this.setStash(name, data.map(function(d) {
+	      return _.omit(d, contentProps);
+	    }));
 	  },
 	  ensureStash: function(name) {
 	    var stash = this.get('stash.', name);
@@ -72448,35 +72493,29 @@
 	});
 
 
-	function newContentProp(name) {
+	function newContentProp(name, langId) {
+	  langId = langId || null;
+
 	  return {
 	    get: function() {
-	      return this.ensureContentProp(name);
+	      return this.getForLang(langId, name);
 	    },
 	    set: function(v) {
-	      this.setContentProp(name, v);
+	      this.setForLang(langId, name, v);
 	    }
 	  };
 	}
 
 
-	function newNestedPropWithContent(name, contentProps) {
+	function newNestedPropWithContent(name, contentProps, langId) {
+	  langId = langId || null;
+
 	  return {
 	    get: function() {
-	      return this.ensureStash(name)
-	        .map(function(d) {
-	          var props = this.ensureContentProps(d.id, contentProps);
-	          return _.extend({}, d, props);
-	        });
+	      return this.getForLangNested(langId, name, contentProps);
 	    },
 	    set: function(data) {
-	      data.forEach(function(d) {
-	        this.setContentProps(d.id, contentProps, d);
-	      }, this);
-
-	      this.setStash(name, data.map(function(d) {
-	        return _.omit(d, contentProps);
-	      }));
+	      this.setForLangNested(langId, name, contentProps, data);
 	    }
 	  };
 	}
@@ -83919,10 +83958,12 @@
 	  },
 	  computed: {
 	    text: newContentProp('text'),
+	    textParent: newContentProp('text', 'parent'),
 	    choices: function() {
 	      return (this.get('allChoices') || []).slice(0, -1);
 	    },
-	    allChoices: newNestedPropWithContent('allChoices', ['text'])
+	    allChoices: newNestedPropWithContent('allChoices', ['text']),
+	    allChoicesParent: newNestedPropWithContent('allChoices', ['text'], 'parent')
 	  },
 	  newChoice: function() {
 	    return {
