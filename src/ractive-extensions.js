@@ -58,9 +58,13 @@ Ractive.prototype.forceUpdate = function(name) {
 };
 
 
+Ractive.prototype.onDeepUpdate = function(){};
+
+
 Ractive.prototype.deepUpdate = function() {
   this.findAllComponents()
     .forEach(function(c) { c.deepUpdate(); });
 
+  this.onDeepUpdate();
   this.update();
 };

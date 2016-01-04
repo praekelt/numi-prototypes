@@ -5,6 +5,7 @@ var drawers = require('../../drawers');
 var Ractive = require('ractive');
 var blockTypes = require('../../components/blocks');
 
+
 // TODO something similar to this for filters
 var BlockLibrary = Ractive.extend({
   template: require('./template.html'),
@@ -23,7 +24,7 @@ var BlockLibrary = Ractive.extend({
   add: function(type) {
     var key = this.get('key');
     var source = this.get('source');
-    var d = blockTypes[type]().get();
+    var d = blockTypes[type].prototype.data();
     d.type = type;
     d.unedited = true;
     d.id = uuid.v4();

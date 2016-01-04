@@ -1,5 +1,6 @@
 window.jQuery = require('jquery');
 window.$ = require('jquery');
+window.log = console.log.bind(console);
 
 require('jquery-ui');
 require('jquery-mousewheel');

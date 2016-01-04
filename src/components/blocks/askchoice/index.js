@@ -7,10 +7,10 @@ var ChooseSequence = require('../../../views/choose-sequence');
 var Chooser = require('../../../views/chooser');
 var Areas = require('../../../area');
 var sapphire = require('../../../../bower_components/sapphire/build/sapphire');
-var proxyBlock = Base.proxyBlock;
-var proxyProp = Base.proxyProp;
 var newContentProp = Base.newContentProp;
+var newRoContentProp = Base.newRoContentProp;
 var newNestedPropWithContent = Base.newNestedPropWithContent;
+var newRoNestedPropWithContent = Base.newRoNestedPropWithContent;
 
 
 var AskChoice = Base.extend({
@@ -35,7 +35,7 @@ var AskChoice = Base.extend({
   },
   computed: {
     text: newContentProp('text'),
-    textParent: newContentProp('text', 'parent'),
+    textParent: newRoContentProp('text', 'parent'),
     choices: function() {
       return (this.get('allChoices') || []).slice(0, -1);
     },
@@ -43,7 +43,8 @@ var AskChoice = Base.extend({
       return (this.get('allChoicesParent') || []).slice(0, -1);
     },
     allChoices: newNestedPropWithContent('allChoices', ['text']),
-    allChoicesParent: newNestedPropWithContent('allChoices', ['text'], 'parent')
+    allChoicesParent: newRoNestedPropWithContent(
+      'allChoices', ['text'], 'parent')
   },
   newChoice: function() {
     return {
@@ -146,8 +147,6 @@ AskChoice.Edit = Base.Edit.extend({
     });
   },
   computed: {
-    text: proxyBlock('text'),
-    allChoices: proxyBlock('allChoices'),
     choices: function() {
       return this.get('allChoices').slice(0, -1);
     },

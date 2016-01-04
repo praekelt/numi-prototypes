@@ -60,17 +60,40 @@ var Base = Ractive.extend({
 
     var edit = this.constructor.Edit({
       el: $('<div>'),
-      data: _.extend(this.get(), {
-        block: this,
-        dialogue: this.get('dialogue')
-      })
+      data: this.getEditData()
     });
 
     edit.on('change', function() {
-      self.set(_.omit(edit.get(), 'block', 'dialogue'));
+      var d = _.omit(edit.get(), self.getEditReadOnlyProps());
+      self.set(d);
     });
 
     return edit;
+  },
+  getEditReadOnlyProps: function() {
+    return _(this.computed)
+      .map(function(prop, name) {
+        return 'set' in prop
+          ? false
+          : name;
+      })
+      .compact()
+      .concat('block', 'dialogue')
+      .value();
+  },
+  getEditData: function() {
+    var d = this.get();
+
+    _.extend(d, _.mapValues(this.computed, function(v, k) {
+      return this.get(k);
+    }, this));
+
+    _.extend(d, {
+      block: this,
+      dialogue: this.get('dialogue')
+    });
+
+    return d;
   },
   selectItem: function(seqId, itemId) {
     this.get('dialogue').selectBlockItem(
@@ -122,27 +145,17 @@ var Base = Ractive.extend({
   getCurrentLanguageId: function() {
     var dialogue = this.get('dialogue');
 
-    // TODO this shouldn't be necessary
-    if (!dialogue) return null;
-
     return this.hasManyLanguages()
       ? dialogue.getCurrentLanguageId()
       : dialogue.getParentLanguageId();
   },
   getParentLanguageId: function() {
     var dialogue = this.get('dialogue');
-
-    // TODO this shouldn't be necessary
-    if (!dialogue) return null;
-
     return dialogue.getParentLanguageId();
   },
   ensureLangContent: function(id) {
     if (id === 'parent') id = this.getParentLanguageId();
     else if (!id) id = this.getCurrentLanguageId();
-
-    // TODO this shouldn't be necessary
-    if (!id) return null;
 
     // TODO figure out why we try ensure content when removing a block
     var content = this.get('content');
@@ -155,12 +168,11 @@ var Base = Ractive.extend({
     return langContent;
   },
   ensureContentProp: function(langId, name) {
-    // TODO this shouldn't be necessary
     var langContent = this.ensureLangContent(langId);
-    if (!langContent) return null;
 
     if (name in langContent) val = langContent[name];
     else langContent[name] = val = '';
+
     return val;
   },
   ensureContentProps: function(langId, id, names) {
@@ -178,20 +190,18 @@ var Base = Ractive.extend({
   },
   setContentProp: function(langId, name, v) {
     var langContent = this.ensureLangContent(langId);
-
-    // TODO this shouldn't be necessary
-    if (!langContent) return;
-
     langContent[name] = v;
   },
   setContentProps: function(langId, id, names, d) {
     var i = -1;
     var n = names.length;
     var name;
+    var v;
 
     while (++i < n) {
       name = names[i];
-      this.setContentProp(langId, [id, name].join('.'), d[name]);
+      v = d[name];
+      this.setContentProp(langId, [id, name].join('.'), v);
     }
   },
   getForLang: function(langId, name) {
@@ -312,19 +322,11 @@ Base.Stats = Ractive.extend({
 });
 
 
-function proxyBlock(propName) {
-  return proxyProp('block', propName);
-}
+function newRoContentProp(name, langId) {
+  langId = langId || null;
 
-
-function proxyProp(targetName, propName) {
-  return {
-    get: function() {
-      return this.get(targetName).get(propName);
-    },
-    set: function(v) {
-      this.get(targetName).set(propName, v);
-    }
+  return function() {
+    return this.getForLang(langId, name);
   };
 }
 
@@ -343,6 +345,15 @@ function newContentProp(name, langId) {
 }
 
 
+function newRoNestedPropWithContent(name, contentProps, langId) {
+  langId = langId || null;
+
+  return function() {
+    return this.getForLangNested(langId, name, contentProps);
+  };
+}
+
+
 function newNestedPropWithContent(name, contentProps, langId) {
   langId = langId || null;
 
@@ -355,7 +366,6 @@ function newNestedPropWithContent(name, contentProps, langId) {
     }
   };
 }
-
 
 
 var totalsChart = sapphire.widgets.lines()
@@ -376,8 +386,9 @@ var totalsChart = sapphire.widgets.lines()
   .y(function(d) { return d[1]; });
 
 
-Base.proxyBlock = proxyBlock;
-Base.proxyProp = proxyProp;
 Base.newContentProp = newContentProp;
 Base.newNestedPropWithContent = newNestedPropWithContent;
+Base.newRoContentProp = newRoContentProp;
+Base.newNestedPropWithContent = newNestedPropWithContent;
+Base.newRoNestedPropWithContent = newRoNestedPropWithContent;
 module.exports = Base;
