@@ -1,14 +1,15 @@
 var Base = require('../base');
 var drawers = require('../../../drawers');
 var Chooser = require('../../../views/chooser');
+var newContentProp = Base.newContentProp;
+var newRoContentProp = Base.newRoContentProp;
 
 
 var Ask = Base.extend({
   template: require('./preview.html'),
-  data: function() {
-    return {
-      text: '',
-    };
+  computed: {
+    text: newContentProp('text'),
+    textParent: newRoContentProp('text', 'parent')
   },
   isComplete: function() {
     return this.get('text');
