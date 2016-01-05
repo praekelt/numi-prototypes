@@ -4,14 +4,39 @@
       <button class="btn btn-default nm-block-action nm-block-edit" on-click="edit()">Edit</button>
       <button class="btn btn-default nm-block-action" on-click="destroy()">Remove</button>
     </div>
+
     <p class="nm-block-title">Question</p>
+    <br/>
+
+    <div class="list-group nm-preview-list {{#isShowingLanguage}}is-showing-language{{/isShowingLanguage}}">
+      {{#isShowingLanguage}}
+      <div class="list-group-item nm-preview-list-item nm-preview-cells nm-preview-list-heading">
+        <div class="nm-preview-cell">
+          {{parentLanguageName}}
+        </div>
+
+        <div class="nm-preview-cell">
+          {{childLanguageName}}
+        </div>
+      </div>
+      {{/isShowingLanguage}}
+
+      <div class="list-group-item nm-preview-list-item nm-preview-cells">
+        {{#isShowingLanguage}}
+        <div class="nm-preview-cell">
+          {{#textParent}}{{textParent}}{{/textParent}}
+          {{^textParent}}<i class="nm-preview-annotation">No content</i>{{/text}}
+        </div>
+        {{/isShowingLanguage}}
+
+        <div class="nm-preview-cell">
+          {{#text}}{{text}}{{/text}}
+          {{^text}}<i class="nm-preview-annotation">No content</i>{{/text}}
+        </div>
+      </div>
+    </div>
 
     <div class="list-group nm-preview-list">
-      <div class="list-group-item nm-preview-list-item">
-        {{#text}}<p>{{text}}</p>{{/text}}
-        {{^text}}<i class="nm-preview-annotation">No content</i>{{/text}}
-      </div>
-
       {{#saveAs}}
       <div class="list-group-item nm-preview-list-item nm-preview-annotation">
         Answer saved as <strong>{{saveAs}}</strong>
