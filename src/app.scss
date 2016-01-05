@@ -107,10 +107,12 @@ body {
     .badge {
       margin-right: 33px;
     }
+
     color: $fg0;
     background: $bg-active0;
     border-color: $bg-active0;
     margin-right: -26px;
+    padding-right: 10px;
   }
 
   &.active:hover, &.active:focus {
