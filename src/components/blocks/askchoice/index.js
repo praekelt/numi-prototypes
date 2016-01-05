@@ -9,8 +9,9 @@ var Areas = require('../../../area');
 var sapphire = require('../../../../bower_components/sapphire/build/sapphire');
 var newContentProp = Base.newContentProp;
 var newRoContentProp = Base.newRoContentProp;
-var newNestedPropWithContent = Base.newNestedPropWithContent;
-var newRoNestedPropWithContent = Base.newRoNestedPropWithContent;
+var newListPropWithContent = Base.newListPropWithContent;
+var newRoListPropWithContent = Base.newRoListPropWithContent;
+var parentAndCurrentListGetter = Base.parentAndCurrentListGetter;
 
 
 var AskChoice = Base.extend({
@@ -42,9 +43,12 @@ var AskChoice = Base.extend({
     choicesParent: function() {
       return (this.get('allChoicesParent') || []).slice(0, -1);
     },
-    allChoices: newNestedPropWithContent('allChoices', ['text']),
-    allChoicesParent: newRoNestedPropWithContent(
-      'allChoices', ['text'], 'parent')
+    choicesPreview: function() {
+      return this.get('allChoicesPreview').slice(0, -1);
+    },
+    allChoices: newListPropWithContent('allChoices', ['text']),
+    allChoicesPreview: parentAndCurrentListGetter('allChoices', ['text']),
+    allChoicesParent: newRoListPropWithContent('allChoices', ['text'], 'parent')
   },
   newChoice: function() {
     return {
@@ -61,10 +65,9 @@ var AskChoice = Base.extend({
   },
   selectChoice(id) {
     var choice = _.find(this.get('allChoices'), {id: id});
-    this.selectItem(choice.route, id);
+    if (choice.route) this.selectItem(choice.route, id);
   },
-  onChoiceClick(e, id) {
-    e.original.preventDefault();
+  onChoiceClick(id) {
     this.selectChoice(id);
   },
   getAnswerCounts() {

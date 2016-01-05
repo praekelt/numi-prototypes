@@ -53,17 +53,98 @@ body {
     color: $bg0;
     background: transparentize($fg1, 0.5);
   }
+}
 
-  .nm-preview-list-item {
+.nm-preview-list {
+  padding: 0;
+
+  &.is-showing-language {
+    .nm-preview-cell {
+      display: inline-block;
+      width: 49%;
+    }
+  }
+
+  & + & {
+    .nm-preview-list-item {
+      border-top: 1px solid $fg4;
+    }
+  }
+}
+
+.nm-preview-list-item {
+  color: $fg0;
+  background: 0;
+  margin: 0 -15px;
+
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid $fg3;
+
+  p {
+    margin-bottom: 0;
+  }
+
+  .badge {
+    margin-right: 20px;
+  }
+
+  &.is-choosable {
+    cursor: pointer;
+    &:hover, &:focus {
+      background: $bg-hover0;
+      border-color: $bg-hover0;
+    }
+  }
+
+  &:last-child {
+    border: 0;
+
+  }
+
+  &.active {
     .badge {
-      margin-right: 20px;
+      margin-right: 33px;
     }
+    color: $fg0;
+    background: $bg-active0;
+    border-color: $bg-active0;
+    margin-right: -26px;
+  }
 
-    &.active {
-      .badge {
-        margin-right: 33px;
-      }
-    }
+  &.active:hover, &.active:focus {
+    color: $fg0;
+    background: $bg-active1;
+    border-color: $bg-active1;
+  }
+}
+
+a.nm-preview-list-item {
+  color: $fg0;
+
+  &:hover, &:focus {
+    text-decoration: none;
+  }
+}
+
+.nm-preview-cells {
+  padding: 0;
+}
+
+.nm-preview-list-heading {
+  .nm-preview-cell {
+    color: $fg1;
+    font-weight: bold;
+    padding-bottom: 6px;
+  }
+}
+
+.nm-preview-cell {
+  padding: 10px 15px;
+
+  &:first-child {
+    border-left: 0;
   }
 }
 
@@ -318,7 +399,7 @@ a.nm-title {
   $bg-sequence-odd: $bg4;
   $bg-sequence-even: $bg5;
 
-  width: 430px;
+  width: 420px;
   display: inline-block;
   height: $body-height;
   white-space: nowrap;
@@ -326,6 +407,10 @@ a.nm-title {
 
   .nm-sequence {
     background: $bg-sequence-even;
+  }
+
+  &.is-showing-language {
+    width: 640px;
   }
 
   &:nth-child(2n+1) .nm-sequence {
@@ -507,46 +592,6 @@ a.nm-title {
 
 .nm-choice-placeholder {
   color: $fg1 !important;
-}
-
-.nm-preview-list {
-  padding: 0;
-}
-
-.nm-preview-list-item {
-  color: $fg0;
-  background: 0;
-  margin: 0 -15px;
-
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  border-bottom: 1px solid $fg3;
-
-  &:last-child {
-    border: 0;
-  }
-
-  &.active {
-    color: $fg0;
-    background: $bg-active0;
-    border: $bg-active0;
-    margin-right: -26px;
-  }
-
-  &.active:hover, &.active:focus {
-    color: $fg0;
-    background: $bg-active1;
-    border: $bg-active1;
-  }
-}
-
-a.nm-preview-list-item {
-  color: $fg0;
-
-  &:hover, &:focus {
-    text-decoration: none;
-  }
 }
 
 .nm-preview-arrow {

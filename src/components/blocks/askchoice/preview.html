@@ -7,53 +7,85 @@
     <p class="nm-block-title">Multiple Choice Question</p>
 
     <br/>
-    <div class="list-group nm-preview-list">
-      <div class="list-group-item nm-preview-list-item">
-        {{#text}}{{text}}{{/text}}
-        {{^text}}<i class="nm-preview-annotation">No content</i>{{/text}}
+
+    <div class="list-group nm-preview-list {{#isShowingLanguage}}is-showing-language{{/isShowingLanguage}}">
+      {{#isShowingLanguage}}
+      <div class="list-group-item nm-preview-list-item nm-preview-cells nm-preview-list-heading">
+        <div class="nm-preview-cell">
+          {{parentLanguageName}}
+        </div>
+
+        <div class="nm-preview-cell">
+          {{childLanguageName}}
+        </div>
+      </div>
+      {{/isShowingLanguage}}
+
+      <div class="list-group-item nm-preview-list-item nm-preview-cells">
+        {{#isShowingLanguage}}
+        <div class="nm-preview-cell">
+          {{#textParent}}{{textParent}}{{/textParent}}
+          {{^textParent}}<i class="nm-preview-annotation">No content</i>{{/text}}
+        </div>
+        {{/isShowingLanguage}}
+
+        <div class="nm-preview-cell">
+          {{#text}}{{text}}{{/text}}
+          {{^text}}<i class="nm-preview-annotation">No content</i>{{/text}}
+        </div>
       </div>
 
-      {{#choices:i}}
-        {{#route}}
-        <a class="list-group-item nm-preview-list-item {{#activeBlockItemId === id}}active{{/}}" on-click="onChoiceClick(event, id)" href="#">
-          <span class="nm-preview-arrow glyphicon glyphicon-menu-right pull-right"></span>
+      {{#choicesPreview:i}}
+      <div class="list-group-item nm-preview-list-item nm-preview-cells {{#activeBlockItemId === current.id}}active{{/}} {{#current.route}}is-choosable{{/}}" on-click="onChoiceClick(current.id)" href="#">
 
+        {{#current.route}}
+        <span class="nm-preview-arrow glyphicon glyphicon-menu-right pull-right"></span>
+        {{/current.route}}
+
+        {{#isShowingLanguage}}
+        {{#parent}}
+        <div class="nm-preview-cell">
           <p>
           {{i + 1}}. {{text}}
-
-          {{#publishCount > 0}}
-          <span class="badge pull-right">
-            {{formatValue(_.sum(answerCounts))}}
-          </span>
-          {{/}}
           </p>
 
-          <p>&nbsp↳ {{getSequenceName(route)}}</p>
-        </a>
-        {{/route}}
-
-        {{^route}}
-        <div class="list-group-item nm-preview-list-item"href="#">
-          <p>
-          {{i + 1}}. {{text}}
-
-          {{#publishCount > 0}}
-          <span class="badge pull-right">
-            {{formatValue(_.sum(answerCounts))}}
-          </span>
+          {{#current.route}}
+          <p>&nbsp↳ {{getSequenceName(current.route)}}</p>
           {{/}}
-          </p>
-
         </div>
-        {{/route}}
-      {{/choices}}
+        {{/parent}}
+        {{/isShowingLanguage}}
 
-      {{#saveAs}}
+        {{#current}}
+        <div class="nm-preview-cell">
+          <p>
+          {{i + 1}}. {{text}}
+
+          {{#route}}
+          {{#publishCount > 0}}
+          <span class="badge pull-right">
+            {{formatValue(_.sum(answerCounts))}}
+          </span>
+          {{/}}
+          {{/route}}
+          </p>
+
+          {{#route}}
+          <br>
+          {{/route}}
+        </div>
+        {{/current}}
+      </div>
+      {{/choicesPreview}}
+    </div>
+
+    {{#saveAs}}
+    <div class="list-group nm-preview-list">
       <div class="list-group-item nm-preview-list-item nm-preview-annotation">
         Answer saved as <strong>{{saveAs}}</strong>
       </div>
-      {{/saveAs}}
     </div>
+    {{/saveAs}}
   </div>
 
   <div class="panel-footer">

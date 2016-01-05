@@ -111,6 +111,9 @@ var Base = Ractive.extend({
       if (!dialogue) return false;
       return !!dialogue.get('shownLanguageId');
     },
+    isNotShowingLanguage: function() {
+      return !this.get('isShowingLanguage');
+    },
     parentLanguageName: function() {
       return dashboard.getLanguageName(this.getParentLanguageId());
     },
@@ -152,6 +155,9 @@ var Base = Ractive.extend({
   getParentLanguageId: function() {
     var dialogue = this.get('dialogue');
     return dialogue.getParentLanguageId();
+  },
+  parentIsCurrentLanguage() {
+    return this.getCurrentLanguageId() === this.getParentLanguageId();
   },
   ensureLangContent: function(id) {
     if (id === 'parent') id = this.getParentLanguageId();
@@ -211,14 +217,14 @@ var Base = Ractive.extend({
     this.setContentProp(langId, name, v);
     this.update(name);
   },
-  getForLangNested: function(langId, name, contentProps) {
+  getForLangList: function(langId, name, contentProps) {
     return this.ensureStash(name)
       .map(function(d) {
         var props = this.ensureContentProps(langId, d.id, contentProps);
         return _.extend({}, d, props);
       }, this);
   },
-  setForLangNested: function(langId, name, contentProps, data) {
+  setForLangList: function(langId, name, contentProps, data) {
     data.forEach(function(d) {
       this.setContentProps(langId, d.id, contentProps, d);
     }, this);
@@ -345,26 +351,43 @@ function newContentProp(name, langId) {
 }
 
 
-function newRoNestedPropWithContent(name, contentProps, langId) {
+function newRoListPropWithContent(name, contentProps, langId) {
   langId = langId || null;
 
   return function() {
-    return this.getForLangNested(langId, name, contentProps);
+    return this.getForLangList(langId, name, contentProps);
   };
 }
 
 
-function newNestedPropWithContent(name, contentProps, langId) {
+function newListPropWithContent(name, contentProps, langId) {
   langId = langId || null;
 
   return {
     get: function() {
-      return this.getForLangNested(langId, name, contentProps);
+      return this.getForLangList(langId, name, contentProps);
     },
     set: function(data) {
-      this.setForLangNested(langId, name, contentProps, data);
+      this.setForLangList(langId, name, contentProps, data);
     }
   };
+}
+
+
+function parentAndCurrentListGetter(name, contentProps) {
+  return function() {
+    return hashzip(['parent', 'current'], [
+        this.getForLangList('parent', name, contentProps),
+        this.getForLangList(null, name, contentProps)
+    ]);
+  };
+}
+
+
+function hashzip(names, lists) {
+  return _.zipWith.apply(_, lists.concat(function(a, v, i, group) {
+    return _.zipObject(names, group);
+  }));
 }
 
 
@@ -387,8 +410,9 @@ var totalsChart = sapphire.widgets.lines()
 
 
 Base.newContentProp = newContentProp;
-Base.newNestedPropWithContent = newNestedPropWithContent;
+Base.newListPropWithContent = newListPropWithContent;
 Base.newRoContentProp = newRoContentProp;
-Base.newNestedPropWithContent = newNestedPropWithContent;
-Base.newRoNestedPropWithContent = newRoNestedPropWithContent;
+Base.newListPropWithContent = newListPropWithContent;
+Base.newRoListPropWithContent = newRoListPropWithContent;
+Base.parentAndCurrentListGetter = parentAndCurrentListGetter;
 module.exports = Base;
