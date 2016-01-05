@@ -56,8 +56,6 @@ body {
 }
 
 .nm-preview-list {
-  padding: 0;
-
   &.is-showing-language {
     .nm-preview-cell {
       display: inline-block;
@@ -76,6 +74,7 @@ body {
   color: $fg0;
   background: 0;
   margin: 0 -15px;
+  padding: 15px;
 
   border-top: none;
   border-left: none;
@@ -143,7 +142,7 @@ a.nm-preview-list-item {
 }
 
 .nm-preview-cell {
-  padding: 10px 15px;
+  padding: 15px;
 
   &:first-child {
     border-left: 0;
