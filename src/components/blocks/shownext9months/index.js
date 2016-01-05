@@ -1,18 +1,21 @@
 var Base = require('../base');
 var drawers = require('../../../drawers');
 var Chooser = require('../../../views/chooser');
+var newContentProp = Base.newContentProp;
+var newRoContentProp = Base.newRoContentProp;
 
 
 var NextNMonths = Base.extend({
   template: require('./preview.html'),
   data: function() {
     return {
-      text: '',
       saveAs: '',
       monthsAfter: 9
     };
   },
   computed: {
+    text: newContentProp('text'),
+    textParent: newRoContentProp('text', 'parent'),
     exampleMonths: function() {
       return [
         "Nov",

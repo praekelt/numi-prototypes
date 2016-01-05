@@ -64,7 +64,7 @@ body {
   }
 
   & + & {
-    .nm-preview-list-item {
+    .nm-preview-list-item:first-child {
       border-top: 1px solid $fg4;
     }
   }
