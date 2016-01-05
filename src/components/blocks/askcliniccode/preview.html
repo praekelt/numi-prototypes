@@ -4,34 +4,57 @@
       <button class="btn btn-default nm-block-action nm-block-edit" on-click="edit()">Edit</button>
       <button class="btn btn-default nm-block-action" on-click="destroy()">Remove</button>
     </div>
-    <p class="nm-block-title">Ask for clinic code</p>
 
+    <p class="nm-block-title">Ask for clinic code</p>
     <br/>
-    <div class="list-group nm-preview-list">
-      <div class="list-group-item nm-preview-list-item">
-        <div class="list-group-item-text">
+
+    <div class="list-group nm-preview-list {{#isShowingLanguage}}is-showing-language{{/isShowingLanguage}}">
+      {{#isShowingLanguage}}
+      <div class="list-group-item nm-preview-list-item nm-preview-cells nm-preview-list-heading">
+        <div class="nm-preview-cell">
+          {{parentLanguageName}}
+        </div>
+
+        <div class="nm-preview-cell">
+          {{childLanguageName}}
+        </div>
+      </div>
+      {{/isShowingLanguage}}
+
+      <div class="list-group-item nm-preview-list-item nm-preview-cells">
+        {{#isShowingLanguage}}
+        <div class="nm-preview-cell">
+          {{#textParent}}{{textParent}}{{/textParent}}
+          {{^textParent}}<i class="nm-preview-annotation">No question content</i>{{/text}}
+        </div>
+        {{/isShowingLanguage}}
+
+        <div class="nm-preview-cell">
           {{#text}}{{text}}{{/text}}
           {{^text}}<i class="nm-preview-annotation">No question content</i>{{/text}}
         </div>
       </div>
 
-      <div class="list-group-item nm-preview-list-item">
-        <div class="list-group-item-text">
-          {{^invalidInputText}}
-          <i class="nm-preview-annotation">
-            No invalid input content
-          </i>
-          {{/invalidInputText}}
-
-          {{#invalidInputText}}
+      <div class="list-group-item nm-preview-list-item nm-preview-cells">
+        <div class="nm-preview-extra">
           <p class="nm-preview-annotation">If invalid input is given, show:</p>
-          <p>
-            {{invalidInputText}}
-          </p>
-          {{/invalidInputText}}
+        </div>
+
+        {{#isShowingLanguage}}
+        <div class="nm-preview-cell">
+          {{#invalidInputTextParent}}{{invalidInputTextParent}}{{/invalidInputTextParent}}
+          {{^invalidInputTextParent}}<i class="nm-preview-annotation">No invalid input content</i>{{/invalidInputText}}
+        </div>
+        {{/isShowingLanguage}}
+
+        <div class="nm-preview-cell">
+          {{#invalidInputText}}{{invalidInputText}}{{/invalidInputText}}
+          {{^invalidInputText}}<i class="nm-preview-annotation">No invalid input content</i>{{/invalidInputText}}
         </div>
       </div>
+    </div>
 
+    <div class="list-group nm-preview-list">
       <div class="list-group-item nm-preview-list-item">
         <div class="list-group-item-text nm-preview-annotation">
           {{#saveAs}}
@@ -54,21 +77,21 @@
     {{/isComplete}}
 
     {{#publishCount > 0}}
-      <div class="btn-group btn-group-xs pull-right">
-        <button on-click="showStats()" class="btn btn-default nm-block-action">
-          Views
-          <span class="badge">
-            {{formatValue(_.sum(stats.views))}}
-          </span>
-        </button>
+    <div class="btn-group btn-group-xs pull-right">
+      <button on-click="showStats()" class="btn btn-default nm-block-action">
+        Views
+        <span class="badge">
+          {{formatValue(_.sum(stats.views))}}
+        </span>
+      </button>
 
-        <button on-click="showStats()" class="btn btn-default nm-block-action">
-          Timeouts
-          <span class="badge">
-            {{formatValue(_.sum(stats.timeouts))}}
-          </span>
-        </button>
-      </div>
+      <button on-click="showStats()" class="btn btn-default nm-block-action">
+        Timeouts
+        <span class="badge">
+          {{formatValue(_.sum(stats.timeouts))}}
+        </span>
+      </button>
+    </div>
     {{/}}
   </div>
 </div>

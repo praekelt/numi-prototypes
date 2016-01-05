@@ -1,13 +1,20 @@
 var Base = require('../base');
 var drawers = require('../../../drawers');
 var Chooser = require('../../../views/chooser');
+var newContentProp = Base.newContentProp;
+var newRoContentProp = Base.newRoContentProp;
 
 
 var Ask = Base.extend({
   template: require('./preview.html'),
+  computed: {
+    text: newContentProp('text'),
+    textParent: newRoContentProp('text', 'parent'),
+    invalidInputText: newContentProp('invalidInputText'),
+    invalidInputTextParent: newRoContentProp('invalidInputText', 'parent'),
+  },
   data: function() {
     return {
-      text: '',
       saveAs: 'Clinic Code'
     };
   },
