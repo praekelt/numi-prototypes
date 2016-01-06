@@ -1,9 +1,9 @@
 var _ = require('lodash');
 var drawers = require('../../drawers');
-var Ractive = require('ractive');
+var Drawer = require('../drawer');
 
 
-module.exports = Ractive.extend({
+module.exports = Drawer.extend({
   template: require('./template.html'),
   choose: function(e, id, d) {
     e.original.preventDefault();

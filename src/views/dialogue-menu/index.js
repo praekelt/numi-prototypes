@@ -1,10 +1,10 @@
 var drawers = require('../../drawers');
-var Ractive = require('ractive');
+var Drawer = require('../drawer');
 var ManageLanguages = require('../manage-languages');
 var ChooseLanguage = require('../choose-language');
 
 
-module.exports = Ractive.extend({
+module.exports = Drawer.extend({
   template: require('./template.html'),
   data: function() {
     return {languages: dashboard.get('languages')};

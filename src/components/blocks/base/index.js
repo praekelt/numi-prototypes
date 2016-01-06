@@ -2,6 +2,7 @@ var d3 = require('d3');
 var $ = require('jquery');
 var _ = require('lodash');
 var Ractive = require('ractive');
+var Drawer = require('../../../views/drawer');
 var drawers = require('../../../drawers');
 var sapphire = require('../../../../bower_components/sapphire/build/sapphire');
 
@@ -247,18 +248,15 @@ var Base = Ractive.extend({
 });
 
 
-Base.Edit = Ractive.extend({
-  close: function() {
-    drawers.close(this);
-  },
+Base.Edit = Drawer.extend({
   destroy: function() {
     this.get('block').destroy();
-    this.close();
+    this.back();
   }
 });
 
 
-Base.Stats = Ractive.extend({
+Base.Stats = Drawer.extend({
   template: require('./stats.html'),
   oncomplete: function() {
     this.draw();
@@ -321,9 +319,6 @@ Base.Stats = Ractive.extend({
       .datum(this.get('stats'))
       .call(totalsChart)
       .call(this.appendPublishTimes.bind(this));
-  },
-  close: function() {
-    drawers.close(this);
   }
 });
 

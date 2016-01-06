@@ -1,11 +1,11 @@
 var _ = require('lodash');
-var Ractive = require('ractive');
+var Drawer = require('../drawer');
 var drawers = require('../../drawers');
 var conditions = require('../../components/conditions');
 
 
 // TODO something similar to this for filters
-var ConditionLibrary = Ractive.extend({
+var ConditionLibrary = Drawer.extend({
   template: require('./template.html'),
   close() {
     drawers.close(this);

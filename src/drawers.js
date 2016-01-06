@@ -12,8 +12,7 @@ function close(view, duration) {
   var i = stack.length - 1;
   if (view) i = _.findIndex(stack, {view: view});
   if (i < 0) return Promise.resolve();
-  var drawer = stack[i];
-  stack.splice(i, 1);
+  var drawer = stack[i]; stack.splice(i, 1);
 
   return new Promise(function(resolve, reject) {
     drawer.$el
@@ -28,6 +27,12 @@ function close(view, duration) {
         }
       });
   });
+}
+
+
+function closeAll() {
+  stack.splice(0, stack.length - 1);
+  close();
 }
 
 
@@ -77,6 +82,11 @@ function change(view) {
 }
 
 
+function isFirst(view) {
+  return _.findIndex(stack, {view: view}) === 0;
+}
+
+
 function newDrawer(opts) {
   opts = _.defaults({}, opts || {}, {isThin: false});
 
@@ -101,5 +111,7 @@ function focusFirstInput(el) {
 
 
 exports.close = close;
+exports.closeAll = closeAll;
 exports.open = open;
 exports.change = change;
+exports.isFirst = isFirst;

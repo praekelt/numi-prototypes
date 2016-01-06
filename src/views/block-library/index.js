@@ -3,11 +3,12 @@ var _ = require('lodash');
 var uuid = require('node-uuid');
 var drawers = require('../../drawers');
 var Ractive = require('ractive');
+var Drawer = require('../drawer');
 var blockTypes = require('../../components/blocks');
 
 
 // TODO something similar to this for filters
-var BlockLibrary = Ractive.extend({
+var BlockLibrary = Drawer.extend({
   template: require('./template.html'),
   data: function() {
     return BlockLibrary.data;
@@ -43,9 +44,6 @@ var BlockLibrary = Ractive.extend({
 
     if (_.find(this.get('recent'), d)) return;
     this.push('recent', d);
-  },
-  close() {
-    drawers.close(this);
   },
   toggle: function(e, key) {
     e.original.preventDefault();

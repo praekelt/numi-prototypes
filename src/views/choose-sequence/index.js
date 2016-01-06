@@ -1,9 +1,9 @@
 var drawers = require('../../drawers');
 var Chooser = require('../../views/chooser');
-var Ractive = require('ractive');
+var Drawer = require('../../views/drawer');
 
 
-module.exports = Ractive.extend({
+module.exports = Drawer.extend({
   template: require('./template.html'),
   addSequence: function() {
     var seq = this.get('dialogue').addSequence(this.get('newSequenceName'));
@@ -34,8 +34,5 @@ module.exports = Ractive.extend({
   },
   choose: function(id) {
     this.fire('chosen', id);
-  },
-  close: function() {
-    drawers.close(this);
   }
 });

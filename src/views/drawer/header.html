@@ -1,0 +1,11 @@
+  <h3 class="page-header">
+    {{title}}
+
+    <div class="pull-right">
+      {{^isFirstDrawer}}
+      <button class="btn btn-link nm-text-top" on-click="back()">← Back</button>
+      {{/isFirstDrawer}}
+
+      <button class="close" on-click="close()">&times</button>
+    </div>
+  </h3>

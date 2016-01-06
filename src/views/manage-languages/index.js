@@ -1,8 +1,7 @@
-var drawers = require('../../drawers');
-var Ractive = require('ractive');
+var Drawer = require('../drawer');
 
 
-module.exports = Ractive.extend({
+module.exports = Drawer.extend({
   template: require('./template.html'),
   setAsParent: function(id) {
     dashboard.setAsParentLanguage(id);
@@ -29,8 +28,5 @@ module.exports = Ractive.extend({
   },
   onchange: function(d) {
     dashboard.set('languages', this.get('languages'));
-  },
-  close: function() {
-    drawers.close(this);
   }
 });

@@ -1,53 +1,49 @@
-<h3 class="page-header">
-  Condition Library
+<div>
+  {{>header {title: "Condition Library"}}}
 
-  <button class="btn btn-link pull-right" on-click="close()">
-    ← Back
-  </button>
-</h3>
-
-<div class="nm-block-pallete-menu">
-  <div class="nm-block-pallete-title nm-block-pallete-title-palletes">Palletes</div>
-  <ul class="nav nav-pills nav-stacked">
-    {{#palletes}}
-    <li class="{{#activePalleteKey === key}}active{{/}}">
-      <a href="#" on-click="setActivePallete(event, key)">{{name}}</a>
-    </li>
-    {{/pallete}}
-  </ul>
-</div>
-
-<div class="nm-block-pallete">
-  <div class="nm-block-pallete-title nm-block-pallete-title-blocks">Conditions</div>
-  {{#activePallete}}
-  <div class="list-group">
-    {{#categories}}
-    <div class="list-group-item">
-      <div class="list-group-item-heading">{{name}}</div>
-
-
-      <div class="list-body-item-text">
-        {{#conditions}}
-        <div class="collapse alert alert-info alert-dismissible" id="{{type}}-help" data-toggle="collapse" data-target="#{{type}}-help">
-          <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
-          <p>{{helptext}}</p>
-        </div>
-        {{/conditions}}
-
-        {{#conditions}}
-        <div class="btn-group nm-library-block">
-          <button class="btn btn-default nm-placeholder nm-placeholder-block" on-click="add(this)">{{name}}</button>
-
-          {{#helptext}}
-          <button type="button" class="btn btn-default nm-placeholder nm-placeholder-block" data-toggle="collapse" data-target="#{{type}}-help">
-            <span class="glyphicon glyphicon-question-sign"></span>
-          </button>
-          {{/helptext}}
-        </div>
-        {{/conditions}}
-      </div>
-    </div>
-    {{/categories}}
+  <div class="nm-block-pallete-menu">
+    <div class="nm-block-pallete-title nm-block-pallete-title-palletes">Palletes</div>
+    <ul class="nav nav-pills nav-stacked">
+      {{#palletes}}
+      <li class="{{#activePalleteKey === key}}active{{/}}">
+        <a href="#" on-click="setActivePallete(event, key)">{{name}}</a>
+      </li>
+      {{/pallete}}
+    </ul>
   </div>
-  {{/activePallete}}
+
+  <div class="nm-block-pallete">
+    <div class="nm-block-pallete-title nm-block-pallete-title-blocks">Conditions</div>
+    {{#activePallete}}
+    <div class="list-group">
+      {{#categories}}
+      <div class="list-group-item">
+        <div class="list-group-item-heading">{{name}}</div>
+
+
+        <div class="list-body-item-text">
+          {{#conditions}}
+          <div class="collapse alert alert-info alert-dismissible" id="{{type}}-help" data-toggle="collapse" data-target="#{{type}}-help">
+            <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
+            <p>{{helptext}}</p>
+          </div>
+          {{/conditions}}
+
+          {{#conditions}}
+          <div class="btn-group nm-library-block">
+            <button class="btn btn-default nm-placeholder nm-placeholder-block" on-click="add(this)">{{name}}</button>
+
+            {{#helptext}}
+            <button type="button" class="btn btn-default nm-placeholder nm-placeholder-block" data-toggle="collapse" data-target="#{{type}}-help">
+              <span class="glyphicon glyphicon-question-sign"></span>
+            </button>
+            {{/helptext}}
+          </div>
+          {{/conditions}}
+        </div>
+      </div>
+      {{/categories}}
+    </div>
+    {{/activePallete}}
+  </div>
 </div>

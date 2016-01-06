@@ -1,11 +1,5 @@
 <div>
-  <button class="btn btn-link pull-right" on-click="close()">
-    ← Back
-  </button>
-
-  <h3 class="page-header">
-    {{title}}
-  </h3>
+  {{>header {title: title}}}
 
   <div class="list-group">
     {{#items}}

@@ -1,17 +1,5 @@
 <div>
-  {{#useclose}}
-  <button class="close" on-click="close()">&times</button>
-  {{/useClose}}
-
-  {{^useClose}}
-  <button class="btn btn-link pull-right" on-click="close()">
-    ← Back
-  </button>
-  {{/useClose}}
-
-  <h3 class="page-header">
-    Languages
-  </h3>
+  {{>header {title: "Languages"}}}
 
   <div class="nm-form">
     <div class="nm-rows">
