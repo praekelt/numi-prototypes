@@ -18,7 +18,10 @@
       {{#languages}}
       <div class="nm-row">
         <div class="nm-cell nm-cell-17">
-          <input type="text" value="{{name}}">
+          <input class="nm-lang-name" type="text" value="{{name}}" placeholder="Enter a name for this language">
+          {{#isParent}}
+          <small class="nm-annotation">(Parent)</small>
+          {{/isParent}}
         </div>
 
         <button class="btn nm-cell nm-cell-btn nm-cell-4" on-click="setAsParent(id)" {{#isParent}}disabled{{/isParent}}>Set as parent</button>
