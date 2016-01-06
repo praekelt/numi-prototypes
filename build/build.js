@@ -71805,6 +71805,7 @@
 	var _ = __webpack_require__(15);
 	var Drawer = __webpack_require__(141);
 	var ManageLanguages = __webpack_require__(140);
+	var drawers = __webpack_require__(47);
 
 
 	module.exports = Drawer.extend({

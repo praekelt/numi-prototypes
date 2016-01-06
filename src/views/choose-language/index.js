@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var Drawer = require('../../views/drawer');
 var ManageLanguages = require('../manage-languages');
+var drawers = require('../../drawers');
 
 
 module.exports = Drawer.extend({
