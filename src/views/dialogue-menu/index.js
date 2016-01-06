@@ -19,9 +19,6 @@ module.exports = Drawer.extend({
       self.set('languages', dashboard.get('languages'));
     });
   },
-  close: function() {
-    drawers.close(this);
-  },
   changeCampaign: function() {
   },
   manageLanguages: function() {
@@ -37,8 +34,7 @@ module.exports = Drawer.extend({
 
     chooser.once('chosen', function(languageId) {
       self.get('dialogue').showLanguage(languageId);
-      drawers.close(chooser);
-      drawers.close(self);
+      self.close();
     });
 
     drawers.open(chooser);

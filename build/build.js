@@ -59748,7 +59748,9 @@
 	  var i = stack.length - 1;
 	  if (view) i = _.findIndex(stack, {view: view});
 	  if (i < 0) return Promise.resolve();
-	  var drawer = stack[i]; stack.splice(i, 1);
+
+	  var drawer = stack[i];
+	  stack.splice(i, 1);
 
 	  return new Promise(function(resolve, reject) {
 	    drawer.$el
@@ -59767,8 +59769,7 @@
 
 
 	function closeAll() {
-	  stack.splice(0, stack.length - 1);
-	  close();
+	  while (stack.length) close();
 	}
 
 
@@ -71691,9 +71692,6 @@
 	      self.set('languages', dashboard.get('languages'));
 	    });
 	  },
-	  close: function() {
-	    drawers.close(this);
-	  },
 	  changeCampaign: function() {
 	  },
 	  manageLanguages: function() {
@@ -71709,8 +71707,7 @@
 
 	    chooser.once('chosen', function(languageId) {
 	      self.get('dialogue').showLanguage(languageId);
-	      drawers.close(chooser);
-	      drawers.close(self);
+	      self.close();
 	    });
 
 	    drawers.open(chooser);
@@ -71832,9 +71829,6 @@
 	      showParent: true,
 	      languages: dashboard.get('languages')
 	    };
-	  },
-	  close: function() {
-	    drawers.close(this);
 	  }
 	});
 

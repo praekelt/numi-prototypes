@@ -25,8 +25,5 @@ module.exports = Drawer.extend({
       showParent: true,
       languages: dashboard.get('languages')
     };
-  },
-  close: function() {
-    drawers.close(this);
   }
 });
