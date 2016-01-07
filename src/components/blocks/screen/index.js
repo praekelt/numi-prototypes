@@ -3,12 +3,15 @@ var proxyBlock = Base.proxyBlock;
 
 
 var Screen = Base.extend({
+  data: {
+    highCharCount: 140
+  },
   computed: {
     charCount: function() {
       return 0;
     },
     charCountIsHigh: function() {
-      return this.get('charCount') > 140;
+      return this.get('charCount') > this.get('highCharCount');
     }
   }
 });

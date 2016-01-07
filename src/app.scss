@@ -1096,8 +1096,17 @@ a.nm-list-group-item-drawer-secondary {
   color: $fg-warning1;
 }
 
+.nm-cell-info {
+  background: $bg8;
+  padding: 4px 8px;
+}
+
+.nm-row-info:not(:first-child) {
+  border-top: 1px solid $bg3;
+}
+
 .nm-cell-footer {
-  background: $bg3;
+  background: $bg8;
   padding: 4px 8px;
 }
 
