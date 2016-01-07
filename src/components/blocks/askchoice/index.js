@@ -37,13 +37,13 @@ var AskChoice = Screen.extend({
   },
   computed: {
     charCount: function() {
-      return this.get('text').length + this.get('choices')
-        .map(function(d, i) {
-          return ['\n', i, '. ', d.text]
-            .join('')
-            .length;
-        })
-      .reduce(_.add, 0);
+      return [this.get('text')]
+        .concat(this.get('choices')
+          .map(function(d, i) {
+            return [i, '. ', d.text].join('');
+          }))
+        .join('\n')
+        .length;
     },
     text: newContentProp('text'),
     textParent: newRoContentProp('text', 'parent'),
