@@ -63,6 +63,7 @@
         {{/languageId}}
 
         <button class="nm-cell nm-cell-btn nm-cell-3 btn {{# i === allChoices.length - 1}}disabled{{/}}" on-click="removeChoice(id)">Remove</button>
+      </div>
       {{/allChoices}}
     </div>
 
@@ -74,6 +75,14 @@
           </label>
 
           <input type="text" value="{{saveAs}}">
+        </div>
+      </div>
+    </div>
+
+    <div class="nm-rows nm-rows-footer">
+      <div class="nm-row">
+        <div class="nm-cell nm-cell-footer">
+          <span class="nm-static-input nm-cell-annotation {{#charCountIsHigh}}nm-cell-annotation-warning{{/charCountIsHigh}}">{{charCount}} characters used</span>
         </div>
       </div>
     </div>
