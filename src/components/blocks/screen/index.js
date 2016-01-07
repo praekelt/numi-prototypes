@@ -1,19 +1,23 @@
 var Base = require('../base');
 
 
-var Screen = Base.extend();
+var Screen = Base.extend({
+  computed: {
+    charCount: function() {
+      return 0;
+    },
+    charCountIsHigh: function() {
+      return this.get('charCount') > 140;
+    }
+  }
+});
 
 
 Screen.Edit = Base.Edit.extend({
-  data: {
-    charCount: 0,
-    highCharCount: 140
-  },
-  computed: {
-    charCountIsHigh: function() {
-      return this.get('charCount') > this.get('highCharCount');
-    }
-  }
+  // We can't dynamically delegate to the relevant Screen's computed
+  // properties, Ractive.js doesn't seem able to react to changes that way.
+  // Instead, we borrow the properties.
+  computed: Screen.prototype.computed
 });
 
 

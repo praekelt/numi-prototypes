@@ -36,6 +36,15 @@ var AskChoice = Screen.extend({
     this.resetTotals();
   },
   computed: {
+    charCount: function() {
+      return this.get('text').length + this.get('choices')
+        .map(function(d, i) {
+          return ['\n', i, '. ', d.text]
+            .join('')
+            .length;
+        })
+      .reduce(_.add, 0);
+    },
     text: newContentProp('text'),
     textParent: newRoContentProp('text', 'parent'),
     choices: function() {
@@ -151,15 +160,7 @@ AskChoice.Edit = Screen.Edit.extend({
     });
   },
   computed: {
-    charCount: function() {
-      return this.get('text').length + this.get('choices')
-        .map(function(d, i) {
-          return ['\n', i, '. ', d.text]
-            .join('')
-            .length;
-        })
-        .reduce(_.add);
-    },
+    charCount: AskChoice.prototype.computed.charCount,
     choices: function() {
       return this.get('allChoices').slice(0, -1);
     },
