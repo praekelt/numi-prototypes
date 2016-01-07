@@ -159,6 +159,9 @@ AskChoice.Edit = Base.Edit.extend({
         })
         .reduce(_.add);
     },
+    charCountIsHigh: function() {
+      return this.get('charCount') > 140;
+    },
     choices: function() {
       return this.get('allChoices').slice(0, -1);
     },
