@@ -71672,8 +71672,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var drawers = __webpack_require__(47);
-	var Drawer = __webpack_require__(141);
-	var ManageLanguages = __webpack_require__(140);
+	var Drawer = __webpack_require__(140);
+	var ManageLanguages = __webpack_require__(142);
 	var ChooseLanguage = __webpack_require__(144);
 
 
@@ -71719,7 +71719,46 @@
 /* 140 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Drawer = __webpack_require__(141);
+	var drawers = __webpack_require__(47);
+	var Ractive = __webpack_require__(17);
+
+
+	var Drawer = Ractive.extend({
+	  partials: {header: __webpack_require__(141)},
+	  oncomplete: function() {
+	    this.update('isFirstDrawer');
+	  },
+	  computed: {
+	    isFirstDrawer: function() {
+	      return drawers.isFirst(this);
+	    }
+	  },
+	  open: function() {
+	    drawers.open(this);
+	  },
+	  close: function() {
+	    drawers.closeAll();
+	  },
+	  back: function() {
+	    drawers.close(this);
+	  }
+	});
+
+
+	module.exports = Drawer;
+
+
+/***/ },
+/* 141 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":[{"t":2,"r":"title"}," ",{"t":7,"e":"div","a":{"class":"pull-right"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-link nm-text-top"},"v":{"click":{"m":"back","a":{"r":[],"s":"[]"}}},"f":["← Back"]}],"n":51,"r":"isFirstDrawer"}," ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}]}]};
+
+/***/ },
+/* 142 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Drawer = __webpack_require__(140);
 
 
 	module.exports = Drawer.extend({
@@ -71754,45 +71793,6 @@
 
 
 /***/ },
-/* 141 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var drawers = __webpack_require__(47);
-	var Ractive = __webpack_require__(17);
-
-
-	var Drawer = Ractive.extend({
-	  partials: {header: __webpack_require__(142)},
-	  oncomplete: function() {
-	    this.update('isFirstDrawer');
-	  },
-	  computed: {
-	    isFirstDrawer: function() {
-	      return drawers.isFirst(this);
-	    }
-	  },
-	  open: function() {
-	    drawers.open(this);
-	  },
-	  close: function() {
-	    drawers.closeAll();
-	  },
-	  back: function() {
-	    drawers.close(this);
-	  }
-	});
-
-
-	module.exports = Drawer;
-
-
-/***/ },
-/* 142 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":[{"t":2,"r":"title"}," ",{"t":7,"e":"div","a":{"class":"pull-right"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-link nm-text-top"},"v":{"click":{"m":"back","a":{"r":[],"s":"[]"}}},"f":["← Back"]}],"n":51,"r":"isFirstDrawer"}," ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}]}]};
-
-/***/ },
 /* 143 */
 /***/ function(module, exports) {
 
@@ -71803,8 +71803,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(15);
-	var Drawer = __webpack_require__(141);
-	var ManageLanguages = __webpack_require__(140);
+	var Drawer = __webpack_require__(140);
+	var ManageLanguages = __webpack_require__(142);
 	var drawers = __webpack_require__(47);
 
 
@@ -71991,7 +71991,7 @@
 	var uuid = __webpack_require__(23);
 	var drawers = __webpack_require__(47);
 	var Ractive = __webpack_require__(17);
-	var Drawer = __webpack_require__(141);
+	var Drawer = __webpack_require__(140);
 	var blockTypes = __webpack_require__(152);
 
 
@@ -72261,7 +72261,7 @@
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(15);
 	var Ractive = __webpack_require__(17);
-	var Drawer = __webpack_require__(141);
+	var Drawer = __webpack_require__(140);
 	var drawers = __webpack_require__(47);
 	var sapphire = __webpack_require__(156);
 
@@ -84016,7 +84016,7 @@
 
 	var _ = __webpack_require__(15);
 	var drawers = __webpack_require__(47);
-	var Drawer = __webpack_require__(141);
+	var Drawer = __webpack_require__(140);
 
 
 	module.exports = Drawer.extend({
@@ -84314,7 +84314,7 @@
 
 	var drawers = __webpack_require__(47);
 	var Chooser = __webpack_require__(159);
-	var Drawer = __webpack_require__(141);
+	var Drawer = __webpack_require__(140);
 
 
 	module.exports = Drawer.extend({
@@ -84737,7 +84737,7 @@
 /* 168 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"n":53,"f":[{"t":8,"r":"header"}],"x":{"r":[],"s":"{title:\"Multiple Choice Question\"}"}}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["is-incomplete"],"n":51,"r":"text"}]},"f":[{"t":7,"e":"label","f":["Question"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-heading nm-cell-",{"t":2,"r":"choiceSpan"}]},"f":[{"t":7,"e":"label","f":["Choices"]}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-heading nm-cell-9 nm-hide-small"},"f":[{"t":7,"e":"label","f":["Save as"]}]}],"r":"useAnswerSaving"}," ",{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-6 nm-cell-noborder nm-hide-small"}}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["nm-choice-placeholder"],"x":{"r":["i","allChoices.length"],"s":"_0===_1-1"}}," nm-cell-",{"t":2,"r":"choiceSpan"}]},"f":[{"t":7,"e":"div","a":{"class":"nm-prefixed-input"},"f":[{"t":7,"e":"span","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". "]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"text"}]},"v":{"keyup":{"m":"onChoiceKeyDown","a":{"r":["i"],"s":"[_0]"}}}}]}," ",{"t":4,"f":[{"t":7,"e":"div","f":[" ↳ ",{"t":7,"e":"a","a":{"href":"#"},"v":{"click":{"m":"onRouteClick","a":{"r":["event","id"],"s":"[_0,_1]"}}},"f":[{"t":2,"x":{"r":["getSequenceName","route"],"s":"_0(_1)"}}]}]}],"r":"route"}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-9"},"f":[{"t":7,"e":"label","a":{"class":"nm-small-only"},"f":["Save as"]}," ",{"t":7,"e":"input","a":{"type":"text"},"m":[{"t":4,"f":["value=\"",{"t":2,"r":".saveAs"},"\""],"r":".saveAs"},{"t":4,"f":[" value=\"",{"t":2,"r":".text"}," \""],"n":51,"r":".saveAs"}]}]}],"r":"useAnswerSaving"}," ",{"t":7,"e":"button","a":{"class":["nm-cell nm-cell-btn nm-cell-3 btn ",{"t":4,"f":["disabled"],"x":{"r":["i","allChoices.length"],"s":"_0===_1-1"}}]},"v":{"click":{"m":"setRoute","a":{"r":["id"],"s":"[_0]"}}},"f":[{"t":4,"f":["Route"],"n":51,"r":"route"}," ",{"t":4,"f":["Edit Route"],"r":"route"}]}," ",{"t":7,"e":"button","a":{"class":["nm-cell nm-cell-btn nm-cell-3 btn ",{"t":4,"f":["disabled"],"x":{"r":["i","allChoices.length"],"s":"_0===_1-1"}}]},"v":{"click":{"m":"removeChoice","a":{"r":["id"],"s":"[_0]"}}},"f":["Remove"]}]}],"i":"i","r":"allChoices"}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell"},"f":[{"t":7,"e":"label","m":[{"t":4,"f":["class=\"is-unused\""],"n":51,"r":"useAnswerSaving"}],"f":["Save answer as (optional)"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}]}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"n":53,"f":[{"t":8,"r":"header"}],"x":{"r":[],"s":"{title:\"Multiple Choice Question\"}"}}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["is-incomplete"],"n":51,"r":"text"}]},"f":[{"t":7,"e":"label","f":["Question"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-heading nm-cell-",{"t":2,"r":"choiceSpan"}]},"f":[{"t":7,"e":"label","f":["Choices"]}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-heading nm-cell-9 nm-hide-small"},"f":[{"t":7,"e":"label","f":["Save as"]}]}],"r":"useAnswerSaving"}," ",{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-6 nm-cell-noborder nm-hide-small"}}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["nm-choice-placeholder"],"x":{"r":["i","allChoices.length"],"s":"_0===_1-1"}}," nm-cell-",{"t":2,"r":"choiceSpan"}]},"f":[{"t":7,"e":"div","a":{"class":"nm-prefixed-input"},"f":[{"t":7,"e":"span","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". "]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"text"}]},"v":{"keyup":{"m":"onChoiceKeyDown","a":{"r":["i"],"s":"[_0]"}}}}]}," ",{"t":4,"f":[{"t":7,"e":"div","f":[" ↳ ",{"t":7,"e":"a","a":{"href":"#"},"v":{"click":{"m":"onRouteClick","a":{"r":["event","id"],"s":"[_0,_1]"}}},"f":[{"t":2,"x":{"r":["getSequenceName","route"],"s":"_0(_1)"}}]}]}],"r":"route"}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-9"},"f":[{"t":7,"e":"label","a":{"class":"nm-small-only"},"f":["Save as"]}," ",{"t":7,"e":"input","a":{"type":"text"},"m":[{"t":4,"f":["value=\"",{"t":2,"r":".saveAs"},"\""],"r":".saveAs"},{"t":4,"f":[" value=\"",{"t":2,"r":".text"}," \""],"n":51,"r":".saveAs"}]}]}],"r":"useAnswerSaving"}," ",{"t":7,"e":"button","a":{"class":["nm-cell nm-cell-btn nm-cell-3 btn ",{"t":4,"f":["disabled"],"x":{"r":["i","allChoices.length"],"s":"_0===_1-1"}}]},"v":{"click":{"m":"setRoute","a":{"r":["id"],"s":"[_0]"}}},"f":[{"t":4,"f":["Route"],"n":51,"r":"route"}," ",{"t":4,"f":["Edit Route"],"r":"route"}]}," ",{"t":7,"e":"button","a":{"class":["nm-cell nm-cell-btn nm-cell-3 btn ",{"t":4,"f":["disabled"],"x":{"r":["i","allChoices.length"],"s":"_0===_1-1"}}]},"v":{"click":{"m":"removeChoice","a":{"r":["id"],"s":"[_0]"}}},"f":["Remove"]}]}],"i":"i","r":"allChoices"}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell"},"f":[{"t":7,"e":"label","m":[{"t":4,"f":["class=\"is-unused\""],"n":51,"r":"useAnswerSaving"}],"f":["Save answer as (optional)"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}]}]}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
 /* 169 */
@@ -85751,7 +85751,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(15);
-	var Drawer = __webpack_require__(141);
+	var Drawer = __webpack_require__(140);
 	var drawers = __webpack_require__(47);
 	var conditions = __webpack_require__(187);
 
