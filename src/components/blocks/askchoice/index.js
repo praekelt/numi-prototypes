@@ -2,6 +2,7 @@ var $ = require('jquery');
 var _ = require('lodash');
 var uuid = require('node-uuid');
 var Base = require('../base');
+var Screen = require('../screen');
 var drawers = require('../../../drawers');
 var ChooseSequence = require('../../../views/choose-sequence');
 var Chooser = require('../../../views/chooser');
@@ -14,7 +15,7 @@ var newRoListPropWithContent = Base.newRoListPropWithContent;
 var parentAndCurrentListGetter = Base.parentAndCurrentListGetter;
 
 
-var AskChoice = Base.extend({
+var AskChoice = Screen.extend({
   template: require('./preview.html'),
   data: function() {
     return {
@@ -88,7 +89,7 @@ var AskChoice = Base.extend({
 });
 
 
-AskChoice.Edit = Base.Edit.extend({
+AskChoice.Edit = Screen.Edit.extend({
   template: require('./edit.html'),
   showTab(e, to) {
     e.original.preventDefault();
@@ -159,9 +160,6 @@ AskChoice.Edit = Base.Edit.extend({
         })
         .reduce(_.add);
     },
-    charCountIsHigh: function() {
-      return this.get('charCount') > 140;
-    },
     choices: function() {
       return this.get('allChoices').slice(0, -1);
     },
@@ -195,7 +193,7 @@ AskChoice.Edit = Base.Edit.extend({
 });
 
 
-AskChoice.Stats = Base.Stats.extend({
+AskChoice.Stats = Screen.Stats.extend({
   template: require('./stats.html'),
   draw() {
     this.drawTotalsChart();

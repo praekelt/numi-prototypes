@@ -252,6 +252,14 @@ Base.Edit = Drawer.extend({
   destroy: function() {
     this.get('block').destroy();
     this.back();
+  },
+  data: {
+    charCount: 0
+  },
+  computed: {
+    charCountIsHigh: function() {
+      return this.get('charCount') > 140;
+    }
   }
 });
 

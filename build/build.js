@@ -72512,6 +72512,14 @@
 	  destroy: function() {
 	    this.get('block').destroy();
 	    this.back();
+	  },
+	  data: {
+	    charCount: 0
+	  },
+	  computed: {
+	    charCountIsHigh: function() {
+	      return this.get('charCount') > 140;
+	    }
 	  }
 	});
 
@@ -84058,6 +84066,7 @@
 	var _ = __webpack_require__(15);
 	var uuid = __webpack_require__(23);
 	var Base = __webpack_require__(154);
+	var Screen = __webpack_require__(225);
 	var drawers = __webpack_require__(47);
 	var ChooseSequence = __webpack_require__(164);
 	var Chooser = __webpack_require__(159);
@@ -84070,7 +84079,7 @@
 	var parentAndCurrentListGetter = Base.parentAndCurrentListGetter;
 
 
-	var AskChoice = Base.extend({
+	var AskChoice = Screen.extend({
 	  template: __webpack_require__(167),
 	  data: function() {
 	    return {
@@ -84144,7 +84153,7 @@
 	});
 
 
-	AskChoice.Edit = Base.Edit.extend({
+	AskChoice.Edit = Screen.Edit.extend({
 	  template: __webpack_require__(168),
 	  showTab(e, to) {
 	    e.original.preventDefault();
@@ -84215,9 +84224,6 @@
 	        })
 	        .reduce(_.add);
 	    },
-	    charCountIsHigh: function() {
-	      return this.get('charCount') > 140;
-	    },
 	    choices: function() {
 	      return this.get('allChoices').slice(0, -1);
 	    },
@@ -84251,7 +84257,7 @@
 	});
 
 
-	AskChoice.Stats = Base.Stats.extend({
+	AskChoice.Stats = Screen.Stats.extend({
 	  template: __webpack_require__(169),
 	  draw() {
 	    this.drawTotalsChart();
@@ -87426,6 +87432,35 @@
 	exports.get = get;
 	exports.has = has;
 	exports.clear = clear;
+
+
+/***/ },
+/* 225 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Base = __webpack_require__(154);
+
+
+	var Screen = Base.extend();
+
+
+	Screen.Edit = Base.Edit.extend({
+	  data: {
+	    charCount: 0,
+	    highCharCount: 140
+	  },
+	  computed: {
+	    charCountIsHigh: function() {
+	      return this.get('charCount') > this.get('highCharCount');
+	    }
+	  }
+	});
+
+
+	Screen.Stats = Base.Stats.extend();
+
+
+	module.exports = Screen;
 
 
 /***/ }
