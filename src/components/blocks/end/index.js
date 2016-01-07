@@ -1,11 +1,12 @@
 var Base = require('../base');
+var Screen = require('../screen');
 var drawers = require('../../../drawers');
 var Chooser = require('../../../views/chooser');
 var newContentProp = Base.newContentProp;
 var newRoContentProp = Base.newRoContentProp;
 
 
-var Ask = Base.extend({
+var Ask = Screen.extend({
   template: require('./preview.html'),
   computed: {
     text: newContentProp('text'),
@@ -17,7 +18,7 @@ var Ask = Base.extend({
 });
 
 
-Ask.Edit = Base.Edit.extend({
+Ask.Edit = Screen.Edit.extend({
   template: require('./edit.html'),
   insertUserField: function() {
     var self = this;
@@ -40,7 +41,7 @@ Ask.Edit = Base.Edit.extend({
 });
 
 
-Ask.Stats = Base.Stats.extend();
+Ask.Stats = Screen.Stats.extend();
 
 
 module.exports = Ask;

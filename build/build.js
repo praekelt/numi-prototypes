@@ -72639,6 +72639,16 @@
 	}
 
 
+	function proxyBlock(name) {
+	  return function() {
+	    // We can't dynamically delegate to the relevant block's computed
+	    // properties, Ractive.js doesn't seem able to react to changes that way.
+	    // Instead, we borrow the property.
+	    return this.get('block').computed[name].call(this);
+	  };
+	}
+
+
 	function hashzip(names, lists) {
 	  return _.zipWith.apply(_, lists.concat(function(a, v, i, group) {
 	    return _.zipObject(names, group);
@@ -72664,12 +72674,15 @@
 	  .y(function(d) { return d[1]; });
 
 
+	// TODO move these to a utils module
+	Base.proxyBlock = proxyBlock;
 	Base.newContentProp = newContentProp;
 	Base.newListPropWithContent = newListPropWithContent;
 	Base.newRoContentProp = newRoContentProp;
 	Base.newListPropWithContent = newListPropWithContent;
 	Base.newRoListPropWithContent = newRoListPropWithContent;
 	Base.parentAndCurrentListGetter = parentAndCurrentListGetter;
+
 	module.exports = Base;
 
 
@@ -84216,7 +84229,6 @@
 	    });
 	  },
 	  computed: {
-	    charCount: AskChoice.prototype.computed.charCount,
 	    choices: function() {
 	      return this.get('allChoices').slice(0, -1);
 	    },
@@ -84325,6 +84337,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Base = __webpack_require__(154);
+	var proxyBlock = Base.proxyBlock;
 
 
 	var Screen = Base.extend({
@@ -84340,10 +84353,10 @@
 
 
 	Screen.Edit = Base.Edit.extend({
-	  // We can't dynamically delegate to the relevant Screen's computed
-	  // properties, Ractive.js doesn't seem able to react to changes that way.
-	  // Instead, we borrow the properties.
-	  computed: Screen.prototype.computed
+	  computed: {
+	    charCount: proxyBlock('charCount'),
+	    charCountIsHigh: proxyBlock('charCountIsHigh')
+	  }
 	});
 
 
@@ -86017,13 +86030,14 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Base = __webpack_require__(154);
+	var Screen = __webpack_require__(164);
 	var drawers = __webpack_require__(47);
 	var Chooser = __webpack_require__(159);
 	var newContentProp = Base.newContentProp;
 	var newRoContentProp = Base.newRoContentProp;
 
 
-	var Ask = Base.extend({
+	var Ask = Screen.extend({
 	  template: __webpack_require__(206),
 	  computed: {
 	    text: newContentProp('text'),
@@ -86035,7 +86049,7 @@
 	});
 
 
-	Ask.Edit = Base.Edit.extend({
+	Ask.Edit = Screen.Edit.extend({
 	  template: __webpack_require__(207),
 	  insertUserField: function() {
 	    var self = this;
@@ -86058,7 +86072,7 @@
 	});
 
 
-	Ask.Stats = Base.Stats.extend();
+	Ask.Stats = Screen.Stats.extend();
 
 
 	module.exports = Ask;

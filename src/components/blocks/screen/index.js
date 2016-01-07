@@ -1,4 +1,5 @@
 var Base = require('../base');
+var proxyBlock = Base.proxyBlock;
 
 
 var Screen = Base.extend({
@@ -14,10 +15,10 @@ var Screen = Base.extend({
 
 
 Screen.Edit = Base.Edit.extend({
-  // We can't dynamically delegate to the relevant Screen's computed
-  // properties, Ractive.js doesn't seem able to react to changes that way.
-  // Instead, we borrow the properties.
-  computed: Screen.prototype.computed
+  computed: {
+    charCount: proxyBlock('charCount'),
+    charCountIsHigh: proxyBlock('charCountIsHigh')
+  }
 });
 
 

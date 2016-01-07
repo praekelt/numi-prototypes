@@ -160,7 +160,6 @@ AskChoice.Edit = Screen.Edit.extend({
     });
   },
   computed: {
-    charCount: AskChoice.prototype.computed.charCount,
     choices: function() {
       return this.get('allChoices').slice(0, -1);
     },
