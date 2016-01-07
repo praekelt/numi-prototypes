@@ -71683,6 +71683,7 @@
 	    return {languages: dashboard.get('languages')};
 	  },
 	  oncomplete: function() {
+	    Drawer.prototype.oncomplete.call(this);
 	    $('.nm-menu-actions').on('click', function(e) { e.preventDefault(); });
 	  },
 	  oninit: function() {
