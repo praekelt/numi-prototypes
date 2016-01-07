@@ -150,6 +150,15 @@ AskChoice.Edit = Base.Edit.extend({
     });
   },
   computed: {
+    charCount: function() {
+      return this.get('text').length + this.get('choices')
+        .map(function(d, i) {
+          return ['\n', i, '. ', d.text]
+            .join('')
+            .length;
+        })
+        .reduce(_.add);
+    },
     choices: function() {
       return this.get('allChoices').slice(0, -1);
     },
