@@ -6,6 +6,7 @@ $bg4: darken($bg0, 6%);
 $bg5: darken($bg0, 10%);
 $bg6: darken($bg0, 8%);
 $bg7: darken($bg0, 12%);
+$bg8: darken($bg0, 1%);
 $bg-active0: #d9edf7;
 $bg-active1: darken($bg-active0, 4%);
 $bg-hover0: #f5f5f5;
@@ -18,11 +19,12 @@ $fg4: #ddd;
 $fg5: lighten($fg0, 18%);
 $fg6: #aaa;
 $fg7: #777;
+$fg-warning0: #f0ad4e;
+$fg-warning1: darken($fg-warning0, 20%) ;
 $fg-link: #337ab7;
 $fg-chart-publish: #aec7e8;
 $fg-active0: darken($bg-active0, 30%);
-
-$fg-incomplete: lighten(#f0ad4e, 15%);
+$fg-incomplete: lighten($fg-warning0, 15%);
 $bg-incomplete: lighten($fg-incomplete, 30%);
 
 $head-height: 55px;

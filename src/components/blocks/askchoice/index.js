@@ -2,6 +2,7 @@ var $ = require('jquery');
 var _ = require('lodash');
 var uuid = require('node-uuid');
 var Base = require('../base');
+var Screen = require('../screen');
 var drawers = require('../../../drawers');
 var ChooseSequence = require('../../../views/choose-sequence');
 var Chooser = require('../../../views/chooser');
@@ -14,7 +15,7 @@ var newRoListPropWithContent = Base.newRoListPropWithContent;
 var parentAndCurrentListGetter = Base.parentAndCurrentListGetter;
 
 
-var AskChoice = Base.extend({
+var AskChoice = Screen.extend({
   template: require('./preview.html'),
   data: function() {
     return {
@@ -35,6 +36,15 @@ var AskChoice = Base.extend({
     this.resetTotals();
   },
   computed: {
+    charCount: function() {
+      return [this.get('text')]
+        .concat(this.get('choices')
+          .map(function(d, i) {
+            return [i, '. ', d.text].join('');
+          }))
+        .join('\n')
+        .length;
+    },
     text: newContentProp('text'),
     textParent: newRoContentProp('text', 'parent'),
     choices: function() {
@@ -88,7 +98,7 @@ var AskChoice = Base.extend({
 });
 
 
-AskChoice.Edit = Base.Edit.extend({
+AskChoice.Edit = Screen.Edit.extend({
   template: require('./edit.html'),
   showTab(e, to) {
     e.original.preventDefault();
@@ -183,7 +193,7 @@ AskChoice.Edit = Base.Edit.extend({
 });
 
 
-AskChoice.Stats = Base.Stats.extend({
+AskChoice.Stats = Screen.Stats.extend({
   template: require('./stats.html'),
   draw() {
     this.drawTotalsChart();

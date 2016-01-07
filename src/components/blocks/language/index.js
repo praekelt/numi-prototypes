@@ -1,7 +1,7 @@
 var $ = require('jquery');
 var _ = require('lodash');
 var uuid = require('node-uuid');
-var Base = require('../base');
+var Screen = require('../screen');
 var drawers = require('../../../drawers');
 var ChooseLanguage = require('../../../views/choose-language');
 var Chooser = require('../../../views/chooser');
@@ -9,7 +9,7 @@ var Areas = require('../../../area');
 var sapphire = require('../../../../bower_components/sapphire/build/sapphire');
 
 
-var Language = Base.extend({
+var Language = Screen.extend({
   template: require('./preview.html'),
   data: function() {
     return {
@@ -17,6 +17,20 @@ var Language = Base.extend({
       saveAs: '',
       allChoices: [this.newChoice()]
     };
+  },
+  computed: {
+    charCount: function() {
+      return [this.get('text')]
+        .concat(this.get('choices')
+          .map(function(d, i) {
+            return [i, '. ', d.text].join('');
+          }))
+        .join('\n')
+        .length;
+    },
+    choices: function() {
+      return (this.get('allChoices') || []).slice(0, -1);
+    }
   },
   newChoice: function() {
     return {
@@ -65,16 +79,11 @@ var Language = Base.extend({
     var views = _.zip(timeouts, answers).map(_.sum);
     this.set('stats.answers', answers);
     this.set('stats.views', views);
-  },
-  computed: {
-    choices: function() {
-      return (this.get('allChoices') || []).slice(0, -1);
-    }
   }
 });
 
 
-Language.Edit = Base.Edit.extend({
+Language.Edit = Screen.Edit.extend({
   template: require('./edit.html'),
   showTab(e, to) {
     e.original.preventDefault();
@@ -181,7 +190,7 @@ Language.Edit = Base.Edit.extend({
 });
 
 
-Language.Stats = Base.Stats.extend({
+Language.Stats = Screen.Stats.extend({
   template: require('./stats.html'),
   draw() {
     this.drawTotalsChart();

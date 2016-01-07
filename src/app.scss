@@ -1088,6 +1088,28 @@ a.nm-list-group-item-drawer-secondary {
   width: auto;
 }
 
+.nm-cell-annotation {
+  font-size: 0.8em;
+}
+
+.nm-cell-annotation-warning {
+  color: $fg-warning1;
+}
+
+.nm-cell-info {
+  background: $bg8;
+  padding: 4px 8px;
+}
+
+.nm-row-info:not(:first-child) {
+  border-top: 1px solid $bg3;
+}
+
+.nm-cell-footer {
+  background: $bg8;
+  padding: 4px 8px;
+}
+
 .nm-prefixed-input {
   width: 100%;
 

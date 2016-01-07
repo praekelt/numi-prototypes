@@ -1,11 +1,12 @@
 var Base = require('../base');
+var Screen = require('../screen');
 var drawers = require('../../../drawers');
 var Chooser = require('../../../views/chooser');
 var newContentProp = Base.newContentProp;
 var newRoContentProp = Base.newRoContentProp;
 
 
-var NextNMonths = Base.extend({
+var NextNMonths = Screen.extend({
   template: require('./preview.html'),
   data: function() {
     return {
@@ -14,6 +15,12 @@ var NextNMonths = Base.extend({
     };
   },
   computed: {
+    charCount: function() {
+      return [this.get('text')]
+        .concat(this.exampleMonths)
+        .join('\n')
+        .length;
+    },
     text: newContentProp('text'),
     textParent: newRoContentProp('text', 'parent'),
     exampleMonths: function() {
@@ -42,7 +49,7 @@ var NextNMonths = Base.extend({
 });
 
 
-NextNMonths.Edit = Base.Edit.extend({
+NextNMonths.Edit = Screen.Edit.extend({
   template: require('./edit.html'),
   computed: {
     useAnswerSaving: function() {
@@ -70,7 +77,7 @@ NextNMonths.Edit = Base.Edit.extend({
 });
 
 
-NextNMonths.Stats = Base.Stats.extend();
+NextNMonths.Stats = Screen.Stats.extend();
 
 
 module.exports = NextNMonths;

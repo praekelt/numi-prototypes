@@ -379,6 +379,16 @@ function parentAndCurrentListGetter(name, contentProps) {
 }
 
 
+function proxyBlock(name) {
+  return function() {
+    // We can't dynamically delegate to the relevant block's computed
+    // properties, Ractive.js doesn't seem able to react to changes that way.
+    // Instead, we borrow the property.
+    return this.get('block').computed[name].call(this);
+  };
+}
+
+
 function hashzip(names, lists) {
   return _.zipWith.apply(_, lists.concat(function(a, v, i, group) {
     return _.zipObject(names, group);
@@ -404,10 +414,13 @@ var totalsChart = sapphire.widgets.lines()
   .y(function(d) { return d[1]; });
 
 
+// TODO move these to a utils module
+Base.proxyBlock = proxyBlock;
 Base.newContentProp = newContentProp;
 Base.newListPropWithContent = newListPropWithContent;
 Base.newRoContentProp = newRoContentProp;
 Base.newListPropWithContent = newListPropWithContent;
 Base.newRoListPropWithContent = newRoListPropWithContent;
 Base.parentAndCurrentListGetter = parentAndCurrentListGetter;
+
 module.exports = Base;
