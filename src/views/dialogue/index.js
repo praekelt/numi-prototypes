@@ -6,8 +6,8 @@ var Ractive = require('ractive');
 var hist = require('../../hist');
 var seqtree = require('../../seqtree');
 var drawers = require('../../drawers');
-var DialogueMenu = require('../dialogue-menu');
-var ChooseLanguage = require('../choose-language');
+var DialogueMenu = require('../drawers/dialogue-menu');
+var ChooseLanguage = require('../drawers/choose-language');
 
 
 module.exports = Ractive.extend({

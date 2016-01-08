@@ -1,6 +1,6 @@
 var $ = require('jquery');
 var drawers = require('../../drawers');
-var BlockLibrary = require('../block-library');
+var BlockLibrary = require('../drawers/block-library');
 var Ractive = require('ractive');
 
 
@@ -91,5 +91,5 @@ module.exports = Ractive.extend({
     var i = _.findIndex(blocks, {id: id});
     if (i > -1) this.splice('blocks', i, 1);
   },
-  components: require('../../components/blocks')
+  components: require('../blocks')
 });
