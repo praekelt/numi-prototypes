@@ -84529,7 +84529,7 @@
 /* 171 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":["nm-editor nm-editor-",{"t":2,"r":"type"}],"contenteditable":"true"},"v":{"keydown":{"m":"updateContent","a":{"r":["event"],"s":"[_0]"}}},"f":[]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":["nm-editor nm-editor-",{"t":2,"r":"type"}],"contenteditable":"true"},"v":{"keydown":{"m":"updateContent","a":{"r":["event"],"s":"[_0]"}},"keyup":{"m":"updateContent","a":{"r":["event"],"s":"[_0]"}}},"f":[]}]};
 
 /***/ },
 /* 172 */
