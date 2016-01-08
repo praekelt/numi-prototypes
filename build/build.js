@@ -84483,25 +84483,21 @@
 
 	module.exports = Ractive.extend({
 	  template: __webpack_require__(171),
-	  computed: {
-	    rawContent: {
-	      get: function() {
-	        return this.parseContent(this.get('content'));
-	      },
-	      set: function(v) {
-	        this.set('content', $('<div>').html(v).text());
-	      }
-	    }
+	  onrender: function() {
+	    this.drawContent();
 	  },
-	  updateContent: function(e) {
-	    var el = e.original.target;
-	    var $el = $(el);
-	    var content = $el.text();
-	    this.set('rawContent', content);
-
-	    var range = rangy.getSelection().saveCharacterRanges(el);
-	    $el.html(this.parseContent(content));
-	    rangy.getSelection().restoreCharacterRanges(el, range);
+	  $editEl: function() {
+	    return $(this.el).find('.nm-editor');
+	  },
+	  drawContent: function() {
+	    var $el = this.$editEl();
+	    var range = saveRange($el);
+	    $el.html(this.parseContent(this.get('content')));
+	    restoreRange($el, range);
+	  },
+	  updateContent: function() {
+	    this.set('content', this.$editEl().text());
+	    this.drawContent();
 	  },
 	  parseContent: function(content) {
 	    return _.escape(content)
@@ -84517,6 +84513,20 @@
 	});
 
 
+	function saveRange($el) {
+	  return rangy
+	    .getSelection()
+	    .saveCharacterRanges($el.get(0));
+	}
+
+
+	function restoreRange($el, range) {
+	  rangy
+	    .getSelection()
+	    .restoreCharacterRanges($el.get(0), range);
+	}
+
+
 
 	function specialCharHtml(s, classes) {
 	  return [
@@ -84529,7 +84539,7 @@
 /* 171 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":["nm-editor nm-editor-",{"t":2,"r":"type"}],"contenteditable":"true"},"v":{"keydown":{"m":"updateContent","a":{"r":["event"],"s":"[_0]"}},"keyup":{"m":"updateContent","a":{"r":["event"],"s":"[_0]"}}},"f":[]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":["nm-editor nm-editor-",{"t":2,"r":"type"}],"contenteditable":"true"},"v":{"keydown":{"m":"updateContent","a":{"r":[],"s":"[]"}},"keyup":{"m":"updateContent","a":{"r":[],"s":"[]"}}},"f":[]}]};
 
 /***/ },
 /* 172 */

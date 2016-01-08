@@ -5,25 +5,21 @@ var Ractive = require('ractive');
 
 module.exports = Ractive.extend({
   template: require('./template.html'),
-  computed: {
-    rawContent: {
-      get: function() {
-        return this.parseContent(this.get('content'));
-      },
-      set: function(v) {
-        this.set('content', $('<div>').html(v).text());
-      }
-    }
+  onrender: function() {
+    this.drawContent();
   },
-  updateContent: function(e) {
-    var el = e.original.target;
-    var $el = $(el);
-    var content = $el.text();
-    this.set('rawContent', content);
-
-    var range = rangy.getSelection().saveCharacterRanges(el);
-    $el.html(this.parseContent(content));
-    rangy.getSelection().restoreCharacterRanges(el, range);
+  $editEl: function() {
+    return $(this.el).find('.nm-editor');
+  },
+  drawContent: function() {
+    var $el = this.$editEl();
+    var range = saveRange($el);
+    $el.html(this.parseContent(this.get('content')));
+    restoreRange($el, range);
+  },
+  updateContent: function() {
+    this.set('content', this.$editEl().text());
+    this.drawContent();
   },
   parseContent: function(content) {
     return _.escape(content)
@@ -37,6 +33,20 @@ module.exports = Ractive.extend({
     .join('');
   }
 });
+
+
+function saveRange($el) {
+  return rangy
+    .getSelection()
+    .saveCharacterRanges($el.get(0));
+}
+
+
+function restoreRange($el, range) {
+  rangy
+    .getSelection()
+    .restoreCharacterRanges($el.get(0), range);
+}
 
 
 
