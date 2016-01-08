@@ -975,7 +975,7 @@ a.nm-list-group-item-drawer-secondary {
     margin-bottom: 4px;
   }
 
-  textarea, input {
+  textarea, input, .nm-editor {
     width: 100%;
 
     &, &:hover, &:focus {
@@ -1145,4 +1145,8 @@ a.nm-list-group-item-drawer-secondary {
 .nm-text-top {
   line-height: 0;
   margin-top: -5px;
+}
+
+.nm-editor-textarea {
+  padding: 2px;
 }
