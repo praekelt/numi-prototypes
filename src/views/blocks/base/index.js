@@ -2,6 +2,7 @@ var d3 = require('d3');
 var $ = require('jquery');
 var _ = require('lodash');
 var Ractive = require('ractive');
+var utils = require('../../../utils');
 var BaseDrawer = require('../../drawers/base');
 var drawers = require('../../../drawers');
 var sapphire = require('../../../../bower_components/sapphire/build/sapphire');
@@ -323,79 +324,6 @@ Base.Stats = BaseDrawer.extend({
 });
 
 
-function newRoContentProp(name, langId) {
-  langId = langId || null;
-
-  return function() {
-    return this.getForLang(langId, name);
-  };
-}
-
-
-function newContentProp(name, langId) {
-  langId = langId || null;
-
-  return {
-    get: function() {
-      return this.getForLang(langId, name);
-    },
-    set: function(v) {
-      this.setForLang(langId, name, v);
-    }
-  };
-}
-
-
-function newRoListPropWithContent(name, contentProps, langId) {
-  langId = langId || null;
-
-  return function() {
-    return this.getForLangList(langId, name, contentProps);
-  };
-}
-
-
-function newListPropWithContent(name, contentProps, langId) {
-  langId = langId || null;
-
-  return {
-    get: function() {
-      return this.getForLangList(langId, name, contentProps);
-    },
-    set: function(data) {
-      this.setForLangList(langId, name, contentProps, data);
-    }
-  };
-}
-
-
-function parentAndCurrentListGetter(name, contentProps) {
-  return function() {
-    return hashzip(['parent', 'current'], [
-        this.getForLangList('parent', name, contentProps),
-        this.getForLangList(null, name, contentProps)
-    ]);
-  };
-}
-
-
-function proxyBlock(name) {
-  return function() {
-    // We can't dynamically delegate to the relevant block's computed
-    // properties, Ractive.js doesn't seem able to react to changes that way.
-    // Instead, we borrow the property.
-    return this.get('block').computed[name].call(this);
-  };
-}
-
-
-function hashzip(names, lists) {
-  return _.zipWith.apply(_, lists.concat(function(a, v, i, group) {
-    return _.zipObject(names, group);
-  }));
-}
-
-
 var totalsChart = sapphire.widgets.lines()
   .explicitComponents(true)
   .metrics(function(d) {
@@ -413,14 +341,5 @@ var totalsChart = sapphire.widgets.lines()
   .x(function(d) { return d[0]; })
   .y(function(d) { return d[1]; });
 
-
-// TODO move these to a utils module
-Base.proxyBlock = proxyBlock;
-Base.newContentProp = newContentProp;
-Base.newListPropWithContent = newListPropWithContent;
-Base.newRoContentProp = newRoContentProp;
-Base.newListPropWithContent = newListPropWithContent;
-Base.newRoListPropWithContent = newRoListPropWithContent;
-Base.parentAndCurrentListGetter = parentAndCurrentListGetter;
 
 module.exports = Base;

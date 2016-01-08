@@ -1,18 +1,13 @@
 var $ = require('jquery');
 var _ = require('lodash');
 var uuid = require('node-uuid');
-var Base = require('../base');
 var Screen = require('../screen');
+var utils = require('../../../utils');
 var drawers = require('../../../drawers');
 var ChooseSequence = require('../../drawers/choose-sequence');
 var Chooser = require('../../drawers/chooser');
 var Areas = require('../../../area');
 var sapphire = require('../../../../bower_components/sapphire/build/sapphire');
-var newContentProp = Base.newContentProp;
-var newRoContentProp = Base.newRoContentProp;
-var newListPropWithContent = Base.newListPropWithContent;
-var newRoListPropWithContent = Base.newRoListPropWithContent;
-var parentAndCurrentListGetter = Base.parentAndCurrentListGetter;
 
 
 var AskChoice = Screen.extend({
@@ -45,8 +40,8 @@ var AskChoice = Screen.extend({
         .join('\n')
         .length;
     },
-    text: newContentProp('text'),
-    textParent: newRoContentProp('text', 'parent'),
+    text: utils.contentProp('text'),
+    textParent: utils.contentProp('text', 'parent'),
     choices: function() {
       return (this.get('allChoices') || []).slice(0, -1);
     },
@@ -56,9 +51,9 @@ var AskChoice = Screen.extend({
     choicesPreview: function() {
       return this.get('allChoicesPreview').slice(0, -1);
     },
-    allChoices: newListPropWithContent('allChoices', ['text']),
-    allChoicesPreview: parentAndCurrentListGetter('allChoices', ['text']),
-    allChoicesParent: newRoListPropWithContent('allChoices', ['text'], 'parent')
+    allChoices: utils.listPropWithContent('allChoices', ['text']),
+    allChoicesPreview: utils.parentAndCurrentListGetter('allChoices', ['text']),
+    allChoicesParent: utils.listPropWithContent('allChoices', ['text'], 'parent')
   },
   newChoice: function() {
     return {

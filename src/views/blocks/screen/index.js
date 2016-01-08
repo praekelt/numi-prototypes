@@ -1,5 +1,5 @@
 var Base = require('../base');
-var proxyBlock = Base.proxyBlock;
+var proxyProp = require('../../../utils').proxyProp;
 
 
 var Screen = Base.extend({
@@ -19,8 +19,8 @@ var Screen = Base.extend({
 
 Screen.Edit = Base.Edit.extend({
   computed: {
-    charCount: proxyBlock('charCount'),
-    charCountIsHigh: proxyBlock('charCountIsHigh')
+    charCount: proxyProp('block', 'charCount'),
+    charCountIsHigh: proxyProp('block', 'charCountIsHigh')
   }
 });
 

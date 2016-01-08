@@ -1,9 +1,7 @@
-var Base = require('../base');
 var Screen = require('../screen');
+var utils = require('../../../utils');
 var drawers = require('../../../drawers');
 var Chooser = require('../../drawers/chooser');
-var newContentProp = Base.newContentProp;
-var newRoContentProp = Base.newRoContentProp;
 
 
 var Ask = Screen.extend({
@@ -12,8 +10,8 @@ var Ask = Screen.extend({
     charCount: function() {
       return this.get('text').length;
     },
-    text: newContentProp('text'),
-    textParent: newRoContentProp('text', 'parent')
+    text: utils.contentProp('text'),
+    textParent: utils.contentProp('text', 'parent')
   },
   data: function() {
     return {saveAs: ''};

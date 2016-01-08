@@ -73249,12 +73249,10 @@
 /* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Base = __webpack_require__(160);
 	var Screen = __webpack_require__(165);
+	var utils = __webpack_require__(221);
 	var drawers = __webpack_require__(135);
 	var Chooser = __webpack_require__(166);
-	var newContentProp = Base.newContentProp;
-	var newRoContentProp = Base.newRoContentProp;
 
 
 	var Ask = Screen.extend({
@@ -73263,8 +73261,8 @@
 	    charCount: function() {
 	      return this.get('text').length;
 	    },
-	    text: newContentProp('text'),
-	    textParent: newRoContentProp('text', 'parent')
+	    text: utils.contentProp('text'),
+	    textParent: utils.contentProp('text', 'parent')
 	  },
 	  data: function() {
 	    return {saveAs: ''};
@@ -73317,6 +73315,7 @@
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(15);
 	var Ractive = __webpack_require__(17);
+	var utils = __webpack_require__(221);
 	var BaseDrawer = __webpack_require__(147);
 	var drawers = __webpack_require__(135);
 	var sapphire = __webpack_require__(162);
@@ -73638,79 +73637,6 @@
 	});
 
 
-	function newRoContentProp(name, langId) {
-	  langId = langId || null;
-
-	  return function() {
-	    return this.getForLang(langId, name);
-	  };
-	}
-
-
-	function newContentProp(name, langId) {
-	  langId = langId || null;
-
-	  return {
-	    get: function() {
-	      return this.getForLang(langId, name);
-	    },
-	    set: function(v) {
-	      this.setForLang(langId, name, v);
-	    }
-	  };
-	}
-
-
-	function newRoListPropWithContent(name, contentProps, langId) {
-	  langId = langId || null;
-
-	  return function() {
-	    return this.getForLangList(langId, name, contentProps);
-	  };
-	}
-
-
-	function newListPropWithContent(name, contentProps, langId) {
-	  langId = langId || null;
-
-	  return {
-	    get: function() {
-	      return this.getForLangList(langId, name, contentProps);
-	    },
-	    set: function(data) {
-	      this.setForLangList(langId, name, contentProps, data);
-	    }
-	  };
-	}
-
-
-	function parentAndCurrentListGetter(name, contentProps) {
-	  return function() {
-	    return hashzip(['parent', 'current'], [
-	        this.getForLangList('parent', name, contentProps),
-	        this.getForLangList(null, name, contentProps)
-	    ]);
-	  };
-	}
-
-
-	function proxyBlock(name) {
-	  return function() {
-	    // We can't dynamically delegate to the relevant block's computed
-	    // properties, Ractive.js doesn't seem able to react to changes that way.
-	    // Instead, we borrow the property.
-	    return this.get('block').computed[name].call(this);
-	  };
-	}
-
-
-	function hashzip(names, lists) {
-	  return _.zipWith.apply(_, lists.concat(function(a, v, i, group) {
-	    return _.zipObject(names, group);
-	  }));
-	}
-
-
 	var totalsChart = sapphire.widgets.lines()
 	  .explicitComponents(true)
 	  .metrics(function(d) {
@@ -73728,15 +73654,6 @@
 	  .x(function(d) { return d[0]; })
 	  .y(function(d) { return d[1]; });
 
-
-	// TODO move these to a utils module
-	Base.proxyBlock = proxyBlock;
-	Base.newContentProp = newContentProp;
-	Base.newListPropWithContent = newListPropWithContent;
-	Base.newRoContentProp = newRoContentProp;
-	Base.newListPropWithContent = newListPropWithContent;
-	Base.newRoListPropWithContent = newRoListPropWithContent;
-	Base.parentAndCurrentListGetter = parentAndCurrentListGetter;
 
 	module.exports = Base;
 
@@ -85084,7 +85001,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Base = __webpack_require__(160);
-	var proxyBlock = Base.proxyBlock;
+	var proxyProp = __webpack_require__(221).proxyProp;
 
 
 	var Screen = Base.extend({
@@ -85104,8 +85021,8 @@
 
 	Screen.Edit = Base.Edit.extend({
 	  computed: {
-	    charCount: proxyBlock('charCount'),
-	    charCountIsHigh: proxyBlock('charCountIsHigh')
+	    charCount: proxyProp('block', 'charCount'),
+	    charCountIsHigh: proxyProp('block', 'charCountIsHigh')
 	  }
 	});
 
@@ -85162,18 +85079,13 @@
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(15);
 	var uuid = __webpack_require__(23);
-	var Base = __webpack_require__(160);
 	var Screen = __webpack_require__(165);
+	var utils = __webpack_require__(221);
 	var drawers = __webpack_require__(135);
 	var ChooseSequence = __webpack_require__(171);
 	var Chooser = __webpack_require__(166);
 	var Areas = __webpack_require__(173);
 	var sapphire = __webpack_require__(162);
-	var newContentProp = Base.newContentProp;
-	var newRoContentProp = Base.newRoContentProp;
-	var newListPropWithContent = Base.newListPropWithContent;
-	var newRoListPropWithContent = Base.newRoListPropWithContent;
-	var parentAndCurrentListGetter = Base.parentAndCurrentListGetter;
 
 
 	var AskChoice = Screen.extend({
@@ -85206,8 +85118,8 @@
 	        .join('\n')
 	        .length;
 	    },
-	    text: newContentProp('text'),
-	    textParent: newRoContentProp('text', 'parent'),
+	    text: utils.contentProp('text'),
+	    textParent: utils.contentProp('text', 'parent'),
 	    choices: function() {
 	      return (this.get('allChoices') || []).slice(0, -1);
 	    },
@@ -85217,9 +85129,9 @@
 	    choicesPreview: function() {
 	      return this.get('allChoicesPreview').slice(0, -1);
 	    },
-	    allChoices: newListPropWithContent('allChoices', ['text']),
-	    allChoicesPreview: parentAndCurrentListGetter('allChoices', ['text']),
-	    allChoicesParent: newRoListPropWithContent('allChoices', ['text'], 'parent')
+	    allChoices: utils.listPropWithContent('allChoices', ['text']),
+	    allChoicesPreview: utils.parentAndCurrentListGetter('allChoices', ['text']),
+	    allChoicesParent: utils.listPropWithContent('allChoices', ['text'], 'parent')
 	  },
 	  newChoice: function() {
 	    return {
@@ -86315,13 +86227,10 @@
 /* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Base = __webpack_require__(160);
 	var Screen = __webpack_require__(165);
+	var utils = __webpack_require__(221);
 	var drawers = __webpack_require__(135);
 	var Chooser = __webpack_require__(166);
-	var proxyBlock = Base.proxyBlock;
-	var newContentProp = Base.newContentProp;
-	var newRoContentProp = Base.newRoContentProp;
 
 
 	var Ask = Screen.extend({
@@ -86336,10 +86245,10 @@
 	    invalidCharCountIsHigh: function() {
 	      return this.get('invalidCharCount') > this.get('highCharCount');
 	    },
-	    text: newContentProp('text'),
-	    textParent: newRoContentProp('text', 'parent'),
-	    invalidInputText: newContentProp('invalidInputText'),
-	    invalidInputTextParent: newRoContentProp('invalidInputText', 'parent'),
+	    text: utils.contentProp('text'),
+	    textParent: utils.contentProp('text', 'parent'),
+	    invalidInputText: utils.contentProp('invalidInputText'),
+	    invalidInputTextParent: utils.contentProp('invalidInputText', 'parent'),
 	  },
 	  data: function() {
 	    return {
@@ -86356,8 +86265,8 @@
 	Ask.Edit = Screen.Edit.extend({
 	  template: __webpack_require__(189),
 	  computed: {
-	    invalidCharCount: proxyBlock('invalidCharCount'),
-	    invalidCharCountIsHigh: proxyBlock('invalidCharCountIsHigh'),
+	    invalidCharCount: utils.proxyProp('block', 'invalidCharCount'),
+	    invalidCharCountIsHigh: utils.proxyProp('block', 'invalidCharCountIsHigh'),
 	    useAnswerSaving: function() {
 	      return !!this.get('saveAs');
 	    }
@@ -86941,12 +86850,10 @@
 /* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Base = __webpack_require__(160);
 	var Screen = __webpack_require__(165);
+	var utils = __webpack_require__(221);
 	var drawers = __webpack_require__(135);
 	var Chooser = __webpack_require__(166);
-	var newContentProp = Base.newContentProp;
-	var newRoContentProp = Base.newRoContentProp;
 
 
 	var End = Screen.extend({
@@ -86955,8 +86862,8 @@
 	    charCount: function() {
 	      return this.get('text').length;
 	    },
-	    text: newContentProp('text'),
-	    textParent: newRoContentProp('text', 'parent')
+	    text: utils.contentProp('text'),
+	    textParent: utils.contentProp('text', 'parent')
 	  },
 	  isComplete: function() {
 	    return this.get('text');
@@ -87009,12 +86916,10 @@
 /* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Base = __webpack_require__(160);
 	var Screen = __webpack_require__(165);
+	var utils = __webpack_require__(221);
 	var drawers = __webpack_require__(135);
 	var Chooser = __webpack_require__(166);
-	var newContentProp = Base.newContentProp;
-	var newRoContentProp = Base.newRoContentProp;
 
 
 	var NextNMonths = Screen.extend({
@@ -87032,8 +86937,8 @@
 	        .join('\n')
 	        .length;
 	    },
-	    text: newContentProp('text'),
-	    textParent: newRoContentProp('text', 'parent'),
+	    text: utils.contentProp('text'),
+	    textParent: utils.contentProp('text', 'parent'),
 	    exampleMonths: function() {
 	      return [
 	        "Nov",
@@ -87340,6 +87245,93 @@
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Note ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["is-incomplete"],"n":51,"r":"text"}]},"f":[{"t":7,"e":"label","f":["Text"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
+
+/***/ },
+/* 221 */
+/***/ function(module, exports) {
+
+	function contentPropGetter(name, langId) {
+	  langId = langId || null;
+
+	  return function() {
+	    return this.getForLang(langId, name);
+	  };
+	}
+
+
+	function contentProp(name, langId) {
+	  langId = langId || null;
+
+	  return {
+	    get: function() {
+	      return this.getForLang(langId, name);
+	    },
+	    set: function(v) {
+	      this.setForLang(langId, name, v);
+	    }
+	  };
+	}
+
+
+	function listPropWithContentGetter(name, contentProps, langId) {
+	  langId = langId || null;
+
+	  return function() {
+	    return this.getForLangList(langId, name, contentProps);
+	  };
+	}
+
+
+	function listPropWithContent(name, contentProps, langId) {
+	  langId = langId || null;
+
+	  return {
+	    get: function() {
+	      return this.getForLangList(langId, name, contentProps);
+	    },
+	    set: function(data) {
+	      this.setForLangList(langId, name, contentProps, data);
+	    }
+	  };
+	}
+
+
+	function parentAndCurrentListGetter(name, contentProps) {
+	  return function() {
+	    return hashzip(['parent', 'current'], [
+	        this.getForLangList('parent', name, contentProps),
+	        this.getForLangList(null, name, contentProps)
+	    ]);
+	  };
+	}
+
+
+	function proxyProp(targetName, propName) {
+	  return function() {
+	    // We can't dynamically delegate to the relevant block's computed
+	    // properties, Ractive.js doesn't seem able to react to changes that way.
+	    // Instead, we borrow the property.
+	    return this.get(targetName).computed[propName].call(this);
+	  };
+	}
+
+
+	function hashzip(names, lists) {
+	  return _.zipWith.apply(_, lists.concat(function(a, v, i, group) {
+	    return _.zipObject(names, group);
+	  }));
+	}
+
+
+	exports.proxyProp = proxyProp;
+	exports.contentProp = contentProp;
+	exports.listPropWithContent = listPropWithContent;
+	exports.contentPropGetter = contentPropGetter;
+	exports.listPropWithContent = listPropWithContent;
+	exports.listPropWithContentGetter = listPropWithContentGetter;
+	exports.parentAndCurrentListGetter = parentAndCurrentListGetter;
+	exports.hashzip = hashzip;
+
 
 /***/ }
 /******/ ]);
