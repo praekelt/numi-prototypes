@@ -1150,3 +1150,7 @@ a.nm-list-group-item-drawer-secondary {
 .nm-editor-textarea {
   padding: 2px;
 }
+
+.nm-char-nonascii {
+  border-bottom: 2px solid $fg-warning0;
+}

@@ -1,9 +1,11 @@
 var Base = require('../base');
+var utils = require('../../../utils');
 var proxyProp = require('../utils').proxyProp;
 
 
 var Screen = Base.extend({
   data: {
+    charParser: charParser,
     highCharCount: 140
   },
   computed: {
@@ -27,6 +29,13 @@ Screen.Edit = Base.Edit.extend({
     hasNonAsciiChars: proxyProp('block', 'hasNonAsciiChars')
   }
 });
+
+
+function charParser(c) {
+  return utils.isNonAscii(c)
+    ? ['nm-char-nonascii']
+    : [];
+}
 
 
 Screen.Stats = Base.Stats.extend();

@@ -10,6 +10,7 @@ require('../bootstrap/js/bootstrap.min.js');
 require('../bower_components/sapphire/build/sapphire.css');
 require('../bower_components/sapphire/build/sapphire-theme.css');
 require('./ractive-extensions');
+require('rangy/lib/rangy-textrange');
 
 var page = require('page');
 var Dashboard = require('./views/dashboard');
