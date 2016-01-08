@@ -11,5 +11,11 @@ function hashzip(names, lists) {
 }
 
 
+function isNonAscii(s) {
+  return s.charCodeAt(0) > 127;
+}
+
+
 exports.log = log;
 exports.hashzip = hashzip;
+exports.isNonAscii = isNonAscii;

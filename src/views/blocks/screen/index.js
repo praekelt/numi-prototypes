@@ -12,6 +12,9 @@ var Screen = Base.extend({
     },
     charCountIsHigh: function() {
       return this.get('charCount') > this.get('highCharCount');
+    },
+    hasNonAsciiChars: function() {
+      return false;
     }
   }
 });
@@ -20,7 +23,8 @@ var Screen = Base.extend({
 Screen.Edit = Base.Edit.extend({
   computed: {
     charCount: proxyProp('block', 'charCount'),
-    charCountIsHigh: proxyProp('block', 'charCountIsHigh')
+    charCountIsHigh: proxyProp('block', 'charCountIsHigh'),
+    hasNonAsciiChars: proxyProp('block', 'hasNonAsciiChars')
   }
 });
 
