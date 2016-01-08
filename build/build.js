@@ -59,12 +59,12 @@
 
 	var page = __webpack_require__(18);
 	var Dashboard = __webpack_require__(22);
-	var pg = __webpack_require__(142);
-	var drawers = __webpack_require__(135);
-	var hist = __webpack_require__(133);
-	var persist = __webpack_require__(145);
+	var pg = __webpack_require__(46);
+	var drawers = __webpack_require__(47);
+	var hist = __webpack_require__(139);
+	var persist = __webpack_require__(221);
 
-	window.log = __webpack_require__(221).log;
+	window.log = __webpack_require__(160).log;
 
 	window.dashboard = Dashboard({
 	  el: $('<div>'),
@@ -55393,16 +55393,16 @@
 	var _ = __webpack_require__(15);
 	var uuid = __webpack_require__(23);
 	var Ractive = __webpack_require__(17);
-	var NewDialogue = __webpack_require__(146);
-	var Dialogue = __webpack_require__(45);
-	var pg = __webpack_require__(142);
-	var drawers = __webpack_require__(135);
-	var seqtree = __webpack_require__(134);
-	var bootbox = __webpack_require__(143);
+	var NewDialogue = __webpack_require__(45);
+	var Dialogue = __webpack_require__(51);
+	var pg = __webpack_require__(46);
+	var drawers = __webpack_require__(47);
+	var seqtree = __webpack_require__(140);
+	var bootbox = __webpack_require__(219);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(144),
+	  template: __webpack_require__(220),
 	  data: function() {
 	    return {
 	      renamingCampaign: false,
@@ -59667,20 +59667,258 @@
 /* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var pg = __webpack_require__(46);
+	var drawers = __webpack_require__(47);
+	var page = __webpack_require__(18);
+	var Base = __webpack_require__(48);
+
+
+	module.exports = Base.extend({
+	  template: __webpack_require__(50),
+	  create: function() {
+	    var dialogue = this.get('dashboard').addDialogue(this.get('name'));
+	    drawers.close(this);
+	    page('./#!/dialogues/' + dialogue.get('id'));
+	    pg.push(dialogue);
+	  },
+	  close: function() {
+	    drawers.close(this);
+	  }
+	});
+
+
+/***/ },
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $ = __webpack_require__(1);
+
+
+	var stack = [];
+
+
+	function push(view) {
+	  stack.push(view);
+	  switchTo(view);
+	}
+
+
+	function pop() {
+	  stack.pop()
+	  var view = peek();
+	  if (view) switchTo(view);
+	  return view;
+	}
+
+
+	function peek() {
+	  return stack.slice(-1)[0];
+	}
+
+
+	function switchTo(view) {
+	  $('.nm-curr-pg')
+	    .removeClass('nm-curr-pg')
+	    .detach();
+	  
+	  $(view.el)
+	    .addClass('nm-curr-pg')
+	    .appendTo('#app');
+	}
+
+
+	exports.push = push;
+	exports.pop = pop;
+	exports.peek = peek;
+
+
+/***/ },
+/* 47 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var _ = __webpack_require__(15);
+	var $ = __webpack_require__(1);
+
+
+	var openDuration = 200;
+	var closeDuration = 200;
+	var changeCloseDuration = 100;
+	var stack = [];
+
+
+	function close(view, duration) {
+	  var i = stack.length - 1;
+	  if (view) i = _.findIndex(stack, {view: view});
+	  if (i < 0) return Promise.resolve();
+
+	  var drawer = stack[i];
+	  stack.splice(i, 1);
+
+	  return new Promise(function(resolve, reject) {
+	    drawer.$el
+	      .hide({
+	        effect: 'slide',
+	        duration: duration || closeDuration,
+	        direction: 'right',
+	        complete: function() {
+	          $('body').unbind('click', drawer.onBodyClick);
+	          drawer.view.teardown();
+	          resolve();
+	        }
+	      });
+	  });
+	}
+
+
+	function closeAll() {
+	  while (stack.length) close();
+	}
+
+
+	function open(view, opts) {
+	  var drawer = {
+	    view: view,
+	    $el: newDrawer(opts).appendTo('.nm-drawers'),
+	    onBodyClick: onBodyClick
+	  };
+
+	  stack.push(drawer);
+
+	  return new Promise(function(resolve) {
+	    drawer.$el
+	      .find('.nm-drawer-body')
+	      .append(view.el);
+
+	    drawer.$el
+	      .show({
+	        effect: 'slide',
+	        duration: openDuration,
+	        direction: 'right',
+	        complete: function() {
+	          $('body').on('click', onBodyClick);
+	          focusFirstInput(view.el);
+	          resolve();
+	        }
+	      });
+	  });
+
+	  function onBodyClick(e) {
+	    var $target = $(e.target);
+	    if ($target.is(':input')) return;
+	    if ($target.parents('.nm-drawer').length > 0) return;
+	    close(drawer.view);
+	  }
+	}
+
+
+	function change(view) {
+	  var curr = _.last(stack);
+
+	  return curr
+	    ? close(curr.view, changeCloseDuration)
+	      .then(function() { return open(view); })
+	    : open(view);
+	}
+
+
+	function isFirst(view) {
+	  return _.findIndex(stack, {view: view}) === 0;
+	}
+
+
+	function newDrawer(opts) {
+	  opts = _.defaults({}, opts || {}, {isThin: false});
+
+	  var $el = $([
+	    '<div class="nm-drawer" hidden>',
+	  '    <div class="nm-drawer-body"></div>',
+	    '</div>'
+	  ].join('\n'));
+
+	  if (opts.isThin) $el.addClass('nm-drawer-thin');
+
+	  return $el;
+	}
+
+
+	function focusFirstInput(el) {
+	  var $input = $(el).find(':not(button):input').eq(0);
+	  var val = $input.val();
+	  if (val) $input.val('').val(val);
+	  $input.focus();
+	}
+
+
+	exports.close = close;
+	exports.closeAll = closeAll;
+	exports.open = open;
+	exports.change = change;
+	exports.isFirst = isFirst;
+
+
+/***/ },
+/* 48 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var drawers = __webpack_require__(47);
+	var Ractive = __webpack_require__(17);
+
+
+	var Base = Ractive.extend({
+	  partials: {header: __webpack_require__(49)},
+	  oncomplete: function() {
+	    this.update('isFirstDrawer');
+	  },
+	  computed: {
+	    isFirstDrawer: function() {
+	      return drawers.isFirst(this);
+	    }
+	  },
+	  open: function() {
+	    drawers.open(this);
+	  },
+	  close: function() {
+	    drawers.closeAll();
+	  },
+	  back: function() {
+	    drawers.close(this);
+	  }
+	});
+
+
+	module.exports = Base;
+
+
+/***/ },
+/* 49 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":[{"t":2,"r":"title"}," ",{"t":7,"e":"div","a":{"class":"pull-right"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-link nm-text-top"},"v":{"click":{"m":"back","a":{"r":[],"s":"[]"}}},"f":["← Back"]}],"n":51,"r":"isFirstDrawer"}," ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}]}]};
+
+/***/ },
+/* 50 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"n":53,"f":[{"t":8,"r":"header"}],"x":{"r":[],"s":"{title:\"Add new dialogue\"}"}}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell"},"f":[{"t":7,"e":"label","f":["Name of the new dialogue"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"name"}]}}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"create","a":{"r":[],"s":"[]"}}},"f":["Add ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
+
+/***/ },
+/* 51 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(15);
-	var moment = __webpack_require__(46);
+	var moment = __webpack_require__(52);
 	var uuid = __webpack_require__(23);
 	var Ractive = __webpack_require__(17);
-	var hist = __webpack_require__(133);
-	var seqtree = __webpack_require__(134);
-	var drawers = __webpack_require__(135);
-	var DialogueMenu = __webpack_require__(150);
-	var ChooseLanguage = __webpack_require__(153);
+	var hist = __webpack_require__(139);
+	var seqtree = __webpack_require__(140);
+	var drawers = __webpack_require__(47);
+	var DialogueMenu = __webpack_require__(141);
+	var ChooseLanguage = __webpack_require__(144);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(136),
+	  template: __webpack_require__(147),
 	  data: function() {
 	    return {
 	      silent: null,
@@ -59836,7 +60074,7 @@
 	    this.deepUpdate();
 	  },
 	  components: {
-	    seqsurrogate: __webpack_require__(137)
+	    seqsurrogate: __webpack_require__(148)
 	  },
 	  computed: {
 	    campaignName: function() {
@@ -59888,7 +60126,7 @@
 
 
 /***/ },
-/* 46 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {//! moment.js
@@ -60159,7 +60397,7 @@
 	                module && module.exports) {
 	            try {
 	                oldLocale = globalLocale._abbr;
-	                __webpack_require__(47)("./" + name);
+	                __webpack_require__(53)("./" + name);
 	                // because defineLocale currently also sets the global locale, we
 	                // want to undo that for lazy loaded locales
 	                locale_locales__getSetGlobalLocale(oldLocale);
@@ -63089,180 +63327,180 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)(module)))
 
 /***/ },
-/* 47 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./af": 48,
-		"./af.js": 48,
-		"./ar": 49,
-		"./ar-ma": 50,
-		"./ar-ma.js": 50,
-		"./ar-sa": 51,
-		"./ar-sa.js": 51,
-		"./ar-tn": 52,
-		"./ar-tn.js": 52,
-		"./ar.js": 49,
-		"./az": 53,
-		"./az.js": 53,
-		"./be": 54,
-		"./be.js": 54,
-		"./bg": 55,
-		"./bg.js": 55,
-		"./bn": 56,
-		"./bn.js": 56,
-		"./bo": 57,
-		"./bo.js": 57,
-		"./br": 58,
-		"./br.js": 58,
-		"./bs": 59,
-		"./bs.js": 59,
-		"./ca": 60,
-		"./ca.js": 60,
-		"./cs": 61,
-		"./cs.js": 61,
-		"./cv": 62,
-		"./cv.js": 62,
-		"./cy": 63,
-		"./cy.js": 63,
-		"./da": 64,
-		"./da.js": 64,
-		"./de": 65,
-		"./de-at": 66,
-		"./de-at.js": 66,
-		"./de.js": 65,
-		"./el": 67,
-		"./el.js": 67,
-		"./en-au": 68,
-		"./en-au.js": 68,
-		"./en-ca": 69,
-		"./en-ca.js": 69,
-		"./en-gb": 70,
-		"./en-gb.js": 70,
-		"./eo": 71,
-		"./eo.js": 71,
-		"./es": 72,
-		"./es.js": 72,
-		"./et": 73,
-		"./et.js": 73,
-		"./eu": 74,
-		"./eu.js": 74,
-		"./fa": 75,
-		"./fa.js": 75,
-		"./fi": 76,
-		"./fi.js": 76,
-		"./fo": 77,
-		"./fo.js": 77,
-		"./fr": 78,
-		"./fr-ca": 79,
-		"./fr-ca.js": 79,
-		"./fr.js": 78,
-		"./fy": 80,
-		"./fy.js": 80,
-		"./gl": 81,
-		"./gl.js": 81,
-		"./he": 82,
-		"./he.js": 82,
-		"./hi": 83,
-		"./hi.js": 83,
-		"./hr": 84,
-		"./hr.js": 84,
-		"./hu": 85,
-		"./hu.js": 85,
-		"./hy-am": 86,
-		"./hy-am.js": 86,
-		"./id": 87,
-		"./id.js": 87,
-		"./is": 88,
-		"./is.js": 88,
-		"./it": 89,
-		"./it.js": 89,
-		"./ja": 90,
-		"./ja.js": 90,
-		"./jv": 91,
-		"./jv.js": 91,
-		"./ka": 92,
-		"./ka.js": 92,
-		"./km": 93,
-		"./km.js": 93,
-		"./ko": 94,
-		"./ko.js": 94,
-		"./lb": 95,
-		"./lb.js": 95,
-		"./lt": 96,
-		"./lt.js": 96,
-		"./lv": 97,
-		"./lv.js": 97,
-		"./me": 98,
-		"./me.js": 98,
-		"./mk": 99,
-		"./mk.js": 99,
-		"./ml": 100,
-		"./ml.js": 100,
-		"./mr": 101,
-		"./mr.js": 101,
-		"./ms": 102,
-		"./ms-my": 103,
-		"./ms-my.js": 103,
-		"./ms.js": 102,
-		"./my": 104,
-		"./my.js": 104,
-		"./nb": 105,
-		"./nb.js": 105,
-		"./ne": 106,
-		"./ne.js": 106,
-		"./nl": 107,
-		"./nl.js": 107,
-		"./nn": 108,
-		"./nn.js": 108,
-		"./pl": 109,
-		"./pl.js": 109,
-		"./pt": 110,
-		"./pt-br": 111,
-		"./pt-br.js": 111,
-		"./pt.js": 110,
-		"./ro": 112,
-		"./ro.js": 112,
-		"./ru": 113,
-		"./ru.js": 113,
-		"./si": 114,
-		"./si.js": 114,
-		"./sk": 115,
-		"./sk.js": 115,
-		"./sl": 116,
-		"./sl.js": 116,
-		"./sq": 117,
-		"./sq.js": 117,
-		"./sr": 118,
-		"./sr-cyrl": 119,
-		"./sr-cyrl.js": 119,
-		"./sr.js": 118,
-		"./sv": 120,
-		"./sv.js": 120,
-		"./ta": 121,
-		"./ta.js": 121,
-		"./th": 122,
-		"./th.js": 122,
-		"./tl-ph": 123,
-		"./tl-ph.js": 123,
-		"./tr": 124,
-		"./tr.js": 124,
-		"./tzl": 125,
-		"./tzl.js": 125,
-		"./tzm": 126,
-		"./tzm-latn": 127,
-		"./tzm-latn.js": 127,
-		"./tzm.js": 126,
-		"./uk": 128,
-		"./uk.js": 128,
-		"./uz": 129,
-		"./uz.js": 129,
-		"./vi": 130,
-		"./vi.js": 130,
-		"./zh-cn": 131,
-		"./zh-cn.js": 131,
-		"./zh-tw": 132,
-		"./zh-tw.js": 132
+		"./af": 54,
+		"./af.js": 54,
+		"./ar": 55,
+		"./ar-ma": 56,
+		"./ar-ma.js": 56,
+		"./ar-sa": 57,
+		"./ar-sa.js": 57,
+		"./ar-tn": 58,
+		"./ar-tn.js": 58,
+		"./ar.js": 55,
+		"./az": 59,
+		"./az.js": 59,
+		"./be": 60,
+		"./be.js": 60,
+		"./bg": 61,
+		"./bg.js": 61,
+		"./bn": 62,
+		"./bn.js": 62,
+		"./bo": 63,
+		"./bo.js": 63,
+		"./br": 64,
+		"./br.js": 64,
+		"./bs": 65,
+		"./bs.js": 65,
+		"./ca": 66,
+		"./ca.js": 66,
+		"./cs": 67,
+		"./cs.js": 67,
+		"./cv": 68,
+		"./cv.js": 68,
+		"./cy": 69,
+		"./cy.js": 69,
+		"./da": 70,
+		"./da.js": 70,
+		"./de": 71,
+		"./de-at": 72,
+		"./de-at.js": 72,
+		"./de.js": 71,
+		"./el": 73,
+		"./el.js": 73,
+		"./en-au": 74,
+		"./en-au.js": 74,
+		"./en-ca": 75,
+		"./en-ca.js": 75,
+		"./en-gb": 76,
+		"./en-gb.js": 76,
+		"./eo": 77,
+		"./eo.js": 77,
+		"./es": 78,
+		"./es.js": 78,
+		"./et": 79,
+		"./et.js": 79,
+		"./eu": 80,
+		"./eu.js": 80,
+		"./fa": 81,
+		"./fa.js": 81,
+		"./fi": 82,
+		"./fi.js": 82,
+		"./fo": 83,
+		"./fo.js": 83,
+		"./fr": 84,
+		"./fr-ca": 85,
+		"./fr-ca.js": 85,
+		"./fr.js": 84,
+		"./fy": 86,
+		"./fy.js": 86,
+		"./gl": 87,
+		"./gl.js": 87,
+		"./he": 88,
+		"./he.js": 88,
+		"./hi": 89,
+		"./hi.js": 89,
+		"./hr": 90,
+		"./hr.js": 90,
+		"./hu": 91,
+		"./hu.js": 91,
+		"./hy-am": 92,
+		"./hy-am.js": 92,
+		"./id": 93,
+		"./id.js": 93,
+		"./is": 94,
+		"./is.js": 94,
+		"./it": 95,
+		"./it.js": 95,
+		"./ja": 96,
+		"./ja.js": 96,
+		"./jv": 97,
+		"./jv.js": 97,
+		"./ka": 98,
+		"./ka.js": 98,
+		"./km": 99,
+		"./km.js": 99,
+		"./ko": 100,
+		"./ko.js": 100,
+		"./lb": 101,
+		"./lb.js": 101,
+		"./lt": 102,
+		"./lt.js": 102,
+		"./lv": 103,
+		"./lv.js": 103,
+		"./me": 104,
+		"./me.js": 104,
+		"./mk": 105,
+		"./mk.js": 105,
+		"./ml": 106,
+		"./ml.js": 106,
+		"./mr": 107,
+		"./mr.js": 107,
+		"./ms": 108,
+		"./ms-my": 109,
+		"./ms-my.js": 109,
+		"./ms.js": 108,
+		"./my": 110,
+		"./my.js": 110,
+		"./nb": 111,
+		"./nb.js": 111,
+		"./ne": 112,
+		"./ne.js": 112,
+		"./nl": 113,
+		"./nl.js": 113,
+		"./nn": 114,
+		"./nn.js": 114,
+		"./pl": 115,
+		"./pl.js": 115,
+		"./pt": 116,
+		"./pt-br": 117,
+		"./pt-br.js": 117,
+		"./pt.js": 116,
+		"./ro": 118,
+		"./ro.js": 118,
+		"./ru": 119,
+		"./ru.js": 119,
+		"./si": 120,
+		"./si.js": 120,
+		"./sk": 121,
+		"./sk.js": 121,
+		"./sl": 122,
+		"./sl.js": 122,
+		"./sq": 123,
+		"./sq.js": 123,
+		"./sr": 124,
+		"./sr-cyrl": 125,
+		"./sr-cyrl.js": 125,
+		"./sr.js": 124,
+		"./sv": 126,
+		"./sv.js": 126,
+		"./ta": 127,
+		"./ta.js": 127,
+		"./th": 128,
+		"./th.js": 128,
+		"./tl-ph": 129,
+		"./tl-ph.js": 129,
+		"./tr": 130,
+		"./tr.js": 130,
+		"./tzl": 131,
+		"./tzl.js": 131,
+		"./tzm": 132,
+		"./tzm-latn": 133,
+		"./tzm-latn.js": 133,
+		"./tzm.js": 132,
+		"./uk": 134,
+		"./uk.js": 134,
+		"./uz": 135,
+		"./uz.js": 135,
+		"./vi": 136,
+		"./vi.js": 136,
+		"./zh-cn": 137,
+		"./zh-cn.js": 137,
+		"./zh-tw": 138,
+		"./zh-tw.js": 138
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -63275,11 +63513,11 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 47;
+	webpackContext.id = 53;
 
 
 /***/ },
-/* 48 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -63287,7 +63525,7 @@
 	//! author : Werner Mollentze : https://github.com/wernerm
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -63356,7 +63594,7 @@
 	}));
 
 /***/ },
-/* 49 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -63366,7 +63604,7 @@
 	//! Native plural forms: forabi https://github.com/forabi
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -63496,7 +63734,7 @@
 	}));
 
 /***/ },
-/* 50 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -63505,7 +63743,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -63559,7 +63797,7 @@
 	}));
 
 /***/ },
-/* 51 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -63567,7 +63805,7 @@
 	//! author : Suhail Alkowaileet : https://github.com/xsoh
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -63666,14 +63904,14 @@
 	}));
 
 /***/ },
-/* 52 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 	//! locale  : Tunisian Arabic (ar-tn)
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -63727,7 +63965,7 @@
 	}));
 
 /***/ },
-/* 53 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -63735,7 +63973,7 @@
 	//! author : topchiyev : https://github.com/topchiyev
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -63835,7 +64073,7 @@
 	}));
 
 /***/ },
-/* 54 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -63845,7 +64083,7 @@
 	//! Author : Menelion Elensúle : https://github.com/Oire
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -63986,7 +64224,7 @@
 	}));
 
 /***/ },
-/* 55 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -63994,7 +64232,7 @@
 	//! author : Krasen Borisov : https://github.com/kraz
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -64080,7 +64318,7 @@
 	}));
 
 /***/ },
-/* 56 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -64088,7 +64326,7 @@
 	//! author : Kaushik Gandhi : https://github.com/kaushikgandhi
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -64197,7 +64435,7 @@
 	}));
 
 /***/ },
-/* 57 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -64205,7 +64443,7 @@
 	//! author : Thupten N. Chakrishar : https://github.com/vajradog
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -64311,7 +64549,7 @@
 	}));
 
 /***/ },
-/* 58 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -64319,7 +64557,7 @@
 	//! author : Jean-Baptiste Le Duigou : https://github.com/jbleduigou
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -64422,7 +64660,7 @@
 	}));
 
 /***/ },
-/* 59 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -64431,7 +64669,7 @@
 	//! based on (hr) translation by Bojan Marković
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -64567,7 +64805,7 @@
 	}));
 
 /***/ },
-/* 60 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -64575,7 +64813,7 @@
 	//! author : Juan G. Hurtado : https://github.com/juanghurtado
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -64650,7 +64888,7 @@
 	}));
 
 /***/ },
-/* 61 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -64658,7 +64896,7 @@
 	//! author : petrbela : https://github.com/petrbela
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -64811,7 +65049,7 @@
 	}));
 
 /***/ },
-/* 62 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -64819,7 +65057,7 @@
 	//! author : Anatoly Mironov : https://github.com/mirontoli
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -64878,7 +65116,7 @@
 	}));
 
 /***/ },
-/* 63 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -64886,7 +65124,7 @@
 	//! author : Robert Allen
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -64961,7 +65199,7 @@
 	}));
 
 /***/ },
-/* 64 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -64969,7 +65207,7 @@
 	//! author : Ulrik Nielsen : https://github.com/mrbase
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -65025,7 +65263,7 @@
 	}));
 
 /***/ },
-/* 65 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -65034,7 +65272,7 @@
 	//! author: Menelion Elensúle: https://github.com/Oire
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -65104,7 +65342,7 @@
 	}));
 
 /***/ },
-/* 66 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -65114,7 +65352,7 @@
 	//! author : Martin Groller : https://github.com/MadMG
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -65184,7 +65422,7 @@
 	}));
 
 /***/ },
-/* 67 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -65192,7 +65430,7 @@
 	//! author : Aggelos Karalias : https://github.com/mehiel
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -65282,14 +65520,14 @@
 	}));
 
 /***/ },
-/* 68 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 	//! locale : australian english (en-au)
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -65352,7 +65590,7 @@
 	}));
 
 /***/ },
-/* 69 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -65360,7 +65598,7 @@
 	//! author : Jonathan Abourbih : https://github.com/jonbca
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -65419,7 +65657,7 @@
 	}));
 
 /***/ },
-/* 70 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -65427,7 +65665,7 @@
 	//! author : Chris Gedrim : https://github.com/chrisgedrim
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -65490,7 +65728,7 @@
 	}));
 
 /***/ },
-/* 71 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -65500,7 +65738,7 @@
 	//!          Se ne, bonvolu korekti kaj avizi min por ke mi povas lerni!
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -65567,7 +65805,7 @@
 	}));
 
 /***/ },
-/* 72 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -65575,7 +65813,7 @@
 	//! author : Julio Napurí : https://github.com/julionc
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -65650,7 +65888,7 @@
 	}));
 
 /***/ },
-/* 73 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -65659,7 +65897,7 @@
 	//! improvements : Illimar Tambek : https://github.com/ragulka
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -65734,7 +65972,7 @@
 	}));
 
 /***/ },
-/* 74 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -65742,7 +65980,7 @@
 	//! author : Eneko Illarramendi : https://github.com/eillarra
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -65802,7 +66040,7 @@
 	}));
 
 /***/ },
-/* 75 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -65810,7 +66048,7 @@
 	//! author : Ebrahim Byagowi : https://github.com/ebraminio
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -65911,7 +66149,7 @@
 	}));
 
 /***/ },
-/* 76 */
+/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -65919,7 +66157,7 @@
 	//! author : Tarmo Aidantausta : https://github.com/bleadof
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -66022,7 +66260,7 @@
 	}));
 
 /***/ },
-/* 77 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -66030,7 +66268,7 @@
 	//! author : Ragnar Johannesen : https://github.com/ragnar123
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -66086,7 +66324,7 @@
 	}));
 
 /***/ },
-/* 78 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -66094,7 +66332,7 @@
 	//! author : John Fischer : https://github.com/jfroffice
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -66152,7 +66390,7 @@
 	}));
 
 /***/ },
-/* 79 */
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -66160,7 +66398,7 @@
 	//! author : Jonathan Abourbih : https://github.com/jonbca
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -66214,7 +66452,7 @@
 	}));
 
 /***/ },
-/* 80 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -66222,7 +66460,7 @@
 	//! author : Robin van der Vliet : https://github.com/robin0van0der0v
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -66289,7 +66527,7 @@
 	}));
 
 /***/ },
-/* 81 */
+/* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -66297,7 +66535,7 @@
 	//! author : Juan G. Hurtado : https://github.com/juanghurtado
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -66368,7 +66606,7 @@
 	}));
 
 /***/ },
-/* 82 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -66378,7 +66616,7 @@
 	//! author : Tal Ater : https://github.com/TalAter
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -66454,7 +66692,7 @@
 	}));
 
 /***/ },
-/* 83 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -66462,7 +66700,7 @@
 	//! author : Mayank Singhal : https://github.com/mayanksinghal
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -66581,7 +66819,7 @@
 	}));
 
 /***/ },
-/* 84 */
+/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -66589,7 +66827,7 @@
 	//! author : Bojan Marković : https://github.com/bmarkovic
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -66725,7 +66963,7 @@
 	}));
 
 /***/ },
-/* 85 */
+/* 91 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -66733,7 +66971,7 @@
 	//! author : Adam Brunner : https://github.com/adambrunner
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -66838,7 +67076,7 @@
 	}));
 
 /***/ },
-/* 86 */
+/* 92 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -66846,7 +67084,7 @@
 	//! author : Armendarabyan : https://github.com/armendarabyan
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -66953,7 +67191,7 @@
 	}));
 
 /***/ },
-/* 87 */
+/* 93 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -66962,7 +67200,7 @@
 	//! reference: http://id.wikisource.org/wiki/Pedoman_Umum_Ejaan_Bahasa_Indonesia_yang_Disempurnakan
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -67040,7 +67278,7 @@
 	}));
 
 /***/ },
-/* 88 */
+/* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -67048,7 +67286,7 @@
 	//! author : Hinrik Örn Sigurðsson : https://github.com/hinrik
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -67171,7 +67409,7 @@
 	}));
 
 /***/ },
-/* 89 */
+/* 95 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -67180,7 +67418,7 @@
 	//! author: Mattia Larentis: https://github.com/nostalgiaz
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -67245,7 +67483,7 @@
 	}));
 
 /***/ },
-/* 90 */
+/* 96 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -67253,7 +67491,7 @@
 	//! author : LI Long : https://github.com/baryon
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -67314,7 +67552,7 @@
 	}));
 
 /***/ },
-/* 91 */
+/* 97 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -67323,7 +67561,7 @@
 	//! reference: http://jv.wikipedia.org/wiki/Basa_Jawa
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -67401,7 +67639,7 @@
 	}));
 
 /***/ },
-/* 92 */
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -67409,7 +67647,7 @@
 	//! author : Irakli Janiashvili : https://github.com/irakli-janiashvili
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -67508,7 +67746,7 @@
 	}));
 
 /***/ },
-/* 93 */
+/* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -67516,7 +67754,7 @@
 	//! author : Kruy Vanna : https://github.com/kruyvanna
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -67570,7 +67808,7 @@
 	}));
 
 /***/ },
-/* 94 */
+/* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -67582,7 +67820,7 @@
 	//! - Jeeeyul Lee <jeeeyul@gmail.com>
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -67642,7 +67880,7 @@
 	}));
 
 /***/ },
-/* 95 */
+/* 101 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -67650,7 +67888,7 @@
 	//! author : mweimerskirch : https://github.com/mweimerskirch, David Raison : https://github.com/kwisatz
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -67780,7 +68018,7 @@
 	}));
 
 /***/ },
-/* 96 */
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -67788,7 +68026,7 @@
 	//! author : Mindaugas Mozūras : https://github.com/mmozuras
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -67909,7 +68147,7 @@
 	}));
 
 /***/ },
-/* 97 */
+/* 103 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -67918,7 +68156,7 @@
 	//! author : Jānis Elmeris : https://github.com/JanisE
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -68009,7 +68247,7 @@
 	}));
 
 /***/ },
-/* 98 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -68017,7 +68255,7 @@
 	//! author : Miodrag Nikač <miodrag@restartit.me> : https://github.com/miodragnikac
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -68122,7 +68360,7 @@
 	}));
 
 /***/ },
-/* 99 */
+/* 105 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -68130,7 +68368,7 @@
 	//! author : Borislav Mickov : https://github.com/B0k0
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -68216,7 +68454,7 @@
 	}));
 
 /***/ },
-/* 100 */
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -68224,7 +68462,7 @@
 	//! author : Floyd Pink : https://github.com/floydpink
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -68291,7 +68529,7 @@
 	}));
 
 /***/ },
-/* 101 */
+/* 107 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -68299,7 +68537,7 @@
 	//! author : Harshad Kale : https://github.com/kalehv
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -68416,7 +68654,7 @@
 	}));
 
 /***/ },
-/* 102 */
+/* 108 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -68424,7 +68662,7 @@
 	//! author : Weldan Jamili : https://github.com/weldan
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -68502,7 +68740,7 @@
 	}));
 
 /***/ },
-/* 103 */
+/* 109 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -68510,7 +68748,7 @@
 	//! author : Weldan Jamili : https://github.com/weldan
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -68588,7 +68826,7 @@
 	}));
 
 /***/ },
-/* 104 */
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -68596,7 +68834,7 @@
 	//! author : Squar team, mysquar.com
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -68685,7 +68923,7 @@
 	}));
 
 /***/ },
-/* 105 */
+/* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -68694,7 +68932,7 @@
 	//!           Sigurd Gartmann : https://github.com/sigurdga
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -68750,7 +68988,7 @@
 	}));
 
 /***/ },
-/* 106 */
+/* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -68758,7 +68996,7 @@
 	//! author : suvash : https://github.com/suvash
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -68877,7 +69115,7 @@
 	}));
 
 /***/ },
-/* 107 */
+/* 113 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -68885,7 +69123,7 @@
 	//! author : Joris Röling : https://github.com/jjupiter
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -68952,7 +69190,7 @@
 	}));
 
 /***/ },
-/* 108 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -68960,7 +69198,7 @@
 	//! author : https://github.com/mechuwind
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -69016,7 +69254,7 @@
 	}));
 
 /***/ },
-/* 109 */
+/* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -69024,7 +69262,7 @@
 	//! author : Rafal Hirsz : https://github.com/evoL
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -69125,7 +69363,7 @@
 	}));
 
 /***/ },
-/* 110 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -69133,7 +69371,7 @@
 	//! author : Jefferson : https://github.com/jalex79
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -69193,7 +69431,7 @@
 	}));
 
 /***/ },
-/* 111 */
+/* 117 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -69201,7 +69439,7 @@
 	//! author : Caio Ribeiro Pereira : https://github.com/caio-ribeiro-pereira
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -69257,7 +69495,7 @@
 	}));
 
 /***/ },
-/* 112 */
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -69266,7 +69504,7 @@
 	//! author : Valentin Agachi : https://github.com/avaly
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -69335,7 +69573,7 @@
 	}));
 
 /***/ },
-/* 113 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -69344,7 +69582,7 @@
 	//! Author : Menelion Elensúle : https://github.com/Oire
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -69503,7 +69741,7 @@
 	}));
 
 /***/ },
-/* 114 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -69511,7 +69749,7 @@
 	//! author : Sampath Sitinamaluwa : https://github.com/sampathsris
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -69572,7 +69810,7 @@
 	}));
 
 /***/ },
-/* 115 */
+/* 121 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -69581,7 +69819,7 @@
 	//! based on work of petrbela : https://github.com/petrbela
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -69734,7 +69972,7 @@
 	}));
 
 /***/ },
-/* 116 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -69742,7 +69980,7 @@
 	//! author : Robert Sedovšek : https://github.com/sedovsek
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -69898,7 +70136,7 @@
 	}));
 
 /***/ },
-/* 117 */
+/* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -69908,7 +70146,7 @@
 	//! author : Oerd Cukalla : https://github.com/oerd (fixes)
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -69971,7 +70209,7 @@
 	}));
 
 /***/ },
-/* 118 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -69979,7 +70217,7 @@
 	//! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -70083,7 +70321,7 @@
 	}));
 
 /***/ },
-/* 119 */
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -70091,7 +70329,7 @@
 	//! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -70195,7 +70433,7 @@
 	}));
 
 /***/ },
-/* 120 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -70203,7 +70441,7 @@
 	//! author : Jens Alm : https://github.com/ulmus
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -70266,7 +70504,7 @@
 	}));
 
 /***/ },
-/* 121 */
+/* 127 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -70274,7 +70512,7 @@
 	//! author : Arjunkumar Krishnamoorthy : https://github.com/tk120404
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -70365,7 +70603,7 @@
 	}));
 
 /***/ },
-/* 122 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -70373,7 +70611,7 @@
 	//! author : Kridsada Thanabulpong : https://github.com/sirn
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -70434,7 +70672,7 @@
 	}));
 
 /***/ },
-/* 123 */
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -70442,7 +70680,7 @@
 	//! author : Dan Hagman
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -70500,7 +70738,7 @@
 	}));
 
 /***/ },
-/* 124 */
+/* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -70509,7 +70747,7 @@
 	//!           Burak Yiğit Kaya: https://github.com/BYK
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -70594,7 +70832,7 @@
 	}));
 
 /***/ },
-/* 125 */
+/* 131 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -70602,7 +70840,7 @@
 	//! author : Robin van der Vliet : https://github.com/robin0van0der0v with the help of Iustì Canun
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -70683,7 +70921,7 @@
 	}));
 
 /***/ },
-/* 126 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -70691,7 +70929,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -70745,7 +70983,7 @@
 	}));
 
 /***/ },
-/* 127 */
+/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -70753,7 +70991,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -70807,7 +71045,7 @@
 	}));
 
 /***/ },
-/* 128 */
+/* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -70816,7 +71054,7 @@
 	//! Author : Menelion Elensúle : https://github.com/Oire
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -70964,7 +71202,7 @@
 	}));
 
 /***/ },
-/* 129 */
+/* 135 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -70972,7 +71210,7 @@
 	//! author : Sardor Muminov : https://github.com/muminoff
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -71026,7 +71264,7 @@
 	}));
 
 /***/ },
-/* 130 */
+/* 136 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -71034,7 +71272,7 @@
 	//! author : Bang Nguyen : https://github.com/bangnk
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -71096,7 +71334,7 @@
 	}));
 
 /***/ },
-/* 131 */
+/* 137 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -71105,7 +71343,7 @@
 	//! author : Zeno Zeng : https://github.com/zenozeng
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -71227,7 +71465,7 @@
 	}));
 
 /***/ },
-/* 132 */
+/* 138 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -71235,7 +71473,7 @@
 	//! author : Ben : https://github.com/ben-lin
 
 	(function (global, factory) {
-	    true ? factory(__webpack_require__(46)) :
+	    true ? factory(__webpack_require__(52)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -71332,7 +71570,7 @@
 	}));
 
 /***/ },
-/* 133 */
+/* 139 */
 /***/ function(module, exports) {
 
 	var stack = [];
@@ -71373,7 +71611,7 @@
 
 
 /***/ },
-/* 134 */
+/* 140 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(15);
@@ -71471,137 +71709,154 @@
 
 
 /***/ },
-/* 135 */
+/* 141 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(15);
-	var $ = __webpack_require__(1);
+	var drawers = __webpack_require__(47);
+	var Base = __webpack_require__(48);
+	var ManageLanguages = __webpack_require__(142);
+	var ChooseLanguage = __webpack_require__(144);
 
 
-	var openDuration = 200;
-	var closeDuration = 200;
-	var changeCloseDuration = 100;
-	var stack = [];
+	module.exports = Base.extend({
+	  template: __webpack_require__(146),
+	  data: function() {
+	    return {languages: dashboard.get('languages')};
+	  },
+	  oncomplete: function() {
+	    Base.prototype.oncomplete.call(this);
+	    $('.nm-menu-actions').on('click', function(e) { e.preventDefault(); });
+	  },
+	  oninit: function() {
+	    var self = this;
 
+	    dashboard.observe('languages', function() {
+	      self.set('languages', dashboard.get('languages'));
+	    });
+	  },
+	  changeCampaign: function() {
+	  },
+	  manageLanguages: function() {
+	    drawers.open(ManageLanguages({el: $('<div>')}));
+	  },
+	  showLanguage: function() {
+	    var self = this;
 
-	function close(view, duration) {
-	  var i = stack.length - 1;
-	  if (view) i = _.findIndex(stack, {view: view});
-	  if (i < 0) return Promise.resolve();
+	    var chooser = ChooseLanguage({
+	      el: $('<div>'),
+	      data: {showParent: false}
+	    });
 
-	  var drawer = stack[i];
-	  stack.splice(i, 1);
+	    chooser.once('chosen', function(languageId) {
+	      self.get('dialogue').showLanguage(languageId);
+	      self.close();
+	    });
 
-	  return new Promise(function(resolve, reject) {
-	    drawer.$el
-	      .hide({
-	        effect: 'slide',
-	        duration: duration || closeDuration,
-	        direction: 'right',
-	        complete: function() {
-	          $('body').unbind('click', drawer.onBodyClick);
-	          drawer.view.teardown();
-	          resolve();
-	        }
-	      });
-	  });
-	}
-
-
-	function closeAll() {
-	  while (stack.length) close();
-	}
-
-
-	function open(view, opts) {
-	  var drawer = {
-	    view: view,
-	    $el: newDrawer(opts).appendTo('.nm-drawers'),
-	    onBodyClick: onBodyClick
-	  };
-
-	  stack.push(drawer);
-
-	  return new Promise(function(resolve) {
-	    drawer.$el
-	      .find('.nm-drawer-body')
-	      .append(view.el);
-
-	    drawer.$el
-	      .show({
-	        effect: 'slide',
-	        duration: openDuration,
-	        direction: 'right',
-	        complete: function() {
-	          $('body').on('click', onBodyClick);
-	          focusFirstInput(view.el);
-	          resolve();
-	        }
-	      });
-	  });
-
-	  function onBodyClick(e) {
-	    var $target = $(e.target);
-	    if ($target.is(':input')) return;
-	    if ($target.parents('.nm-drawer').length > 0) return;
-	    close(drawer.view);
+	    drawers.open(chooser);
 	  }
-	}
-
-
-	function change(view) {
-	  var curr = _.last(stack);
-
-	  return curr
-	    ? close(curr.view, changeCloseDuration)
-	      .then(function() { return open(view); })
-	    : open(view);
-	}
-
-
-	function isFirst(view) {
-	  return _.findIndex(stack, {view: view}) === 0;
-	}
-
-
-	function newDrawer(opts) {
-	  opts = _.defaults({}, opts || {}, {isThin: false});
-
-	  var $el = $([
-	    '<div class="nm-drawer" hidden>',
-	  '    <div class="nm-drawer-body"></div>',
-	    '</div>'
-	  ].join('\n'));
-
-	  if (opts.isThin) $el.addClass('nm-drawer-thin');
-
-	  return $el;
-	}
-
-
-	function focusFirstInput(el) {
-	  var $input = $(el).find(':not(button):input').eq(0);
-	  var val = $input.val();
-	  if (val) $input.val('').val(val);
-	  $input.focus();
-	}
-
-
-	exports.close = close;
-	exports.closeAll = closeAll;
-	exports.open = open;
-	exports.change = change;
-	exports.isFirst = isFirst;
+	});
 
 
 /***/ },
-/* 136 */
+/* 142 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Base = __webpack_require__(48);
+
+
+	module.exports = Base.extend({
+	  template: __webpack_require__(143),
+	  setAsParent: function(id) {
+	    dashboard.setAsParentLanguage(id);
+	    this.updateLanguages();
+	  },
+	  addLanguage: function() {
+	    dashboard.addLanguage('');
+	    this.updateLanguages();
+	    this.focusNewLanguage();
+	  },
+	  data: function() {
+	    return {languages: dashboard.get('languages')};
+	  },
+	  focusNewLanguage: function() {
+	    $(this.el)
+	      .find('.nm-lang-name')
+	      .last()
+	      .focus();
+	  },
+	  updateLanguages: function() {
+	    // TODO figure out why computed language that returns dashboard's languages
+	    // won't work, and why dashboard.update('languages') is not enough.
+	    this.set('languages', dashboard.get('languages'));
+	  },
+	  onchange: function(d) {
+	    dashboard.set('languages', this.get('languages'));
+	  }
+	});
+
+
+/***/ },
+/* 143 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"n":53,"f":[{"t":8,"r":"header"}],"x":{"r":[],"s":"{title:\"Languages\"}"}}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-17"},"f":[{"t":7,"e":"input","a":{"class":"nm-lang-name","type":"text","value":[{"t":2,"r":"name"}],"placeholder":"Enter a name for this language"}}," ",{"t":4,"f":[{"t":7,"e":"small","a":{"class":"nm-annotation"},"f":["(Parent)"]}],"r":"isParent"}]}," ",{"t":7,"e":"button","a":{"class":"btn nm-cell nm-cell-btn nm-cell-4"},"v":{"click":{"m":"setAsParent","a":{"r":["id"],"s":"[_0]"}}},"m":[{"t":4,"f":["disabled"],"r":"isParent"}],"f":["Set as parent"]}," ",{"t":7,"e":"button","a":{"class":"btn nm-cell nm-cell-btn nm-cell-3"},"v":{"click":{"m":"removeWhere","a":{"r":["id"],"s":"[\"languages\",{id:_0}]"}}},"f":["Remove"]}]}],"r":"languages"}," ",{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-btn btn nm-cell-placeholder"},"v":{"click":{"m":"addLanguage","a":{"r":[],"s":"[]"}}},"f":["+ Add a language"]}]}]}]}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
+
+/***/ },
+/* 144 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var _ = __webpack_require__(15);
+	var Base = __webpack_require__(48);
+	var ManageLanguages = __webpack_require__(142);
+	var drawers = __webpack_require__(47);
+
+
+	module.exports = Base.extend({
+	  template: __webpack_require__(145),
+	  choose: function(e, id) {
+	    e.original.preventDefault();
+	    this.fire('chosen', id, _.find(this.get('items'), {id: id}));
+	  },
+	  manage: function(e) {
+	    e.original.preventDefault();
+	    var self = this;
+
+	    var languages = ManageLanguages({el: $('<div>')});
+	    drawers.open(languages);
+
+	    languages.on('change', function() {
+	      self.set('languages', languages.get('languages'));
+	    });
+	  },
+	  data: function() {
+	    return {
+	      showParent: true,
+	      languages: dashboard.get('languages')
+	    };
+	  }
+	});
+
+
+/***/ },
+/* 145 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"n":53,"f":[{"t":8,"r":"header"}],"x":{"r":[],"s":"{title:\"Choose Language\"}"}}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer","href":"#"},"v":{"click":{"m":"choose","a":{"r":["event","id"],"s":"[_0,_1]"}}},"f":[{"t":2,"r":"name"}]}],"x":{"r":["isParent","showParent"],"s":"!_0||_1"}}],"r":"languages"}," ",{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer nm-list-group-item-drawer-secondary","href":"#"},"v":{"click":{"m":"manage","a":{"r":["event"],"s":"[_0]"}}},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," Manage languages"]}]}]}]};
+
+/***/ },
+/* 146 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"n":53,"f":[{"t":8,"r":"header"}],"x":{"r":[],"s":"{title:\"Menu\"}"}}," ",{"t":7,"e":"div","a":{"class":"list-group nm-menu-actions"},"f":[{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer","href":"#"},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," Change campaign"]}," ",{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer","href":"#"},"v":{"click":{"m":"manageLanguages","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," Manage languages"]}," ",{"t":7,"e":"a","a":{"class":["list-group-item nm-list-group-item-drawer ",{"t":4,"f":["is-disabled"],"x":{"r":["languages.length"],"s":"_0<2"}}],"href":"#"},"v":{"click":{"m":"showLanguage","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," View content for a language"]}]}]}]};
+
+/***/ },
+/* 147 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-container"},"f":[{"t":7,"e":"div","a":{"class":"nm-head"},"f":[{"t":7,"e":"div","a":{"class":"nm-toolbar pull-right"},"f":[{"t":7,"e":"div","a":{"class":"nm-toolbar-group nm-state"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"changeLanguage","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"shownLanguageName"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"hideLanguage","a":{"r":[],"s":"[]"}}},"f":["×"]}]}],"r":"shownLanguageName"}]}," ",{"t":7,"e":"div","a":{"class":"nm-toolbar-group nm-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"showMenu","a":{"r":[],"s":"[]"}}},"f":["Menu"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"f":["Sarima"]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-titles"},"f":[{"t":7,"e":"a","a":{"class":"nm-title","href":"/numi-prototypes/"},"f":[{"t":7,"e":"small","f":["Campaign"]}," ",{"t":7,"e":"div","a":{"class":"nm-title-text"},"f":[{"t":2,"r":"campaignName"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-title-divider"},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-menu-right"}}]}," ",{"t":7,"e":"div","a":{"class":"nm-name nm-title nm-title-active"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"small","f":["Dialogue"]}," ",{"t":7,"e":"div","a":{"class":"nm-title-text"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename nm-title nm-title-active"},"f":[{"t":7,"e":"div","a":{"class":"well"},"f":[{"t":7,"e":"small","f":["Dialogue"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-body nm-body-dialogue"},"f":[{"t":7,"e":"div","a":{"class":"nm-sequences","style":["width: ",{"t":2,"x":{"r":["sequenceChain.length"],"s":"_0*50"}},"vw;"]},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":["nm-sequence-wrapper ",{"t":4,"f":["is-showing-language"],"r":"shownLanguageId"}]},"f":[{"t":7,"e":"div","a":{"class":"nm-sequence"},"f":[{"t":7,"e":"seqsurrogate"}]}]}],"r":"sequenceChain"}]}]}]}]};
 
 /***/ },
-/* 137 */
+/* 148 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Ractive = __webpack_require__(17);
@@ -71609,9 +71864,9 @@
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(138),
+	  template: __webpack_require__(149),
 	  components: {
-	    sequence: __webpack_require__(139)
+	    sequence: __webpack_require__(150)
 	  },
 	  onchange: function() {
 	    var sequences = this.parent.get('sequences');
@@ -71624,24 +71879,24 @@
 
 
 /***/ },
-/* 138 */
+/* 149 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"sequence","a":{"name":[{"t":2,"r":"name"}],"blocks":[{"t":2,"r":"blocks"}]}}]};
 
 /***/ },
-/* 139 */
+/* 150 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
-	var drawers = __webpack_require__(135);
-	var BlockLibrary = __webpack_require__(156);
+	var drawers = __webpack_require__(47);
+	var BlockLibrary = __webpack_require__(151);
 	var Ractive = __webpack_require__(17);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(140),
-	  partials: {blocks: __webpack_require__(141)},
+	  template: __webpack_require__(217),
+	  partials: {blocks: __webpack_require__(218)},
 	  data: function() {
 	    return {
 	      blocks: []
@@ -71726,1219 +71981,7 @@
 	    var i = _.findIndex(blocks, {id: id});
 	    if (i > -1) this.splice('blocks', i, 1);
 	  },
-	  components: __webpack_require__(158)
-	});
-
-
-/***/ },
-/* 140 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-sequence-header"},"f":[{"t":7,"e":"div","a":{"class":"nm-sequence-title"},"f":[{"t":7,"e":"div","a":{"class":"nm-name"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename nm-rename-sequence well"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-sequence-body"},"f":[{"t":7,"e":"div","a":{"class":"sortable-blocks sortable-blocks-ordered"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-block-wrapper","data-id":[{"t":2,"r":"id"}]},"f":[{"t":8,"r":"blocks"}," ",{"t":7,"e":"div","a":{"class":"text-center nm-block-separator"},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-menu-down"}}]}]}],"i":"i","r":"blocks"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-sequence-footer"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]}]};
-
-/***/ },
-/* 141 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"ask","a":{"content":[{"t":2,"r":"content"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"ask\""}},{"t":4,"f":[{"t":7,"e":"askchoice","a":{"id":[{"t":2,"r":"id"}],"content":[{"t":2,"r":"content"}],"blocks":[{"t":2,"r":"blocks"}],"stash":[{"t":2,"r":"stash"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"askchoice\""}},{"t":4,"f":[{"t":7,"e":"language","a":{"id":[{"t":2,"r":"id"}],"text":[{"t":2,"r":"text"}],"blocks":[{"t":2,"r":"blocks"}],"allChoices":[{"t":2,"r":"allChoices"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"language\""}},{"t":4,"f":[{"t":7,"e":"route","a":{"id":[{"t":2,"r":"id"}],"seqId":[{"t":2,"r":"seqId"}],"itemId":[{"t":2,"r":"itemId"}]}}],"x":{"r":["type"],"s":"_0===\"route\""}},{"t":4,"f":[{"t":7,"e":"conditionalroute","a":{"id":[{"t":2,"r":"id"}],"seqId":[{"t":2,"r":"seqId"}],"itemId":[{"t":2,"r":"itemId"}],"conditionSet":[{"t":2,"r":"conditionSet"}]}}],"x":{"r":["type"],"s":"_0===\"conditionalroute\""}},{"t":4,"f":[{"t":7,"e":"register","a":{"fields":[{"t":2,"r":"fields"}]}}],"x":{"r":["type"],"s":"_0===\"register\""}},{"t":4,"f":[{"t":7,"e":"unsubscribe","a":{"fields":[{"t":2,"r":"fields"}]}}],"x":{"r":["type"],"s":"_0===\"unsubscribe\""}},{"t":4,"f":[{"t":7,"e":"optout","a":{"fields":[{"t":2,"r":"fields"}]}}],"x":{"r":["type"],"s":"_0===\"optout\""}},{"t":4,"f":[{"t":7,"e":"askcliniccode","a":{"content":[{"t":2,"r":"content"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"askcliniccode\""}},{"t":4,"f":[{"t":7,"e":"end","a":{"content":[{"t":2,"r":"content"}]}}],"x":{"r":["type"],"s":"_0===\"end\""}},{"t":4,"f":[{"t":7,"e":"userdialsin","a":{"channelIds":[{"t":2,"r":"channelIds"}]}}],"x":{"r":["type"],"s":"_0===\"userdialsin\""}},{"t":4,"f":[{"t":7,"e":"usersendsmessage","a":{"text":[{"t":2,"r":"text"}],"channelIds":[{"t":2,"r":"channelIds"}]}}],"x":{"r":["type"],"s":"_0===\"usersendsmessage\""}},{"t":4,"f":[{"t":7,"e":"shownext9months","a":{"content":[{"t":2,"r":"content"}],"saveAs":[{"t":2,"r":"saveAs"}],"monthsBefore":[{"t":2,"r":"monthsBefore"}]}}],"x":{"r":["type"],"s":"_0===\"shownext9months\""}},{"t":4,"f":[{"t":7,"e":"calcweeks","a":{"inputFieldId":[{"t":2,"r":"inputFieldId"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"calcweeks\""}},{"t":4,"f":[{"t":7,"e":"annotation","a":{"text":[{"t":2,"r":"text"}]}}],"x":{"r":["type"],"s":"_0===\"annotation\""}}]};
-
-/***/ },
-/* 142 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(1);
-
-
-	var stack = [];
-
-
-	function push(view) {
-	  stack.push(view);
-	  switchTo(view);
-	}
-
-
-	function pop() {
-	  stack.pop()
-	  var view = peek();
-	  if (view) switchTo(view);
-	  return view;
-	}
-
-
-	function peek() {
-	  return stack.slice(-1)[0];
-	}
-
-
-	function switchTo(view) {
-	  $('.nm-curr-pg')
-	    .removeClass('nm-curr-pg')
-	    .detach();
-	  
-	  $(view.el)
-	    .addClass('nm-curr-pg')
-	    .appendTo('#app');
-	}
-
-
-	exports.push = push;
-	exports.pop = pop;
-	exports.peek = peek;
-
-
-/***/ },
-/* 143 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
-	 * bootbox.js [v4.4.0]
-	 *
-	 * http://bootboxjs.com/license.txt
-	 */
-
-	// @see https://github.com/makeusabrew/bootbox/issues/180
-	// @see https://github.com/makeusabrew/bootbox/issues/186
-	(function (root, factory) {
-
-	  "use strict";
-	  if (true) {
-	    // AMD. Register as an anonymous module.
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	  } else if (typeof exports === "object") {
-	    // Node. Does not work with strict CommonJS, but
-	    // only CommonJS-like environments that support module.exports,
-	    // like Node.
-	    module.exports = factory(require("jquery"));
-	  } else {
-	    // Browser globals (root is window)
-	    root.bootbox = factory(root.jQuery);
-	  }
-
-	}(this, function init($, undefined) {
-
-	  "use strict";
-
-	  // the base DOM structure needed to create a modal
-	  var templates = {
-	    dialog:
-	      "<div class='bootbox modal' tabindex='-1' role='dialog'>" +
-	        "<div class='modal-dialog'>" +
-	          "<div class='modal-content'>" +
-	            "<div class='modal-body'><div class='bootbox-body'></div></div>" +
-	          "</div>" +
-	        "</div>" +
-	      "</div>",
-	    header:
-	      "<div class='modal-header'>" +
-	        "<h4 class='modal-title'></h4>" +
-	      "</div>",
-	    footer:
-	      "<div class='modal-footer'></div>",
-	    closeButton:
-	      "<button type='button' class='bootbox-close-button close' data-dismiss='modal' aria-hidden='true'>&times;</button>",
-	    form:
-	      "<form class='bootbox-form'></form>",
-	    inputs: {
-	      text:
-	        "<input class='bootbox-input bootbox-input-text form-control' autocomplete=off type=text />",
-	      textarea:
-	        "<textarea class='bootbox-input bootbox-input-textarea form-control'></textarea>",
-	      email:
-	        "<input class='bootbox-input bootbox-input-email form-control' autocomplete='off' type='email' />",
-	      select:
-	        "<select class='bootbox-input bootbox-input-select form-control'></select>",
-	      checkbox:
-	        "<div class='checkbox'><label><input class='bootbox-input bootbox-input-checkbox' type='checkbox' /></label></div>",
-	      date:
-	        "<input class='bootbox-input bootbox-input-date form-control' autocomplete=off type='date' />",
-	      time:
-	        "<input class='bootbox-input bootbox-input-time form-control' autocomplete=off type='time' />",
-	      number:
-	        "<input class='bootbox-input bootbox-input-number form-control' autocomplete=off type='number' />",
-	      password:
-	        "<input class='bootbox-input bootbox-input-password form-control' autocomplete='off' type='password' />"
-	    }
-	  };
-
-	  var defaults = {
-	    // default language
-	    locale: "en",
-	    // show backdrop or not. Default to static so user has to interact with dialog
-	    backdrop: "static",
-	    // animate the modal in/out
-	    animate: true,
-	    // additional class string applied to the top level dialog
-	    className: null,
-	    // whether or not to include a close button
-	    closeButton: true,
-	    // show the dialog immediately by default
-	    show: true,
-	    // dialog container
-	    container: "body"
-	  };
-
-	  // our public object; augmented after our private API
-	  var exports = {};
-
-	  /**
-	   * @private
-	   */
-	  function _t(key) {
-	    var locale = locales[defaults.locale];
-	    return locale ? locale[key] : locales.en[key];
-	  }
-
-	  function processCallback(e, dialog, callback) {
-	    e.stopPropagation();
-	    e.preventDefault();
-
-	    // by default we assume a callback will get rid of the dialog,
-	    // although it is given the opportunity to override this
-
-	    // so, if the callback can be invoked and it *explicitly returns false*
-	    // then we'll set a flag to keep the dialog active...
-	    var preserveDialog = $.isFunction(callback) && callback.call(dialog, e) === false;
-
-	    // ... otherwise we'll bin it
-	    if (!preserveDialog) {
-	      dialog.modal("hide");
-	    }
-	  }
-
-	  function getKeyLength(obj) {
-	    // @TODO defer to Object.keys(x).length if available?
-	    var k, t = 0;
-	    for (k in obj) {
-	      t ++;
-	    }
-	    return t;
-	  }
-
-	  function each(collection, iterator) {
-	    var index = 0;
-	    $.each(collection, function(key, value) {
-	      iterator(key, value, index++);
-	    });
-	  }
-
-	  function sanitize(options) {
-	    var buttons;
-	    var total;
-
-	    if (typeof options !== "object") {
-	      throw new Error("Please supply an object of options");
-	    }
-
-	    if (!options.message) {
-	      throw new Error("Please specify a message");
-	    }
-
-	    // make sure any supplied options take precedence over defaults
-	    options = $.extend({}, defaults, options);
-
-	    if (!options.buttons) {
-	      options.buttons = {};
-	    }
-
-	    buttons = options.buttons;
-
-	    total = getKeyLength(buttons);
-
-	    each(buttons, function(key, button, index) {
-
-	      if ($.isFunction(button)) {
-	        // short form, assume value is our callback. Since button
-	        // isn't an object it isn't a reference either so re-assign it
-	        button = buttons[key] = {
-	          callback: button
-	        };
-	      }
-
-	      // before any further checks make sure by now button is the correct type
-	      if ($.type(button) !== "object") {
-	        throw new Error("button with key " + key + " must be an object");
-	      }
-
-	      if (!button.label) {
-	        // the lack of an explicit label means we'll assume the key is good enough
-	        button.label = key;
-	      }
-
-	      if (!button.className) {
-	        if (total <= 2 && index === total-1) {
-	          // always add a primary to the main option in a two-button dialog
-	          button.className = "btn-primary";
-	        } else {
-	          button.className = "btn-default";
-	        }
-	      }
-	    });
-
-	    return options;
-	  }
-
-	  /**
-	   * map a flexible set of arguments into a single returned object
-	   * if args.length is already one just return it, otherwise
-	   * use the properties argument to map the unnamed args to
-	   * object properties
-	   * so in the latter case:
-	   * mapArguments(["foo", $.noop], ["message", "callback"])
-	   * -> { message: "foo", callback: $.noop }
-	   */
-	  function mapArguments(args, properties) {
-	    var argn = args.length;
-	    var options = {};
-
-	    if (argn < 1 || argn > 2) {
-	      throw new Error("Invalid argument length");
-	    }
-
-	    if (argn === 2 || typeof args[0] === "string") {
-	      options[properties[0]] = args[0];
-	      options[properties[1]] = args[1];
-	    } else {
-	      options = args[0];
-	    }
-
-	    return options;
-	  }
-
-	  /**
-	   * merge a set of default dialog options with user supplied arguments
-	   */
-	  function mergeArguments(defaults, args, properties) {
-	    return $.extend(
-	      // deep merge
-	      true,
-	      // ensure the target is an empty, unreferenced object
-	      {},
-	      // the base options object for this type of dialog (often just buttons)
-	      defaults,
-	      // args could be an object or array; if it's an array properties will
-	      // map it to a proper options object
-	      mapArguments(
-	        args,
-	        properties
-	      )
-	    );
-	  }
-
-	  /**
-	   * this entry-level method makes heavy use of composition to take a simple
-	   * range of inputs and return valid options suitable for passing to bootbox.dialog
-	   */
-	  function mergeDialogOptions(className, labels, properties, args) {
-	    //  build up a base set of dialog properties
-	    var baseOptions = {
-	      className: "bootbox-" + className,
-	      buttons: createLabels.apply(null, labels)
-	    };
-
-	    // ensure the buttons properties generated, *after* merging
-	    // with user args are still valid against the supplied labels
-	    return validateButtons(
-	      // merge the generated base properties with user supplied arguments
-	      mergeArguments(
-	        baseOptions,
-	        args,
-	        // if args.length > 1, properties specify how each arg maps to an object key
-	        properties
-	      ),
-	      labels
-	    );
-	  }
-
-	  /**
-	   * from a given list of arguments return a suitable object of button labels
-	   * all this does is normalise the given labels and translate them where possible
-	   * e.g. "ok", "confirm" -> { ok: "OK, cancel: "Annuleren" }
-	   */
-	  function createLabels() {
-	    var buttons = {};
-
-	    for (var i = 0, j = arguments.length; i < j; i++) {
-	      var argument = arguments[i];
-	      var key = argument.toLowerCase();
-	      var value = argument.toUpperCase();
-
-	      buttons[key] = {
-	        label: _t(value)
-	      };
-	    }
-
-	    return buttons;
-	  }
-
-	  function validateButtons(options, buttons) {
-	    var allowedButtons = {};
-	    each(buttons, function(key, value) {
-	      allowedButtons[value] = true;
-	    });
-
-	    each(options.buttons, function(key) {
-	      if (allowedButtons[key] === undefined) {
-	        throw new Error("button key " + key + " is not allowed (options are " + buttons.join("\n") + ")");
-	      }
-	    });
-
-	    return options;
-	  }
-
-	  exports.alert = function() {
-	    var options;
-
-	    options = mergeDialogOptions("alert", ["ok"], ["message", "callback"], arguments);
-
-	    if (options.callback && !$.isFunction(options.callback)) {
-	      throw new Error("alert requires callback property to be a function when provided");
-	    }
-
-	    /**
-	     * overrides
-	     */
-	    options.buttons.ok.callback = options.onEscape = function() {
-	      if ($.isFunction(options.callback)) {
-	        return options.callback.call(this);
-	      }
-	      return true;
-	    };
-
-	    return exports.dialog(options);
-	  };
-
-	  exports.confirm = function() {
-	    var options;
-
-	    options = mergeDialogOptions("confirm", ["cancel", "confirm"], ["message", "callback"], arguments);
-
-	    /**
-	     * overrides; undo anything the user tried to set they shouldn't have
-	     */
-	    options.buttons.cancel.callback = options.onEscape = function() {
-	      return options.callback.call(this, false);
-	    };
-
-	    options.buttons.confirm.callback = function() {
-	      return options.callback.call(this, true);
-	    };
-
-	    // confirm specific validation
-	    if (!$.isFunction(options.callback)) {
-	      throw new Error("confirm requires a callback");
-	    }
-
-	    return exports.dialog(options);
-	  };
-
-	  exports.prompt = function() {
-	    var options;
-	    var defaults;
-	    var dialog;
-	    var form;
-	    var input;
-	    var shouldShow;
-	    var inputOptions;
-
-	    // we have to create our form first otherwise
-	    // its value is undefined when gearing up our options
-	    // @TODO this could be solved by allowing message to
-	    // be a function instead...
-	    form = $(templates.form);
-
-	    // prompt defaults are more complex than others in that
-	    // users can override more defaults
-	    // @TODO I don't like that prompt has to do a lot of heavy
-	    // lifting which mergeDialogOptions can *almost* support already
-	    // just because of 'value' and 'inputType' - can we refactor?
-	    defaults = {
-	      className: "bootbox-prompt",
-	      buttons: createLabels("cancel", "confirm"),
-	      value: "",
-	      inputType: "text"
-	    };
-
-	    options = validateButtons(
-	      mergeArguments(defaults, arguments, ["title", "callback"]),
-	      ["cancel", "confirm"]
-	    );
-
-	    // capture the user's show value; we always set this to false before
-	    // spawning the dialog to give us a chance to attach some handlers to
-	    // it, but we need to make sure we respect a preference not to show it
-	    shouldShow = (options.show === undefined) ? true : options.show;
-
-	    /**
-	     * overrides; undo anything the user tried to set they shouldn't have
-	     */
-	    options.message = form;
-
-	    options.buttons.cancel.callback = options.onEscape = function() {
-	      return options.callback.call(this, null);
-	    };
-
-	    options.buttons.confirm.callback = function() {
-	      var value;
-
-	      switch (options.inputType) {
-	        case "text":
-	        case "textarea":
-	        case "email":
-	        case "select":
-	        case "date":
-	        case "time":
-	        case "number":
-	        case "password":
-	          value = input.val();
-	          break;
-
-	        case "checkbox":
-	          var checkedItems = input.find("input:checked");
-
-	          // we assume that checkboxes are always multiple,
-	          // hence we default to an empty array
-	          value = [];
-
-	          each(checkedItems, function(_, item) {
-	            value.push($(item).val());
-	          });
-	          break;
-	      }
-
-	      return options.callback.call(this, value);
-	    };
-
-	    options.show = false;
-
-	    // prompt specific validation
-	    if (!options.title) {
-	      throw new Error("prompt requires a title");
-	    }
-
-	    if (!$.isFunction(options.callback)) {
-	      throw new Error("prompt requires a callback");
-	    }
-
-	    if (!templates.inputs[options.inputType]) {
-	      throw new Error("invalid prompt type");
-	    }
-
-	    // create the input based on the supplied type
-	    input = $(templates.inputs[options.inputType]);
-
-	    switch (options.inputType) {
-	      case "text":
-	      case "textarea":
-	      case "email":
-	      case "date":
-	      case "time":
-	      case "number":
-	      case "password":
-	        input.val(options.value);
-	        break;
-
-	      case "select":
-	        var groups = {};
-	        inputOptions = options.inputOptions || [];
-
-	        if (!$.isArray(inputOptions)) {
-	          throw new Error("Please pass an array of input options");
-	        }
-
-	        if (!inputOptions.length) {
-	          throw new Error("prompt with select requires options");
-	        }
-
-	        each(inputOptions, function(_, option) {
-
-	          // assume the element to attach to is the input...
-	          var elem = input;
-
-	          if (option.value === undefined || option.text === undefined) {
-	            throw new Error("given options in wrong format");
-	          }
-
-	          // ... but override that element if this option sits in a group
-
-	          if (option.group) {
-	            // initialise group if necessary
-	            if (!groups[option.group]) {
-	              groups[option.group] = $("<optgroup/>").attr("label", option.group);
-	            }
-
-	            elem = groups[option.group];
-	          }
-
-	          elem.append("<option value='" + option.value + "'>" + option.text + "</option>");
-	        });
-
-	        each(groups, function(_, group) {
-	          input.append(group);
-	        });
-
-	        // safe to set a select's value as per a normal input
-	        input.val(options.value);
-	        break;
-
-	      case "checkbox":
-	        var values   = $.isArray(options.value) ? options.value : [options.value];
-	        inputOptions = options.inputOptions || [];
-
-	        if (!inputOptions.length) {
-	          throw new Error("prompt with checkbox requires options");
-	        }
-
-	        if (!inputOptions[0].value || !inputOptions[0].text) {
-	          throw new Error("given options in wrong format");
-	        }
-
-	        // checkboxes have to nest within a containing element, so
-	        // they break the rules a bit and we end up re-assigning
-	        // our 'input' element to this container instead
-	        input = $("<div/>");
-
-	        each(inputOptions, function(_, option) {
-	          var checkbox = $(templates.inputs[options.inputType]);
-
-	          checkbox.find("input").attr("value", option.value);
-	          checkbox.find("label").append(option.text);
-
-	          // we've ensured values is an array so we can always iterate over it
-	          each(values, function(_, value) {
-	            if (value === option.value) {
-	              checkbox.find("input").prop("checked", true);
-	            }
-	          });
-
-	          input.append(checkbox);
-	        });
-	        break;
-	    }
-
-	    // @TODO provide an attributes option instead
-	    // and simply map that as keys: vals
-	    if (options.placeholder) {
-	      input.attr("placeholder", options.placeholder);
-	    }
-
-	    if (options.pattern) {
-	      input.attr("pattern", options.pattern);
-	    }
-
-	    if (options.maxlength) {
-	      input.attr("maxlength", options.maxlength);
-	    }
-
-	    // now place it in our form
-	    form.append(input);
-
-	    form.on("submit", function(e) {
-	      e.preventDefault();
-	      // Fix for SammyJS (or similar JS routing library) hijacking the form post.
-	      e.stopPropagation();
-	      // @TODO can we actually click *the* button object instead?
-	      // e.g. buttons.confirm.click() or similar
-	      dialog.find(".btn-primary").click();
-	    });
-
-	    dialog = exports.dialog(options);
-
-	    // clear the existing handler focusing the submit button...
-	    dialog.off("shown.bs.modal");
-
-	    // ...and replace it with one focusing our input, if possible
-	    dialog.on("shown.bs.modal", function() {
-	      // need the closure here since input isn't
-	      // an object otherwise
-	      input.focus();
-	    });
-
-	    if (shouldShow === true) {
-	      dialog.modal("show");
-	    }
-
-	    return dialog;
-	  };
-
-	  exports.dialog = function(options) {
-	    options = sanitize(options);
-
-	    var dialog = $(templates.dialog);
-	    var innerDialog = dialog.find(".modal-dialog");
-	    var body = dialog.find(".modal-body");
-	    var buttons = options.buttons;
-	    var buttonStr = "";
-	    var callbacks = {
-	      onEscape: options.onEscape
-	    };
-
-	    if ($.fn.modal === undefined) {
-	      throw new Error(
-	        "$.fn.modal is not defined; please double check you have included " +
-	        "the Bootstrap JavaScript library. See http://getbootstrap.com/javascript/ " +
-	        "for more details."
-	      );
-	    }
-
-	    each(buttons, function(key, button) {
-
-	      // @TODO I don't like this string appending to itself; bit dirty. Needs reworking
-	      // can we just build up button elements instead? slower but neater. Then button
-	      // can just become a template too
-	      buttonStr += "<button data-bb-handler='" + key + "' type='button' class='btn " + button.className + "'>" + button.label + "</button>";
-	      callbacks[key] = button.callback;
-	    });
-
-	    body.find(".bootbox-body").html(options.message);
-
-	    if (options.animate === true) {
-	      dialog.addClass("fade");
-	    }
-
-	    if (options.className) {
-	      dialog.addClass(options.className);
-	    }
-
-	    if (options.size === "large") {
-	      innerDialog.addClass("modal-lg");
-	    } else if (options.size === "small") {
-	      innerDialog.addClass("modal-sm");
-	    }
-
-	    if (options.title) {
-	      body.before(templates.header);
-	    }
-
-	    if (options.closeButton) {
-	      var closeButton = $(templates.closeButton);
-
-	      if (options.title) {
-	        dialog.find(".modal-header").prepend(closeButton);
-	      } else {
-	        closeButton.css("margin-top", "-10px").prependTo(body);
-	      }
-	    }
-
-	    if (options.title) {
-	      dialog.find(".modal-title").html(options.title);
-	    }
-
-	    if (buttonStr.length) {
-	      body.after(templates.footer);
-	      dialog.find(".modal-footer").html(buttonStr);
-	    }
-
-
-	    /**
-	     * Bootstrap event listeners; used handle extra
-	     * setup & teardown required after the underlying
-	     * modal has performed certain actions
-	     */
-
-	    dialog.on("hidden.bs.modal", function(e) {
-	      // ensure we don't accidentally intercept hidden events triggered
-	      // by children of the current dialog. We shouldn't anymore now BS
-	      // namespaces its events; but still worth doing
-	      if (e.target === this) {
-	        dialog.remove();
-	      }
-	    });
-
-	    /*
-	    dialog.on("show.bs.modal", function() {
-	      // sadly this doesn't work; show is called *just* before
-	      // the backdrop is added so we'd need a setTimeout hack or
-	      // otherwise... leaving in as would be nice
-	      if (options.backdrop) {
-	        dialog.next(".modal-backdrop").addClass("bootbox-backdrop");
-	      }
-	    });
-	    */
-
-	    dialog.on("shown.bs.modal", function() {
-	      dialog.find(".btn-primary:first").focus();
-	    });
-
-	    /**
-	     * Bootbox event listeners; experimental and may not last
-	     * just an attempt to decouple some behaviours from their
-	     * respective triggers
-	     */
-
-	    if (options.backdrop !== "static") {
-	      // A boolean true/false according to the Bootstrap docs
-	      // should show a dialog the user can dismiss by clicking on
-	      // the background.
-	      // We always only ever pass static/false to the actual
-	      // $.modal function because with `true` we can't trap
-	      // this event (the .modal-backdrop swallows it)
-	      // However, we still want to sort of respect true
-	      // and invoke the escape mechanism instead
-	      dialog.on("click.dismiss.bs.modal", function(e) {
-	        // @NOTE: the target varies in >= 3.3.x releases since the modal backdrop
-	        // moved *inside* the outer dialog rather than *alongside* it
-	        if (dialog.children(".modal-backdrop").length) {
-	          e.currentTarget = dialog.children(".modal-backdrop").get(0);
-	        }
-
-	        if (e.target !== e.currentTarget) {
-	          return;
-	        }
-
-	        dialog.trigger("escape.close.bb");
-	      });
-	    }
-
-	    dialog.on("escape.close.bb", function(e) {
-	      if (callbacks.onEscape) {
-	        processCallback(e, dialog, callbacks.onEscape);
-	      }
-	    });
-
-	    /**
-	     * Standard jQuery event listeners; used to handle user
-	     * interaction with our dialog
-	     */
-
-	    dialog.on("click", ".modal-footer button", function(e) {
-	      var callbackKey = $(this).data("bb-handler");
-
-	      processCallback(e, dialog, callbacks[callbackKey]);
-	    });
-
-	    dialog.on("click", ".bootbox-close-button", function(e) {
-	      // onEscape might be falsy but that's fine; the fact is
-	      // if the user has managed to click the close button we
-	      // have to close the dialog, callback or not
-	      processCallback(e, dialog, callbacks.onEscape);
-	    });
-
-	    dialog.on("keyup", function(e) {
-	      if (e.which === 27) {
-	        dialog.trigger("escape.close.bb");
-	      }
-	    });
-
-	    // the remainder of this method simply deals with adding our
-	    // dialogent to the DOM, augmenting it with Bootstrap's modal
-	    // functionality and then giving the resulting object back
-	    // to our caller
-
-	    $(options.container).append(dialog);
-
-	    dialog.modal({
-	      backdrop: options.backdrop ? "static": false,
-	      keyboard: false,
-	      show: false
-	    });
-
-	    if (options.show) {
-	      dialog.modal("show");
-	    }
-
-	    // @TODO should we return the raw element here or should
-	    // we wrap it in an object on which we can expose some neater
-	    // methods, e.g. var d = bootbox.alert(); d.hide(); instead
-	    // of d.modal("hide");
-
-	   /*
-	    function BBDialog(elem) {
-	      this.elem = elem;
-	    }
-
-	    BBDialog.prototype = {
-	      hide: function() {
-	        return this.elem.modal("hide");
-	      },
-	      show: function() {
-	        return this.elem.modal("show");
-	      }
-	    };
-	    */
-
-	    return dialog;
-
-	  };
-
-	  exports.setDefaults = function() {
-	    var values = {};
-
-	    if (arguments.length === 2) {
-	      // allow passing of single key/value...
-	      values[arguments[0]] = arguments[1];
-	    } else {
-	      // ... and as an object too
-	      values = arguments[0];
-	    }
-
-	    $.extend(defaults, values);
-	  };
-
-	  exports.hideAll = function() {
-	    $(".bootbox").modal("hide");
-
-	    return exports;
-	  };
-
-
-	  /**
-	   * standard locales. Please add more according to ISO 639-1 standard. Multiple language variants are
-	   * unlikely to be required. If this gets too large it can be split out into separate JS files.
-	   */
-	  var locales = {
-	    bg_BG : {
-	      OK      : "Ок",
-	      CANCEL  : "Отказ",
-	      CONFIRM : "Потвърждавам"
-	    },
-	    br : {
-	      OK      : "OK",
-	      CANCEL  : "Cancelar",
-	      CONFIRM : "Sim"
-	    },
-	    cs : {
-	      OK      : "OK",
-	      CANCEL  : "Zrušit",
-	      CONFIRM : "Potvrdit"
-	    },
-	    da : {
-	      OK      : "OK",
-	      CANCEL  : "Annuller",
-	      CONFIRM : "Accepter"
-	    },
-	    de : {
-	      OK      : "OK",
-	      CANCEL  : "Abbrechen",
-	      CONFIRM : "Akzeptieren"
-	    },
-	    el : {
-	      OK      : "Εντάξει",
-	      CANCEL  : "Ακύρωση",
-	      CONFIRM : "Επιβεβαίωση"
-	    },
-	    en : {
-	      OK      : "OK",
-	      CANCEL  : "Cancel",
-	      CONFIRM : "OK"
-	    },
-	    es : {
-	      OK      : "OK",
-	      CANCEL  : "Cancelar",
-	      CONFIRM : "Aceptar"
-	    },
-	    et : {
-	      OK      : "OK",
-	      CANCEL  : "Katkesta",
-	      CONFIRM : "OK"
-	    },
-	    fa : {
-	      OK      : "قبول",
-	      CANCEL  : "لغو",
-	      CONFIRM : "تایید"
-	    },
-	    fi : {
-	      OK      : "OK",
-	      CANCEL  : "Peruuta",
-	      CONFIRM : "OK"
-	    },
-	    fr : {
-	      OK      : "OK",
-	      CANCEL  : "Annuler",
-	      CONFIRM : "D'accord"
-	    },
-	    he : {
-	      OK      : "אישור",
-	      CANCEL  : "ביטול",
-	      CONFIRM : "אישור"
-	    },
-	    hu : {
-	      OK      : "OK",
-	      CANCEL  : "Mégsem",
-	      CONFIRM : "Megerősít"
-	    },
-	    hr : {
-	      OK      : "OK",
-	      CANCEL  : "Odustani",
-	      CONFIRM : "Potvrdi"
-	    },
-	    id : {
-	      OK      : "OK",
-	      CANCEL  : "Batal",
-	      CONFIRM : "OK"
-	    },
-	    it : {
-	      OK      : "OK",
-	      CANCEL  : "Annulla",
-	      CONFIRM : "Conferma"
-	    },
-	    ja : {
-	      OK      : "OK",
-	      CANCEL  : "キャンセル",
-	      CONFIRM : "確認"
-	    },
-	    lt : {
-	      OK      : "Gerai",
-	      CANCEL  : "Atšaukti",
-	      CONFIRM : "Patvirtinti"
-	    },
-	    lv : {
-	      OK      : "Labi",
-	      CANCEL  : "Atcelt",
-	      CONFIRM : "Apstiprināt"
-	    },
-	    nl : {
-	      OK      : "OK",
-	      CANCEL  : "Annuleren",
-	      CONFIRM : "Accepteren"
-	    },
-	    no : {
-	      OK      : "OK",
-	      CANCEL  : "Avbryt",
-	      CONFIRM : "OK"
-	    },
-	    pl : {
-	      OK      : "OK",
-	      CANCEL  : "Anuluj",
-	      CONFIRM : "Potwierdź"
-	    },
-	    pt : {
-	      OK      : "OK",
-	      CANCEL  : "Cancelar",
-	      CONFIRM : "Confirmar"
-	    },
-	    ru : {
-	      OK      : "OK",
-	      CANCEL  : "Отмена",
-	      CONFIRM : "Применить"
-	    },
-	    sq : {
-	      OK : "OK",
-	      CANCEL : "Anulo",
-	      CONFIRM : "Prano"
-	    },
-	    sv : {
-	      OK      : "OK",
-	      CANCEL  : "Avbryt",
-	      CONFIRM : "OK"
-	    },
-	    th : {
-	      OK      : "ตกลง",
-	      CANCEL  : "ยกเลิก",
-	      CONFIRM : "ยืนยัน"
-	    },
-	    tr : {
-	      OK      : "Tamam",
-	      CANCEL  : "İptal",
-	      CONFIRM : "Onayla"
-	    },
-	    zh_CN : {
-	      OK      : "OK",
-	      CANCEL  : "取消",
-	      CONFIRM : "确认"
-	    },
-	    zh_TW : {
-	      OK      : "OK",
-	      CANCEL  : "取消",
-	      CONFIRM : "確認"
-	    }
-	  };
-
-	  exports.addLocale = function(name, values) {
-	    $.each(["OK", "CANCEL", "CONFIRM"], function(_, v) {
-	      if (!values[v]) {
-	        throw new Error("Please supply a translation for '" + v + "'");
-	      }
-	    });
-
-	    locales[name] = {
-	      OK: values.OK,
-	      CANCEL: values.CANCEL,
-	      CONFIRM: values.CONFIRM
-	    };
-
-	    return exports;
-	  };
-
-	  exports.removeLocale = function(name) {
-	    delete locales[name];
-
-	    return exports;
-	  };
-
-	  exports.setLocale = function(name) {
-	    return exports.setDefaults("locale", name);
-	  };
-
-	  exports.init = function(_$) {
-	    return init(_$ || $);
-	  };
-
-	  return exports;
-	}));
-
-
-/***/ },
-/* 144 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-container nm-container-dashboard"},"f":[{"t":7,"e":"div","a":{"class":"nm-head"},"f":[{"t":7,"e":"div","a":{"class":"pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"f":["Menu"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"f":["Sarima"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-titles"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-name nm-title nm-title-active"},"v":{"click":{"m":"renameCampaign","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"small","f":["Campaign"]}," ",{"t":7,"e":"div","a":{"class":"nm-title-text"},"f":[{"t":2,"r":"campaignName"}]}]}],"n":51,"r":"renamingCampaign"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-rename nm-title nm-title-active"},"f":[{"t":7,"e":"div","a":{"class":"well"},"f":[{"t":7,"e":"small","f":["Campaign"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"campaignName"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideCampaignRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelCampaignRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}]}],"r":"renamingCampaign"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-body nm-body-dashboard"},"f":[{"t":7,"e":"div","a":{"class":"nm-dashboard-actions"},"f":[{"t":7,"e":"div","a":{"class":"btn-group pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder nm-placeholder-default"},"v":{"click":{"m":"createDialogue","a":{"r":[],"s":"[]"}}},"f":["+ Add dialogue"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"confirmPublish","a":{"r":[],"s":"[]"}}},"m":[{"t":4,"f":["disabled"],"n":51,"r":"hasUnpublishedChanges"}],"f":[{"t":4,"f":["Go live"],"x":{"r":["publishCount"],"s":"_0===0"}}," ",{"t":4,"f":["Make changes live"],"x":{"r":["publishCount"],"s":"_0>0"}}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"list-group nm-dashboard-dialogue-list"},"f":[{"t":4,"f":[{"t":7,"e":"h4","f":["Dialogues"]}],"r":"dialogues.length"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-dashboard-dialogue-item"},"f":[{"t":7,"e":"a","a":{"class":"list-group-item-heading nm-dashboard-dialogue-header","href":["./dialogues/",{"t":2,"r":"id"}]},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"div","a":{"class":"nm-dashboard-dialogue-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"f":["Download ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-down"}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"f":["Archive"]}]}," ",{"t":4,"f":[{"t":7,"e":"p","f":["Last ",{"t":7,"e":"strong","f":["edited"]}," on ",{"t":2,"r":"lastEdit"}," by you"]}],"r":"lastEdit"}," ",{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Not live yet"]}],"x":{"r":["publishCount"],"s":"_0===0"}}," ",{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-info"},"f":["Live"]}," ",{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Changes not live yet"]}],"r":"hasUnpublishedChanges"}],"x":{"r":["publishCount"],"s":"_0>0"}}]}]}],"r":"dialogues"}]}]}]}]};
-
-/***/ },
-/* 145 */
-/***/ function(module, exports) {
-
-	var prefix = 'numi-prototype:';
-
-
-	function set(k, v) {
-	  localStorage.setItem(prefix + k, JSON.stringify(v));
-	}
-
-
-	function get(k) {
-	  return JSON.parse(localStorage.getItem(prefix + k));
-	}
-
-
-	function has(k) {
-	  return (prefix + k) in localStorage;
-	}
-
-
-	function clear() {
-	  Object
-	    .keys(localStorage)
-	    .filter(function(k) {
-	      return k.startsWith(prefix);
-	    })
-	    .forEach(function(k) {
-	      localStorage.removeItem(k);
-	    });
-	}
-
-
-	exports.set = set;
-	exports.get = get;
-	exports.has = has;
-	exports.clear = clear;
-
-
-/***/ },
-/* 146 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var pg = __webpack_require__(142);
-	var drawers = __webpack_require__(135);
-	var page = __webpack_require__(18);
-	var Base = __webpack_require__(147);
-
-
-	module.exports = Base.extend({
-	  template: __webpack_require__(149),
-	  create: function() {
-	    var dialogue = this.get('dashboard').addDialogue(this.get('name'));
-	    drawers.close(this);
-	    page('./#!/dialogues/' + dialogue.get('id'));
-	    pg.push(dialogue);
-	  },
-	  close: function() {
-	    drawers.close(this);
-	  }
-	});
-
-
-/***/ },
-/* 147 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var drawers = __webpack_require__(135);
-	var Ractive = __webpack_require__(17);
-
-
-	var Base = Ractive.extend({
-	  partials: {header: __webpack_require__(148)},
-	  oncomplete: function() {
-	    this.update('isFirstDrawer');
-	  },
-	  computed: {
-	    isFirstDrawer: function() {
-	      return drawers.isFirst(this);
-	    }
-	  },
-	  open: function() {
-	    drawers.open(this);
-	  },
-	  close: function() {
-	    drawers.closeAll();
-	  },
-	  back: function() {
-	    drawers.close(this);
-	  }
-	});
-
-
-	module.exports = Base;
-
-
-/***/ },
-/* 148 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":[{"t":2,"r":"title"}," ",{"t":7,"e":"div","a":{"class":"pull-right"},"f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-link nm-text-top"},"v":{"click":{"m":"back","a":{"r":[],"s":"[]"}}},"f":["← Back"]}],"n":51,"r":"isFirstDrawer"}," ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}]}]};
-
-/***/ },
-/* 149 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"n":53,"f":[{"t":8,"r":"header"}],"x":{"r":[],"s":"{title:\"Add new dialogue\"}"}}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell"},"f":[{"t":7,"e":"label","f":["Name of the new dialogue"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"name"}]}}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"create","a":{"r":[],"s":"[]"}}},"f":["Add ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
-
-/***/ },
-/* 150 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var drawers = __webpack_require__(135);
-	var Base = __webpack_require__(147);
-	var ManageLanguages = __webpack_require__(151);
-	var ChooseLanguage = __webpack_require__(153);
-
-
-	module.exports = Base.extend({
-	  template: __webpack_require__(155),
-	  data: function() {
-	    return {languages: dashboard.get('languages')};
-	  },
-	  oncomplete: function() {
-	    Drawer.prototype.oncomplete.call(this);
-	    $('.nm-menu-actions').on('click', function(e) { e.preventDefault(); });
-	  },
-	  oninit: function() {
-	    var self = this;
-
-	    dashboard.observe('languages', function() {
-	      self.set('languages', dashboard.get('languages'));
-	    });
-	  },
-	  changeCampaign: function() {
-	  },
-	  manageLanguages: function() {
-	    drawers.open(ManageLanguages({el: $('<div>')}));
-	  },
-	  showLanguage: function() {
-	    var self = this;
-
-	    var chooser = ChooseLanguage({
-	      el: $('<div>'),
-	      data: {showParent: false}
-	    });
-
-	    chooser.once('chosen', function(languageId) {
-	      self.get('dialogue').showLanguage(languageId);
-	      self.close();
-	    });
-
-	    drawers.open(chooser);
-	  }
+	  components: __webpack_require__(152)
 	});
 
 
@@ -72946,108 +71989,16 @@
 /* 151 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Base = __webpack_require__(147);
-
-
-	module.exports = Base.extend({
-	  template: __webpack_require__(152),
-	  setAsParent: function(id) {
-	    dashboard.setAsParentLanguage(id);
-	    this.updateLanguages();
-	  },
-	  addLanguage: function() {
-	    dashboard.addLanguage('');
-	    this.updateLanguages();
-	    this.focusNewLanguage();
-	  },
-	  data: function() {
-	    return {languages: dashboard.get('languages')};
-	  },
-	  focusNewLanguage: function() {
-	    $(this.el)
-	      .find('.nm-lang-name')
-	      .last()
-	      .focus();
-	  },
-	  updateLanguages: function() {
-	    // TODO figure out why computed language that returns dashboard's languages
-	    // won't work, and why dashboard.update('languages') is not enough.
-	    this.set('languages', dashboard.get('languages'));
-	  },
-	  onchange: function(d) {
-	    dashboard.set('languages', this.get('languages'));
-	  }
-	});
-
-
-/***/ },
-/* 152 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"n":53,"f":[{"t":8,"r":"header"}],"x":{"r":[],"s":"{title:\"Languages\"}"}}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-17"},"f":[{"t":7,"e":"input","a":{"class":"nm-lang-name","type":"text","value":[{"t":2,"r":"name"}],"placeholder":"Enter a name for this language"}}," ",{"t":4,"f":[{"t":7,"e":"small","a":{"class":"nm-annotation"},"f":["(Parent)"]}],"r":"isParent"}]}," ",{"t":7,"e":"button","a":{"class":"btn nm-cell nm-cell-btn nm-cell-4"},"v":{"click":{"m":"setAsParent","a":{"r":["id"],"s":"[_0]"}}},"m":[{"t":4,"f":["disabled"],"r":"isParent"}],"f":["Set as parent"]}," ",{"t":7,"e":"button","a":{"class":"btn nm-cell nm-cell-btn nm-cell-3"},"v":{"click":{"m":"removeWhere","a":{"r":["id"],"s":"[\"languages\",{id:_0}]"}}},"f":["Remove"]}]}],"r":"languages"}," ",{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-btn btn nm-cell-placeholder"},"v":{"click":{"m":"addLanguage","a":{"r":[],"s":"[]"}}},"f":["+ Add a language"]}]}]}]}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
-
-/***/ },
-/* 153 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var _ = __webpack_require__(15);
-	var Base = __webpack_require__(147);
-	var ManageLanguages = __webpack_require__(151);
-	var drawers = __webpack_require__(135);
-
-
-	module.exports = Base.extend({
-	  template: __webpack_require__(154),
-	  choose: function(e, id) {
-	    e.original.preventDefault();
-	    this.fire('chosen', id, _.find(this.get('items'), {id: id}));
-	  },
-	  manage: function(e) {
-	    e.original.preventDefault();
-	    var self = this;
-
-	    var languages = ManageLanguages({el: $('<div>')});
-	    drawers.open(languages);
-
-	    languages.on('change', function() {
-	      self.set('languages', languages.get('languages'));
-	    });
-	  },
-	  data: function() {
-	    return {
-	      showParent: true,
-	      languages: dashboard.get('languages')
-	    };
-	  }
-	});
-
-
-/***/ },
-/* 154 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"n":53,"f":[{"t":8,"r":"header"}],"x":{"r":[],"s":"{title:\"Choose Language\"}"}}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer","href":"#"},"v":{"click":{"m":"choose","a":{"r":["event","id"],"s":"[_0,_1]"}}},"f":[{"t":2,"r":"name"}]}],"x":{"r":["isParent","showParent"],"s":"!_0||_1"}}],"r":"languages"}," ",{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer nm-list-group-item-drawer-secondary","href":"#"},"v":{"click":{"m":"manage","a":{"r":["event"],"s":"[_0]"}}},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," Manage languages"]}]}]}]};
-
-/***/ },
-/* 155 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"n":53,"f":[{"t":8,"r":"header"}],"x":{"r":[],"s":"{title:\"Menu\"}"}}," ",{"t":7,"e":"div","a":{"class":"list-group nm-menu-actions"},"f":[{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer","href":"#"},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," Change campaign"]}," ",{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer","href":"#"},"v":{"click":{"m":"manageLanguages","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," Manage languages"]}," ",{"t":7,"e":"a","a":{"class":["list-group-item nm-list-group-item-drawer ",{"t":4,"f":["is-disabled"],"x":{"r":["languages.length"],"s":"_0<2"}}],"href":"#"},"v":{"click":{"m":"showLanguage","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," View content for a language"]}]}]}]};
-
-/***/ },
-/* 156 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(15);
 	var uuid = __webpack_require__(23);
-	var Base = __webpack_require__(147);
-	var blockTypes = __webpack_require__(158);
+	var Base = __webpack_require__(48);
+	var blockTypes = __webpack_require__(152);
 
 
 	// TODO something similar to this for filters
 	var BlockLibrary = Base.extend({
-	  template: __webpack_require__(157),
+	  template: __webpack_require__(216),
 	  data: function() {
 	    return BlockLibrary.data;
 	  },
@@ -73220,45 +72171,39 @@
 
 
 /***/ },
-/* 157 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"n":53,"f":[{"t":8,"r":"header"}],"x":{"r":[],"s":"{title:\"Block Library\"}"}}," ",{"t":7,"e":"div","a":{"class":"nm-block-pallete-menu"},"f":[{"t":7,"e":"div","a":{"class":"nm-block-pallete-title nm-block-pallete-title-palletes"},"f":["Palletes"]}," ",{"t":7,"e":"ul","a":{"class":"nav nav-pills nav-stacked"},"f":[{"t":4,"f":[{"t":7,"e":"li","a":{"class":[{"t":4,"f":["active"],"x":{"r":["activePalleteKey","key"],"s":"_0===_1"}}]},"f":[{"t":7,"e":"a","a":{"href":"#"},"v":{"click":{"m":"setActivePallete","a":{"r":["event","key"],"s":"[_0,_1]"}}},"f":[{"t":2,"r":"name"}]}]}],"r":"palletes"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-block-pallete"},"f":[{"t":7,"e":"div","a":{"class":"nm-block-pallete-title nm-block-pallete-title-blocks"},"f":["Blocks"]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item-heading"},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"div","a":{"class":"list-body-item-text"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"collapse alert alert-info alert-dismissible","id":[{"t":2,"r":"type"},"-help"],"data-toggle":"collapse","data-target":["#",{"t":2,"r":"type"},"-help"]},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","aria-label":"Close"},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":2,"r":"helptext"}]}]}],"r":"blocks"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group nm-library-block"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder nm-placeholder-block"},"v":{"click":{"m":"add","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default nm-placeholder nm-placeholder-block","data-toggle":"collapse","data-target":["#",{"t":2,"r":"type"},"-help"]},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-question-sign"}}]}]}],"r":"blocks"}]}]}],"r":"categories"}]}],"r":"activePallete"}]}]}]};
-
-/***/ },
-/* 158 */
+/* 152 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports.ask = __webpack_require__(159);
-	exports.askchoice = __webpack_require__(170);
-	exports.language = __webpack_require__(177);
-	exports.register = __webpack_require__(181);
-	exports.unsubscribe = __webpack_require__(185);
-	exports.optout = __webpack_require__(186);
-	exports.askcliniccode = __webpack_require__(187);
-	exports.route = __webpack_require__(190);
-	exports.conditionalroute = __webpack_require__(192);
-	exports.base = __webpack_require__(160);
-	exports.calcweeks = __webpack_require__(203);
-	exports.end = __webpack_require__(206);
-	exports.shownext9months = __webpack_require__(209);
-	exports.userdialsin = __webpack_require__(212);
-	exports.usersendsmessage = __webpack_require__(215);
-	exports.annotation = __webpack_require__(218);
+	exports.ask = __webpack_require__(153);
+	exports.askchoice = __webpack_require__(165);
+	exports.language = __webpack_require__(172);
+	exports.register = __webpack_require__(176);
+	exports.unsubscribe = __webpack_require__(180);
+	exports.optout = __webpack_require__(181);
+	exports.askcliniccode = __webpack_require__(182);
+	exports.route = __webpack_require__(185);
+	exports.conditionalroute = __webpack_require__(187);
+	exports.base = __webpack_require__(155);
+	exports.calcweeks = __webpack_require__(198);
+	exports.end = __webpack_require__(201);
+	exports.shownext9months = __webpack_require__(204);
+	exports.userdialsin = __webpack_require__(207);
+	exports.usersendsmessage = __webpack_require__(210);
+	exports.annotation = __webpack_require__(213);
 
 
 /***/ },
-/* 159 */
+/* 153 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Screen = __webpack_require__(165);
-	var utils = __webpack_require__(221);
-	var drawers = __webpack_require__(135);
-	var Chooser = __webpack_require__(166);
+	var Screen = __webpack_require__(154);
+	var utils = __webpack_require__(160);
+	var drawers = __webpack_require__(47);
+	var Chooser = __webpack_require__(161);
 
 
 	var Ask = Screen.extend({
-	  template: __webpack_require__(168),
+	  template: __webpack_require__(163),
 	  computed: {
 	    charCount: function() {
 	      return this.get('text').length;
@@ -73276,7 +72221,7 @@
 
 
 	Ask.Edit = Screen.Edit.extend({
-	  template: __webpack_require__(169),
+	  template: __webpack_require__(164),
 	  computed: {
 	    useAnswerSaving: function() {
 	      return !!this.get('saveAs');
@@ -73310,16 +72255,53 @@
 
 
 /***/ },
-/* 160 */
+/* 154 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var d3 = __webpack_require__(161);
+	var Base = __webpack_require__(155);
+	var proxyProp = __webpack_require__(160).proxyProp;
+
+
+	var Screen = Base.extend({
+	  data: {
+	    highCharCount: 140
+	  },
+	  computed: {
+	    charCount: function() {
+	      return 0;
+	    },
+	    charCountIsHigh: function() {
+	      return this.get('charCount') > this.get('highCharCount');
+	    }
+	  }
+	});
+
+
+	Screen.Edit = Base.Edit.extend({
+	  computed: {
+	    charCount: proxyProp('block', 'charCount'),
+	    charCountIsHigh: proxyProp('block', 'charCountIsHigh')
+	  }
+	});
+
+
+	Screen.Stats = Base.Stats.extend();
+
+
+	module.exports = Screen;
+
+
+/***/ },
+/* 155 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var d3 = __webpack_require__(156);
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(15);
 	var Ractive = __webpack_require__(17);
-	var BaseDrawer = __webpack_require__(147);
-	var drawers = __webpack_require__(135);
-	var sapphire = __webpack_require__(162);
+	var BaseDrawer = __webpack_require__(48);
+	var drawers = __webpack_require__(47);
+	var sapphire = __webpack_require__(157);
 
 	var numDatapoints = 50;
 
@@ -73572,7 +72554,7 @@
 
 
 	Base.Stats = BaseDrawer.extend({
-	  template: __webpack_require__(164),
+	  template: __webpack_require__(159),
 	  oncomplete: function() {
 	    this.draw();
 	  },
@@ -73660,7 +72642,7 @@
 
 
 /***/ },
-/* 161 */
+/* 156 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;!function() {
@@ -83215,12 +82197,12 @@
 	}();
 
 /***/ },
-/* 162 */
+/* 157 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function webpackUniversalModuleDefinition(root, factory) {
 		if(true)
-			module.exports = factory(__webpack_require__(161), __webpack_require__(163));
+			module.exports = factory(__webpack_require__(156), __webpack_require__(158));
 		else if(typeof define === 'function' && define.amd)
 			define(["d3", "strain"], factory);
 		else if(typeof exports === 'object')
@@ -84700,7 +83682,7 @@
 	//# sourceMappingURL=sapphire.js.map
 
 /***/ },
-/* 163 */
+/* 158 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function() {
@@ -84992,59 +83974,116 @@
 
 
 /***/ },
-/* 164 */
+/* 159 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["User Interaction Statistics ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"h4","f":["Summary"]}," ",{"t":7,"e":"table","a":{"class":"sph-table nm-table-small"},"f":[{"t":7,"e":"tbody","f":[{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":["Total views"]}," ",{"t":7,"e":"td","f":[{"t":2,"x":{"r":["formatValue","_","stats.views"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":["Total timeouts"]}," ",{"t":7,"e":"td","f":[{"t":2,"x":{"r":["formatValue","_","stats.timeouts"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":["Total replies"]}," ",{"t":7,"e":"td","f":[{"t":2,"x":{"r":["formatValue","_","stats.answers"],"s":"_0(_1.sum(_2))"}}]}]}]}]}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"h4","f":["Interactions over the last 7 days"]}," ",{"t":7,"e":"div","a":{"class":"nm-charts"},"f":[{"t":7,"e":"div","a":{"class":"nm-chart-totals"},"f":[{"t":7,"e":"div","a":{"data-widget-component":"chart"}}," ",{"t":7,"e":"div","a":{"data-widget-component":"legend"}}]}]}]};
 
 /***/ },
-/* 165 */
-/***/ function(module, exports, __webpack_require__) {
+/* 160 */
+/***/ function(module, exports) {
 
-	var Base = __webpack_require__(160);
-	var proxyProp = __webpack_require__(221).proxyProp;
+	function log(v) {
+	  console.log.apply(console, arguments);
+	  return v;
+	}
 
 
-	var Screen = Base.extend({
-	  data: {
-	    highCharCount: 140
-	  },
-	  computed: {
-	    charCount: function() {
-	      return 0;
+	function contentPropGetter(name, langId) {
+	  langId = langId || null;
+
+	  return function() {
+	    return this.getForLang(langId, name);
+	  };
+	}
+
+
+	function contentProp(name, langId) {
+	  langId = langId || null;
+
+	  return {
+	    get: function() {
+	      return this.getForLang(langId, name);
 	    },
-	    charCountIsHigh: function() {
-	      return this.get('charCount') > this.get('highCharCount');
+	    set: function(v) {
+	      this.setForLang(langId, name, v);
 	    }
-	  }
-	});
+	  };
+	}
 
 
-	Screen.Edit = Base.Edit.extend({
-	  computed: {
-	    charCount: proxyProp('block', 'charCount'),
-	    charCountIsHigh: proxyProp('block', 'charCountIsHigh')
-	  }
-	});
+	function listPropWithContentGetter(name, contentProps, langId) {
+	  langId = langId || null;
+
+	  return function() {
+	    return this.getForLangList(langId, name, contentProps);
+	  };
+	}
 
 
-	Screen.Stats = Base.Stats.extend();
+	function listPropWithContent(name, contentProps, langId) {
+	  langId = langId || null;
+
+	  return {
+	    get: function() {
+	      return this.getForLangList(langId, name, contentProps);
+	    },
+	    set: function(data) {
+	      this.setForLangList(langId, name, contentProps, data);
+	    }
+	  };
+	}
 
 
-	module.exports = Screen;
+	function parentAndCurrentListGetter(name, contentProps) {
+	  return function() {
+	    return hashzip(['parent', 'current'], [
+	        this.getForLangList('parent', name, contentProps),
+	        this.getForLangList(null, name, contentProps)
+	    ]);
+	  };
+	}
+
+
+	function proxyProp(targetName, propName) {
+	  return function() {
+	    // We can't dynamically delegate to the relevant block's computed
+	    // properties, Ractive.js doesn't seem able to react to changes that way.
+	    // Instead, we borrow the property.
+	    return this.get(targetName).computed[propName].call(this);
+	  };
+	}
+
+
+	function hashzip(names, lists) {
+	  return _.zipWith.apply(_, lists.concat(function(a, v, i, group) {
+	    return _.zipObject(names, group);
+	  }));
+	}
+
+
+	exports.log = log;
+	exports.proxyProp = proxyProp;
+	exports.contentProp = contentProp;
+	exports.listPropWithContent = listPropWithContent;
+	exports.contentPropGetter = contentPropGetter;
+	exports.listPropWithContent = listPropWithContent;
+	exports.listPropWithContentGetter = listPropWithContentGetter;
+	exports.parentAndCurrentListGetter = parentAndCurrentListGetter;
+	exports.hashzip = hashzip;
 
 
 /***/ },
-/* 166 */
+/* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(15);
-	var drawers = __webpack_require__(135);
-	var Base = __webpack_require__(147);
+	var drawers = __webpack_require__(47);
+	var Base = __webpack_require__(48);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(167),
+	  template: __webpack_require__(162),
 	  choose: function(e, id, d) {
 	    e.original.preventDefault();
 	    this.fire('chosen', id, _.find(this.get('items'), {id: id}));
@@ -85056,41 +84095,41 @@
 
 
 /***/ },
-/* 167 */
+/* 162 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"n":53,"f":[{"t":8,"r":"header"}],"x":{"r":["title"],"s":"{title:_0}"}}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer","href":"#"},"v":{"click":{"m":"choose","a":{"r":["event","id"],"s":"[_0,_1]"}}},"f":[{"t":4,"f":[{"t":7,"e":"i","f":[{"t":2,"r":"name"}]}],"r":"special"}," ",{"t":4,"f":[{"t":2,"r":"name"}],"n":51,"r":"special"}]}],"r":"items"}]}]}]};
 
 /***/ },
-/* 168 */
+/* 163 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Question"]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":["list-group nm-preview-list ",{"t":4,"f":["is-showing-language"],"r":"isShowingLanguage"}]},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item nm-preview-cells nm-preview-list-heading"},"f":[{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":2,"r":"parentLanguageName"}]}," ",{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":2,"r":"childLanguageName"}]}]}],"r":"isShowingLanguage"}," ",{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item nm-preview-cells"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":4,"f":[{"t":2,"r":"textParent"}],"r":"textParent"}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No content"]}],"n":51,"r":"textParent"}]}],"r":"isShowingLanguage"}," ",{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":4,"f":[{"t":2,"r":"text"}],"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No content"]}],"n":51,"r":"text"}]}]}]}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item nm-preview-annotation"},"f":["Answer saved as ",{"t":7,"e":"strong","f":[{"t":2,"r":"saveAs"}]}]}],"r":"saveAs"}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs pull-right"},"f":[{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Views ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.views"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Timeouts ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.timeouts"],"s":"_0(_1.sum(_2))"}}]}]}]}],"x":{"r":["publishCount"],"s":"_0>0"}}]}]}]};
 
 /***/ },
-/* 169 */
+/* 164 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Question ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell nm-content ",{"t":4,"f":["is-incomplete"],"n":51,"r":"text"}]},"f":[{"t":7,"e":"label","f":["Question"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]},"f":["          "]}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell"},"f":[{"t":7,"e":"label","m":[{"t":4,"f":["class=\"is-unused\""],"n":51,"r":"useAnswerSaving"}],"f":["Save answer as (optional)"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-footer"},"f":[{"t":7,"e":"span","a":{"class":["nm-static-input nm-cell-annotation ",{"t":4,"f":["nm-cell-annotation-warning"],"r":"charCountIsHigh"}]},"f":[{"t":2,"r":"charCount"}," characters used"]}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 170 */
+/* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(15);
 	var uuid = __webpack_require__(23);
-	var Screen = __webpack_require__(165);
-	var utils = __webpack_require__(221);
-	var drawers = __webpack_require__(135);
-	var ChooseSequence = __webpack_require__(171);
-	var Chooser = __webpack_require__(166);
-	var Areas = __webpack_require__(173);
-	var sapphire = __webpack_require__(162);
+	var Screen = __webpack_require__(154);
+	var utils = __webpack_require__(160);
+	var drawers = __webpack_require__(47);
+	var ChooseSequence = __webpack_require__(166);
+	var Chooser = __webpack_require__(161);
+	var Areas = __webpack_require__(168);
+	var sapphire = __webpack_require__(157);
 
 
 	var AskChoice = Screen.extend({
-	  template: __webpack_require__(174),
+	  template: __webpack_require__(169),
 	  data: function() {
 	    return {
 	      saveAs: '',
@@ -85173,7 +84212,7 @@
 
 
 	AskChoice.Edit = Screen.Edit.extend({
-	  template: __webpack_require__(175),
+	  template: __webpack_require__(170),
 	  showTab(e, to) {
 	    e.original.preventDefault();
 	    $(this.el).find('a[href="#' + to + '"]').tab('show');
@@ -85268,7 +84307,7 @@
 
 
 	AskChoice.Stats = Screen.Stats.extend({
-	  template: __webpack_require__(176),
+	  template: __webpack_require__(171),
 	  draw() {
 	    this.drawTotalsChart();
 	    this.drawAnswersChart();
@@ -85338,15 +84377,15 @@
 
 
 /***/ },
-/* 171 */
+/* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Chooser = __webpack_require__(166);
-	var Base = __webpack_require__(147);
+	var Chooser = __webpack_require__(161);
+	var Base = __webpack_require__(48);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(172),
+	  template: __webpack_require__(167),
 	  addSequence: function() {
 	    var seq = this.get('dialogue').addSequence(this.get('newSequenceName'));
 	    this.choose(seq.id);
@@ -85381,17 +84420,17 @@
 
 
 /***/ },
-/* 172 */
+/* 167 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"n":53,"f":[{"t":8,"r":"header"}],"x":{"r":[],"s":"{title:\"Route to another sequence\"}"}}," ",{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading nm-panel-heading-drawer"},"f":["Route to a new sequence"]}," ",{"t":7,"e":"div","a":{"class":"panel-body nm-panel-body-drawer"},"f":[{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell"},"f":[{"t":7,"e":"label","f":["Name of the new sequence"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"newSequenceName"}]}}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"addSequence","a":{"r":[],"s":"[]"}}},"f":["Add"]}]}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer","href":"#"},"v":{"click":{"m":"chooseSequence","a":{"r":["event"],"s":"[_0]"}}},"f":["Route to a sequence in this dialogue"]}," ",{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer","href":"#"},"v":{"click":{"m":"chooseDialogue","a":{"r":["event"],"s":"[_0]"}}},"f":["Route to the starting sequence of another dialogue"]}]}]}]}]};
 
 /***/ },
-/* 173 */
+/* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var d3 = __webpack_require__(161);
-	var sapphire = __webpack_require__(162);
+	var d3 = __webpack_require__(156);
+	var sapphire = __webpack_require__(157);
 	var utils = sapphire.utils;
 
 
@@ -85756,40 +84795,40 @@
 
 
 /***/ },
-/* 174 */
+/* 169 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Multiple Choice Question"]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":["list-group nm-preview-list ",{"t":4,"f":["is-showing-language"],"r":"isShowingLanguage"}]},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item nm-preview-cells nm-preview-list-heading"},"f":[{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":2,"r":"parentLanguageName"}]}," ",{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":2,"r":"childLanguageName"}]}]}],"r":"isShowingLanguage"}," ",{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item nm-preview-cells"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":4,"f":[{"t":2,"r":"textParent"}],"r":"textParent"}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No content"]}],"n":51,"r":"textParent"}]}],"r":"isShowingLanguage"}," ",{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":4,"f":[{"t":2,"r":"text"}],"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No content"]}],"n":51,"r":"text"}]}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":["list-group-item nm-preview-list-item nm-preview-cells ",{"t":4,"f":["active"],"x":{"r":["activeBlockItemId","current.id"],"s":"_0===_1"}}," ",{"t":4,"f":["is-choosable"],"r":"current.route"}],"href":"#"},"v":{"click":{"m":"onChoiceClick","a":{"r":["current.id"],"s":"[_0]"}}},"f":[{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-preview-arrow glyphicon glyphicon-menu-right pull-right"}}],"r":"current.route"}," ",{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":7,"e":"p","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". ",{"t":2,"r":"text"}]}," ",{"t":4,"f":[{"t":7,"e":"p","f":[" ↳ ",{"t":2,"x":{"r":["getSequenceName","current.route"],"s":"_0(_1)"}}]}],"r":"current.route"}]}],"r":"parent"}],"r":"isShowingLanguage"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":7,"e":"p","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". ",{"t":2,"r":"text"}," ",{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"span","a":{"class":"badge pull-right"},"f":[{"t":2,"x":{"r":["formatValue","_","answerCounts"],"s":"_0(_1.sum(_2))"}}]}],"x":{"r":["publishCount"],"s":"_0>0"}}],"r":"route"}]}," ",{"t":4,"f":[{"t":7,"e":"br"}],"r":"route"}]}],"r":"current"}]}],"i":"i","r":"choicesPreview"}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item nm-preview-annotation"},"f":["Answer saved as ",{"t":7,"e":"strong","f":[{"t":2,"r":"saveAs"}]}]}]}],"r":"saveAs"}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs pull-right"},"f":[{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Views ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.views"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Timeouts ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.timeouts"],"s":"_0(_1.sum(_2))"}}]}]}]}],"x":{"r":["publishCount"],"s":"_0>0"}}]}]}]};
 
 /***/ },
-/* 175 */
+/* 170 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"n":53,"f":[{"t":8,"r":"header"}],"x":{"r":[],"s":"{title:\"Multiple Choice Question\"}"}}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["is-incomplete"],"n":51,"r":"text"}]},"f":[{"t":7,"e":"label","f":["Question"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-heading nm-cell-",{"t":2,"r":"choiceSpan"}]},"f":[{"t":7,"e":"label","f":["Choices"]}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-heading nm-cell-9 nm-hide-small"},"f":[{"t":7,"e":"label","f":["Save as"]}]}],"r":"useAnswerSaving"}," ",{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-6 nm-cell-noborder nm-hide-small"}}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["nm-choice-placeholder"],"x":{"r":["i","allChoices.length"],"s":"_0===_1-1"}}," nm-cell-",{"t":2,"r":"choiceSpan"}]},"f":[{"t":7,"e":"div","a":{"class":"nm-prefixed-input"},"f":[{"t":7,"e":"span","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". "]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"text"}]},"v":{"keyup":{"m":"onChoiceKeyDown","a":{"r":["i"],"s":"[_0]"}}}}]}," ",{"t":4,"f":[{"t":7,"e":"div","f":[" ↳ ",{"t":7,"e":"a","a":{"href":"#"},"v":{"click":{"m":"onRouteClick","a":{"r":["event","id"],"s":"[_0,_1]"}}},"f":[{"t":2,"x":{"r":["getSequenceName","route"],"s":"_0(_1)"}}]}]}],"r":"route"}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-9"},"f":[{"t":7,"e":"label","a":{"class":"nm-small-only"},"f":["Save as"]}," ",{"t":7,"e":"input","a":{"type":"text"},"m":[{"t":4,"f":["value=\"",{"t":2,"r":".saveAs"},"\""],"r":".saveAs"},{"t":4,"f":[" value=\"",{"t":2,"r":".text"}," \""],"n":51,"r":".saveAs"}]}]}],"r":"useAnswerSaving"}," ",{"t":7,"e":"button","a":{"class":["nm-cell nm-cell-btn nm-cell-3 btn ",{"t":4,"f":["disabled"],"x":{"r":["i","allChoices.length"],"s":"_0===_1-1"}}]},"v":{"click":{"m":"setRoute","a":{"r":["id"],"s":"[_0]"}}},"f":[{"t":4,"f":["Route"],"n":51,"r":"route"}," ",{"t":4,"f":["Edit Route"],"r":"route"}]}," ",{"t":7,"e":"button","a":{"class":["nm-cell nm-cell-btn nm-cell-3 btn ",{"t":4,"f":["disabled"],"x":{"r":["i","allChoices.length"],"s":"_0===_1-1"}}]},"v":{"click":{"m":"removeChoice","a":{"r":["id"],"s":"[_0]"}}},"f":["Remove"]}]}],"i":"i","r":"allChoices"}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell"},"f":[{"t":7,"e":"label","m":[{"t":4,"f":["class=\"is-unused\""],"n":51,"r":"useAnswerSaving"}],"f":["Save answer as (optional)"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-footer"},"f":[{"t":7,"e":"span","a":{"class":["nm-static-input nm-cell-annotation ",{"t":4,"f":["nm-cell-annotation-warning"],"r":"charCountIsHigh"}]},"f":[{"t":2,"r":"charCount"}," characters used"]}]}]}]}]}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 176 */
+/* 171 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["User Interaction Statistics ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"h4","f":["Summary"]}," ",{"t":7,"e":"table","a":{"class":"sph-table nm-table-small"},"f":[{"t":7,"e":"tbody","f":[{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":["Total views"]}," ",{"t":7,"e":"td","f":[{"t":2,"x":{"r":["formatValue","_","stats.views"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":["Total timeouts"]}," ",{"t":7,"e":"td","f":[{"t":2,"x":{"r":["formatValue","_","stats.timeouts"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":["Total replies"]}," ",{"t":7,"e":"td","f":[{"t":2,"x":{"r":["formatValue","_","stats.answers"],"s":"_0(_1.sum(_2))"}}]}]}]}]}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"div","a":{"class":"nm-charts"},"f":[{"t":7,"e":"h4","f":["Interactions over the last 7 days"]}," ",{"t":7,"e":"div","a":{"class":"nm-chart-totals"},"f":[{"t":7,"e":"div","a":{"data-widget-component":"chart"}}," ",{"t":7,"e":"div","a":{"data-widget-component":"legend"}}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"h4","f":["Answers over the last 7 days"]}," ",{"t":7,"e":"div","a":{"class":"nm-chart-answers"},"f":[{"t":7,"e":"div","a":{"data-widget-component":"chart"}}," ",{"t":7,"e":"div","a":{"data-widget-component":"legend"}}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"h4","f":["Answers over the last 7 days as percentages"]}," ",{"t":7,"e":"div","a":{"class":"nm-chart-answers-percentages"},"f":[{"t":7,"e":"div","a":{"data-widget-component":"chart"}}," ",{"t":7,"e":"div","a":{"data-widget-component":"legend"}}]}]}]};
 
 /***/ },
-/* 177 */
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(15);
 	var uuid = __webpack_require__(23);
-	var Screen = __webpack_require__(165);
-	var drawers = __webpack_require__(135);
-	var ChooseLanguage = __webpack_require__(153);
-	var Chooser = __webpack_require__(166);
-	var Areas = __webpack_require__(173);
-	var sapphire = __webpack_require__(162);
+	var Screen = __webpack_require__(154);
+	var drawers = __webpack_require__(47);
+	var ChooseLanguage = __webpack_require__(144);
+	var Chooser = __webpack_require__(161);
+	var Areas = __webpack_require__(168);
+	var sapphire = __webpack_require__(157);
 
 
 	var Language = Screen.extend({
-	  template: __webpack_require__(178),
+	  template: __webpack_require__(173),
 	  data: function() {
 	    return {
 	      text: '',
@@ -85863,7 +84902,7 @@
 
 
 	Language.Edit = Screen.Edit.extend({
-	  template: __webpack_require__(179),
+	  template: __webpack_require__(174),
 	  showTab(e, to) {
 	    e.original.preventDefault();
 	    $(this.el).find('a[href="#' + to + '"]').tab('show');
@@ -85970,7 +85009,7 @@
 
 
 	Language.Stats = Screen.Stats.extend({
-	  template: __webpack_require__(180),
+	  template: __webpack_require__(175),
 	  draw() {
 	    this.drawTotalsChart();
 	    this.drawAnswersChart();
@@ -86042,28 +85081,28 @@
 
 
 /***/ },
-/* 178 */
+/* 173 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Choose Language"]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":4,"f":[{"t":2,"r":"text"}],"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No content"]}],"n":51,"r":"text"}]}," ",{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"a","a":{"class":["list-group-item nm-preview-list-item ",{"t":4,"f":["active"],"x":{"r":["activeBlockItemId","id"],"s":"_0===_1"}}],"href":"#"},"v":{"click":{"m":"onChoiceClick","a":{"r":["event","id"],"s":"[_0,_1]"}}},"f":[{"t":7,"e":"span","a":{"class":"nm-preview-arrow glyphicon glyphicon-menu-right pull-right"}}," ",{"t":7,"e":"p","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". ",{"t":2,"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"span","a":{"class":"badge pull-right"},"f":[{"t":2,"x":{"r":["formatValue","_","answerCounts"],"s":"_0(_1.sum(_2))"}}]}],"x":{"r":["publishCount"],"s":"_0>0"}}]}," ",{"t":7,"e":"p","f":[" ↳ ",{"t":2,"x":{"r":["getSequenceName","route"],"s":"_0(_1)"}}]}]}],"r":"route"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item","href":"#"},"f":[{"t":7,"e":"p","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". ",{"t":2,"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"span","a":{"class":"badge pull-right"},"f":[{"t":2,"x":{"r":["formatValue","_","answerCounts"],"s":"_0(_1.sum(_2))"}}]}],"x":{"r":["publishCount"],"s":"_0>0"}}]}]}],"n":51,"r":"route"}],"i":"i","r":"choices"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item nm-preview-annotation"},"f":["Answer saved as ",{"t":7,"e":"strong","f":[{"t":2,"r":"saveAs"}]}]}],"r":"saveAs"}," ",{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item-text nm-preview-annotation"},"f":["Skipped if user has already chosen a language."]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs pull-right"},"f":[{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Views ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.views"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Timeouts ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.timeouts"],"s":"_0(_1.sum(_2))"}}]}]}]}],"x":{"r":["publishCount"],"s":"_0>0"}}]}]}]};
 
 /***/ },
-/* 179 */
+/* 174 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Choose Language ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["is-incomplete"],"n":51,"r":"text"}]},"f":[{"t":7,"e":"label","f":["Question"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-heading nm-cell-11"},"f":[{"t":7,"e":"label","f":["Choice"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-heading nm-cell-10 nm-hide-small"},"f":[{"t":7,"e":"label","f":["Language"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-3 nm-cell-noborder nm-hide-small"}}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["nm-choice-placeholder"],"x":{"r":["i","allChoices.length"],"s":"_0===_1-1"}}," nm-cell-11"]},"f":[{"t":7,"e":"div","a":{"class":"nm-prefixed-input"},"f":[{"t":7,"e":"span","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". "]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"text"}]},"v":{"keyup":{"m":"onChoiceKeyDown","a":{"r":["i","id"],"s":"[_0,_1]"}}}}]}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-10 nm-cell-placeholder"},"v":{"click":{"m":"chooseLanguage","a":{"r":["i","id"],"s":"[_0,_1]"}}},"f":[{"t":7,"e":"label","a":{"class":"nm-small-only"},"f":["Language"]}," ",{"t":7,"e":"span","a":{"class":"pull-right glyphicon glyphicon-chevron-right"}}," ",{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":["Choose language"]}]}],"n":51,"r":"languageId"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-10 nm-cell-placeholder"},"v":{"click":{"m":"chooseLanguage","a":{"r":["i","id"],"s":"[_0,_1]"}}},"f":[{"t":7,"e":"label","a":{"class":"nm-small-only"},"f":["Language"]}," ",{"t":7,"e":"span","a":{"class":"pull-right glyphicon glyphicon-chevron-right"}}," ",{"t":7,"e":"div","a":{"class":"nm-static-input"},"f":[{"t":2,"r":"languageName"}]}]}],"r":"languageId"}," ",{"t":7,"e":"button","a":{"class":["nm-cell nm-cell-btn nm-cell-3 btn ",{"t":4,"f":["disabled"],"x":{"r":["i","allChoices.length"],"s":"_0===_1-1"}}]},"v":{"click":{"m":"removeChoice","a":{"r":["id"],"s":"[_0]"}}},"f":["Remove"]}]}],"i":"i","r":"allChoices"}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell"},"f":[{"t":7,"e":"label","m":[{"t":4,"f":["class=\"is-unused\""],"n":51,"r":"saveAs"}],"f":["Save answer as (optional)"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-footer"},"f":[{"t":7,"e":"span","a":{"class":["nm-static-input nm-cell-annotation ",{"t":4,"f":["nm-cell-annotation-warning"],"r":"charCountIsHigh"}]},"f":[{"t":2,"r":"charCount"}," characters used"]}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 180 */
+/* 175 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["User Interaction Statistics ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"h4","f":["Summary"]}," ",{"t":7,"e":"table","a":{"class":"sph-table nm-table-small"},"f":[{"t":7,"e":"tbody","f":[{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":["Total views"]}," ",{"t":7,"e":"td","f":[{"t":2,"x":{"r":["formatValue","_","stats.views"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":["Total timeouts"]}," ",{"t":7,"e":"td","f":[{"t":2,"x":{"r":["formatValue","_","stats.timeouts"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":["Total replies"]}," ",{"t":7,"e":"td","f":[{"t":2,"x":{"r":["formatValue","_","stats.answers"],"s":"_0(_1.sum(_2))"}}]}]}]}]}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"div","a":{"class":"nm-charts"},"f":[{"t":7,"e":"h4","f":["Interactions over the last 7 days"]}," ",{"t":7,"e":"div","a":{"class":"nm-chart-totals"},"f":[{"t":7,"e":"div","a":{"data-widget-component":"chart"}}," ",{"t":7,"e":"div","a":{"data-widget-component":"legend"}}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"h4","f":["Answers over the last 7 days"]}," ",{"t":7,"e":"div","a":{"class":"nm-chart-answers"},"f":[{"t":7,"e":"div","a":{"data-widget-component":"chart"}}," ",{"t":7,"e":"div","a":{"data-widget-component":"legend"}}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"h4","f":["Answers over the last 7 days as percentages"]}," ",{"t":7,"e":"div","a":{"class":"nm-chart-answers-percentages"},"f":[{"t":7,"e":"div","a":{"data-widget-component":"chart"}}," ",{"t":7,"e":"div","a":{"data-widget-component":"legend"}}]}]}]};
 
 /***/ },
-/* 181 */
+/* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Action = __webpack_require__(182);
+	var Action = __webpack_require__(177);
 
 
 	var Register = Action.extend({
@@ -86095,16 +85134,16 @@
 
 
 /***/ },
-/* 182 */
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(15);
-	var Base = __webpack_require__(160);
-	var Chooser = __webpack_require__(166);
+	var Base = __webpack_require__(155);
+	var Chooser = __webpack_require__(161);
 
 
 	var Action = Base.extend({
-	  template: __webpack_require__(183),
+	  template: __webpack_require__(178),
 	  isComplete: function() {
 	    return _.all(_.pluck(this.get('fields'), 'userFieldId'));
 	  }
@@ -86112,7 +85151,7 @@
 
 
 	Action.Edit = Base.Edit.extend({
-	  template: __webpack_require__(184),
+	  template: __webpack_require__(179),
 	  computed: {
 	    parsedFields: function() {
 	      var userFields = dashboard.getUserFields();
@@ -86159,22 +85198,22 @@
 
 
 /***/ },
-/* 183 */
+/* 178 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":[{"t":2,"r":"title"}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}]}]}]};
 
 /***/ },
-/* 184 */
+/* 179 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":[{"t":2,"r":"title"}," ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-heading"},"f":[{"t":7,"e":"label","f":["User fields"]}]}]}," ",{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell is-incomplete nm-cell-placeholder"},"v":{"click":{"m":"choose","a":{"r":["key"],"s":"[_0]"}}},"f":[{"t":7,"e":"label","f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," ",{"t":7,"e":"span","a":{"class":"nm-static-input nm-static-input-placeholder"},"f":["Choose a user field"]}]}]}],"n":51,"r":"userField"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-18"},"f":[{"t":7,"e":"label","f":[{"t":2,"r":"../name"}]}," ",{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":4,"f":[{"t":7,"e":"i","f":[{"t":2,"r":"name"}]}],"r":"special"}," ",{"t":4,"f":[{"t":2,"r":"name"}],"n":51,"r":"special"}]}]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-btn nm-cell-3 btn"},"v":{"click":{"m":"choose","a":{"r":["key"],"s":"[_0]"}}},"f":["Change"]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-btn nm-cell-3 btn"},"v":{"click":{"m":"remove","a":{"r":["key"],"s":"[_0]"}}},"f":["Remove"]}]}],"r":"userField"}],"r":"parsedFields"}]}]}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 185 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Action = __webpack_require__(182);
+	var Action = __webpack_require__(177);
 
 
 	var Unsubscribe = Action.extend({
@@ -86198,10 +85237,10 @@
 
 
 /***/ },
-/* 186 */
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Action = __webpack_require__(182);
+	var Action = __webpack_require__(177);
 
 
 	var OptOut = Action.extend({
@@ -86225,17 +85264,17 @@
 
 
 /***/ },
-/* 187 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Screen = __webpack_require__(165);
-	var utils = __webpack_require__(221);
-	var drawers = __webpack_require__(135);
-	var Chooser = __webpack_require__(166);
+	var Screen = __webpack_require__(154);
+	var utils = __webpack_require__(160);
+	var drawers = __webpack_require__(47);
+	var Chooser = __webpack_require__(161);
 
 
 	var Ask = Screen.extend({
-	  template: __webpack_require__(188),
+	  template: __webpack_require__(183),
 	  computed: {
 	    charCount: function() {
 	      return this.get('text').length;
@@ -86264,7 +85303,7 @@
 
 
 	Ask.Edit = Screen.Edit.extend({
-	  template: __webpack_require__(189),
+	  template: __webpack_require__(184),
 	  computed: {
 	    invalidCharCount: utils.proxyProp('block', 'invalidCharCount'),
 	    invalidCharCountIsHigh: utils.proxyProp('block', 'invalidCharCountIsHigh'),
@@ -86321,31 +85360,31 @@
 
 
 /***/ },
-/* 188 */
+/* 183 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Ask for clinic code"]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":["list-group nm-preview-list ",{"t":4,"f":["is-showing-language"],"r":"isShowingLanguage"}]},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item nm-preview-cells nm-preview-list-heading"},"f":[{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":2,"r":"parentLanguageName"}]}," ",{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":2,"r":"childLanguageName"}]}]}],"r":"isShowingLanguage"}," ",{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item nm-preview-cells"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":4,"f":[{"t":2,"r":"textParent"}],"r":"textParent"}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No question content"]}],"n":51,"r":"textParent"}]}],"r":"isShowingLanguage"}," ",{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":4,"f":[{"t":2,"r":"text"}],"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No question content"]}],"n":51,"r":"text"}]}]}," ",{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item nm-preview-cells"},"f":[{"t":7,"e":"div","a":{"class":"nm-preview-extra"},"f":[{"t":7,"e":"p","a":{"class":"nm-preview-annotation"},"f":["If invalid input is given, show:"]}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":4,"f":[{"t":2,"r":"invalidInputTextParent"}],"r":"invalidInputTextParent"}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No invalid input content"]}],"n":51,"r":"invalidInputTextParent"}]}],"r":"isShowingLanguage"}," ",{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":4,"f":[{"t":2,"r":"invalidInputText"}],"r":"invalidInputText"}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No invalid input content"]}],"n":51,"r":"invalidInputText"}]}]}]}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item-text nm-preview-annotation"},"f":[{"t":4,"f":["Answer saved as ",{"t":7,"e":"strong","f":[{"t":2,"r":"saveAs"}]}],"r":"saveAs"}," ",{"t":4,"f":[{"t":7,"e":"i","f":["No answer field given"]}],"n":51,"r":"saveAs"}]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs pull-right"},"f":[{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Views ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.views"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Timeouts ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.timeouts"],"s":"_0(_1.sum(_2))"}}]}]}]}],"x":{"r":["publishCount"],"s":"_0>0"}}]}]}]};
 
 /***/ },
-/* 189 */
+/* 184 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Ask for clinic code ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["is-incomplete"],"n":51,"r":"text"}]},"f":[{"t":7,"e":"label","f":["Question"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-row nm-row-info"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-info"},"f":[{"t":7,"e":"span","a":{"class":["nm-static-input nm-cell-annotation ",{"t":4,"f":["nm-cell-annotation-warning"],"r":"charCountIsHigh"}]},"f":[{"t":2,"r":"charCount"}," characters used"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["is-incomplete"],"n":51,"r":"invalidInputText"}]},"f":[{"t":7,"e":"label","f":["Content to show for invalid input"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"invalidInputText"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserFieldInvalid","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-row nm-row-info"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-info"},"f":[{"t":7,"e":"span","a":{"class":["nm-static-input nm-cell-annotation ",{"t":4,"f":["nm-cell-annotation-warning"],"r":"invalidCharCountIsHigh"}]},"f":[{"t":2,"r":"invalidCharCount"}," characters used"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["is-incomplete"],"n":51,"r":"saveAs"}]},"f":[{"t":7,"e":"label","f":["Save answer as"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 190 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(15);
 	var uuid = __webpack_require__(23);
-	var Base = __webpack_require__(160);
-	var drawers = __webpack_require__(135);
-	var ChooseSequence = __webpack_require__(171);
+	var Base = __webpack_require__(155);
+	var drawers = __webpack_require__(47);
+	var ChooseSequence = __webpack_require__(166);
 
 
 	var Route = Base.extend({
-	  template: __webpack_require__(191),
+	  template: __webpack_require__(186),
 	  onRouteClick: function(e) {
 	    e.original.preventDefault();
 	    this.selectItem(this.get('seqId'), this.get('itemId'));
@@ -86406,26 +85445,26 @@
 
 
 /***/ },
-/* 191 */
+/* 186 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Go to sequence"]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No sequence given"]}],"n":51,"r":"route"}," ",{"t":4,"f":[{"t":7,"e":"a","a":{"class":["list-group-item nm-preview-list-item ",{"t":4,"f":["active"],"x":{"r":["activeBlockItemId","itemId"],"s":"_0===_1"}}],"href":"#"},"v":{"click":{"m":"onRouteClick","a":{"r":["event"],"s":"[_0]"}}},"f":[{"t":7,"e":"span","a":{"class":"nm-preview-arrow glyphicon glyphicon-menu-right pull-right"}}," ",{"t":7,"e":"p","f":[" ↳ ",{"t":2,"r":"name"}]}]}],"r":"route"}]}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}]}]}]};
 
 /***/ },
-/* 192 */
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(15);
 	var uuid = __webpack_require__(23);
-	var Base = __webpack_require__(160);
-	var drawers = __webpack_require__(135);
-	var Conditions = __webpack_require__(193);
-	var ChooseSequence = __webpack_require__(171);
+	var Base = __webpack_require__(155);
+	var drawers = __webpack_require__(47);
+	var Conditions = __webpack_require__(188);
+	var ChooseSequence = __webpack_require__(166);
 
 
 	var ConditionalRoute = Base.extend({
-	  template: __webpack_require__(201),
+	  template: __webpack_require__(196),
 	  onConditionalRouteClick: function(e) {
 	    e.original.preventDefault();
 	    this.selectItem(this.get('seqId'), this.get('itemId'));
@@ -86461,7 +85500,7 @@
 
 
 	ConditionalRoute.Edit = Base.Edit.extend({
-	  template: __webpack_require__(202),
+	  template: __webpack_require__(197),
 	  removeRoute: function() {
 	    this.set('seqId', null);
 	  },
@@ -86524,15 +85563,15 @@
 
 
 /***/ },
-/* 193 */
+/* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var uuid = __webpack_require__(23);
 
 
 	var types = {};
-	types.comparison = __webpack_require__(194);
-	types.group = __webpack_require__(199);
+	types.comparison = __webpack_require__(189);
+	types.group = __webpack_require__(194);
 
 
 	function create(d) {
@@ -86545,17 +85584,17 @@
 
 
 /***/ },
-/* 194 */
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(15);
-	var Base = __webpack_require__(195);
-	var ChooseOperand = __webpack_require__(196);
-	var drawers = __webpack_require__(135);
+	var Base = __webpack_require__(190);
+	var ChooseOperand = __webpack_require__(191);
+	var drawers = __webpack_require__(47);
 
 
 	var Comparison = Base.extend({
-	  template: __webpack_require__(198),
+	  template: __webpack_require__(193),
 	  chooseOperand: function(name) {
 	    var self = this;
 
@@ -86606,7 +85645,7 @@
 
 
 /***/ },
-/* 195 */
+/* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Ractive = __webpack_require__(17);
@@ -86634,16 +85673,16 @@
 
 
 /***/ },
-/* 196 */
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var drawers = __webpack_require__(135);
-	var Chooser = __webpack_require__(166);
-	var Base = __webpack_require__(147);
+	var drawers = __webpack_require__(47);
+	var Chooser = __webpack_require__(161);
+	var Base = __webpack_require__(48);
 
 
 	var ChooseOperand = Base.extend({
-	  template: __webpack_require__(197),
+	  template: __webpack_require__(192),
 	  data: function() {
 	    return {
 	      type: 'value',
@@ -86696,33 +85735,33 @@
 
 
 /***/ },
-/* 197 */
+/* 192 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"f":[{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}],"r":"useclose"}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"btn btn-link pull-right"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["← Back"]}],"n":51,"r":"useClose"}," ",{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Choose a value"]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"button","a":{"class":["btn nm-cell nm-cell-btn nm-cell-12 ",{"t":4,"f":["is-pressed"],"x":{"r":["type"],"s":"_0===\"value\""}}]},"v":{"click":{"m":"set","a":{"r":[],"s":"[\"type\",\"value\"]"}}},"f":[{"t":4,"f":["Choose text as the value"],"x":{"r":["dataType"],"s":"_0===\"text\""}}," ",{"t":4,"f":["Choose a number as the value"],"x":{"r":["dataType"],"s":"_0===\"number\""}}]}," ",{"t":7,"e":"button","a":{"class":["btn nm-cell nm-cell-btn nm-cell-12 ",{"t":4,"f":["is-pressed"],"x":{"r":["type"],"s":"_0===\"userField\""}}]},"v":{"click":{"m":"set","a":{"r":[],"s":"[\"type\",\"userField\"]"}}},"f":["Choose a user field as the value"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["is-inactive"],"x":{"r":["type"],"s":"_0!=null&&_0!=\"value\""}}]},"f":[{"t":7,"e":"label","f":[{"t":4,"f":["Text"],"x":{"r":["dataType"],"s":"_0===\"text\""}}," ",{"t":4,"f":["Number"],"x":{"r":["dataType"],"s":"_0===\"number\""}}]}," ",{"t":4,"f":[{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"value"}]}}],"x":{"r":["dataType"],"s":"_0===\"text\""}}," ",{"t":4,"f":[{"t":7,"e":"input","a":{"type":"number","value":[{"t":2,"r":"value"}]}}],"x":{"r":["dataType"],"s":"_0===\"number\""}}]}],"x":{"r":["type"],"s":"_0===\"value\""}}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-button nm-cell-placeholder ",{"t":4,"f":["is-inactive"],"x":{"r":["type"],"s":"_0!=null&&_0!=\"userField\""}}]},"v":{"click":{"m":"chooseUserField","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"label","f":["User field"]}," ",{"t":7,"e":"span","a":{"class":"pull-right glyphicon glyphicon-chevron-right"}}," ",{"t":4,"f":["Choose a field"],"n":51,"r":"userFieldId"}," ",{"t":4,"f":[{"t":2,"r":"userFieldName"}],"r":"userFieldId"}]}],"x":{"r":["type"],"s":"_0===\"userField\""}}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 198 */
+/* 193 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-",{"t":2,"r":"operandSpan"}," nm-cond-operand ",{"t":4,"f":["is-incomplete nm-cell-placeholder"],"x":{"r":["exists"],"s":"!_0(\"a\")"}}]},"v":{"click":{"m":"chooseOperand","a":{"r":[],"s":"[\"a\"]"}}},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":4,"f":[{"t":2,"x":{"r":["preview"],"s":"_0(\"a\")"}}],"x":{"r":["exists"],"s":"_0(\"a\")"}}," ",{"t":4,"f":["Choose a value"],"x":{"r":["exists"],"s":"!_0(\"a\")"}}]}]}," ",{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-",{"t":2,"r":"operatorSpan"}," nm-cond-operator"]},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":2,"r":"operator"}]}]}," ",{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-",{"t":2,"r":"operandSpan"}," nm-cond-operand ",{"t":4,"f":["is-incomplete nm-cell-placeholder"],"x":{"r":["exists"],"s":"!_0(\"b\")"}}]},"v":{"click":{"m":"chooseOperand","a":{"r":[],"s":"[\"b\"]"}}},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":4,"f":[{"t":2,"x":{"r":["preview"],"s":"_0(\"b\")"}}],"x":{"r":["exists"],"s":"_0(\"b\")"}}," ",{"t":4,"f":["Choose a value"],"x":{"r":["exists"],"s":"!_0(\"b\")"}}]}]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-3 nm-cell-btn btn"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]};
 
 /***/ },
-/* 199 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Base = __webpack_require__(195);
-	var drawers = __webpack_require__(135);
+	var Base = __webpack_require__(190);
+	var drawers = __webpack_require__(47);
 
 
 	var Group = Base.extend({
-	  template: __webpack_require__(200),
+	  template: __webpack_require__(195),
 	  data: function() {
 	    return {conditionSet: null};
 	  },
 	  setConditions: function() {
 	    var self = this;
-	    var Conditions = __webpack_require__(193);
+	    var Conditions = __webpack_require__(188);
 
 	    var conditions = Conditions({
 	      el: $('<div>'),
@@ -86742,35 +85781,35 @@
 
 
 /***/ },
-/* 200 */
+/* 195 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-21 nm-cell-placeholder is-incomplete nm-cond-operand"},"v":{"click":{"m":"setConditions","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," ",{"t":7,"e":"span","a":{"class":"nm-static-input nm-static-input-placeholder"},"f":["Choose a set of conditions"]}]}],"n":51,"r":"conditionSet"},{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-21 nm-cond-operand"},"v":{"click":{"m":"setConditions","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":2,"r":"name"}]}]}],"r":"conditionSet"},{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-btn nm-cell-3 btn"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]};
 
 /***/ },
-/* 201 */
+/* 196 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Conditionally go to another sequence"]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":7,"e":"p","f":[{"t":4,"f":[{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No name given for condition set"]}],"n":51,"r":"name"}," ",{"t":4,"f":[{"t":7,"e":"span","f":[{"t":2,"r":"name"}]}],"r":"name"}],"r":"conditionSet"}]}," ",{"t":7,"e":"p","f":[{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No sequence given"]}],"n":51,"r":"route"}," ",{"t":4,"f":[{"t":7,"e":"a","a":{"class":["list-group-item nm-preview-list-item ",{"t":4,"f":["active"],"x":{"r":["activeBlockItemId","itemId"],"s":"_0===_1"}}],"href":"#"},"v":{"click":{"m":"onRouteClick","a":{"r":["event"],"s":"[_0]"}}},"f":[{"t":7,"e":"span","a":{"class":"nm-preview-arrow glyphicon glyphicon-menu-right pull-right"}}," ",{"t":7,"e":"p","f":[" ↳ ",{"t":2,"r":"name"}]}]}],"r":"route"}]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}]}]}]};
 
 /***/ },
-/* 202 */
+/* 197 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h4","a":{"class":"page-header"},"f":["Conditionally go to another sequence ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-placeholder is-incomplete"},"v":{"click":{"m":"setConditions","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"label","f":["Conditions that need to be met"]}," ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," ",{"t":7,"e":"span","a":{"class":"nm-static-input nm-static-input-placeholder"},"f":["Choose a set of conditions"]}]}]}],"n":51,"r":"conditionSet"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-18"},"f":[{"t":7,"e":"label","f":["Conditions that need to be met"]}," ",{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-btn nm-cell-3 btn"},"v":{"click":{"m":"setConditions","a":{"r":[],"s":"[]"}}},"f":["Change"]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-btn nm-cell-3 btn"},"v":{"click":{"m":"set","a":{"r":[],"s":"[\"conditionSet\",null]"}}},"f":["Remove"]}]}],"r":"conditionSet"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-placeholder is-incomplete"},"v":{"click":{"m":"setRoute","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"label","f":["Sequence to route to"]}," ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," ",{"t":7,"e":"span","a":{"class":"nm-static-input nm-static-input-placeholder"},"f":["Choose a sequence"]}]}]}],"n":51,"r":"route"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-18"},"f":[{"t":7,"e":"label","f":["Route"]}," ",{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-btn nm-cell-3 btn"},"v":{"click":{"m":"setRoute","a":{"r":[],"s":"[]"}}},"f":["Change"]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-btn nm-cell-3 btn"},"v":{"click":{"m":"removeRoute","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}],"r":"route"}]}]}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 203 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(15);
-	var Base = __webpack_require__(160);
-	var Chooser = __webpack_require__(166);
-	var drawers = __webpack_require__(135);
+	var Base = __webpack_require__(155);
+	var Chooser = __webpack_require__(161);
+	var drawers = __webpack_require__(47);
 
 
 	var Edd = Base.extend({
-	  template: __webpack_require__(204),
+	  template: __webpack_require__(199),
 	  data: function() {
 	    return {
 	      inputFieldId: null,
@@ -86794,7 +85833,7 @@
 
 
 	Edd.Edit = Base.Edit.extend({
-	  template: __webpack_require__(205),
+	  template: __webpack_require__(200),
 	  computed: {
 	    inputFieldName: function() {
 	      return this.get('inputFieldId')
@@ -86836,29 +85875,29 @@
 
 
 /***/ },
-/* 204 */
+/* 199 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Calculate expected due date",{"t":7,"e":"br"},"from weeks"]}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item-text nm-preview-annotation"},"f":[{"t":4,"f":["User field ",{"t":7,"e":"strong","f":[{"t":2,"r":"inputFieldName"}]}," used as input"],"r":"inputFieldName"}," ",{"t":4,"f":[{"t":7,"e":"i","f":["No input user field given"]}],"n":51,"r":"inputFieldName"}]}]}," ",{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item-text nm-preview-annotation"},"f":[{"t":4,"f":["Result saved as ",{"t":7,"e":"strong","f":[{"t":2,"r":"saveAs"}]}],"r":"saveAs"}," ",{"t":4,"f":[{"t":7,"e":"i","f":["No result field given"]}],"n":51,"r":"saveAs"}]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}]}]}]};
 
 /***/ },
-/* 205 */
+/* 200 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Calculate expected due date from weeks ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-18 ",{"t":4,"f":["nm-cell-placeholder is-incomplete"],"n":51,"r":"inputFieldId"}]},"v":{"click":{"m":"choose","a":{"r":["inputFieldId"],"s":"[_0]"}}},"f":[{"t":7,"e":"label","f":["User field to use as input"]}," ",{"t":4,"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," ",{"t":7,"e":"span","a":{"class":"nm-static-input nm-static-input-placeholder"},"f":["Choose a user field"]}],"n":51,"r":"inputFieldId"}," ",{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":2,"r":"inputFieldName"}]}],"r":"inputFieldId"}]}," ",{"t":4,"f":[{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-btn nm-cell-3 btn btn-default"},"v":{"click":{"m":"choose","a":{"r":[],"s":"[]"}}},"f":["Change"]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-btn nm-cell-3 btn btn-default"},"v":{"click":{"m":"remove","a":{"r":[],"s":"[]"}}},"f":["Remove"]}],"r":"inputFieldId"}]}," ",{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["is-incomplete"],"n":51,"r":"saveAs"}]},"f":[{"t":7,"e":"label","f":["Save result as"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 206 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Screen = __webpack_require__(165);
-	var utils = __webpack_require__(221);
-	var drawers = __webpack_require__(135);
-	var Chooser = __webpack_require__(166);
+	var Screen = __webpack_require__(154);
+	var utils = __webpack_require__(160);
+	var drawers = __webpack_require__(47);
+	var Chooser = __webpack_require__(161);
 
 
 	var End = Screen.extend({
-	  template: __webpack_require__(207),
+	  template: __webpack_require__(202),
 	  computed: {
 	    charCount: function() {
 	      return this.get('text').length;
@@ -86873,7 +85912,7 @@
 
 
 	End.Edit = Screen.Edit.extend({
-	  template: __webpack_require__(208),
+	  template: __webpack_require__(203),
 	  insertUserField: function() {
 	    var self = this;
 
@@ -86902,29 +85941,29 @@
 
 
 /***/ },
-/* 207 */
+/* 202 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["End Dialogue"]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":["list-group nm-preview-list ",{"t":4,"f":["is-showing-language"],"r":"isShowingLanguage"}]},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item nm-preview-cells nm-preview-list-heading"},"f":[{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":2,"r":"parentLanguageName"}]}," ",{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":2,"r":"childLanguageName"}]}]}],"r":"isShowingLanguage"}," ",{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item nm-preview-cells"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":4,"f":[{"t":2,"r":"textParent"}],"r":"textParent"}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No content"]}],"n":51,"r":"textParent"}]}],"r":"isShowingLanguage"}," ",{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":4,"f":[{"t":2,"r":"text"}],"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No content"]}],"n":51,"r":"text"}]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs pull-right"},"f":[{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Views ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.views"],"s":"_0(_1.sum(_2))"}}]}]}]}],"x":{"r":["publishCount"],"s":"_0>0"}}]}]}]};
 
 /***/ },
-/* 208 */
+/* 203 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["End Dialogue ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["is-incomplete"],"n":51,"r":"text"}]},"f":[{"t":7,"e":"label","f":["Content"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-footer"},"f":[{"t":7,"e":"span","a":{"class":["nm-static-input nm-cell-annotation ",{"t":4,"f":["nm-cell-annotation-warning"],"r":"charCountIsHigh"}]},"f":[{"t":2,"r":"charCount"}," characters used"]}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 209 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Screen = __webpack_require__(165);
-	var utils = __webpack_require__(221);
-	var drawers = __webpack_require__(135);
-	var Chooser = __webpack_require__(166);
+	var Screen = __webpack_require__(154);
+	var utils = __webpack_require__(160);
+	var drawers = __webpack_require__(47);
+	var Chooser = __webpack_require__(161);
 
 
 	var NextNMonths = Screen.extend({
-	  template: __webpack_require__(210),
+	  template: __webpack_require__(205),
 	  data: function() {
 	    return {
 	      saveAs: '',
@@ -86967,7 +86006,7 @@
 
 
 	NextNMonths.Edit = Screen.Edit.extend({
-	  template: __webpack_require__(211),
+	  template: __webpack_require__(206),
 	  computed: {
 	    useAnswerSaving: function() {
 	      return !!this.get('saveAs');
@@ -87001,29 +86040,29 @@
 
 
 /***/ },
-/* 210 */
+/* 205 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Show next ",{"t":2,"r":"monthsAfter"}," months"]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":["list-group nm-preview-list ",{"t":4,"f":["is-showing-language"],"r":"isShowingLanguage"}]},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item nm-preview-cells nm-preview-list-heading"},"f":[{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":2,"r":"parentLanguageName"}]}," ",{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":2,"r":"childLanguageName"}]}]}],"r":"isShowingLanguage"}," ",{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item nm-preview-cells"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":4,"f":[{"t":2,"r":"textParent"}],"r":"textParent"}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No content"]}],"n":51,"r":"textParent"}]}],"r":"isShowingLanguage"}," ",{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":4,"f":[{"t":2,"r":"text"}],"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No content"]}],"n":51,"r":"text"}]}]}]}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"nm-preview-annotation"},"f":["If month is October, user sees:"]}],"x":{"r":["i"],"s":"_0===0"}}," ",{"t":2,"x":{"r":["i"],"s":"_0+1"}},". ",{"t":2,"r":"."}]}],"i":"i","r":"exampleMonths"}]}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item-text nm-preview-annotation"},"f":[{"t":4,"f":["Answer saved as ",{"t":7,"e":"strong","f":[{"t":2,"r":"saveAs"}]}],"r":"saveAs"}," ",{"t":4,"f":[{"t":7,"e":"i","f":["No answer field given"]}],"n":51,"r":"saveAs"}]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs pull-right"},"f":[{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Views ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.views"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Timeouts ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.timeouts"],"s":"_0(_1.sum(_2))"}}]}]}]}],"x":{"r":["publishCount"],"s":"_0>0"}}]}]}]};
 
 /***/ },
-/* 211 */
+/* 206 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Show Next N Months ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["is-incomplete"],"n":51,"r":"text"}]},"f":[{"t":7,"e":"label","f":["Question"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["is-incomplete"],"n":51,"r":"saveAs"}]},"f":[{"t":7,"e":"label","f":["Save answer as"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell"},"f":[{"t":7,"e":"label","f":["Number of months after"]}," ",{"t":7,"e":"input","a":{"type":"number","min":"1","max":"10","value":[{"t":2,"r":"monthsAfter"}]}}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-footer"},"f":[{"t":7,"e":"span","a":{"class":["nm-static-input nm-cell-annotation ",{"t":4,"f":["nm-cell-annotation-warning"],"r":"charCountIsHigh"}]},"f":[{"t":2,"r":"charCount"}," characters used"]}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 212 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(15);
-	var Base = __webpack_require__(160);
-	var Chooser = __webpack_require__(166);
-	var drawers = __webpack_require__(135);
+	var Base = __webpack_require__(155);
+	var Chooser = __webpack_require__(161);
+	var drawers = __webpack_require__(47);
 
 
 	var UserDialsIn = Base.extend({
-	  template: __webpack_require__(213),
+	  template: __webpack_require__(208),
 	  data: function() {
 	    return {
 	      channelIds: []
@@ -87045,7 +86084,7 @@
 
 
 	UserDialsIn.Edit = Base.Edit.extend({
-	  template: __webpack_require__(214),
+	  template: __webpack_require__(209),
 	  computed: {
 	    channels: function() {
 	      return dashboard
@@ -87098,29 +86137,29 @@
 
 
 /***/ },
-/* 213 */
+/* 208 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["User dials in"]}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No channel given"]}]}],"n":51,"r":"channels.length"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":2,"r":"name"}]}],"r":"channels"}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}]}]}]};
 
 /***/ },
-/* 214 */
+/* 209 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["User dials in ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-heading"},"f":[{"t":7,"e":"label","f":["Channels"]}]}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell"},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"pull-right btn-group btn-group-sm nm-row-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"remove","a":{"r":["id"],"s":"[_0]"}}},"f":["Remove"]}]}]}],"r":"channels"}," ",{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-placeholder ",{"t":4,"f":["is-incomplete"],"n":51,"r":"channels.length"}]},"v":{"click":{"m":"choose","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," ",{"t":7,"e":"span","a":{"class":"nm-static-input nm-static-input-placeholder"},"f":["+ Add a channel"]}]}]}]}]}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 215 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(15);
-	var Base = __webpack_require__(160);
-	var Chooser = __webpack_require__(166);
-	var drawers = __webpack_require__(135);
+	var Base = __webpack_require__(155);
+	var Chooser = __webpack_require__(161);
+	var drawers = __webpack_require__(47);
 
 
 	var UserDialsIn = Base.extend({
-	  template: __webpack_require__(216),
+	  template: __webpack_require__(211),
 	  data: function() {
 	    return {
 	      text: '',
@@ -87143,7 +86182,7 @@
 
 
 	UserDialsIn.Edit = Base.Edit.extend({
-	  template: __webpack_require__(217),
+	  template: __webpack_require__(212),
 	  computed: {
 	    channels: function() {
 	      return dashboard
@@ -87196,26 +86235,26 @@
 
 
 /***/ },
-/* 216 */
+/* 211 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["User sends in message"]}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No channel given"]}]}],"n":51,"r":"channels.length"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":2,"r":"name"}]}],"r":"channels"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":7,"e":"p","a":{"class":"nm-preview-annotation"},"f":["Only match the following terms:"]}," ",{"t":7,"e":"p","f":[{"t":2,"r":"text"}]}]}],"r":"text"}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}]}]}]};
 
 /***/ },
-/* 217 */
+/* 212 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["User sends in message ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-heading"},"f":[{"t":7,"e":"label","f":["Channels"]}]}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell"},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"pull-right btn-group btn-group-sm nm-row-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"remove","a":{"r":["id"],"s":"[_0]"}}},"f":["Remove"]}]}]}],"r":"channels"}," ",{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-placeholder ",{"t":4,"f":["is-incomplete"],"n":51,"r":"channels.length"}]},"v":{"click":{"m":"choose","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," ",{"t":7,"e":"span","a":{"class":"nm-static-input nm-static-input-placeholder"},"f":["+ Add a channel"]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell"},"f":[{"t":7,"e":"label","a":{"class":[{"t":4,"f":["is-unused"],"n":51,"r":"text"}]},"f":["Only match the following terms (separate terms with a comma)"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"text"}]}}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 218 */
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Base = __webpack_require__(160);
+	var Base = __webpack_require__(155);
 
 
 	var Annotation = Base.extend({
-	  template: __webpack_require__(219),
+	  template: __webpack_require__(214),
 	  data: function() {
 	    return {
 	      text: ''
@@ -87228,7 +86267,7 @@
 
 
 	Annotation.Edit = Base.Edit.extend({
-	  template: __webpack_require__(220)
+	  template: __webpack_require__(215)
 	});
 
 
@@ -87236,109 +86275,1070 @@
 
 
 /***/ },
-/* 219 */
+/* 214 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Note"]}," ",{"t":4,"f":[{"t":7,"e":"i","f":[{"t":2,"r":"text"}]}],"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No annotation text"]}],"n":51,"r":"text"}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}]}]}]};
 
 /***/ },
-/* 220 */
+/* 215 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Note ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["is-incomplete"],"n":51,"r":"text"}]},"f":[{"t":7,"e":"label","f":["Text"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
+/* 216 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"n":53,"f":[{"t":8,"r":"header"}],"x":{"r":[],"s":"{title:\"Block Library\"}"}}," ",{"t":7,"e":"div","a":{"class":"nm-block-pallete-menu"},"f":[{"t":7,"e":"div","a":{"class":"nm-block-pallete-title nm-block-pallete-title-palletes"},"f":["Palletes"]}," ",{"t":7,"e":"ul","a":{"class":"nav nav-pills nav-stacked"},"f":[{"t":4,"f":[{"t":7,"e":"li","a":{"class":[{"t":4,"f":["active"],"x":{"r":["activePalleteKey","key"],"s":"_0===_1"}}]},"f":[{"t":7,"e":"a","a":{"href":"#"},"v":{"click":{"m":"setActivePallete","a":{"r":["event","key"],"s":"[_0,_1]"}}},"f":[{"t":2,"r":"name"}]}]}],"r":"palletes"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-block-pallete"},"f":[{"t":7,"e":"div","a":{"class":"nm-block-pallete-title nm-block-pallete-title-blocks"},"f":["Blocks"]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item"},"f":[{"t":7,"e":"div","a":{"class":"list-group-item-heading"},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"div","a":{"class":"list-body-item-text"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"collapse alert alert-info alert-dismissible","id":[{"t":2,"r":"type"},"-help"],"data-toggle":"collapse","data-target":["#",{"t":2,"r":"type"},"-help"]},"f":[{"t":7,"e":"button","a":{"type":"button","class":"close","aria-label":"Close"},"f":[{"t":7,"e":"span","f":["×"]}]}," ",{"t":7,"e":"p","f":[{"t":2,"r":"helptext"}]}]}],"r":"blocks"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group nm-library-block"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder nm-placeholder-block"},"v":{"click":{"m":"add","a":{"r":["type"],"s":"[_0]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default nm-placeholder nm-placeholder-block","data-toggle":"collapse","data-target":["#",{"t":2,"r":"type"},"-help"]},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-question-sign"}}]}]}],"r":"blocks"}]}]}],"r":"categories"}]}],"r":"activePallete"}]}]}]};
+
+/***/ },
+/* 217 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-sequence-header"},"f":[{"t":7,"e":"div","a":{"class":"nm-sequence-title"},"f":[{"t":7,"e":"div","a":{"class":"nm-name"},"v":{"click":{"m":"rename","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"div","a":{"class":"nm-rename nm-rename-sequence well"},"f":[{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"name"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-sequence-body"},"f":[{"t":7,"e":"div","a":{"class":"sortable-blocks sortable-blocks-ordered"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-block-wrapper","data-id":[{"t":2,"r":"id"}]},"f":[{"t":8,"r":"blocks"}," ",{"t":7,"e":"div","a":{"class":"text-center nm-block-separator"},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-menu-down"}}]}]}],"i":"i","r":"blocks"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-sequence-footer"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default btn-block nm-placeholder"},"v":{"click":{"m":"addBlock","a":{"r":[],"s":"[]"}}},"f":["+ Add block"]}]}]};
+
+/***/ },
+/* 218 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"ask","a":{"content":[{"t":2,"r":"content"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"ask\""}},{"t":4,"f":[{"t":7,"e":"askchoice","a":{"id":[{"t":2,"r":"id"}],"content":[{"t":2,"r":"content"}],"blocks":[{"t":2,"r":"blocks"}],"stash":[{"t":2,"r":"stash"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"askchoice\""}},{"t":4,"f":[{"t":7,"e":"language","a":{"id":[{"t":2,"r":"id"}],"text":[{"t":2,"r":"text"}],"blocks":[{"t":2,"r":"blocks"}],"allChoices":[{"t":2,"r":"allChoices"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"language\""}},{"t":4,"f":[{"t":7,"e":"route","a":{"id":[{"t":2,"r":"id"}],"seqId":[{"t":2,"r":"seqId"}],"itemId":[{"t":2,"r":"itemId"}]}}],"x":{"r":["type"],"s":"_0===\"route\""}},{"t":4,"f":[{"t":7,"e":"conditionalroute","a":{"id":[{"t":2,"r":"id"}],"seqId":[{"t":2,"r":"seqId"}],"itemId":[{"t":2,"r":"itemId"}],"conditionSet":[{"t":2,"r":"conditionSet"}]}}],"x":{"r":["type"],"s":"_0===\"conditionalroute\""}},{"t":4,"f":[{"t":7,"e":"register","a":{"fields":[{"t":2,"r":"fields"}]}}],"x":{"r":["type"],"s":"_0===\"register\""}},{"t":4,"f":[{"t":7,"e":"unsubscribe","a":{"fields":[{"t":2,"r":"fields"}]}}],"x":{"r":["type"],"s":"_0===\"unsubscribe\""}},{"t":4,"f":[{"t":7,"e":"optout","a":{"fields":[{"t":2,"r":"fields"}]}}],"x":{"r":["type"],"s":"_0===\"optout\""}},{"t":4,"f":[{"t":7,"e":"askcliniccode","a":{"content":[{"t":2,"r":"content"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"askcliniccode\""}},{"t":4,"f":[{"t":7,"e":"end","a":{"content":[{"t":2,"r":"content"}]}}],"x":{"r":["type"],"s":"_0===\"end\""}},{"t":4,"f":[{"t":7,"e":"userdialsin","a":{"channelIds":[{"t":2,"r":"channelIds"}]}}],"x":{"r":["type"],"s":"_0===\"userdialsin\""}},{"t":4,"f":[{"t":7,"e":"usersendsmessage","a":{"text":[{"t":2,"r":"text"}],"channelIds":[{"t":2,"r":"channelIds"}]}}],"x":{"r":["type"],"s":"_0===\"usersendsmessage\""}},{"t":4,"f":[{"t":7,"e":"shownext9months","a":{"content":[{"t":2,"r":"content"}],"saveAs":[{"t":2,"r":"saveAs"}],"monthsBefore":[{"t":2,"r":"monthsBefore"}]}}],"x":{"r":["type"],"s":"_0===\"shownext9months\""}},{"t":4,"f":[{"t":7,"e":"calcweeks","a":{"inputFieldId":[{"t":2,"r":"inputFieldId"}],"saveAs":[{"t":2,"r":"saveAs"}]}}],"x":{"r":["type"],"s":"_0===\"calcweeks\""}},{"t":4,"f":[{"t":7,"e":"annotation","a":{"text":[{"t":2,"r":"text"}]}}],"x":{"r":["type"],"s":"_0===\"annotation\""}}]};
+
+/***/ },
+/* 219 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+	 * bootbox.js [v4.4.0]
+	 *
+	 * http://bootboxjs.com/license.txt
+	 */
+
+	// @see https://github.com/makeusabrew/bootbox/issues/180
+	// @see https://github.com/makeusabrew/bootbox/issues/186
+	(function (root, factory) {
+
+	  "use strict";
+	  if (true) {
+	    // AMD. Register as an anonymous module.
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	  } else if (typeof exports === "object") {
+	    // Node. Does not work with strict CommonJS, but
+	    // only CommonJS-like environments that support module.exports,
+	    // like Node.
+	    module.exports = factory(require("jquery"));
+	  } else {
+	    // Browser globals (root is window)
+	    root.bootbox = factory(root.jQuery);
+	  }
+
+	}(this, function init($, undefined) {
+
+	  "use strict";
+
+	  // the base DOM structure needed to create a modal
+	  var templates = {
+	    dialog:
+	      "<div class='bootbox modal' tabindex='-1' role='dialog'>" +
+	        "<div class='modal-dialog'>" +
+	          "<div class='modal-content'>" +
+	            "<div class='modal-body'><div class='bootbox-body'></div></div>" +
+	          "</div>" +
+	        "</div>" +
+	      "</div>",
+	    header:
+	      "<div class='modal-header'>" +
+	        "<h4 class='modal-title'></h4>" +
+	      "</div>",
+	    footer:
+	      "<div class='modal-footer'></div>",
+	    closeButton:
+	      "<button type='button' class='bootbox-close-button close' data-dismiss='modal' aria-hidden='true'>&times;</button>",
+	    form:
+	      "<form class='bootbox-form'></form>",
+	    inputs: {
+	      text:
+	        "<input class='bootbox-input bootbox-input-text form-control' autocomplete=off type=text />",
+	      textarea:
+	        "<textarea class='bootbox-input bootbox-input-textarea form-control'></textarea>",
+	      email:
+	        "<input class='bootbox-input bootbox-input-email form-control' autocomplete='off' type='email' />",
+	      select:
+	        "<select class='bootbox-input bootbox-input-select form-control'></select>",
+	      checkbox:
+	        "<div class='checkbox'><label><input class='bootbox-input bootbox-input-checkbox' type='checkbox' /></label></div>",
+	      date:
+	        "<input class='bootbox-input bootbox-input-date form-control' autocomplete=off type='date' />",
+	      time:
+	        "<input class='bootbox-input bootbox-input-time form-control' autocomplete=off type='time' />",
+	      number:
+	        "<input class='bootbox-input bootbox-input-number form-control' autocomplete=off type='number' />",
+	      password:
+	        "<input class='bootbox-input bootbox-input-password form-control' autocomplete='off' type='password' />"
+	    }
+	  };
+
+	  var defaults = {
+	    // default language
+	    locale: "en",
+	    // show backdrop or not. Default to static so user has to interact with dialog
+	    backdrop: "static",
+	    // animate the modal in/out
+	    animate: true,
+	    // additional class string applied to the top level dialog
+	    className: null,
+	    // whether or not to include a close button
+	    closeButton: true,
+	    // show the dialog immediately by default
+	    show: true,
+	    // dialog container
+	    container: "body"
+	  };
+
+	  // our public object; augmented after our private API
+	  var exports = {};
+
+	  /**
+	   * @private
+	   */
+	  function _t(key) {
+	    var locale = locales[defaults.locale];
+	    return locale ? locale[key] : locales.en[key];
+	  }
+
+	  function processCallback(e, dialog, callback) {
+	    e.stopPropagation();
+	    e.preventDefault();
+
+	    // by default we assume a callback will get rid of the dialog,
+	    // although it is given the opportunity to override this
+
+	    // so, if the callback can be invoked and it *explicitly returns false*
+	    // then we'll set a flag to keep the dialog active...
+	    var preserveDialog = $.isFunction(callback) && callback.call(dialog, e) === false;
+
+	    // ... otherwise we'll bin it
+	    if (!preserveDialog) {
+	      dialog.modal("hide");
+	    }
+	  }
+
+	  function getKeyLength(obj) {
+	    // @TODO defer to Object.keys(x).length if available?
+	    var k, t = 0;
+	    for (k in obj) {
+	      t ++;
+	    }
+	    return t;
+	  }
+
+	  function each(collection, iterator) {
+	    var index = 0;
+	    $.each(collection, function(key, value) {
+	      iterator(key, value, index++);
+	    });
+	  }
+
+	  function sanitize(options) {
+	    var buttons;
+	    var total;
+
+	    if (typeof options !== "object") {
+	      throw new Error("Please supply an object of options");
+	    }
+
+	    if (!options.message) {
+	      throw new Error("Please specify a message");
+	    }
+
+	    // make sure any supplied options take precedence over defaults
+	    options = $.extend({}, defaults, options);
+
+	    if (!options.buttons) {
+	      options.buttons = {};
+	    }
+
+	    buttons = options.buttons;
+
+	    total = getKeyLength(buttons);
+
+	    each(buttons, function(key, button, index) {
+
+	      if ($.isFunction(button)) {
+	        // short form, assume value is our callback. Since button
+	        // isn't an object it isn't a reference either so re-assign it
+	        button = buttons[key] = {
+	          callback: button
+	        };
+	      }
+
+	      // before any further checks make sure by now button is the correct type
+	      if ($.type(button) !== "object") {
+	        throw new Error("button with key " + key + " must be an object");
+	      }
+
+	      if (!button.label) {
+	        // the lack of an explicit label means we'll assume the key is good enough
+	        button.label = key;
+	      }
+
+	      if (!button.className) {
+	        if (total <= 2 && index === total-1) {
+	          // always add a primary to the main option in a two-button dialog
+	          button.className = "btn-primary";
+	        } else {
+	          button.className = "btn-default";
+	        }
+	      }
+	    });
+
+	    return options;
+	  }
+
+	  /**
+	   * map a flexible set of arguments into a single returned object
+	   * if args.length is already one just return it, otherwise
+	   * use the properties argument to map the unnamed args to
+	   * object properties
+	   * so in the latter case:
+	   * mapArguments(["foo", $.noop], ["message", "callback"])
+	   * -> { message: "foo", callback: $.noop }
+	   */
+	  function mapArguments(args, properties) {
+	    var argn = args.length;
+	    var options = {};
+
+	    if (argn < 1 || argn > 2) {
+	      throw new Error("Invalid argument length");
+	    }
+
+	    if (argn === 2 || typeof args[0] === "string") {
+	      options[properties[0]] = args[0];
+	      options[properties[1]] = args[1];
+	    } else {
+	      options = args[0];
+	    }
+
+	    return options;
+	  }
+
+	  /**
+	   * merge a set of default dialog options with user supplied arguments
+	   */
+	  function mergeArguments(defaults, args, properties) {
+	    return $.extend(
+	      // deep merge
+	      true,
+	      // ensure the target is an empty, unreferenced object
+	      {},
+	      // the base options object for this type of dialog (often just buttons)
+	      defaults,
+	      // args could be an object or array; if it's an array properties will
+	      // map it to a proper options object
+	      mapArguments(
+	        args,
+	        properties
+	      )
+	    );
+	  }
+
+	  /**
+	   * this entry-level method makes heavy use of composition to take a simple
+	   * range of inputs and return valid options suitable for passing to bootbox.dialog
+	   */
+	  function mergeDialogOptions(className, labels, properties, args) {
+	    //  build up a base set of dialog properties
+	    var baseOptions = {
+	      className: "bootbox-" + className,
+	      buttons: createLabels.apply(null, labels)
+	    };
+
+	    // ensure the buttons properties generated, *after* merging
+	    // with user args are still valid against the supplied labels
+	    return validateButtons(
+	      // merge the generated base properties with user supplied arguments
+	      mergeArguments(
+	        baseOptions,
+	        args,
+	        // if args.length > 1, properties specify how each arg maps to an object key
+	        properties
+	      ),
+	      labels
+	    );
+	  }
+
+	  /**
+	   * from a given list of arguments return a suitable object of button labels
+	   * all this does is normalise the given labels and translate them where possible
+	   * e.g. "ok", "confirm" -> { ok: "OK, cancel: "Annuleren" }
+	   */
+	  function createLabels() {
+	    var buttons = {};
+
+	    for (var i = 0, j = arguments.length; i < j; i++) {
+	      var argument = arguments[i];
+	      var key = argument.toLowerCase();
+	      var value = argument.toUpperCase();
+
+	      buttons[key] = {
+	        label: _t(value)
+	      };
+	    }
+
+	    return buttons;
+	  }
+
+	  function validateButtons(options, buttons) {
+	    var allowedButtons = {};
+	    each(buttons, function(key, value) {
+	      allowedButtons[value] = true;
+	    });
+
+	    each(options.buttons, function(key) {
+	      if (allowedButtons[key] === undefined) {
+	        throw new Error("button key " + key + " is not allowed (options are " + buttons.join("\n") + ")");
+	      }
+	    });
+
+	    return options;
+	  }
+
+	  exports.alert = function() {
+	    var options;
+
+	    options = mergeDialogOptions("alert", ["ok"], ["message", "callback"], arguments);
+
+	    if (options.callback && !$.isFunction(options.callback)) {
+	      throw new Error("alert requires callback property to be a function when provided");
+	    }
+
+	    /**
+	     * overrides
+	     */
+	    options.buttons.ok.callback = options.onEscape = function() {
+	      if ($.isFunction(options.callback)) {
+	        return options.callback.call(this);
+	      }
+	      return true;
+	    };
+
+	    return exports.dialog(options);
+	  };
+
+	  exports.confirm = function() {
+	    var options;
+
+	    options = mergeDialogOptions("confirm", ["cancel", "confirm"], ["message", "callback"], arguments);
+
+	    /**
+	     * overrides; undo anything the user tried to set they shouldn't have
+	     */
+	    options.buttons.cancel.callback = options.onEscape = function() {
+	      return options.callback.call(this, false);
+	    };
+
+	    options.buttons.confirm.callback = function() {
+	      return options.callback.call(this, true);
+	    };
+
+	    // confirm specific validation
+	    if (!$.isFunction(options.callback)) {
+	      throw new Error("confirm requires a callback");
+	    }
+
+	    return exports.dialog(options);
+	  };
+
+	  exports.prompt = function() {
+	    var options;
+	    var defaults;
+	    var dialog;
+	    var form;
+	    var input;
+	    var shouldShow;
+	    var inputOptions;
+
+	    // we have to create our form first otherwise
+	    // its value is undefined when gearing up our options
+	    // @TODO this could be solved by allowing message to
+	    // be a function instead...
+	    form = $(templates.form);
+
+	    // prompt defaults are more complex than others in that
+	    // users can override more defaults
+	    // @TODO I don't like that prompt has to do a lot of heavy
+	    // lifting which mergeDialogOptions can *almost* support already
+	    // just because of 'value' and 'inputType' - can we refactor?
+	    defaults = {
+	      className: "bootbox-prompt",
+	      buttons: createLabels("cancel", "confirm"),
+	      value: "",
+	      inputType: "text"
+	    };
+
+	    options = validateButtons(
+	      mergeArguments(defaults, arguments, ["title", "callback"]),
+	      ["cancel", "confirm"]
+	    );
+
+	    // capture the user's show value; we always set this to false before
+	    // spawning the dialog to give us a chance to attach some handlers to
+	    // it, but we need to make sure we respect a preference not to show it
+	    shouldShow = (options.show === undefined) ? true : options.show;
+
+	    /**
+	     * overrides; undo anything the user tried to set they shouldn't have
+	     */
+	    options.message = form;
+
+	    options.buttons.cancel.callback = options.onEscape = function() {
+	      return options.callback.call(this, null);
+	    };
+
+	    options.buttons.confirm.callback = function() {
+	      var value;
+
+	      switch (options.inputType) {
+	        case "text":
+	        case "textarea":
+	        case "email":
+	        case "select":
+	        case "date":
+	        case "time":
+	        case "number":
+	        case "password":
+	          value = input.val();
+	          break;
+
+	        case "checkbox":
+	          var checkedItems = input.find("input:checked");
+
+	          // we assume that checkboxes are always multiple,
+	          // hence we default to an empty array
+	          value = [];
+
+	          each(checkedItems, function(_, item) {
+	            value.push($(item).val());
+	          });
+	          break;
+	      }
+
+	      return options.callback.call(this, value);
+	    };
+
+	    options.show = false;
+
+	    // prompt specific validation
+	    if (!options.title) {
+	      throw new Error("prompt requires a title");
+	    }
+
+	    if (!$.isFunction(options.callback)) {
+	      throw new Error("prompt requires a callback");
+	    }
+
+	    if (!templates.inputs[options.inputType]) {
+	      throw new Error("invalid prompt type");
+	    }
+
+	    // create the input based on the supplied type
+	    input = $(templates.inputs[options.inputType]);
+
+	    switch (options.inputType) {
+	      case "text":
+	      case "textarea":
+	      case "email":
+	      case "date":
+	      case "time":
+	      case "number":
+	      case "password":
+	        input.val(options.value);
+	        break;
+
+	      case "select":
+	        var groups = {};
+	        inputOptions = options.inputOptions || [];
+
+	        if (!$.isArray(inputOptions)) {
+	          throw new Error("Please pass an array of input options");
+	        }
+
+	        if (!inputOptions.length) {
+	          throw new Error("prompt with select requires options");
+	        }
+
+	        each(inputOptions, function(_, option) {
+
+	          // assume the element to attach to is the input...
+	          var elem = input;
+
+	          if (option.value === undefined || option.text === undefined) {
+	            throw new Error("given options in wrong format");
+	          }
+
+	          // ... but override that element if this option sits in a group
+
+	          if (option.group) {
+	            // initialise group if necessary
+	            if (!groups[option.group]) {
+	              groups[option.group] = $("<optgroup/>").attr("label", option.group);
+	            }
+
+	            elem = groups[option.group];
+	          }
+
+	          elem.append("<option value='" + option.value + "'>" + option.text + "</option>");
+	        });
+
+	        each(groups, function(_, group) {
+	          input.append(group);
+	        });
+
+	        // safe to set a select's value as per a normal input
+	        input.val(options.value);
+	        break;
+
+	      case "checkbox":
+	        var values   = $.isArray(options.value) ? options.value : [options.value];
+	        inputOptions = options.inputOptions || [];
+
+	        if (!inputOptions.length) {
+	          throw new Error("prompt with checkbox requires options");
+	        }
+
+	        if (!inputOptions[0].value || !inputOptions[0].text) {
+	          throw new Error("given options in wrong format");
+	        }
+
+	        // checkboxes have to nest within a containing element, so
+	        // they break the rules a bit and we end up re-assigning
+	        // our 'input' element to this container instead
+	        input = $("<div/>");
+
+	        each(inputOptions, function(_, option) {
+	          var checkbox = $(templates.inputs[options.inputType]);
+
+	          checkbox.find("input").attr("value", option.value);
+	          checkbox.find("label").append(option.text);
+
+	          // we've ensured values is an array so we can always iterate over it
+	          each(values, function(_, value) {
+	            if (value === option.value) {
+	              checkbox.find("input").prop("checked", true);
+	            }
+	          });
+
+	          input.append(checkbox);
+	        });
+	        break;
+	    }
+
+	    // @TODO provide an attributes option instead
+	    // and simply map that as keys: vals
+	    if (options.placeholder) {
+	      input.attr("placeholder", options.placeholder);
+	    }
+
+	    if (options.pattern) {
+	      input.attr("pattern", options.pattern);
+	    }
+
+	    if (options.maxlength) {
+	      input.attr("maxlength", options.maxlength);
+	    }
+
+	    // now place it in our form
+	    form.append(input);
+
+	    form.on("submit", function(e) {
+	      e.preventDefault();
+	      // Fix for SammyJS (or similar JS routing library) hijacking the form post.
+	      e.stopPropagation();
+	      // @TODO can we actually click *the* button object instead?
+	      // e.g. buttons.confirm.click() or similar
+	      dialog.find(".btn-primary").click();
+	    });
+
+	    dialog = exports.dialog(options);
+
+	    // clear the existing handler focusing the submit button...
+	    dialog.off("shown.bs.modal");
+
+	    // ...and replace it with one focusing our input, if possible
+	    dialog.on("shown.bs.modal", function() {
+	      // need the closure here since input isn't
+	      // an object otherwise
+	      input.focus();
+	    });
+
+	    if (shouldShow === true) {
+	      dialog.modal("show");
+	    }
+
+	    return dialog;
+	  };
+
+	  exports.dialog = function(options) {
+	    options = sanitize(options);
+
+	    var dialog = $(templates.dialog);
+	    var innerDialog = dialog.find(".modal-dialog");
+	    var body = dialog.find(".modal-body");
+	    var buttons = options.buttons;
+	    var buttonStr = "";
+	    var callbacks = {
+	      onEscape: options.onEscape
+	    };
+
+	    if ($.fn.modal === undefined) {
+	      throw new Error(
+	        "$.fn.modal is not defined; please double check you have included " +
+	        "the Bootstrap JavaScript library. See http://getbootstrap.com/javascript/ " +
+	        "for more details."
+	      );
+	    }
+
+	    each(buttons, function(key, button) {
+
+	      // @TODO I don't like this string appending to itself; bit dirty. Needs reworking
+	      // can we just build up button elements instead? slower but neater. Then button
+	      // can just become a template too
+	      buttonStr += "<button data-bb-handler='" + key + "' type='button' class='btn " + button.className + "'>" + button.label + "</button>";
+	      callbacks[key] = button.callback;
+	    });
+
+	    body.find(".bootbox-body").html(options.message);
+
+	    if (options.animate === true) {
+	      dialog.addClass("fade");
+	    }
+
+	    if (options.className) {
+	      dialog.addClass(options.className);
+	    }
+
+	    if (options.size === "large") {
+	      innerDialog.addClass("modal-lg");
+	    } else if (options.size === "small") {
+	      innerDialog.addClass("modal-sm");
+	    }
+
+	    if (options.title) {
+	      body.before(templates.header);
+	    }
+
+	    if (options.closeButton) {
+	      var closeButton = $(templates.closeButton);
+
+	      if (options.title) {
+	        dialog.find(".modal-header").prepend(closeButton);
+	      } else {
+	        closeButton.css("margin-top", "-10px").prependTo(body);
+	      }
+	    }
+
+	    if (options.title) {
+	      dialog.find(".modal-title").html(options.title);
+	    }
+
+	    if (buttonStr.length) {
+	      body.after(templates.footer);
+	      dialog.find(".modal-footer").html(buttonStr);
+	    }
+
+
+	    /**
+	     * Bootstrap event listeners; used handle extra
+	     * setup & teardown required after the underlying
+	     * modal has performed certain actions
+	     */
+
+	    dialog.on("hidden.bs.modal", function(e) {
+	      // ensure we don't accidentally intercept hidden events triggered
+	      // by children of the current dialog. We shouldn't anymore now BS
+	      // namespaces its events; but still worth doing
+	      if (e.target === this) {
+	        dialog.remove();
+	      }
+	    });
+
+	    /*
+	    dialog.on("show.bs.modal", function() {
+	      // sadly this doesn't work; show is called *just* before
+	      // the backdrop is added so we'd need a setTimeout hack or
+	      // otherwise... leaving in as would be nice
+	      if (options.backdrop) {
+	        dialog.next(".modal-backdrop").addClass("bootbox-backdrop");
+	      }
+	    });
+	    */
+
+	    dialog.on("shown.bs.modal", function() {
+	      dialog.find(".btn-primary:first").focus();
+	    });
+
+	    /**
+	     * Bootbox event listeners; experimental and may not last
+	     * just an attempt to decouple some behaviours from their
+	     * respective triggers
+	     */
+
+	    if (options.backdrop !== "static") {
+	      // A boolean true/false according to the Bootstrap docs
+	      // should show a dialog the user can dismiss by clicking on
+	      // the background.
+	      // We always only ever pass static/false to the actual
+	      // $.modal function because with `true` we can't trap
+	      // this event (the .modal-backdrop swallows it)
+	      // However, we still want to sort of respect true
+	      // and invoke the escape mechanism instead
+	      dialog.on("click.dismiss.bs.modal", function(e) {
+	        // @NOTE: the target varies in >= 3.3.x releases since the modal backdrop
+	        // moved *inside* the outer dialog rather than *alongside* it
+	        if (dialog.children(".modal-backdrop").length) {
+	          e.currentTarget = dialog.children(".modal-backdrop").get(0);
+	        }
+
+	        if (e.target !== e.currentTarget) {
+	          return;
+	        }
+
+	        dialog.trigger("escape.close.bb");
+	      });
+	    }
+
+	    dialog.on("escape.close.bb", function(e) {
+	      if (callbacks.onEscape) {
+	        processCallback(e, dialog, callbacks.onEscape);
+	      }
+	    });
+
+	    /**
+	     * Standard jQuery event listeners; used to handle user
+	     * interaction with our dialog
+	     */
+
+	    dialog.on("click", ".modal-footer button", function(e) {
+	      var callbackKey = $(this).data("bb-handler");
+
+	      processCallback(e, dialog, callbacks[callbackKey]);
+	    });
+
+	    dialog.on("click", ".bootbox-close-button", function(e) {
+	      // onEscape might be falsy but that's fine; the fact is
+	      // if the user has managed to click the close button we
+	      // have to close the dialog, callback or not
+	      processCallback(e, dialog, callbacks.onEscape);
+	    });
+
+	    dialog.on("keyup", function(e) {
+	      if (e.which === 27) {
+	        dialog.trigger("escape.close.bb");
+	      }
+	    });
+
+	    // the remainder of this method simply deals with adding our
+	    // dialogent to the DOM, augmenting it with Bootstrap's modal
+	    // functionality and then giving the resulting object back
+	    // to our caller
+
+	    $(options.container).append(dialog);
+
+	    dialog.modal({
+	      backdrop: options.backdrop ? "static": false,
+	      keyboard: false,
+	      show: false
+	    });
+
+	    if (options.show) {
+	      dialog.modal("show");
+	    }
+
+	    // @TODO should we return the raw element here or should
+	    // we wrap it in an object on which we can expose some neater
+	    // methods, e.g. var d = bootbox.alert(); d.hide(); instead
+	    // of d.modal("hide");
+
+	   /*
+	    function BBDialog(elem) {
+	      this.elem = elem;
+	    }
+
+	    BBDialog.prototype = {
+	      hide: function() {
+	        return this.elem.modal("hide");
+	      },
+	      show: function() {
+	        return this.elem.modal("show");
+	      }
+	    };
+	    */
+
+	    return dialog;
+
+	  };
+
+	  exports.setDefaults = function() {
+	    var values = {};
+
+	    if (arguments.length === 2) {
+	      // allow passing of single key/value...
+	      values[arguments[0]] = arguments[1];
+	    } else {
+	      // ... and as an object too
+	      values = arguments[0];
+	    }
+
+	    $.extend(defaults, values);
+	  };
+
+	  exports.hideAll = function() {
+	    $(".bootbox").modal("hide");
+
+	    return exports;
+	  };
+
+
+	  /**
+	   * standard locales. Please add more according to ISO 639-1 standard. Multiple language variants are
+	   * unlikely to be required. If this gets too large it can be split out into separate JS files.
+	   */
+	  var locales = {
+	    bg_BG : {
+	      OK      : "Ок",
+	      CANCEL  : "Отказ",
+	      CONFIRM : "Потвърждавам"
+	    },
+	    br : {
+	      OK      : "OK",
+	      CANCEL  : "Cancelar",
+	      CONFIRM : "Sim"
+	    },
+	    cs : {
+	      OK      : "OK",
+	      CANCEL  : "Zrušit",
+	      CONFIRM : "Potvrdit"
+	    },
+	    da : {
+	      OK      : "OK",
+	      CANCEL  : "Annuller",
+	      CONFIRM : "Accepter"
+	    },
+	    de : {
+	      OK      : "OK",
+	      CANCEL  : "Abbrechen",
+	      CONFIRM : "Akzeptieren"
+	    },
+	    el : {
+	      OK      : "Εντάξει",
+	      CANCEL  : "Ακύρωση",
+	      CONFIRM : "Επιβεβαίωση"
+	    },
+	    en : {
+	      OK      : "OK",
+	      CANCEL  : "Cancel",
+	      CONFIRM : "OK"
+	    },
+	    es : {
+	      OK      : "OK",
+	      CANCEL  : "Cancelar",
+	      CONFIRM : "Aceptar"
+	    },
+	    et : {
+	      OK      : "OK",
+	      CANCEL  : "Katkesta",
+	      CONFIRM : "OK"
+	    },
+	    fa : {
+	      OK      : "قبول",
+	      CANCEL  : "لغو",
+	      CONFIRM : "تایید"
+	    },
+	    fi : {
+	      OK      : "OK",
+	      CANCEL  : "Peruuta",
+	      CONFIRM : "OK"
+	    },
+	    fr : {
+	      OK      : "OK",
+	      CANCEL  : "Annuler",
+	      CONFIRM : "D'accord"
+	    },
+	    he : {
+	      OK      : "אישור",
+	      CANCEL  : "ביטול",
+	      CONFIRM : "אישור"
+	    },
+	    hu : {
+	      OK      : "OK",
+	      CANCEL  : "Mégsem",
+	      CONFIRM : "Megerősít"
+	    },
+	    hr : {
+	      OK      : "OK",
+	      CANCEL  : "Odustani",
+	      CONFIRM : "Potvrdi"
+	    },
+	    id : {
+	      OK      : "OK",
+	      CANCEL  : "Batal",
+	      CONFIRM : "OK"
+	    },
+	    it : {
+	      OK      : "OK",
+	      CANCEL  : "Annulla",
+	      CONFIRM : "Conferma"
+	    },
+	    ja : {
+	      OK      : "OK",
+	      CANCEL  : "キャンセル",
+	      CONFIRM : "確認"
+	    },
+	    lt : {
+	      OK      : "Gerai",
+	      CANCEL  : "Atšaukti",
+	      CONFIRM : "Patvirtinti"
+	    },
+	    lv : {
+	      OK      : "Labi",
+	      CANCEL  : "Atcelt",
+	      CONFIRM : "Apstiprināt"
+	    },
+	    nl : {
+	      OK      : "OK",
+	      CANCEL  : "Annuleren",
+	      CONFIRM : "Accepteren"
+	    },
+	    no : {
+	      OK      : "OK",
+	      CANCEL  : "Avbryt",
+	      CONFIRM : "OK"
+	    },
+	    pl : {
+	      OK      : "OK",
+	      CANCEL  : "Anuluj",
+	      CONFIRM : "Potwierdź"
+	    },
+	    pt : {
+	      OK      : "OK",
+	      CANCEL  : "Cancelar",
+	      CONFIRM : "Confirmar"
+	    },
+	    ru : {
+	      OK      : "OK",
+	      CANCEL  : "Отмена",
+	      CONFIRM : "Применить"
+	    },
+	    sq : {
+	      OK : "OK",
+	      CANCEL : "Anulo",
+	      CONFIRM : "Prano"
+	    },
+	    sv : {
+	      OK      : "OK",
+	      CANCEL  : "Avbryt",
+	      CONFIRM : "OK"
+	    },
+	    th : {
+	      OK      : "ตกลง",
+	      CANCEL  : "ยกเลิก",
+	      CONFIRM : "ยืนยัน"
+	    },
+	    tr : {
+	      OK      : "Tamam",
+	      CANCEL  : "İptal",
+	      CONFIRM : "Onayla"
+	    },
+	    zh_CN : {
+	      OK      : "OK",
+	      CANCEL  : "取消",
+	      CONFIRM : "确认"
+	    },
+	    zh_TW : {
+	      OK      : "OK",
+	      CANCEL  : "取消",
+	      CONFIRM : "確認"
+	    }
+	  };
+
+	  exports.addLocale = function(name, values) {
+	    $.each(["OK", "CANCEL", "CONFIRM"], function(_, v) {
+	      if (!values[v]) {
+	        throw new Error("Please supply a translation for '" + v + "'");
+	      }
+	    });
+
+	    locales[name] = {
+	      OK: values.OK,
+	      CANCEL: values.CANCEL,
+	      CONFIRM: values.CONFIRM
+	    };
+
+	    return exports;
+	  };
+
+	  exports.removeLocale = function(name) {
+	    delete locales[name];
+
+	    return exports;
+	  };
+
+	  exports.setLocale = function(name) {
+	    return exports.setDefaults("locale", name);
+	  };
+
+	  exports.init = function(_$) {
+	    return init(_$ || $);
+	  };
+
+	  return exports;
+	}));
+
+
+/***/ },
+/* 220 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-container nm-container-dashboard"},"f":[{"t":7,"e":"div","a":{"class":"nm-head"},"f":[{"t":7,"e":"div","a":{"class":"pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"f":["Menu"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"f":["Sarima"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-titles"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-name nm-title nm-title-active"},"v":{"click":{"m":"renameCampaign","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"small","f":["Campaign"]}," ",{"t":7,"e":"div","a":{"class":"nm-title-text"},"f":[{"t":2,"r":"campaignName"}]}]}],"n":51,"r":"renamingCampaign"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-rename nm-title nm-title-active"},"f":[{"t":7,"e":"div","a":{"class":"well"},"f":[{"t":7,"e":"small","f":["Campaign"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"campaignName"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideCampaignRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelCampaignRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}]}],"r":"renamingCampaign"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-body nm-body-dashboard"},"f":[{"t":7,"e":"div","a":{"class":"nm-dashboard-actions"},"f":[{"t":7,"e":"div","a":{"class":"btn-group pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder nm-placeholder-default"},"v":{"click":{"m":"createDialogue","a":{"r":[],"s":"[]"}}},"f":["+ Add dialogue"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"confirmPublish","a":{"r":[],"s":"[]"}}},"m":[{"t":4,"f":["disabled"],"n":51,"r":"hasUnpublishedChanges"}],"f":[{"t":4,"f":["Go live"],"x":{"r":["publishCount"],"s":"_0===0"}}," ",{"t":4,"f":["Make changes live"],"x":{"r":["publishCount"],"s":"_0>0"}}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"list-group nm-dashboard-dialogue-list"},"f":[{"t":4,"f":[{"t":7,"e":"h4","f":["Dialogues"]}],"r":"dialogues.length"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-dashboard-dialogue-item"},"f":[{"t":7,"e":"a","a":{"class":"list-group-item-heading nm-dashboard-dialogue-header","href":["./dialogues/",{"t":2,"r":"id"}]},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"div","a":{"class":"nm-dashboard-dialogue-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"f":["Download ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-down"}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"f":["Archive"]}]}," ",{"t":4,"f":[{"t":7,"e":"p","f":["Last ",{"t":7,"e":"strong","f":["edited"]}," on ",{"t":2,"r":"lastEdit"}," by you"]}],"r":"lastEdit"}," ",{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Not live yet"]}],"x":{"r":["publishCount"],"s":"_0===0"}}," ",{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-info"},"f":["Live"]}," ",{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Changes not live yet"]}],"r":"hasUnpublishedChanges"}],"x":{"r":["publishCount"],"s":"_0>0"}}]}]}],"r":"dialogues"}]}]}]}]};
+
+/***/ },
 /* 221 */
 /***/ function(module, exports) {
 
-	function log(v) {
-	  console.log.apply(console, arguments);
-	  return v;
+	var prefix = 'numi-prototype:';
+
+
+	function set(k, v) {
+	  localStorage.setItem(prefix + k, JSON.stringify(v));
 	}
 
 
-	function contentPropGetter(name, langId) {
-	  langId = langId || null;
-
-	  return function() {
-	    return this.getForLang(langId, name);
-	  };
+	function get(k) {
+	  return JSON.parse(localStorage.getItem(prefix + k));
 	}
 
 
-	function contentProp(name, langId) {
-	  langId = langId || null;
-
-	  return {
-	    get: function() {
-	      return this.getForLang(langId, name);
-	    },
-	    set: function(v) {
-	      this.setForLang(langId, name, v);
-	    }
-	  };
+	function has(k) {
+	  return (prefix + k) in localStorage;
 	}
 
 
-	function listPropWithContentGetter(name, contentProps, langId) {
-	  langId = langId || null;
-
-	  return function() {
-	    return this.getForLangList(langId, name, contentProps);
-	  };
+	function clear() {
+	  Object
+	    .keys(localStorage)
+	    .filter(function(k) {
+	      return k.startsWith(prefix);
+	    })
+	    .forEach(function(k) {
+	      localStorage.removeItem(k);
+	    });
 	}
 
 
-	function listPropWithContent(name, contentProps, langId) {
-	  langId = langId || null;
-
-	  return {
-	    get: function() {
-	      return this.getForLangList(langId, name, contentProps);
-	    },
-	    set: function(data) {
-	      this.setForLangList(langId, name, contentProps, data);
-	    }
-	  };
-	}
-
-
-	function parentAndCurrentListGetter(name, contentProps) {
-	  return function() {
-	    return hashzip(['parent', 'current'], [
-	        this.getForLangList('parent', name, contentProps),
-	        this.getForLangList(null, name, contentProps)
-	    ]);
-	  };
-	}
-
-
-	function proxyProp(targetName, propName) {
-	  return function() {
-	    // We can't dynamically delegate to the relevant block's computed
-	    // properties, Ractive.js doesn't seem able to react to changes that way.
-	    // Instead, we borrow the property.
-	    return this.get(targetName).computed[propName].call(this);
-	  };
-	}
-
-
-	function hashzip(names, lists) {
-	  return _.zipWith.apply(_, lists.concat(function(a, v, i, group) {
-	    return _.zipObject(names, group);
-	  }));
-	}
-
-
-	exports.log = log;
-	exports.proxyProp = proxyProp;
-	exports.contentProp = contentProp;
-	exports.listPropWithContent = listPropWithContent;
-	exports.contentPropGetter = contentPropGetter;
-	exports.listPropWithContent = listPropWithContent;
-	exports.listPropWithContentGetter = listPropWithContentGetter;
-	exports.parentAndCurrentListGetter = parentAndCurrentListGetter;
-	exports.hashzip = hashzip;
+	exports.set = set;
+	exports.get = get;
+	exports.has = has;
+	exports.clear = clear;
 
 
 /***/ }
