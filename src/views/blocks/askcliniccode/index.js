@@ -17,9 +17,9 @@ var Ask = Screen.extend({
       return this.get('invalidCharCount') > this.get('highCharCount');
     },
     text: utils.contentProp('text'),
-    textParent: utils.contentProp('text', 'parent'),
+    textParent: utils.contentPropGetter('text', 'parent'),
     invalidInputText: utils.contentProp('invalidInputText'),
-    invalidInputTextParent: utils.contentProp('invalidInputText', 'parent'),
+    invalidInputTextParent: utils.contentPropGetter('invalidInputText', 'parent'),
   },
   data: function() {
     return {

@@ -18,6 +18,8 @@ var drawers = require('./drawers');
 var hist = require('./hist');
 var persist = require('./persist');
 
+window.log = require('./utils').log;
+
 window.dashboard = Dashboard({
   el: $('<div>'),
   data: persist.has('dashboard')

@@ -1,3 +1,9 @@
+function log(v) {
+  console.log.apply(console, arguments);
+  return v;
+}
+
+
 function contentPropGetter(name, langId) {
   langId = langId || null;
 
@@ -71,6 +77,7 @@ function hashzip(names, lists) {
 }
 
 
+exports.log = log;
 exports.proxyProp = proxyProp;
 exports.contentProp = contentProp;
 exports.listPropWithContent = listPropWithContent;

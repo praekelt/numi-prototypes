@@ -2,7 +2,6 @@ var d3 = require('d3');
 var $ = require('jquery');
 var _ = require('lodash');
 var Ractive = require('ractive');
-var utils = require('../../../utils');
 var BaseDrawer = require('../../drawers/base');
 var drawers = require('../../../drawers');
 var sapphire = require('../../../../bower_components/sapphire/build/sapphire');

@@ -20,7 +20,7 @@ var NextNMonths = Screen.extend({
         .length;
     },
     text: utils.contentProp('text'),
-    textParent: utils.contentProp('text', 'parent'),
+    textParent: utils.contentPropGetter('text', 'parent'),
     exampleMonths: function() {
       return [
         "Nov",

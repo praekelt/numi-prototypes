@@ -41,7 +41,7 @@ var AskChoice = Screen.extend({
         .length;
     },
     text: utils.contentProp('text'),
-    textParent: utils.contentProp('text', 'parent'),
+    textParent: utils.contentPropGetter('text', 'parent'),
     choices: function() {
       return (this.get('allChoices') || []).slice(0, -1);
     },

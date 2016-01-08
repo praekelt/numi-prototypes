@@ -11,7 +11,7 @@ var Ask = Screen.extend({
       return this.get('text').length;
     },
     text: utils.contentProp('text'),
-    textParent: utils.contentProp('text', 'parent')
+    textParent: utils.contentPropGetter('text', 'parent')
   },
   data: function() {
     return {saveAs: ''};

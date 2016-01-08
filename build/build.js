@@ -64,6 +64,8 @@
 	var hist = __webpack_require__(133);
 	var persist = __webpack_require__(145);
 
+	window.log = __webpack_require__(221).log;
+
 	window.dashboard = Dashboard({
 	  el: $('<div>'),
 	  data: persist.has('dashboard')
@@ -73262,7 +73264,7 @@
 	      return this.get('text').length;
 	    },
 	    text: utils.contentProp('text'),
-	    textParent: utils.contentProp('text', 'parent')
+	    textParent: utils.contentPropGetter('text', 'parent')
 	  },
 	  data: function() {
 	    return {saveAs: ''};
@@ -73315,7 +73317,6 @@
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(15);
 	var Ractive = __webpack_require__(17);
-	var utils = __webpack_require__(221);
 	var BaseDrawer = __webpack_require__(147);
 	var drawers = __webpack_require__(135);
 	var sapphire = __webpack_require__(162);
@@ -85119,7 +85120,7 @@
 	        .length;
 	    },
 	    text: utils.contentProp('text'),
-	    textParent: utils.contentProp('text', 'parent'),
+	    textParent: utils.contentPropGetter('text', 'parent'),
 	    choices: function() {
 	      return (this.get('allChoices') || []).slice(0, -1);
 	    },
@@ -86246,9 +86247,9 @@
 	      return this.get('invalidCharCount') > this.get('highCharCount');
 	    },
 	    text: utils.contentProp('text'),
-	    textParent: utils.contentProp('text', 'parent'),
+	    textParent: utils.contentPropGetter('text', 'parent'),
 	    invalidInputText: utils.contentProp('invalidInputText'),
-	    invalidInputTextParent: utils.contentProp('invalidInputText', 'parent'),
+	    invalidInputTextParent: utils.contentPropGetter('invalidInputText', 'parent'),
 	  },
 	  data: function() {
 	    return {
@@ -86863,7 +86864,7 @@
 	      return this.get('text').length;
 	    },
 	    text: utils.contentProp('text'),
-	    textParent: utils.contentProp('text', 'parent')
+	    textParent: utils.contentPropGetter('text', 'parent')
 	  },
 	  isComplete: function() {
 	    return this.get('text');
@@ -86938,7 +86939,7 @@
 	        .length;
 	    },
 	    text: utils.contentProp('text'),
-	    textParent: utils.contentProp('text', 'parent'),
+	    textParent: utils.contentPropGetter('text', 'parent'),
 	    exampleMonths: function() {
 	      return [
 	        "Nov",
@@ -87250,6 +87251,12 @@
 /* 221 */
 /***/ function(module, exports) {
 
+	function log(v) {
+	  console.log.apply(console, arguments);
+	  return v;
+	}
+
+
 	function contentPropGetter(name, langId) {
 	  langId = langId || null;
 
@@ -87323,6 +87330,7 @@
 	}
 
 
+	exports.log = log;
 	exports.proxyProp = proxyProp;
 	exports.contentProp = contentProp;
 	exports.listPropWithContent = listPropWithContent;
