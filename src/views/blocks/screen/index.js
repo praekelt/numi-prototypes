@@ -1,5 +1,5 @@
 var Base = require('../base');
-var proxyProp = require('../../../utils').proxyProp;
+var proxyProp = require('../utils').proxyProp;
 
 
 var Screen = Base.extend({

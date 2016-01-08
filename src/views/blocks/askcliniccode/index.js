@@ -1,5 +1,5 @@
 var Screen = require('../screen');
-var utils = require('../../../utils');
+var utils = require('../utils');
 var drawers = require('../../../drawers');
 var Chooser = require('../../drawers/chooser');
 
