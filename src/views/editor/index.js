@@ -8,14 +8,17 @@ module.exports = Ractive.extend({
   onrender: function() {
     this.drawContent();
   },
+  onunrender: function() {
+    if (this.range) restoreRange(this.$editEl(), this.range);
+  },
   $editEl: function() {
     return $(this.el).find('.nm-editor');
   },
   drawContent: function() {
     var $el = this.$editEl();
-    var range = saveRange($el);
+    this.range = saveRange($el);
     $el.html(this.parseContent(this.get('content')));
-    restoreRange($el, range);
+    restoreRange($el, this.range);
   },
   updateContent: function() {
     this.set('content', this.$editEl().text());
