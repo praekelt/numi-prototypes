@@ -78162,7 +78162,7 @@
 	    else drawers.close();
 	  },
 	  oninit: function() {
-	    this.set('content', {});
+	    this.set('content', _.clone(this.get('content') || {}));
 	  },
 	  getEditView: function() {
 	    var self = this;
