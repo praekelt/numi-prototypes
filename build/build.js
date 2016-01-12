@@ -90093,7 +90093,7 @@
 	        'allChoices', ['text']),
 	    allChoicesPreview: blockUtils.parentAndCurrentListGetter(
 	        'allChoices', ['text']),
-	    allChoicesParent: blockUtils.listPropWithContent(
+	    allChoicesParent: blockUtils.listPropWithContentGetter(
 	        'allChoices', ['text'], 'parent')
 	  },
 	  newChoice: function() {
