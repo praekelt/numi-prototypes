@@ -12,6 +12,8 @@ function hashzip(names, lists) {
 
 
 function isNonAscii(s) {
+  if (s.length !== 1) return s.split('').some(isNonAscii);
+
   var code = s.charCodeAt(0);
   return code > 127
       && code !== 160;

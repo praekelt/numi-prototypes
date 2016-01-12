@@ -1,5 +1,6 @@
 var Screen = require('../screen');
-var utils = require('../utils');
+var blockUtils = require('../utils');
+var utils = require('../../../utils');
 var drawers = require('../../../drawers');
 var Chooser = require('../../drawers/chooser');
 
@@ -16,10 +17,16 @@ var Ask = Screen.extend({
     invalidCharCountIsHigh: function() {
       return this.get('invalidCharCount') > this.get('highCharCount');
     },
-    text: utils.contentProp('text'),
-    textParent: utils.contentPropGetter('text', 'parent'),
-    invalidInputText: utils.contentProp('invalidInputText'),
-    invalidInputTextParent: utils.contentPropGetter('invalidInputText', 'parent'),
+    hasNonAsciiChars: function() {
+      return utils.isNonAscii(this.get('text'));
+    },
+    invalidHasNonAsciiChars: function() {
+      return utils.isNonAscii(this.get('invalidInputText'));
+    },
+    text: blockUtils.contentProp('text'),
+    textParent: blockUtils.contentPropGetter('text', 'parent'),
+    invalidInputText: blockUtils.contentProp('invalidInputText'),
+    invalidInputTextParent: blockUtils.contentPropGetter('invalidInputText', 'parent'),
   },
   data: function() {
     return {
@@ -36,8 +43,12 @@ var Ask = Screen.extend({
 Ask.Edit = Screen.Edit.extend({
   template: require('./edit.html'),
   computed: {
-    invalidCharCount: utils.proxyProp('block', 'invalidCharCount'),
-    invalidCharCountIsHigh: utils.proxyProp('block', 'invalidCharCountIsHigh'),
+    invalidCharCount: blockUtils.proxyProp(
+      'block', 'invalidCharCount'),
+    invalidCharCountIsHigh: blockUtils.proxyProp(
+      'block', 'invalidCharCountIsHigh'),
+    invalidHasNonAsciiChars: blockUtils.proxyProp(
+      'block', 'invalidHasNonAsciiChars'),
     useAnswerSaving: function() {
       return !!this.get('saveAs');
     }

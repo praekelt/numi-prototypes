@@ -44,15 +44,10 @@ var AskChoice = Screen.extend({
         .length;
     },
     hasNonAsciiChars: function() {
-      return !![this.get('text')]
+      return [this.get('text')]
         .concat(this.get('choices')
-            .map(function(d, i) {
-              return d.text;
-            }))
-        .join('')
-        .split('')
-        .filter(utils.isNonAscii)
-        .length;
+          .map(function(d) { return d.text; }))
+        .some(utils.isNonAscii);
     },
     text: blockUtils.contentProp('text'),
     textParent: blockUtils.contentPropGetter('text', 'parent'),
