@@ -78151,6 +78151,9 @@
 	    if (this.drawerEdit) drawers.change(view);
 	    else drawers.close();
 	  },
+	  oninit: function() {
+	    this.set('content', {});
+	  },
 	  getEditView: function() {
 	    var self = this;
 	    this.get('sequence').scrollToBlock(this.get('id'));
@@ -78272,6 +78275,7 @@
 	  },
 	  ensureContentProp: function(langId, name) {
 	    var langContent = this.ensureLangContent(langId);
+	    var val;
 
 	    if (name in langContent) val = langContent[name];
 	    else langContent[name] = val = '';
@@ -89960,6 +89964,8 @@
 	    };
 	  },
 	  oninit: function() {
+	    Screen.prototype.oninit.call(this);
+
 	    if (this.get('allChoices').length < 1) {
 	      this.push('allChoices', this.newChoice());
 	    }
@@ -90779,6 +90785,7 @@
 	    this.selectChoice(id);
 	  },
 	  oninit: function() {
+	    Screen.prototype.oninit.call(this);
 	    this.resetTotals();
 	  },
 	  refreshLanguages: function() {
