@@ -9,7 +9,7 @@
       <div class="nm-row">
         <div class="nm-cell {{^text}}is-incomplete{{/text}}">
           <label>Question</label>
-          <textarea value="{{text}}"></textarea>
+          <editor content="{{text}}" type="textarea" charParser="{{charParser}}"></editor>
         </div>
 
         <div class="btn-group btn-group-xs nm-content-actions">
@@ -28,7 +28,7 @@
       <div class="nm-row">
         <div class="nm-cell {{^invalidInputText}}is-incomplete{{/invalidInputText}}">
           <label>Content to show for invalid input</label>
-          <textarea value="{{invalidInputText}}"></textarea>
+          <editor content="{{invalidInputText}}" type="textarea" charParser="{{charParser}}"></editor>
         </div>
 
         <div class="btn-group btn-group-xs nm-content-actions">
