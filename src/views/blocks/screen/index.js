@@ -1,4 +1,5 @@
 var Base = require('../base');
+var Editor = require('../../editor');
 var utils = require('../../../utils');
 var proxyProp = require('../utils').proxyProp;
 
@@ -23,6 +24,7 @@ var Screen = Base.extend({
 
 
 Screen.Edit = Base.Edit.extend({
+  components: {editor: Editor},
   computed: {
     charCount: proxyProp('block', 'charCount'),
     charCountIsHigh: proxyProp('block', 'charCountIsHigh'),

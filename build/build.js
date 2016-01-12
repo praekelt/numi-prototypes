@@ -78049,6 +78049,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Base = __webpack_require__(157);
+	var Editor = __webpack_require__(171);
 	var utils = __webpack_require__(162);
 	var proxyProp = __webpack_require__(163).proxyProp;
 
@@ -78073,6 +78074,7 @@
 
 
 	Screen.Edit = Base.Edit.extend({
+	  components: {editor: Editor},
 	  computed: {
 	    charCount: proxyProp('block', 'charCount'),
 	    charCountIsHigh: proxyProp('block', 'charCountIsHigh'),
@@ -89934,7 +89936,7 @@
 /* 167 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Question ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell nm-content ",{"t":4,"f":["is-incomplete"],"n":51,"r":"text"}]},"f":[{"t":7,"e":"label","f":["Question"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]},"f":["          "]}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell"},"f":[{"t":7,"e":"label","m":[{"t":4,"f":["class=\"is-unused\""],"n":51,"r":"useAnswerSaving"}],"f":["Save answer as (optional)"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-footer"},"f":[{"t":7,"e":"span","a":{"class":["nm-static-input nm-cell-annotation ",{"t":4,"f":["nm-cell-annotation-warning"],"r":"charCountIsHigh"}]},"f":[{"t":2,"r":"charCount"}," characters used"]}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Question ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell nm-content ",{"t":4,"f":["is-incomplete"],"n":51,"r":"text"}]},"f":[{"t":7,"e":"label","f":["Question"]}," ",{"t":7,"e":"editor","a":{"content":[{"t":2,"r":"text"}],"type":"textarea","charParser":[{"t":2,"r":"charParser"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell"},"f":[{"t":7,"e":"label","m":[{"t":4,"f":["class=\"is-unused\""],"n":51,"r":"useAnswerSaving"}],"f":["Save answer as (optional)"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-footer"},"f":[{"t":7,"e":"span","a":{"class":["nm-static-input nm-cell-annotation ",{"t":4,"f":["nm-cell-annotation-warning"],"r":"charCountIsHigh"}]},"f":[{"t":2,"r":"charCount"}," characters used"]}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
 /* 168 */
@@ -89948,7 +89950,6 @@
 	var utils = __webpack_require__(162);
 	var drawers = __webpack_require__(49);
 	var ChooseSequence = __webpack_require__(169);
-	var Editor = __webpack_require__(171);
 	var Chooser = __webpack_require__(164);
 	var Areas = __webpack_require__(173);
 	var sapphire = __webpack_require__(159);
@@ -90055,7 +90056,6 @@
 
 	AskChoice.Edit = Screen.Edit.extend({
 	  template: __webpack_require__(175),
-	  components: {editor: Editor},
 	  showTab(e, to) {
 	    e.original.preventDefault();
 	    $(this.el).find('a[href="#' + to + '"]').tab('show');

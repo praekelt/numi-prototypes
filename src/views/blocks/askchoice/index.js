@@ -6,7 +6,6 @@ var blockUtils = require('../utils');
 var utils = require('../../../utils');
 var drawers = require('../../../drawers');
 var ChooseSequence = require('../../drawers/choose-sequence');
-var Editor = require('../../editor');
 var Chooser = require('../../drawers/chooser');
 var Areas = require('../../../area');
 var sapphire = require('../../../../bower_components/sapphire/build/sapphire');
@@ -113,7 +112,6 @@ var AskChoice = Screen.extend({
 
 AskChoice.Edit = Screen.Edit.extend({
   template: require('./edit.html'),
-  components: {editor: Editor},
   showTab(e, to) {
     e.original.preventDefault();
     $(this.el).find('a[href="#' + to + '"]').tab('show');
