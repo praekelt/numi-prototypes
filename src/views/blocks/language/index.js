@@ -56,6 +56,7 @@ var Language = Screen.extend({
     this.selectChoice(id);
   },
   oninit: function() {
+    Screen.prototype.oninit.call(this);
     this.resetTotals();
   },
   refreshLanguages: function() {

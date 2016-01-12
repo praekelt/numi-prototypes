@@ -55,6 +55,9 @@ var Base = Ractive.extend({
     if (this.drawerEdit) drawers.change(view);
     else drawers.close();
   },
+  oninit: function() {
+    this.set('content', {});
+  },
   getEditView: function() {
     var self = this;
     this.get('sequence').scrollToBlock(this.get('id'));
@@ -176,6 +179,7 @@ var Base = Ractive.extend({
   },
   ensureContentProp: function(langId, name) {
     var langContent = this.ensureLangContent(langId);
+    var val;
 
     if (name in langContent) val = langContent[name];
     else langContent[name] = val = '';
