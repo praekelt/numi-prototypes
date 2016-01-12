@@ -104,9 +104,13 @@ function newDrawer(opts) {
 
 
 function focusFirstInput(el) {
-  var $input = $(el).find(':not(button):input').eq(0);
-  var val = $input.val();
-  if (val) $input.val('').val(val);
+  var $input = $(el).find(':not(button):input,.nm-editor').eq(0);
+
+  if ($input.is(':input')) {
+    var val = $input.val();
+    if (val) $input.val('').val(val);
+  }
+
   $input.focus();
 }
 
