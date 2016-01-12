@@ -984,6 +984,11 @@ a.nm-list-group-item-drawer-secondary {
     }
   }
 
+  .nm-editor-text {
+    display: inline-block;
+    width: 90%;
+  }
+
   &.is-incomplete {
     border: 1px solid $fg-incomplete;
   }

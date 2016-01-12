@@ -36,10 +36,10 @@
           <div class="nm-prefixed-input">
             <span>{{i + 1}}.&nbsp</span>
 
-            <input
+            <editor
             type="text"
-            value="{{text}}"
-            on-keyup="onChoiceKeyDown(i)">
+            content="{{text}}"
+            keyupHandler="['onChoiceKeyDown', {{i}}]"></editor>
           </div>
 
           {{#route}}

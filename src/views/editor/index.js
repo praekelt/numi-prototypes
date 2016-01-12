@@ -7,6 +7,13 @@ module.exports = Ractive.extend({
   template: require('./template.html'),
   onrender: function() {
     this.drawContent();
+
+    // TODO unbind on unrender
+    this.$editEl().on('keyup', this.onKeyUp.bind(this));
+  },
+  onKeyUp: function() {
+    var d = this.get('keyupHandler');
+    if (d) this.parent[d[0]].apply(this.parent, d.slice(1));
   },
   onunrender: function() {
     if (this.range) restoreRange(this.$editEl(), this.range);
