@@ -2,7 +2,8 @@ var $ = require('jquery');
 var _ = require('lodash');
 var uuid = require('node-uuid');
 var Screen = require('../screen');
-var utils = require('../utils');
+var blockUtils = require('../utils');
+var utils = require('../../../utils');
 var drawers = require('../../../drawers');
 var ChooseSequence = require('../../drawers/choose-sequence');
 var Chooser = require('../../drawers/chooser');
@@ -42,8 +43,14 @@ var AskChoice = Screen.extend({
         .join('\n')
         .length;
     },
-    text: utils.contentProp('text'),
-    textParent: utils.contentPropGetter('text', 'parent'),
+    hasNonAsciiChars: function() {
+      return [this.get('text')]
+        .concat(this.get('choices')
+          .map(function(d) { return d.text; }))
+        .some(utils.isNonAscii);
+    },
+    text: blockUtils.contentProp('text'),
+    textParent: blockUtils.contentPropGetter('text', 'parent'),
     choices: function() {
       return (this.get('allChoices') || []).slice(0, -1);
     },
@@ -53,9 +60,12 @@ var AskChoice = Screen.extend({
     choicesPreview: function() {
       return this.get('allChoicesPreview').slice(0, -1);
     },
-    allChoices: utils.listPropWithContent('allChoices', ['text']),
-    allChoicesPreview: utils.parentAndCurrentListGetter('allChoices', ['text']),
-    allChoicesParent: utils.listPropWithContent('allChoices', ['text'], 'parent')
+    allChoices: blockUtils.listPropWithContent(
+        'allChoices', ['text']),
+    allChoicesPreview: blockUtils.parentAndCurrentListGetter(
+        'allChoices', ['text']),
+    allChoicesParent: blockUtils.listPropWithContent(
+        'allChoices', ['text'], 'parent')
   },
   newChoice: function() {
     return {

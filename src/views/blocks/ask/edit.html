@@ -9,9 +9,7 @@
       <div class="nm-row">
         <div class="nm-cell nm-content {{^text}}is-incomplete{{/text}}">
           <label>Question</label>
-
-          <textarea value="{{text}}">
-          </textarea>
+          <editor content="{{text}}" type="textarea" charParser="{{charParser}}"></editor>
         </div>
 
         <div class="btn-group btn-group-xs nm-content-actions">
@@ -34,6 +32,10 @@
       <div class="nm-row">
         <div class="nm-cell nm-cell-footer">
           <span class="nm-static-input nm-cell-annotation {{#charCountIsHigh}}nm-cell-annotation-warning{{/charCountIsHigh}}">{{charCount}} characters used</span>
+
+          {{#hasNonAsciiChars}}
+          <span class="label label-warning pull-right">Contains special characters</span>
+          {{/hasNonAsciiChars}}
         </div>
       </div>
     </div>

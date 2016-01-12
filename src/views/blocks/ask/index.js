@@ -1,5 +1,6 @@
 var Screen = require('../screen');
-var utils = require('../utils');
+var blockUtils = require('../utils');
+var utils = require('../../../utils');
 var drawers = require('../../../drawers');
 var Chooser = require('../../drawers/chooser');
 
@@ -10,8 +11,11 @@ var Ask = Screen.extend({
     charCount: function() {
       return this.get('text').length;
     },
-    text: utils.contentProp('text'),
-    textParent: utils.contentPropGetter('text', 'parent')
+    hasNonAsciiChars: function() {
+      return utils.isNonAscii(this.get('text'));
+    },
+    text: blockUtils.contentProp('text'),
+    textParent: blockUtils.contentPropGetter('text', 'parent')
   },
   data: function() {
     return {saveAs: ''};

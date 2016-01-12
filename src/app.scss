@@ -975,13 +975,18 @@ a.nm-list-group-item-drawer-secondary {
     margin-bottom: 4px;
   }
 
-  textarea, input {
+  textarea, input, .nm-editor {
     width: 100%;
 
     &, &:hover, &:focus {
       border: 0;
       outline: none;
     }
+  }
+
+  .nm-editor-text {
+    display: inline-block;
+    width: 90%;
   }
 
   &.is-incomplete {
@@ -1145,4 +1150,12 @@ a.nm-list-group-item-drawer-secondary {
 .nm-text-top {
   line-height: 0;
   margin-top: -5px;
+}
+
+.nm-editor-textarea {
+  padding: 2px;
+}
+
+.nm-char-nonascii {
+  border-bottom: 2px solid $fg-warning0;
 }

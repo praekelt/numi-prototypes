@@ -9,7 +9,7 @@
       <div class="nm-row">
         <div class="nm-cell {{^text}}is-incomplete{{/text}}">
           <label>Question</label>
-          <textarea value="{{text}}"></textarea>
+          <editor content="{{text}}" type="textarea" charParser="{{charParser}}"></editor>
         </div>
 
         <div class="btn-group btn-group-xs nm-content-actions">
@@ -20,6 +20,10 @@
       <div class="nm-row nm-row-info">
         <div class="nm-cell nm-cell-info">
           <span class="nm-static-input nm-cell-annotation {{#charCountIsHigh}}nm-cell-annotation-warning{{/charCountIsHigh}}">{{charCount}} characters used</span>
+
+          {{#hasNonAsciiChars}}
+          <span class="label label-warning pull-right">Contains special characters</span>
+          {{/hasNonAsciiChars}}
         </div>
       </div>
     </div>
@@ -28,7 +32,7 @@
       <div class="nm-row">
         <div class="nm-cell {{^invalidInputText}}is-incomplete{{/invalidInputText}}">
           <label>Content to show for invalid input</label>
-          <textarea value="{{invalidInputText}}"></textarea>
+          <editor content="{{invalidInputText}}" type="textarea" charParser="{{charParser}}"></editor>
         </div>
 
         <div class="btn-group btn-group-xs nm-content-actions">
@@ -39,6 +43,10 @@
       <div class="nm-row nm-row-info">
         <div class="nm-cell nm-cell-info">
           <span class="nm-static-input nm-cell-annotation {{#invalidCharCountIsHigh}}nm-cell-annotation-warning{{/invalidCharCountIsHigh}}">{{invalidCharCount}} characters used</span>
+
+          {{#invalidHasNonAsciiChars}}
+          <span class="label label-warning pull-right">Contains special characters</span>
+          {{/invalidHasNonAsciiChars}}
         </div>
       </div>
     </div>
