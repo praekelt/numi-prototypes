@@ -9,7 +9,7 @@
       <div class="nm-row">
         <div class="nm-cell {{^text}}is-incomplete{{/text}}">
           <label>Question</label>
-          <textarea value="{{text}}"></textarea>
+          <editor content="{{text}}" type="textarea" charParser="{{charParser}}"></editor>
         </div>
 
         <div class="btn-group btn-group-xs nm-content-actions">
@@ -37,10 +37,10 @@
           <div class="nm-prefixed-input">
             <span>{{i + 1}}.&nbsp</span>
 
-            <input
-            type="text"
-            value="{{text}}"
-            on-keyup="onChoiceKeyDown(i, id)">
+            <editor
+             type="text"
+             content="{{text}}"
+             keyupHandler="['onChoiceKeyDown', {{i}}, {{id}}]"></editor>
           </div>
         </div>
 

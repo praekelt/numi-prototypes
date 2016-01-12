@@ -65,7 +65,7 @@
 	var hist = __webpack_require__(141);
 	var persist = __webpack_require__(226);
 
-	window.log = __webpack_require__(162).log;
+	window.log = __webpack_require__(164).log;
 
 	window.dashboard = Dashboard({
 	  el: $('<div>'),
@@ -77965,7 +77965,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.ask = __webpack_require__(155);
-	exports.askchoice = __webpack_require__(168);
+	exports.askchoice = __webpack_require__(170);
 	exports.language = __webpack_require__(177);
 	exports.register = __webpack_require__(181);
 	exports.unsubscribe = __webpack_require__(185);
@@ -77987,13 +77987,13 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Screen = __webpack_require__(156);
-	var utils = __webpack_require__(163);
+	var utils = __webpack_require__(165);
 	var drawers = __webpack_require__(49);
-	var Chooser = __webpack_require__(164);
+	var Chooser = __webpack_require__(166);
 
 
 	var Ask = Screen.extend({
-	  template: __webpack_require__(166),
+	  template: __webpack_require__(168),
 	  computed: {
 	    charCount: function() {
 	      return this.get('text').length;
@@ -78011,7 +78011,7 @@
 
 
 	Ask.Edit = Screen.Edit.extend({
-	  template: __webpack_require__(167),
+	  template: __webpack_require__(169),
 	  computed: {
 	    useAnswerSaving: function() {
 	      return !!this.get('saveAs');
@@ -78049,9 +78049,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Base = __webpack_require__(157);
-	var Editor = __webpack_require__(171);
-	var utils = __webpack_require__(162);
-	var proxyProp = __webpack_require__(163).proxyProp;
+	var Editor = __webpack_require__(162);
+	var utils = __webpack_require__(164);
+	var proxyProp = __webpack_require__(165).proxyProp;
 
 
 	var Screen = Base.extend({
@@ -89790,6 +89790,85 @@
 
 /***/ },
 /* 162 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var _ = __webpack_require__(15);
+	var rangy = __webpack_require__(19);
+	var Ractive = __webpack_require__(17);
+
+
+	module.exports = Ractive.extend({
+	  template: __webpack_require__(163),
+	  onrender: function() {
+	    this.drawContent();
+
+	    // TODO unbind on unrender
+	    this.$editEl().on('keyup', this.onKeyUp.bind(this));
+	  },
+	  onKeyUp: function() {
+	    var d = this.get('keyupHandler');
+	    if (d) this.parent[d[0]].apply(this.parent, d.slice(1));
+	  },
+	  onunrender: function() {
+	    if (this.range) restoreRange(this.$editEl(), this.range);
+	  },
+	  $editEl: function() {
+	    return $(this.el).find('.nm-editor');
+	  },
+	  drawContent: function() {
+	    var $el = this.$editEl();
+	    this.range = saveRange($el);
+	    $el.html(this.parseContent(this.get('content')));
+	    restoreRange($el, this.range);
+	  },
+	  updateContent: function() {
+	    this.set('content', this.$editEl().text());
+	    this.drawContent();
+	  },
+	  parseContent: function(content) {
+	    return _.escape(content)
+	      .split('')
+	      .map(this.get('charParser'))
+	      .map(function(classes, i) {
+	        return classes.length
+	          ? specialCharHtml(content[i], classes)
+	          : content[i];
+	      })
+	    .join('');
+	  }
+	});
+
+
+	function saveRange($el) {
+	  return rangy
+	    .getSelection()
+	    .saveCharacterRanges($el.get(0));
+	}
+
+
+	function restoreRange($el, range) {
+	  rangy
+	    .getSelection()
+	    .restoreCharacterRanges($el.get(0), range);
+	}
+
+
+
+	function specialCharHtml(s, classes) {
+	  return [
+	    '<span class="', classes.join(' '), '">', s, '</span>'
+	  ].join('');
+	}
+
+
+/***/ },
+/* 163 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":["nm-editor nm-editor-",{"t":2,"r":"type"}],"contenteditable":"true"},"v":{"keydown":{"m":"updateContent","a":{"r":[],"s":"[]"}},"keyup":{"m":"updateContent","a":{"r":[],"s":"[]"}}},"f":[]}]};
+
+/***/ },
+/* 164 */
 /***/ function(module, exports) {
 
 	function log(v) {
@@ -89818,10 +89897,10 @@
 
 
 /***/ },
-/* 163 */
+/* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var utils = __webpack_require__(162);
+	var utils = __webpack_require__(164);
 
 
 	function contentPropGetter(name, langId) {
@@ -89900,7 +89979,7 @@
 
 
 /***/ },
-/* 164 */
+/* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(15);
@@ -89909,7 +89988,7 @@
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(165),
+	  template: __webpack_require__(167),
 	  choose: function(e, id, d) {
 	    e.original.preventDefault();
 	    this.fire('chosen', id, _.find(this.get('items'), {id: id}));
@@ -89921,36 +90000,36 @@
 
 
 /***/ },
-/* 165 */
+/* 167 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"n":53,"f":[{"t":8,"r":"header"}],"x":{"r":["title"],"s":"{title:_0}"}}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":4,"f":[{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer","href":"#"},"v":{"click":{"m":"choose","a":{"r":["event","id"],"s":"[_0,_1]"}}},"f":[{"t":4,"f":[{"t":7,"e":"i","f":[{"t":2,"r":"name"}]}],"r":"special"}," ",{"t":4,"f":[{"t":2,"r":"name"}],"n":51,"r":"special"}]}],"r":"items"}]}]}]};
 
 /***/ },
-/* 166 */
+/* 168 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-block panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action nm-block-edit"},"v":{"click":{"m":"edit","a":{"r":[],"s":"[]"}}},"f":["Edit"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default nm-block-action"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}," ",{"t":7,"e":"p","a":{"class":"nm-block-title"},"f":["Question"]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":["list-group nm-preview-list ",{"t":4,"f":["is-showing-language"],"r":"isShowingLanguage"}]},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item nm-preview-cells nm-preview-list-heading"},"f":[{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":2,"r":"parentLanguageName"}]}," ",{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":2,"r":"childLanguageName"}]}]}],"r":"isShowingLanguage"}," ",{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item nm-preview-cells"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":4,"f":[{"t":2,"r":"textParent"}],"r":"textParent"}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No content"]}],"n":51,"r":"textParent"}]}],"r":"isShowingLanguage"}," ",{"t":7,"e":"div","a":{"class":"nm-preview-cell"},"f":[{"t":4,"f":[{"t":2,"r":"text"}],"r":"text"}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No content"]}],"n":51,"r":"text"}]}]}]}," ",{"t":7,"e":"div","a":{"class":"list-group nm-preview-list"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item nm-preview-annotation"},"f":["Answer saved as ",{"t":7,"e":"strong","f":[{"t":2,"r":"saveAs"}]}]}],"r":"saveAs"}]}]}," ",{"t":7,"e":"div","a":{"class":"panel-footer"},"f":[{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Incomplete"]}],"n":51,"r":"isComplete"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs pull-right"},"f":[{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Views ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.views"],"s":"_0(_1.sum(_2))"}}]}]}," ",{"t":7,"e":"button","v":{"click":{"m":"showStats","a":{"r":[],"s":"[]"}}},"a":{"class":"btn btn-default nm-block-action"},"f":["Timeouts ",{"t":7,"e":"span","a":{"class":"badge"},"f":[{"t":2,"x":{"r":["formatValue","_","stats.timeouts"],"s":"_0(_1.sum(_2))"}}]}]}]}],"x":{"r":["publishCount"],"s":"_0>0"}}]}]}]};
 
 /***/ },
-/* 167 */
+/* 169 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Question ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell nm-content ",{"t":4,"f":["is-incomplete"],"n":51,"r":"text"}]},"f":[{"t":7,"e":"label","f":["Question"]}," ",{"t":7,"e":"editor","a":{"content":[{"t":2,"r":"text"}],"type":"textarea","charParser":[{"t":2,"r":"charParser"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell"},"f":[{"t":7,"e":"label","m":[{"t":4,"f":["class=\"is-unused\""],"n":51,"r":"useAnswerSaving"}],"f":["Save answer as (optional)"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-footer"},"f":[{"t":7,"e":"span","a":{"class":["nm-static-input nm-cell-annotation ",{"t":4,"f":["nm-cell-annotation-warning"],"r":"charCountIsHigh"}]},"f":[{"t":2,"r":"charCount"}," characters used"]}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
-/* 168 */
+/* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(15);
 	var uuid = __webpack_require__(25);
 	var Screen = __webpack_require__(156);
-	var blockUtils = __webpack_require__(163);
-	var utils = __webpack_require__(162);
+	var blockUtils = __webpack_require__(165);
+	var utils = __webpack_require__(164);
 	var drawers = __webpack_require__(49);
-	var ChooseSequence = __webpack_require__(169);
-	var Chooser = __webpack_require__(164);
+	var ChooseSequence = __webpack_require__(171);
+	var Chooser = __webpack_require__(166);
 	var Areas = __webpack_require__(173);
 	var sapphire = __webpack_require__(159);
 
@@ -90220,15 +90299,15 @@
 
 
 /***/ },
-/* 169 */
+/* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Chooser = __webpack_require__(164);
+	var Chooser = __webpack_require__(166);
 	var Base = __webpack_require__(50);
 
 
 	module.exports = Base.extend({
-	  template: __webpack_require__(170),
+	  template: __webpack_require__(172),
 	  addSequence: function() {
 	    var seq = this.get('dialogue').addSequence(this.get('newSequenceName'));
 	    this.choose(seq.id);
@@ -90263,89 +90342,10 @@
 
 
 /***/ },
-/* 170 */
-/***/ function(module, exports) {
-
-	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"n":53,"f":[{"t":8,"r":"header"}],"x":{"r":[],"s":"{title:\"Route to another sequence\"}"}}," ",{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading nm-panel-heading-drawer"},"f":["Route to a new sequence"]}," ",{"t":7,"e":"div","a":{"class":"panel-body nm-panel-body-drawer"},"f":[{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell"},"f":[{"t":7,"e":"label","f":["Name of the new sequence"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"newSequenceName"}]}}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"addSequence","a":{"r":[],"s":"[]"}}},"f":["Add"]}]}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer","href":"#"},"v":{"click":{"m":"chooseSequence","a":{"r":["event"],"s":"[_0]"}}},"f":["Route to a sequence in this dialogue"]}," ",{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer","href":"#"},"v":{"click":{"m":"chooseDialogue","a":{"r":["event"],"s":"[_0]"}}},"f":["Route to the starting sequence of another dialogue"]}]}]}]}]};
-
-/***/ },
-/* 171 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var _ = __webpack_require__(15);
-	var rangy = __webpack_require__(19);
-	var Ractive = __webpack_require__(17);
-
-
-	module.exports = Ractive.extend({
-	  template: __webpack_require__(172),
-	  onrender: function() {
-	    this.drawContent();
-
-	    // TODO unbind on unrender
-	    this.$editEl().on('keyup', this.onKeyUp.bind(this));
-	  },
-	  onKeyUp: function() {
-	    var d = this.get('keyupHandler');
-	    if (d) this.parent[d[0]].apply(this.parent, d.slice(1));
-	  },
-	  onunrender: function() {
-	    if (this.range) restoreRange(this.$editEl(), this.range);
-	  },
-	  $editEl: function() {
-	    return $(this.el).find('.nm-editor');
-	  },
-	  drawContent: function() {
-	    var $el = this.$editEl();
-	    this.range = saveRange($el);
-	    $el.html(this.parseContent(this.get('content')));
-	    restoreRange($el, this.range);
-	  },
-	  updateContent: function() {
-	    this.set('content', this.$editEl().text());
-	    this.drawContent();
-	  },
-	  parseContent: function(content) {
-	    return _.escape(content)
-	      .split('')
-	      .map(this.get('charParser'))
-	      .map(function(classes, i) {
-	        return classes.length
-	          ? specialCharHtml(content[i], classes)
-	          : content[i];
-	      })
-	    .join('');
-	  }
-	});
-
-
-	function saveRange($el) {
-	  return rangy
-	    .getSelection()
-	    .saveCharacterRanges($el.get(0));
-	}
-
-
-	function restoreRange($el, range) {
-	  rangy
-	    .getSelection()
-	    .restoreCharacterRanges($el.get(0), range);
-	}
-
-
-
-	function specialCharHtml(s, classes) {
-	  return [
-	    '<span class="', classes.join(' '), '">', s, '</span>'
-	  ].join('');
-	}
-
-
-/***/ },
 /* 172 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":["nm-editor nm-editor-",{"t":2,"r":"type"}],"contenteditable":"true"},"v":{"keydown":{"m":"updateContent","a":{"r":[],"s":"[]"}},"keyup":{"m":"updateContent","a":{"r":[],"s":"[]"}}},"f":[]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":4,"n":53,"f":[{"t":8,"r":"header"}],"x":{"r":[],"s":"{title:\"Route to another sequence\"}"}}," ",{"t":7,"e":"div","a":{"class":"panel panel-default"},"f":[{"t":7,"e":"div","a":{"class":"panel-heading nm-panel-heading-drawer"},"f":["Route to a new sequence"]}," ",{"t":7,"e":"div","a":{"class":"panel-body nm-panel-body-drawer"},"f":[{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell"},"f":[{"t":7,"e":"label","f":["Name of the new sequence"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"newSequenceName"}]}}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"addSequence","a":{"r":[],"s":"[]"}}},"f":["Add"]}]}," ",{"t":7,"e":"div","a":{"class":"list-group"},"f":[{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer","href":"#"},"v":{"click":{"m":"chooseSequence","a":{"r":["event"],"s":"[_0]"}}},"f":["Route to a sequence in this dialogue"]}," ",{"t":7,"e":"a","a":{"class":"list-group-item nm-list-group-item-drawer","href":"#"},"v":{"click":{"m":"chooseDialogue","a":{"r":["event"],"s":"[_0]"}}},"f":["Route to the starting sequence of another dialogue"]}]}]}]}]};
 
 /***/ },
 /* 173 */
@@ -90744,7 +90744,7 @@
 	var Screen = __webpack_require__(156);
 	var drawers = __webpack_require__(49);
 	var ChooseLanguage = __webpack_require__(146);
-	var Chooser = __webpack_require__(164);
+	var Chooser = __webpack_require__(166);
 	var Areas = __webpack_require__(173);
 	var sapphire = __webpack_require__(159);
 
@@ -91013,7 +91013,7 @@
 /* 179 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Choose Language ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["is-incomplete"],"n":51,"r":"text"}]},"f":[{"t":7,"e":"label","f":["Question"]}," ",{"t":7,"e":"textarea","a":{"value":[{"t":2,"r":"text"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-heading nm-cell-11"},"f":[{"t":7,"e":"label","f":["Choice"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-heading nm-cell-10 nm-hide-small"},"f":[{"t":7,"e":"label","f":["Language"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-3 nm-cell-noborder nm-hide-small"}}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["nm-choice-placeholder"],"x":{"r":["i","allChoices.length"],"s":"_0===_1-1"}}," nm-cell-11"]},"f":[{"t":7,"e":"div","a":{"class":"nm-prefixed-input"},"f":[{"t":7,"e":"span","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". "]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"text"}]},"v":{"keyup":{"m":"onChoiceKeyDown","a":{"r":["i","id"],"s":"[_0,_1]"}}}}]}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-10 nm-cell-placeholder"},"v":{"click":{"m":"chooseLanguage","a":{"r":["i","id"],"s":"[_0,_1]"}}},"f":[{"t":7,"e":"label","a":{"class":"nm-small-only"},"f":["Language"]}," ",{"t":7,"e":"span","a":{"class":"pull-right glyphicon glyphicon-chevron-right"}}," ",{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":["Choose language"]}]}],"n":51,"r":"languageId"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-10 nm-cell-placeholder"},"v":{"click":{"m":"chooseLanguage","a":{"r":["i","id"],"s":"[_0,_1]"}}},"f":[{"t":7,"e":"label","a":{"class":"nm-small-only"},"f":["Language"]}," ",{"t":7,"e":"span","a":{"class":"pull-right glyphicon glyphicon-chevron-right"}}," ",{"t":7,"e":"div","a":{"class":"nm-static-input"},"f":[{"t":2,"r":"languageName"}]}]}],"r":"languageId"}," ",{"t":7,"e":"button","a":{"class":["nm-cell nm-cell-btn nm-cell-3 btn ",{"t":4,"f":["disabled"],"x":{"r":["i","allChoices.length"],"s":"_0===_1-1"}}]},"v":{"click":{"m":"removeChoice","a":{"r":["id"],"s":"[_0]"}}},"f":["Remove"]}]}],"i":"i","r":"allChoices"}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell"},"f":[{"t":7,"e":"label","m":[{"t":4,"f":["class=\"is-unused\""],"n":51,"r":"saveAs"}],"f":["Save answer as (optional)"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-footer"},"f":[{"t":7,"e":"span","a":{"class":["nm-static-input nm-cell-annotation ",{"t":4,"f":["nm-cell-annotation-warning"],"r":"charCountIsHigh"}]},"f":[{"t":2,"r":"charCount"}," characters used"]}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h3","a":{"class":"page-header"},"f":["Choose Language ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["is-incomplete"],"n":51,"r":"text"}]},"f":[{"t":7,"e":"label","f":["Question"]}," ",{"t":7,"e":"editor","a":{"content":[{"t":2,"r":"text"}],"type":"textarea","charParser":[{"t":2,"r":"charParser"}]}}]}," ",{"t":7,"e":"div","a":{"class":"btn-group btn-group-xs nm-content-actions"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder"},"v":{"click":{"m":"insertUserField","a":{"r":[],"s":"[]"}}},"f":["Insert user field"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-heading nm-cell-11"},"f":[{"t":7,"e":"label","f":["Choice"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-heading nm-cell-10 nm-hide-small"},"f":[{"t":7,"e":"label","f":["Language"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-3 nm-cell-noborder nm-hide-small"}}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":["nm-cell ",{"t":4,"f":["nm-choice-placeholder"],"x":{"r":["i","allChoices.length"],"s":"_0===_1-1"}}," nm-cell-11"]},"f":[{"t":7,"e":"div","a":{"class":"nm-prefixed-input"},"f":[{"t":7,"e":"span","f":[{"t":2,"x":{"r":["i"],"s":"_0+1"}},". "]}," ",{"t":7,"e":"editor","a":{"type":"text","content":[{"t":2,"r":"text"}],"keyupHandler":["['onChoiceKeyDown', ",{"t":2,"r":"i"},", ",{"t":2,"r":"id"},"]"]}}]}]}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-10 nm-cell-placeholder"},"v":{"click":{"m":"chooseLanguage","a":{"r":["i","id"],"s":"[_0,_1]"}}},"f":[{"t":7,"e":"label","a":{"class":"nm-small-only"},"f":["Language"]}," ",{"t":7,"e":"span","a":{"class":"pull-right glyphicon glyphicon-chevron-right"}}," ",{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":["Choose language"]}]}],"n":51,"r":"languageId"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-10 nm-cell-placeholder"},"v":{"click":{"m":"chooseLanguage","a":{"r":["i","id"],"s":"[_0,_1]"}}},"f":[{"t":7,"e":"label","a":{"class":"nm-small-only"},"f":["Language"]}," ",{"t":7,"e":"span","a":{"class":"pull-right glyphicon glyphicon-chevron-right"}}," ",{"t":7,"e":"div","a":{"class":"nm-static-input"},"f":[{"t":2,"r":"languageName"}]}]}],"r":"languageId"}," ",{"t":7,"e":"button","a":{"class":["nm-cell nm-cell-btn nm-cell-3 btn ",{"t":4,"f":["disabled"],"x":{"r":["i","allChoices.length"],"s":"_0===_1-1"}}]},"v":{"click":{"m":"removeChoice","a":{"r":["id"],"s":"[_0]"}}},"f":["Remove"]}]}],"i":"i","r":"allChoices"}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell"},"f":[{"t":7,"e":"label","m":[{"t":4,"f":["class=\"is-unused\""],"n":51,"r":"saveAs"}],"f":["Save answer as (optional)"]}," ",{"t":7,"e":"input","a":{"type":"text","value":[{"t":2,"r":"saveAs"}]}}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-footer"},"f":[{"t":7,"e":"span","a":{"class":["nm-static-input nm-cell-annotation ",{"t":4,"f":["nm-cell-annotation-warning"],"r":"charCountIsHigh"}]},"f":[{"t":2,"r":"charCount"}," characters used"]}]}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
 /* 180 */
@@ -91062,7 +91062,7 @@
 
 	var _ = __webpack_require__(15);
 	var Base = __webpack_require__(157);
-	var Chooser = __webpack_require__(164);
+	var Chooser = __webpack_require__(166);
 
 
 	var Action = Base.extend({
@@ -91191,9 +91191,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Screen = __webpack_require__(156);
-	var utils = __webpack_require__(163);
+	var utils = __webpack_require__(165);
 	var drawers = __webpack_require__(49);
-	var Chooser = __webpack_require__(164);
+	var Chooser = __webpack_require__(166);
 
 
 	var Ask = Screen.extend({
@@ -91303,7 +91303,7 @@
 	var uuid = __webpack_require__(25);
 	var Base = __webpack_require__(157);
 	var drawers = __webpack_require__(49);
-	var ChooseSequence = __webpack_require__(169);
+	var ChooseSequence = __webpack_require__(171);
 
 
 	var Route = Base.extend({
@@ -91383,7 +91383,7 @@
 	var Base = __webpack_require__(157);
 	var drawers = __webpack_require__(49);
 	var Conditions = __webpack_require__(193);
-	var ChooseSequence = __webpack_require__(169);
+	var ChooseSequence = __webpack_require__(171);
 
 
 	var ConditionalRoute = Base.extend({
@@ -91600,7 +91600,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var drawers = __webpack_require__(49);
-	var Chooser = __webpack_require__(164);
+	var Chooser = __webpack_require__(166);
 	var Base = __webpack_require__(50);
 
 
@@ -91727,7 +91727,7 @@
 
 	var _ = __webpack_require__(15);
 	var Base = __webpack_require__(157);
-	var Chooser = __webpack_require__(164);
+	var Chooser = __webpack_require__(166);
 	var drawers = __webpack_require__(49);
 
 
@@ -91814,9 +91814,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Screen = __webpack_require__(156);
-	var utils = __webpack_require__(163);
+	var utils = __webpack_require__(165);
 	var drawers = __webpack_require__(49);
-	var Chooser = __webpack_require__(164);
+	var Chooser = __webpack_require__(166);
 
 
 	var End = Screen.extend({
@@ -91880,9 +91880,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Screen = __webpack_require__(156);
-	var utils = __webpack_require__(163);
+	var utils = __webpack_require__(165);
 	var drawers = __webpack_require__(49);
-	var Chooser = __webpack_require__(164);
+	var Chooser = __webpack_require__(166);
 
 
 	var NextNMonths = Screen.extend({
@@ -91980,7 +91980,7 @@
 
 	var _ = __webpack_require__(15);
 	var Base = __webpack_require__(157);
-	var Chooser = __webpack_require__(164);
+	var Chooser = __webpack_require__(166);
 	var drawers = __webpack_require__(49);
 
 
@@ -92077,7 +92077,7 @@
 
 	var _ = __webpack_require__(15);
 	var Base = __webpack_require__(157);
-	var Chooser = __webpack_require__(164);
+	var Chooser = __webpack_require__(166);
 	var drawers = __webpack_require__(49);
 
 
