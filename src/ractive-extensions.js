@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var Ractive = require('ractive');
+var pg = require('./pg');
 
 
 Ractive.prototype.removeWhere = function(name, query) {
@@ -67,4 +68,14 @@ Ractive.prototype.deepUpdate = function() {
 
   this.onDeepUpdate();
   this.update();
+};
+
+
+Ractive.prototype.openPage = function() {
+  pg.push(this);
+};
+
+
+Ractive.prototype.closePage = function() {
+  if (pg.peek() === this) pg.pop();
 };

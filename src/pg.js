@@ -11,7 +11,7 @@ function push(view) {
 
 
 function pop() {
-  stack.pop()
+  stack.pop();
   var view = peek();
   if (view) switchTo(view);
   return view;
@@ -27,7 +27,7 @@ function switchTo(view) {
   $('.nm-curr-pg')
     .removeClass('nm-curr-pg')
     .detach();
-  
+
   $(view.el)
     .addClass('nm-curr-pg')
     .appendTo('#app');

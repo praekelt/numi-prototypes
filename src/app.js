@@ -41,6 +41,10 @@ page('/dialogues/:id', function(ctx, next) {
   pg.push(dashboard.findDialogueView(ctx.params.id));
 });
 
+page('/dialogues/:id/overview', function(ctx, next) {
+  dashboard.showDialogueOverview(ctx.params.id);
+});
+
 
 page({hashbang: true});
 
