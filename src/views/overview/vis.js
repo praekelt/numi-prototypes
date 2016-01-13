@@ -1,5 +1,5 @@
 function draw(el) {
-  el.text(function(d) { return d; });
+  el.text(JSON.stringify);
 }
 
 

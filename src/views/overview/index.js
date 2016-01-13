@@ -1,5 +1,6 @@
 var d3 = require('d3');
 var vis = require('./vis');
+var data = require('./data');
 var Ractive = require('ractive');
 
 
@@ -8,7 +9,7 @@ var Overview = Ractive.extend({
   onrender: function() {
     d3.select(this.el)
       .select('.nm-vis')
-      .datum('TODO')
+      .datum(data.parse(this.get()))
       .call(vis.draw);
   },
   computed: {
