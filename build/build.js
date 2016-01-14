@@ -93454,27 +93454,26 @@
 
 
 	function Diagonal(opts) {
-	  opts = _.defaults(opts || {}, {projection: _.identity});
+	  opts = _.defaults(opts || {}, {
+	    projection: _.identity,
+	    controlPointFactor: 0.382
+	  });
 
 	  return function(d, i) {
 	    var p0 = d.source;
-	    var p3 = d.target;
-	    var m = (p0.y + p3.y) * 0.5;
+	    var p2 = d.target;
+	    var len = p2.y - p0.y;
+	    var c = p0.y + (len * opts.controlPointFactor);
 
 	    var p1 = {
-	      x: p0.x,
-	      y: m
+	      x: p2.x,
+	      y: c
 	    };
 
-	    var p2 = {
-	      x: p3.x,
-	      y: m
-	    };
-
-	    var p = [p0, p1, p2, p3];
+	    var p = [p0, p1, p2];
 	    p = p.map(opts.projection);
 
-	    return ['M', p[0], 'L', p[1], ' ', p[2], ' ', p[3]].join('');
+	    return ['M', p[0], 'L', p[1], ' ', p[2]].join('');
 	  };
 	}
 
