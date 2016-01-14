@@ -56,7 +56,7 @@ var Base = Ractive.extend({
     else drawers.close();
   },
   oninit: function() {
-    this.set('content', _.clone(this.get('content') || {}));
+    this.set('content', _.cloneDeep(this.get('content') || {}));
   },
   getEditView: function() {
     var self = this;

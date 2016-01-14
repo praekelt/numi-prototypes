@@ -24,7 +24,7 @@ Ractive.prototype.setMap = function(name, fn) {
 };
 
 
-Ractive.prototype.setFilter = function(name, fn) {
+Ractive.prototype.setMap = function(name, fn) {
   this.set(name, this.get(name).filter(fn));
 };
 
@@ -44,6 +44,21 @@ Ractive.prototype.updateDatum = function(name, datum) {
       ? datum
       : d;
   });
+};
+
+
+Ractive.prototype.removeWhere = function(name, query) {
+  // HACK ractive.js seems to want to recompute the properties of removed
+  // components for some reason, so we set it to bypass them.
+  var component = this.findComponentWhere(query);
+
+  _.each(component.viewmodel.computations, function(computation) {
+    computation.bypass = true;
+  });
+
+  var data = this.get(name);
+  var i = _.findIndex(data, query);
+  if (i > -1) this.splice(name, i, 1);
 };
 
 

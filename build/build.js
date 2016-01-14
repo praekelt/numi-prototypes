@@ -25217,7 +25217,7 @@
 	};
 
 
-	Ractive.prototype.setFilter = function(name, fn) {
+	Ractive.prototype.setMap = function(name, fn) {
 	  this.set(name, this.get(name).filter(fn));
 	};
 
@@ -25237,6 +25237,21 @@
 	      ? datum
 	      : d;
 	  });
+	};
+
+
+	Ractive.prototype.removeWhere = function(name, query) {
+	  // HACK ractive.js seems to want to recompute the properties of removed
+	  // components for some reason, so we set it to bypass them.
+	  var component = this.findComponentWhere(query);
+
+	  _.each(component.viewmodel.computations, function(computation) {
+	    computation.bypass = true;
+	  });
+
+	  var data = this.get(name);
+	  var i = _.findIndex(data, query);
+	  if (i > -1) this.splice(name, i, 1);
 	};
 
 
@@ -77795,9 +77810,7 @@
 	      .click();
 	  },
 	  removeBlock: function(id) {
-	    var blocks = this.get('blocks');
-	    var i = _.findIndex(blocks, {id: id});
-	    if (i > -1) this.splice('blocks', i, 1);
+	    this.removeWhere('blocks', {id: id});
 	  },
 	  components: __webpack_require__(154)
 	});
@@ -78190,7 +78203,7 @@
 	    else drawers.close();
 	  },
 	  oninit: function() {
-	    this.set('content', _.clone(this.get('content') || {}));
+	    this.set('content', _.cloneDeep(this.get('content') || {}));
 	  },
 	  getEditView: function() {
 	    var self = this;
