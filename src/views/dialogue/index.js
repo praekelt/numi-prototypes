@@ -70,10 +70,6 @@ module.exports = Ractive.extend({
       .find('.nm-rename')
       .hide();
 
-    $(this.el)
-      .find('.sortable-blocks')
-      .sortable();
-
     $('.nm-body')
       .mousewheel(function(e, delta) {
         if ($(e.target).parents('.nm-sequence').length) return;

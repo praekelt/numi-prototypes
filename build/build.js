@@ -61405,10 +61405,6 @@
 	    return _.find(this.getUserFields(), {id: id}).name;
 	  },
 	  oncomplete: function() {
-	    $(this.el)
-	      .find('.sortable-blocks')
-	      .sortable();
-
 	    var availableTags = [
 	      "[next9months]",
 	      "[another placeholder]"
@@ -65809,10 +65805,6 @@
 	    $(this.el)
 	      .find('.nm-rename')
 	      .hide();
-
-	    $(this.el)
-	      .find('.sortable-blocks')
-	      .sortable();
 
 	    $('.nm-body')
 	      .mousewheel(function(e, delta) {
@@ -77738,43 +77730,6 @@
 	  onrender: function() {
 	    $(this.find('.nm-rename')).hide();
 	  },
-	  oncomplete: function() {
-	    var self = this;
-
-	    $(this.el)
-	      .find('.sortable-blocks')
-	      .sortable({
-	        start: function() {
-	          $(this)
-	            .find('.nm-block-separator')
-	            .hide();
-	        },
-	        stop: function() {
-	          $(this)
-	            .show();
-
-	          var order = $(self.el)
-	            .find('.nm-block-wrapper')
-	            .map(function() {
-	              return $(this).attr('data-id');
-	            })
-	            .get();
-
-	          self.reorder(order);
-	        }
-	      });
-	  },
-	  reorder: function(ids) {
-	    var blocks = this.get('blocks');
-
-	    blocks = _.sortBy(blocks, function(d) {
-	      return ids.indexOf(d.id);
-	    });
-
-	    // TODO get .merge() to work
-	    while (this.get('blocks').length) this.pop('blocks');
-	    while (blocks.length) this.push('blocks', blocks.shift());
-	  },
 	  rename: function() {
 	    this.set('nameBackup', this.get('name'));
 	    $(this.find('.nm-name')).hide();
@@ -78204,6 +78159,7 @@
 	  },
 	  oninit: function() {
 	    this.set('content', _.cloneDeep(this.get('content') || {}));
+	    this.set('stash', _.cloneDeep(this.get('stash') || {}));
 	  },
 	  getEditView: function() {
 	    var self = this;
@@ -78316,7 +78272,7 @@
 
 	    // TODO figure out why we try ensure content when removing a block
 	    var content = this.get('content');
-	    if (!content) return null;
+	    if (!content) return {};
 
 	    var langContent;
 	    if (id in content) langContent = content[id];
