@@ -15,43 +15,6 @@ module.exports = Ractive.extend({
   onrender: function() {
     $(this.find('.nm-rename')).hide();
   },
-  oncomplete: function() {
-    var self = this;
-
-    $(this.el)
-      .find('.sortable-blocks')
-      .sortable({
-        start: function() {
-          $(this)
-            .find('.nm-block-separator')
-            .hide();
-        },
-        stop: function() {
-          $(this)
-            .show();
-
-          var order = $(self.el)
-            .find('.nm-block-wrapper')
-            .map(function() {
-              return $(this).attr('data-id');
-            })
-            .get();
-
-          self.reorder(order);
-        }
-      });
-  },
-  reorder: function(ids) {
-    var blocks = this.get('blocks');
-
-    blocks = _.sortBy(blocks, function(d) {
-      return ids.indexOf(d.id);
-    });
-
-    // TODO get .merge() to work
-    while (this.get('blocks').length) this.pop('blocks');
-    while (blocks.length) this.push('blocks', blocks.shift());
-  },
   rename: function() {
     this.set('nameBackup', this.get('name'));
     $(this.find('.nm-name')).hide();

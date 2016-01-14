@@ -197,10 +197,6 @@ module.exports = Ractive.extend({
     return _.find(this.getUserFields(), {id: id}).name;
   },
   oncomplete: function() {
-    $(this.el)
-      .find('.sortable-blocks')
-      .sortable();
-
     var availableTags = [
       "[next9months]",
       "[another placeholder]"
