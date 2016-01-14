@@ -6,7 +6,7 @@ var Ractive = require('ractive');
 
 var Overview = Ractive.extend({
   template: require('./template.html'),
-  onrender: function() {
+  oncomplete: function() {
     d3.select(this.el)
       .select('.nm-vis')
       .datum(data.parse(this.get()))

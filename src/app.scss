@@ -1164,10 +1164,16 @@ a.nm-list-group-item-drawer-secondary {
   border-bottom: 2px solid $fg-warning0;
 }
 
+.nm-vis-overview {
+  svg {
+    width: 100%;
+  }
+}
+
 .nm-ov-link {
   fill: none;
   stroke: $fg1;
-  stroke-width: 2px;
+  stroke-width: 1px;
 }
 
 .nm-ov-node {

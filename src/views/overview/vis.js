@@ -4,23 +4,28 @@ var translate = sapphire.utils.translate;
 
 
 function draw(el) {
-  // TODO something better for dims
-  var width = 640;
-  var height = 480;
+  var padding = 15;
+  var nodeRadius = 3;
 
+  // TODO something better for dims
   var layout = d3.layout.cluster()
-    .size([width - 40, height - 40]);
+    .nodeSize([30, 30]);
 
   var nodes = layout.nodes(el.datum());
-  var links = layout.links(nodes);
+  normalizeX(nodes);
 
-  var diagonal = d3.svg.diagonal();
+  var links = layout.links(nodes);
+  var dims = getDims(el.select('svg'), nodes, padding, nodeRadius);
+
+  var diagonal = d3.svg.diagonal()
+    .projection(function(d) {
+      return [d.x * dims.scale, d.y * dims.scale];
+    });
 
   var svg = el.select('svg')
-    .attr('width', width)
-    .attr('height', height)
+    .attr('height', dims.height + 20)
     .append('g')
-      .attr('transform', translate(20, 20));
+      .attr('transform', translate(padding, padding));
 
   svg.selectAll('.nm-ov-link')
     .data(links)
@@ -30,7 +35,28 @@ function draw(el) {
   svg.selectAll('.nm-ov-node')
     .data(nodes)
     .enter().append('g')
-      .call(drawNode);
+      .call(drawNode, dims, nodeRadius);
+}
+
+
+function normalizeX(nodes) {
+  var minX = d3.min(nodes, function(d) { return d.x; });
+  var xOffset = Math.abs(Math.min(0, minX));
+  nodes.forEach(function(d) { d.x += xOffset; });
+}
+
+
+function getDims(svg, nodes, padding, nodeRadius) {
+  var maxWidth = $(svg.node()).width() - padding;
+  var maxX = d3.max(nodes, function(d) { return d.x; });
+  var maxY = d3.max(nodes, function(d) { return d.y; });
+  var scale = maxWidth / (Math.max(maxX, maxY) + nodeRadius);
+
+  return {
+    scale: scale,
+    width: maxX * scale,
+    height: maxY * scale
+  };
 }
 
 
@@ -41,15 +67,15 @@ function drawLink(link, diagonal) {
 }
 
 
-function drawNode(node) {
+function drawNode(node, dims, nodeRadius) {
   node
     .attr('class', 'nm-ov-node')
     .attr('transform', function(d) {
-      return translate(d.x, d.y);
+      return translate(d.x * dims.scale, d.y * dims.scale);
     });
 
   node.append('circle')
-    .attr('r', 3);
+    .attr('r', nodeRadius);
 
   node.append('text')
     .text(function(d) {
