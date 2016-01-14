@@ -78157,7 +78157,7 @@
 	    if (this.drawerEdit) drawers.change(view);
 	    else drawers.close();
 	  },
-	  oninit: function() {
+	  onconfig: function() {
 	    this.set('content', _.cloneDeep(this.get('content') || {}));
 	    this.set('stash', _.cloneDeep(this.get('stash') || {}));
 	  },
@@ -78344,8 +78344,14 @@
 	    this.update(name);
 	  },
 	  ensureStash: function(name) {
-	    var stash = this.get('stash.' + name);
-	    if (!stash) this.set('stash.' + name, stash = []);
+	    var stashes = this.get('stash');
+
+	    // HACK we seem to be looking for this computed property before a component
+	    // is fully initialised (so the 'stash' property does not yet exist).
+	    if (!stashes) stashes = {};
+
+	    var stash = stashes[name];
+	    if (!stash) stashes[name] = stash = [];
 	    return stash;
 	  },
 	  setStash: function(name, v) {
@@ -90051,8 +90057,8 @@
 	      }
 	    };
 	  },
-	  oninit: function() {
-	    Screen.prototype.oninit.call(this);
+	  onconfig: function() {
+	    Screen.prototype.onconfig.call(this);
 
 	    if (this.get('allChoices').length < 1) {
 	      this.push('allChoices', this.newChoice());
@@ -90794,8 +90800,8 @@
 	    e.original.preventDefault();
 	    this.selectChoice(id);
 	  },
-	  oninit: function() {
-	    Screen.prototype.oninit.call(this);
+	  onconfig: function() {
+	    Screen.prototype.onconfig.call(this);
 	    this.resetTotals();
 	  },
 	  refreshLanguages: function() {

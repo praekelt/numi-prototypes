@@ -24,8 +24,8 @@ var AskChoice = Screen.extend({
       }
     };
   },
-  oninit: function() {
-    Screen.prototype.oninit.call(this);
+  onconfig: function() {
+    Screen.prototype.onconfig.call(this);
 
     if (this.get('allChoices').length < 1) {
       this.push('allChoices', this.newChoice());
