@@ -87,9 +87,7 @@ module.exports = Ractive.extend({
       .click();
   },
   removeBlock: function(id) {
-    var blocks = this.get('blocks');
-    var i = _.findIndex(blocks, {id: id});
-    if (i > -1) this.splice('blocks', i, 1);
+    this.removeWhere('blocks', {id: id});
   },
   components: require('../blocks')
 });
