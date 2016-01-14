@@ -1,10 +1,8 @@
 var _ = require('lodash');
-var args = _.partialRight;
 
 
 function parse(dialogue) {
-  return dialogue.sequences
-    .map(args(parseSequence, dialogue));
+  return parseSequence(dialogue.sequences[0], dialogue);
 }
 
 
@@ -13,8 +11,10 @@ function parseSequence(seq, dialogue) {
     title: seq.name,
     children: _(seq.blocks)
       .filter(blockIsRoutable)
-      .map(args(getBlockSequences, dialogue))
+      .map(getBlockSequenceIds)
+      .flatten()
       .uniq()
+      .map(args(findSequence, dialogue))
       .map(args(parseSequence, dialogue))
       .value()
   };
@@ -28,12 +28,6 @@ function blockIsRoutable(block) {
     'askchoice',
     'conditionalroute'
   ], block.type);
-}
-
-
-function getBlockSequences(block, dialogue) {
-  return getBlockSequenceIds(block)
-    .map(args(findSequence, dialogue));
 }
 
 
@@ -63,6 +57,15 @@ getBlockSequenceIds.conditionalroute = function(block) {
 
 function findSequence(id, dialogue) {
   return _.find(dialogue.sequences, {id: id});
+}
+
+
+function args(fn) {
+  var a = _.slice(arguments, 1);
+
+  return function(v) {
+    return fn.apply(this, [v].concat(a, _.slice(arguments, 1)));
+  };
 }
 
 
