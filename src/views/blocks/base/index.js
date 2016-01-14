@@ -169,7 +169,7 @@ var Base = Ractive.extend({
 
     // TODO figure out why we try ensure content when removing a block
     var content = this.get('content');
-    if (!content) return null;
+    if (!content) return {};
 
     var langContent;
     if (id in content) langContent = content[id];
