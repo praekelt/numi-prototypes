@@ -1,11 +1,12 @@
+var _ = require('lodash');
 var d3 = require('d3');
 var sapphire = require('../../../bower_components/sapphire/build/sapphire');
 var translate = sapphire.utils.translate;
 
 
 function draw(el) {
-  var padding = 15;
-  var nodeRadius = 3;
+  var padding = 30;
+  var nodeRadius = 4;
 
   // TODO something better for dims
   var layout = d3.layout.cluster()
@@ -17,13 +18,14 @@ function draw(el) {
   var links = layout.links(nodes);
   var dims = getDims(el.select('svg'), nodes, padding, nodeRadius);
 
-  var diagonal = d3.svg.diagonal()
-    .projection(function(d) {
+  var diagonal = Diagonal({
+    projection: function(d) {
       return [d.x * dims.scale, d.y * dims.scale];
-    });
+    }
+  });
 
   var svg = el.select('svg')
-    .attr('height', dims.height + 20)
+    .attr('height', dims.height + 24)
     .append('g')
       .attr('transform', translate(padding, padding));
 
@@ -54,8 +56,8 @@ function getDims(svg, nodes, padding, nodeRadius) {
 
   return {
     scale: scale,
-    width: maxX * scale,
-    height: maxY * scale
+    width: (maxX * scale) + padding,
+    height: (maxY * scale) + padding
   };
 }
 
@@ -78,9 +80,41 @@ function drawNode(node, dims, nodeRadius) {
     .attr('r', nodeRadius);
 
   node.append('text')
+    .attr('text-anchor', 'middle')
+    .attr('y', function(d) {
+      return d.children
+        ? -8
+        : 18;
+    })
     .text(function(d) {
       return d.title;
     });
+}
+
+
+function Diagonal(opts) {
+  opts = _.defaults(opts || {}, {projection: _.identity});
+
+  return function(d, i) {
+    var p0 = d.source;
+    var p3 = d.target;
+    var m = (p0.y + p3.y) * 0.5;
+
+    var p1 = {
+      x: p0.x,
+      y: m
+    };
+
+    var p2 = {
+      x: p3.x,
+      y: m
+    };
+
+    var p = [p0, p1, p2, p3];
+    p = p.map(opts.projection);
+
+    return ['M', p[0], 'L', p[1], ' ', p[2], ' ', p[3]].join('');
+  };
 }
 
 
