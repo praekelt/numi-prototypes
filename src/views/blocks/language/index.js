@@ -55,8 +55,8 @@ var Language = Screen.extend({
     e.original.preventDefault();
     this.selectChoice(id);
   },
-  oninit: function() {
-    Screen.prototype.oninit.call(this);
+  onconfig: function() {
+    Screen.prototype.onconfig.call(this);
     this.resetTotals();
   },
   refreshLanguages: function() {

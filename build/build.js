@@ -78129,7 +78129,7 @@
 	    if (this.drawerEdit) drawers.change(view);
 	    else drawers.close();
 	  },
-	  oninit: function() {
+	  onconfig: function() {
 	    this.set('content', _.cloneDeep(this.get('content') || {}));
 	    this.set('stash', _.cloneDeep(this.get('stash') || {}));
 	  },
@@ -78316,8 +78316,14 @@
 	    this.update(name);
 	  },
 	  ensureStash: function(name) {
-	    var stash = this.get('stash.' + name);
-	    if (!stash) this.set('stash.' + name, stash = []);
+	    var stashes = this.get('stash');
+
+	    // HACK we seem to be looking for this computed property before a component
+	    // is fully initialised (so the 'stash' property does not yet exist).
+	    if (!stashes) stashes = {};
+
+	    var stash = stashes[name];
+	    if (!stash) stashes[name] = stash = [];
 	    return stash;
 	  },
 	  setStash: function(name, v) {
@@ -86963,7 +86969,7 @@
 	        y: m
 	      }, p3 ];
 	      p = p.map(projection);
-	      return "M" + p[0] + "C" + p[1] + " " + p[2] + " " + p[3];
+	      return "M" + p[0] + "L" + p[1] + " " + p[2] + " " + p[3];
 	    }
 	    diagonal.source = function(x) {
 	      if (!arguments.length) return source;
@@ -87977,6 +87983,7 @@
 	  });
 	  if (true) this.d3 = d3, !(__WEBPACK_AMD_DEFINE_FACTORY__ = (d3), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)); else if (typeof module === "object" && module.exports) module.exports = d3; else this.d3 = d3;
 	}();
+
 
 /***/ },
 /* 159 */
@@ -90022,8 +90029,8 @@
 	      }
 	    };
 	  },
-	  oninit: function() {
-	    Screen.prototype.oninit.call(this);
+	  onconfig: function() {
+	    Screen.prototype.onconfig.call(this);
 
 	    if (this.get('allChoices').length < 1) {
 	      this.push('allChoices', this.newChoice());
@@ -90765,8 +90772,8 @@
 	    e.original.preventDefault();
 	    this.selectChoice(id);
 	  },
-	  oninit: function() {
-	    Screen.prototype.oninit.call(this);
+	  onconfig: function() {
+	    Screen.prototype.onconfig.call(this);
 	    this.resetTotals();
 	  },
 	  refreshLanguages: function() {
