@@ -57,6 +57,7 @@ var Base = Ractive.extend({
   },
   oninit: function() {
     this.set('content', _.cloneDeep(this.get('content') || {}));
+    this.set('stash', _.cloneDeep(this.get('stash') || {}));
   },
   getEditView: function() {
     var self = this;
