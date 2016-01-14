@@ -42,7 +42,7 @@ getBlockSequenceIds.route = function(block) {
 
 
 getBlockSequenceIds.askchoice = function(block) {
-  return _(block.allChoices)
+  return _(block.stash.allChoices)
     .map(function(choice) { return choice.route; })
     .compact()
     .uniq()

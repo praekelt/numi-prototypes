@@ -1163,3 +1163,13 @@ a.nm-list-group-item-drawer-secondary {
 .nm-char-nonascii {
   border-bottom: 2px solid $fg-warning0;
 }
+
+.nm-ov-link {
+  fill: none;
+  stroke: $fg1;
+  stroke-width: 2px;
+}
+
+.nm-ov-node {
+  fill: $fg0;
+}
