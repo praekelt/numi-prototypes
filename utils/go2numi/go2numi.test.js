@@ -58,7 +58,36 @@ describe("go2numi", function() {
     });
   });
 
-  it("should parse unsupported states as annotations");
+  it("should parse unsupported states as annotations", function() {
+    parse({
+       start_state: {uuid: 'state1'},
+       states: [{
+         uuid: 'state1',
+         type: 'dummy',
+         entry_endpoint: {uuid: 'endpoint1'},
+         exit_endpoint: {uuid: 'endpoint2'},
+       }, {
+         uuid: 'state2',
+         type: 'dummy',
+         entry_endpoint: {uuid: 'endpoint2'},
+         exit_endpoint: {uuid: 'endpoint3'},
+       }],
+       connections: []
+    }).should.shallowDeepEqual({
+      sequences: [{
+        blocks: [{
+          id: 'state1',
+          type: 'annotation',
+          text: 'dummy'
+        }, {
+          id: 'state2',
+          type: 'annotation',
+          text: 'dummy'
+        }]
+      }]
+    });
+  });
+
   it("should parse choice states");
   it("should parse choice states with a more option");
   it("should parse choice states with a back option");

@@ -47,6 +47,11 @@ parseState.freetext = function(d, state, model) {
 
 
 parse.fallback = function(d, state, model) {
+  d.seq.blocks.push(create(blockTypes.annotation, {
+    type: 'annotation',
+    id: state.uuid,
+    text: state.type
+  }));
 };
 
 
