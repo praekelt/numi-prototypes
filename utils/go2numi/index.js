@@ -24,23 +24,30 @@ function parse(model) {
 
 
 function parseState(d, state, model) {
-  ({
-    end: parseEnd
-  }[state.type] || parseUnsupported)(d, state, model);
+  (parseState[state.type] || parse.fallback)(d, state, model);
 }
 
 
-function parseEnd(d, state, model) {
+parseState.end = function(d, state, model) {
   d.seq.blocks.push(create(blockTypes.end, {
     type: 'end',
     id: state.uuid,
     text: state.text
   }));
-}
+};
 
 
-function parseUnsupported(d, state, model) {
-}
+parseState.freetext = function(d, state, model) {
+  d.seq.blocks.push(create(blockTypes.ask, {
+    type: 'ask',
+    id: state.uuid,
+    text: state.text
+  }));
+};
+
+
+parse.fallback = function(d, state, model) {
+};
 
 
 function create(type, d) {
@@ -48,8 +55,4 @@ function create(type, d) {
 }
 
 
-var parsers = {};
-parsers.parseEnd = parseEnd;
-
 module.exports = parse;
-exports.parsers = parsers;

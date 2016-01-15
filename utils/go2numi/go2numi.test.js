@@ -11,11 +11,7 @@ describe("go2numi", function() {
        start_state: {uuid: 'state1'},
        states: [{
          uuid: 'state1',
-         name: 'Ending 1',
          type: 'end',
-         store_as: 'ending-1',
-         user_defined_store_as: false,
-         entry_endpoint: {uuid: 'endpoint5'},
          text: 'Thank you for taking our survey',
        }],
        connections: []
@@ -24,13 +20,44 @@ describe("go2numi", function() {
         blocks: [{
           id: 'state1',
           type: 'end',
-          text: 'Thank you for taking our survey',
+          text: 'Thank you for taking our survey'
         }]
       }]
     });
   });
 
-  it("should parse freetext states");
+  it("should parse freetext states", function() {
+    parse({
+       start_state: {uuid: 'state1'},
+       states: [{
+         uuid: 'state1',
+         type: 'freetext',
+         entry_endpoint: {uuid: 'endpoint1'},
+         exit_endpoint: {uuid: 'endpoint2'},
+         text: 'Say something'
+       }, {
+         uuid: 'state2',
+         type: 'freetext',
+         entry_endpoint: {uuid: 'endpoint2'},
+         exit_endpoint: {uuid: 'endpoint3'},
+         text: 'Say something else'
+       }],
+       connections: []
+    }).should.shallowDeepEqual({
+      sequences: [{
+        blocks: [{
+          id: 'state1',
+          type: 'ask',
+          text: 'Say something'
+        }, {
+          id: 'state2',
+          type: 'ask',
+          text: 'Say something else'
+        }]
+      }]
+    });
+  });
+
   it("should parse unsupported states as annotations");
   it("should parse choice states");
   it("should parse choice states with a more option");
