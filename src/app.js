@@ -18,6 +18,7 @@ var pg = require('./pg');
 var drawers = require('./drawers');
 var hist = require('./hist');
 var persist = require('./persist');
+var campaignData = require('./data/campaigns');
 
 window.log = require('./utils').log;
 
@@ -34,6 +35,12 @@ page('/', function(ctx, next) {
   hist.clear();
   dashboard.update();
   pg.push(dashboard);
+});
+
+
+page('/campaigns/:name', function(ctx, next) {
+  dashboard.reset(campaignData[ctx.params.name]());
+  reload();
 });
 
 
@@ -57,7 +64,7 @@ $(document).keydown(function(e) {
   if (e.keyCode === 27 && e.ctrlKey) {
     persist.clear();
     reset = true;
-    window.location = '/numi-prototypes';
+    reload();
   }
 
   // <Esc>
@@ -65,6 +72,11 @@ $(document).keydown(function(e) {
     drawers.close();
   }
 });
+
+
+function reload() {
+  window.location = '/numi-prototypes';
+}
 
 
 exports.dashboard = dashboard;
