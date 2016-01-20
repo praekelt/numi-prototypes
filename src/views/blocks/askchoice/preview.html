@@ -50,8 +50,8 @@
           </p>
 
           {{#current.route}}
-          <p>&nbsp↳ {{getSequenceName(current.route)}}</p>
-          {{/}}
+          <br>
+          {{/current.route}}
         </div>
         {{/parent}}
         {{/isShowingLanguage}}
@@ -71,8 +71,8 @@
           </p>
 
           {{#route}}
-          <br>
-          {{/route}}
+          <p>&nbsp↳ {{getSequenceName(current.route)}}</p>
+          {{/}}
         </div>
         {{/current}}
       </div>
