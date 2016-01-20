@@ -225,4 +225,10 @@ module.exports = Ractive.extend({
     this.set('campaignName', this.get('campaignNameBackup'));
     this.hideCampaignRename();
   },
+  download: function() {
+    open([
+      'data:text/json;charset=utf-8',
+      JSON.stringify(this.get())
+    ].join(','));
+  }
 });
