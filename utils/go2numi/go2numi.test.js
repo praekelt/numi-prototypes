@@ -16,11 +16,13 @@ describe("go2numi", function() {
        }],
        connections: []
     }).should.shallowDeepEqual({
-      sequences: [{
-        blocks: [{
-          id: 'state1',
-          type: 'end',
-          text: 'Thank you for taking our survey'
+      dialogues: [{
+        sequences: [{
+          blocks: [{
+            id: 'state1',
+            type: 'end',
+            text: 'Thank you for taking our survey'
+          }]
         }]
       }]
     });
@@ -30,7 +32,7 @@ describe("go2numi", function() {
     parse({
        start_state: {uuid: 'state1'},
        states: [{
-         name: 'Start',
+         name: 'Main',
          uuid: 'state1',
          type: 'freetext',
          entry_endpoint: {uuid: 'endpoint1'},
@@ -39,11 +41,13 @@ describe("go2numi", function() {
        }],
        connections: []
     }).should.shallowDeepEqual({
-      sequences: [{
-        blocks: [{
-          id: 'state1',
-          type: 'ask',
-          text: 'Say something'
+      dialogues: [{
+        sequences: [{
+          blocks: [{
+            id: 'state1',
+            type: 'ask',
+            text: 'Say something'
+          }]
         }]
       }]
     });
@@ -53,7 +57,7 @@ describe("go2numi", function() {
     parse({
        start_state: {uuid: 'state1'},
        states: [{
-         name: 'Start',
+         name: 'Main',
          uuid: 'state1',
          type: 'dummy',
          entry_endpoint: {uuid: 'endpoint1'},
@@ -61,11 +65,13 @@ describe("go2numi", function() {
        }],
        connections: []
     }).should.shallowDeepEqual({
-      sequences: [{
-        blocks: [{
-          id: 'state1',
-          type: 'annotation',
-          text: 'dummy'
+      dialogues: [{
+        sequences: [{
+          blocks: [{
+            id: 'state1',
+            type: 'annotation',
+            text: 'dummy'
+          }]
         }]
       }]
     });
@@ -75,7 +81,7 @@ describe("go2numi", function() {
     parse({
        start_state: {uuid: 'state1'},
        states: [{
-         name: 'Start',
+         name: 'Main',
          uuid: 'state1',
          type: 'freetext',
          entry_endpoint: {uuid: 'endpoint1'},
@@ -119,14 +125,16 @@ describe("go2numi", function() {
          target: {uuid: 'endpoint8'}
        }]
     }).should.shallowDeepEqual({
-      sequences: [{
-        name: 'Start',
-        blocks: [
-          {id: 'state1'},
-          {id: 'state2'},
-          {id: 'state3'},
-          {id: 'state4'}
-        ]
+      dialogues: [{
+        sequences: [{
+          name: 'Start of Main',
+          blocks: [
+            {id: 'state1'},
+            {id: 'state2'},
+            {id: 'state3'},
+            {id: 'state4'}
+          ]
+        }]
       }]
     });
   });
@@ -136,7 +144,7 @@ describe("go2numi", function() {
     parse({
        start_state: {uuid: 'state1'},
        states: [{
-         name: 'Start',
+         name: 'Main',
          uuid: 'state1',
          type: 'choice',
          text: 'What is your favourite colour?',
@@ -192,43 +200,45 @@ describe("go2numi", function() {
          target: {uuid: 'endpoint10'}
        }]
     }).should.shallowDeepEqual({
-      sequences: [{
-        name: 'Start',
-        blocks: [{
-          id: 'state1',
-          allChoices: [{
-            route: 'seq:state2',
-            text: 'Red'
-          }, {
-            route: 'seq:state3',
-            text: 'Blue'
+      dialogues: [{
+        sequences: [{
+          name: 'Start of Main',
+          blocks: [{
+            id: 'state1',
+            allChoices: [{
+              route: 'seq:state2',
+              text: 'Red'
+            }, {
+              route: 'seq:state3',
+              text: 'Blue'
+            }]
           }]
-        }]
-      }, {
-        id: 'seq:state2',
-        name: 'Ask the user to say something',
-        blocks: [{
-          id: 'state2'
         }, {
-          type: 'route',
-          seqId: 'seq:state4'
-        }]
-      }, {
-        id: 'seq:state3',
-        name: 'Ask the user their name',
-        blocks: [{
-          id: 'state3'
+          id: 'seq:state2',
+          name: 'Ask the user to say something',
+          blocks: [{
+            id: 'state2'
+          }, {
+            type: 'route',
+            seqId: 'seq:state4'
+          }]
         }, {
-          type: 'route',
-          seqId: 'seq:state4'
-        }]
-      }, {
-        id: 'seq:state4',
-        name: 'Continue',
-        blocks: [{
-          id: 'state4'
+          id: 'seq:state3',
+          name: 'Ask the user their name',
+          blocks: [{
+            id: 'state3'
+          }, {
+            type: 'route',
+            seqId: 'seq:state4'
+          }]
         }, {
-          id: 'state5'
+          id: 'seq:state4',
+          name: 'Continue',
+          blocks: [{
+            id: 'state4'
+          }, {
+            id: 'state5'
+          }]
         }]
       }]
     });
@@ -238,7 +248,7 @@ describe("go2numi", function() {
     parse({
        start_state: {uuid: 'state1'},
        states: [{
-         name: 'Start',
+         name: 'Main',
          uuid: 'state1',
          type: 'choice',
          text: 'What is your favourite colour?',
@@ -294,39 +304,41 @@ describe("go2numi", function() {
          target: {uuid: 'endpoint10'}
        }]
     }).should.shallowDeepEqual({
-      sequences: [{
-        name: 'Start',
-        blocks: [{
-          id: 'state1',
-          allChoices: [{
-            route: 'seq:state2',
-            text: 'Red'
+      dialogues: [{
+        sequences: [{
+          name: 'Start of Main',
+          blocks: [{
+            id: 'state1',
+            allChoices: [{
+              route: 'seq:state2',
+              text: 'Red'
+            }, {
+              route: null,
+              text: 'More'
+            }]
           }, {
-            route: null,
-            text: 'More'
+            id: 'state3'
+          }, {
+            type: 'route',
+            seqId: 'seq:state4'
           }]
         }, {
-          id: 'state3'
+          id: 'seq:state2',
+          name: 'Ask the user to say something',
+          blocks: [{
+            id: 'state2'
+          }, {
+            type: 'route',
+            seqId: 'seq:state4'
+          }]
         }, {
-          type: 'route',
-          seqId: 'seq:state4'
-        }]
-      }, {
-        id: 'seq:state2',
-        name: 'Ask the user to say something',
-        blocks: [{
-          id: 'state2'
-        }, {
-          type: 'route',
-          seqId: 'seq:state4'
-        }]
-      }, {
-        id: 'seq:state4',
-        name: 'Continue',
-        blocks: [{
-          id: 'state4'
-        }, {
-          id: 'state5'
+          id: 'seq:state4',
+          name: 'Continue',
+          blocks: [{
+            id: 'state4'
+          }, {
+            id: 'state5'
+          }]
         }]
       }]
     });
@@ -336,7 +348,7 @@ describe("go2numi", function() {
     parse({
        start_state: {uuid: 'state1'},
        states: [{
-         name: 'Start',
+         name: 'Main',
          uuid: 'state1',
          type: 'freetext',
          entry_endpoint: {uuid: 'endpoint1'},
@@ -371,21 +383,23 @@ describe("go2numi", function() {
          target: {uuid: 'endpoint1'}
        }]
     }).should.shallowDeepEqual({
-      sequences: [{
-        name: 'Start',
-        blocks: [{
-          id: 'state1',
-        }, {
-          id: 'state2',
-          allChoices: [{
-            route: null,
-            text: 'Red'
+      dialogues: [{
+        sequences: [{
+          name: 'Start of Main',
+          blocks: [{
+            id: 'state1',
           }, {
-            route: null,
-            text: 'Back'
+            id: 'state2',
+            allChoices: [{
+              route: null,
+              text: 'Red'
+            }, {
+              route: null,
+              text: 'Back'
+            }]
+          }, {
+            id: 'state3'
           }]
-        }, {
-          id: 'state3'
         }]
       }]
     });
