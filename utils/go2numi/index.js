@@ -1,3 +1,4 @@
+require('ractive-require-templates');
 var _ = require('lodash');
 var uuid = require('node-uuid');
 var blockTypes = require('../../src/views/blocks');
