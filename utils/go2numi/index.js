@@ -1,9 +1,21 @@
+#!/usr/bin/env node
+
+// prevent warnings from messing up output
+var log = console.log.bind(console);
+if (require.main === module) console.log = function(){};
+
 require('ractive-require-templates');
 var _ = require('lodash');
 var uuid = require('node-uuid');
 var blockTypes = require('../../src/views/blocks');
 var Dialogue = require('../../src/views/dialogue');
 var Sequence = require('../../src/views/sequence');
+
+function run() {
+  // prevent warnings from messing up output
+  var result = parse(require(process.argv[2]));
+  log(JSON.stringify(result));
+}
 
 
 function parse(model) {
@@ -377,3 +389,7 @@ function isBackConnection(d, connection) {
 
 
 module.exports = parse;
+
+if (require.main === module) {
+  run();
+}
