@@ -38,9 +38,8 @@ page('/', function(ctx, next) {
 });
 
 
-page('/campaigns/:name', function(ctx, next) {
-  dashboard.reset(campaignData[ctx.params.name]());
-  reload();
+page('/campaigns/:name', function(ctx) {
+  load(ctx.params.id);
 });
 
 
@@ -52,26 +51,42 @@ page('/dialogues/:id', function(ctx, next) {
 page({hashbang: true});
 
 
-var reset = false;
+var hasReset = false;
 
 window.addEventListener('beforeunload', function(e) {
-  if (!reset) persist.set('dashboard', dashboard.get());
+  if (!hasReset) persist.set('dashboard', dashboard.get());
 });
 
 
 $(document).keydown(function(e) {
   // <C-Esc>
   if (e.keyCode === 27 && e.ctrlKey) {
-    persist.clear();
-    reset = true;
-    reload();
+    reset();
   }
 
   // <Esc>
   else if (e.keyCode === 27 && !e.ctrlKey) {
     drawers.close();
   }
+
+  // <C-d>
+  else if (e.keyCode === 83 && e.ctrlKey) {
+    dashboard.download();
+  }
 });
+
+
+function load(name) {
+  dashboard.reset(campaignData[name]());
+  reload();
+}
+
+
+function reset() {
+  persist.clear();
+  hasReset = true;
+  reload();
+}
 
 
 function reload() {
