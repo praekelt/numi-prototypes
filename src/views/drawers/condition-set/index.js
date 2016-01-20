@@ -1,6 +1,6 @@
-var drawers = require('../../drawers');
+var drawers = require('../../../drawers');
 var Base = require('../base');
-var conditions = require('../../components/conditions');
+var conditions = require('../../conditions');
 var ConditionLibrary = require('../condition-library');
 
 

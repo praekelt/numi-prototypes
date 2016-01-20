@@ -1,6 +1,6 @@
 var _ = require('lodash');
-var Base = require('../drawer');
-var conditions = require('../../components/conditions');
+var Base = require('../base');
+var conditions = require('../../conditions');
 
 
 // TODO something similar to this for filters
