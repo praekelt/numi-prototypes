@@ -3,7 +3,7 @@ var _ = require('lodash');
 var uuid = require('node-uuid');
 var Base = require('../base');
 var drawers = require('../../../drawers');
-var Conditions = require('../../../views/conditions');
+var ConditionSet = require('../../drawers/condition-set');
 var ChooseSequence = require('../../drawers/choose-sequence');
 
 
@@ -51,7 +51,7 @@ ConditionalRoute.Edit = Base.Edit.extend({
   setConditions: function() {
     var self = this;
 
-    var conditions = Conditions({
+    var conditions = ConditionSet({
       el: $('<div>'),
       data: _.extend({useClose: true}, this.get('conditionSet'))
     });

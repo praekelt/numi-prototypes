@@ -9,9 +9,9 @@ var Group = Base.extend({
   },
   setConditions: function() {
     var self = this;
-    var Conditions = require('../../../views/conditions');
+    var ConditionSet = require('../../drawers/condition-set');
 
-    var conditions = Conditions({
+    var conditions = ConditionSet({
       el: $('<div>'),
       data: this.get('conditionSet')
     });
