@@ -61329,18 +61329,10 @@
 	    }));
 	  },
 	  addDialogue: function(name) {
-	    var entrySeqId = uuid.v4();
-
-	    var d = {
-	      id: 'dialogue' + this.get('dialogues').length,
+	    var d = Dialogue.createData({
 	      name: name,
-	      sequences: [{
-	        id: entrySeqId,
-	        name: 'Start of ' + name,
-	        blocks: []
-	      }],
-	      seqtree: seqtree.create([entrySeqId, null, null])
-	    };
+	      id: 'dialogue' + this.get('dialogues').length
+	    });
 
 	    this.push('dialogues', d);
 	    return this.findDialogueView(d.id);
@@ -65751,7 +65743,7 @@
 	var ChooseLanguage = __webpack_require__(146);
 
 
-	module.exports = Ractive.extend({
+	var Dialogue = Ractive.extend({
 	  template: __webpack_require__(149),
 	  data: function() {
 	    return {
@@ -65812,7 +65804,7 @@
 	      .hide();
 
 	    $('.nm-body')
-	      .mousewheel(function(e, delta) {
+	      .on('mousewheel', function(e, delta) {
 	        if ($(e.target).parents('.nm-sequence').length) return;
 	        this.scrollLeft -= delta * 30;
 	      });
@@ -65950,9 +65942,27 @@
 	});
 
 
+	Dialogue.createData = function(d) {
+	  var entrySeqId = uuid.v4();
+
+	  return _.extend({
+	    id: uuid.v4(),
+	    sequences: [{
+	      id: entrySeqId,
+	      name: 'Start of ' + d.name,
+	      blocks: []
+	    }],
+	    seqtree: seqtree.create([entrySeqId, null, null])
+	  }, d);
+	};
+
+
 	function newDate() {
 	  return moment().format("ddd, MMM D YYYY, h:mm a");
 	}
+
+
+	module.exports = Dialogue;
 
 
 /***/ },
@@ -78233,6 +78243,8 @@
 	      return dashboard.getLanguageName(this.getCurrentLanguageId());
 	    },
 	    dialogue: function() {
+	      if (this.get('_dialogue')) return this.get('_dialogue');
+
 	      var dialogue = ((this.parent || 0).parent || 0).parent;
 	      return dialogue
 	        ? dialogue
@@ -89882,7 +89894,10 @@
 
 /***/ },
 /* 164 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
+
+	var _ = __webpack_require__(15);
+
 
 	function log(v) {
 	  console.log.apply(console, arguments);

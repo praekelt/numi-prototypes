@@ -126,6 +126,8 @@ var Base = Ractive.extend({
       return dashboard.getLanguageName(this.getCurrentLanguageId());
     },
     dialogue: function() {
+      if (this.get('_dialogue')) return this.get('_dialogue');
+
       var dialogue = ((this.parent || 0).parent || 0).parent;
       return dialogue
         ? dialogue
