@@ -56,14 +56,15 @@
 	__webpack_require__(10);
 	__webpack_require__(12);
 	__webpack_require__(14);
-	__webpack_require__(18);
+	__webpack_require__(19);
 
-	var page = __webpack_require__(20);
-	var Dashboard = __webpack_require__(24);
-	var pg = __webpack_require__(48);
+	var page = __webpack_require__(21);
+	var Dashboard = __webpack_require__(25);
+	var pg = __webpack_require__(18);
 	var drawers = __webpack_require__(49);
 	var hist = __webpack_require__(141);
-	var persist = __webpack_require__(226);
+	var persist = __webpack_require__(230);
+	var campaignData = __webpack_require__(231);
 
 	window.log = __webpack_require__(164).log;
 
@@ -83,6 +84,11 @@
 	});
 
 
+	page('/campaigns/:name', function(ctx) {
+	  load(ctx.params.name);
+	});
+
+
 	page('/dialogues/:id', function(ctx, next) {
 	  pg.push(dashboard.findDialogueView(ctx.params.id));
 	});
@@ -95,26 +101,47 @@
 	page({hashbang: true});
 
 
-	var reset = false;
+	var hasReset = false;
 
 	window.addEventListener('beforeunload', function(e) {
-	  if (!reset) persist.set('dashboard', dashboard.get());
+	  if (!hasReset) persist.set('dashboard', dashboard.get());
 	});
 
 
 	$(document).keydown(function(e) {
 	  // <C-Esc>
 	  if (e.keyCode === 27 && e.ctrlKey) {
-	    persist.clear();
-	    reset = true;
-	    window.location = '/numi-prototypes';
+	    reset();
 	  }
 
 	  // <Esc>
 	  else if (e.keyCode === 27 && !e.ctrlKey) {
 	    drawers.close();
 	  }
+
+	  // <C-d>
+	  else if (e.keyCode === 83 && e.ctrlKey) {
+	    dashboard.download();
+	  }
 	});
+
+
+	function load(name) {
+	  dashboard.reset(campaignData[name]());
+	  reload();
+	}
+
+
+	function reset() {
+	  persist.clear();
+	  hasReset = true;
+	  reload();
+	}
+
+
+	function reload() {
+	  window.location = '/numi-prototypes';
+	}
 
 
 	exports.dashboard = dashboard;
@@ -25193,7 +25220,7 @@
 
 	var _ = __webpack_require__(15);
 	var Ractive = __webpack_require__(17);
-	var pg = __webpack_require__(48);
+	var pg = __webpack_require__(18);
 
 
 	Ractive.prototype.removeWhere = function(name, query) {
@@ -54292,6 +54319,51 @@
 /* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var $ = __webpack_require__(1);
+
+
+	var stack = [];
+
+
+	function push(view) {
+	  stack.push(view);
+	  switchTo(view);
+	}
+
+
+	function pop() {
+	  stack.pop();
+	  var view = peek();
+	  if (view) switchTo(view);
+	  return view;
+	}
+
+
+	function peek() {
+	  return stack.slice(-1)[0];
+	}
+
+
+	function switchTo(view) {
+	  $('.nm-curr-pg')
+	    .removeClass('nm-curr-pg')
+	    .detach();
+
+	  $(view.el)
+	    .addClass('nm-curr-pg')
+	    .appendTo('#app');
+	}
+
+
+	exports.push = push;
+	exports.pop = pop;
+	exports.peek = peek;
+
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
 	 * Text range module for Rangy.
 	 * Text-based manipulation and searching of ranges and selections.
@@ -54360,7 +54432,7 @@
 	(function(factory, root) {
 	    if (true) {
 	        // AMD. Register as an anonymous module with a dependency on Rangy.
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(20)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof module != "undefined" && typeof exports == "object") {
 	        // Node/CommonJS style
 	        module.exports = factory( require("rangy") );
@@ -56224,7 +56296,7 @@
 	}, this);
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -60074,7 +60146,7 @@
 	}, this);
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {  /* globals require, module */
@@ -60085,7 +60157,7 @@
 	   * Module dependencies.
 	   */
 
-	  var pathtoRegexp = __webpack_require__(22);
+	  var pathtoRegexp = __webpack_require__(23);
 
 	  /**
 	   * Module exports.
@@ -60697,10 +60769,10 @@
 
 	  page.sameOrigin = sameOrigin;
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(22)))
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -60797,10 +60869,10 @@
 
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isarray = __webpack_require__(23)
+	var isarray = __webpack_require__(24)
 
 	/**
 	 * Expose `pathToRegexp`.
@@ -61193,7 +61265,7 @@
 
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports) {
 
 	module.exports = Array.isArray || function (arr) {
@@ -61202,24 +61274,24 @@
 
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(15);
-	var uuid = __webpack_require__(25);
+	var uuid = __webpack_require__(26);
 	var Ractive = __webpack_require__(17);
-	var NewDialogue = __webpack_require__(47);
+	var NewDialogue = __webpack_require__(48);
 	var Dialogue = __webpack_require__(53);
-	var Overview = __webpack_require__(227);
-	var pg = __webpack_require__(48);
+	var Overview = __webpack_require__(224);
+	var pg = __webpack_require__(18);
 	var drawers = __webpack_require__(49);
 	var seqtree = __webpack_require__(142);
-	var bootbox = __webpack_require__(224);
+	var bootbox = __webpack_require__(228);
 
 
 	module.exports = Ractive.extend({
-	  template: __webpack_require__(225),
+	  template: __webpack_require__(229),
 	  data: function() {
 	    return {
 	      renamingCampaign: false,
@@ -61318,18 +61390,10 @@
 	    }));
 	  },
 	  addDialogue: function(name) {
-	    var entrySeqId = uuid.v4();
-
-	    var d = {
-	      id: 'dialogue' + this.get('dialogues').length,
+	    var d = Dialogue.createData({
 	      name: name,
-	      sequences: [{
-	        id: entrySeqId,
-	        name: 'Start of ' + name,
-	        blocks: []
-	      }],
-	      seqtree: seqtree.create([entrySeqId, null, null])
-	    };
+	      id: 'dialogue' + this.get('dialogues').length
+	    });
 
 	    this.push('dialogues', d);
 	    return this.findDialogueView(d.id);
@@ -61445,11 +61509,17 @@
 	    this.set('campaignName', this.get('campaignNameBackup'));
 	    this.hideCampaignRename();
 	  },
+	  download: function() {
+	    open([
+	      'data:text/json;charset=utf-8',
+	      JSON.stringify(this.get())
+	    ].join(','));
+	  }
 	});
 
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(Buffer) {//     uuid.js
@@ -61510,7 +61580,7 @@
 	    // Moderately fast, high quality
 	    if (true) {
 	      try {
-	        var _rb = __webpack_require__(29).randomBytes;
+	        var _rb = __webpack_require__(30).randomBytes;
 	        _nodeRNG = _rng = _rb && function() {return _rb(16);};
 	        _rng();
 	      } catch(e) {}
@@ -61725,10 +61795,10 @@
 	  }
 	})('undefined' !== typeof window ? window : null);
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(26).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27).Buffer))
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer, global) {/*!
@@ -61739,9 +61809,9 @@
 	 */
 	/* eslint-disable no-proto */
 
-	var base64 = __webpack_require__(27)
-	var ieee754 = __webpack_require__(28)
-	var isArray = __webpack_require__(23)
+	var base64 = __webpack_require__(28)
+	var ieee754 = __webpack_require__(29)
+	var isArray = __webpack_require__(24)
 
 	exports.Buffer = Buffer
 	exports.SlowBuffer = SlowBuffer
@@ -63276,10 +63346,10 @@
 	  return i
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(26).Buffer, (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27).Buffer, (function() { return this; }())))
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -63409,7 +63479,7 @@
 
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports) {
 
 	exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -63499,10 +63569,10 @@
 
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var rng = __webpack_require__(30)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var rng = __webpack_require__(31)
 
 	function error () {
 	  var m = [].slice.call(arguments).join(' ')
@@ -63513,9 +63583,9 @@
 	    ].join('\n'))
 	}
 
-	exports.createHash = __webpack_require__(32)
+	exports.createHash = __webpack_require__(33)
 
-	exports.createHmac = __webpack_require__(44)
+	exports.createHmac = __webpack_require__(45)
 
 	exports.randomBytes = function(size, callback) {
 	  if (callback && callback.call) {
@@ -63536,7 +63606,7 @@
 	  return ['sha1', 'sha256', 'sha512', 'md5', 'rmd160']
 	}
 
-	var p = __webpack_require__(45)(exports)
+	var p = __webpack_require__(46)(exports)
 	exports.pbkdf2 = p.pbkdf2
 	exports.pbkdf2Sync = p.pbkdf2Sync
 
@@ -63556,16 +63626,16 @@
 	  }
 	})
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(26).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27).Buffer))
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, Buffer) {(function() {
 	  var g = ('undefined' === typeof window ? global : window) || {}
 	  _crypto = (
-	    g.crypto || g.msCrypto || __webpack_require__(31)
+	    g.crypto || g.msCrypto || __webpack_require__(32)
 	  )
 	  module.exports = function(size) {
 	    // Modern Browsers
@@ -63589,22 +63659,22 @@
 	  }
 	}())
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(26).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(27).Buffer))
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports) {
 
 	/* (ignored) */
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(33)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(34)
 
-	var md5 = toConstructor(__webpack_require__(41))
-	var rmd160 = toConstructor(__webpack_require__(43))
+	var md5 = toConstructor(__webpack_require__(42))
+	var rmd160 = toConstructor(__webpack_require__(44))
 
 	function toConstructor (fn) {
 	  return function () {
@@ -63632,10 +63702,10 @@
 	  return createHash(alg)
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(26).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27).Buffer))
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var exports = module.exports = function (alg) {
@@ -63644,16 +63714,16 @@
 	  return new Alg()
 	}
 
-	var Buffer = __webpack_require__(26).Buffer
-	var Hash   = __webpack_require__(34)(Buffer)
+	var Buffer = __webpack_require__(27).Buffer
+	var Hash   = __webpack_require__(35)(Buffer)
 
-	exports.sha1 = __webpack_require__(35)(Buffer, Hash)
-	exports.sha256 = __webpack_require__(39)(Buffer, Hash)
-	exports.sha512 = __webpack_require__(40)(Buffer, Hash)
+	exports.sha1 = __webpack_require__(36)(Buffer, Hash)
+	exports.sha256 = __webpack_require__(40)(Buffer, Hash)
+	exports.sha512 = __webpack_require__(41)(Buffer, Hash)
 
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports) {
 
 	module.exports = function (Buffer) {
@@ -63736,7 +63806,7 @@
 
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -63748,7 +63818,7 @@
 	 * See http://pajhome.org.uk/crypt/md5 for details.
 	 */
 
-	var inherits = __webpack_require__(36).inherits
+	var inherits = __webpack_require__(37).inherits
 
 	module.exports = function (Buffer, Hash) {
 
@@ -63880,7 +63950,7 @@
 
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -64408,7 +64478,7 @@
 	}
 	exports.isPrimitive = isPrimitive;
 
-	exports.isBuffer = __webpack_require__(37);
+	exports.isBuffer = __webpack_require__(38);
 
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -64452,7 +64522,7 @@
 	 *     prototype.
 	 * @param {function} superCtor Constructor function to inherit prototype from.
 	 */
-	exports.inherits = __webpack_require__(38);
+	exports.inherits = __webpack_require__(39);
 
 	exports._extend = function(origin, add) {
 	  // Don't do anything if add isn't an object
@@ -64470,10 +64540,10 @@
 	  return Object.prototype.hasOwnProperty.call(obj, prop);
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(21)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(22)))
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports) {
 
 	module.exports = function isBuffer(arg) {
@@ -64484,7 +64554,7 @@
 	}
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports) {
 
 	if (typeof Object.create === 'function') {
@@ -64513,7 +64583,7 @@
 
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -64525,7 +64595,7 @@
 	 *
 	 */
 
-	var inherits = __webpack_require__(36).inherits
+	var inherits = __webpack_require__(37).inherits
 
 	module.exports = function (Buffer, Hash) {
 
@@ -64666,10 +64736,10 @@
 
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var inherits = __webpack_require__(36).inherits
+	var inherits = __webpack_require__(37).inherits
 
 	module.exports = function (Buffer, Hash) {
 	  var K = [
@@ -64916,7 +64986,7 @@
 
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -64928,7 +64998,7 @@
 	 * See http://pajhome.org.uk/crypt/md5 for more info.
 	 */
 
-	var helpers = __webpack_require__(42);
+	var helpers = __webpack_require__(43);
 
 	/*
 	 * Calculate the MD5 of an array of little-endian words, and a bit length
@@ -65077,7 +65147,7 @@
 
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {var intSize = 4;
@@ -65115,10 +65185,10 @@
 
 	module.exports = { hash: hash };
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(26).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27).Buffer))
 
 /***/ },
-/* 43 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {
@@ -65327,13 +65397,13 @@
 
 
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(26).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27).Buffer))
 
 /***/ },
-/* 44 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(32)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(33)
 
 	var zeroBuffer = new Buffer(128)
 	zeroBuffer.fill(0)
@@ -65377,13 +65447,13 @@
 	}
 
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(26).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27).Buffer))
 
 /***/ },
-/* 45 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var pbkdf2Export = __webpack_require__(46)
+	var pbkdf2Export = __webpack_require__(47)
 
 	module.exports = function (crypto, exports) {
 	  exports = exports || {}
@@ -65398,7 +65468,7 @@
 
 
 /***/ },
-/* 46 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {module.exports = function(crypto) {
@@ -65486,15 +65556,15 @@
 	  }
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(26).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27).Buffer))
 
 /***/ },
-/* 47 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var pg = __webpack_require__(48);
+	var pg = __webpack_require__(18);
 	var drawers = __webpack_require__(49);
-	var page = __webpack_require__(20);
+	var page = __webpack_require__(21);
 	var Base = __webpack_require__(50);
 
 
@@ -65510,51 +65580,6 @@
 	    drawers.close(this);
 	  }
 	});
-
-
-/***/ },
-/* 48 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(1);
-
-
-	var stack = [];
-
-
-	function push(view) {
-	  stack.push(view);
-	  switchTo(view);
-	}
-
-
-	function pop() {
-	  stack.pop();
-	  var view = peek();
-	  if (view) switchTo(view);
-	  return view;
-	}
-
-
-	function peek() {
-	  return stack.slice(-1)[0];
-	}
-
-
-	function switchTo(view) {
-	  $('.nm-curr-pg')
-	    .removeClass('nm-curr-pg')
-	    .detach();
-
-	  $(view.el)
-	    .addClass('nm-curr-pg')
-	    .appendTo('#app');
-	}
-
-
-	exports.push = push;
-	exports.pop = pop;
-	exports.peek = peek;
 
 
 /***/ },
@@ -65737,7 +65762,7 @@
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(15);
 	var moment = __webpack_require__(54);
-	var uuid = __webpack_require__(25);
+	var uuid = __webpack_require__(26);
 	var Ractive = __webpack_require__(17);
 	var hist = __webpack_require__(141);
 	var seqtree = __webpack_require__(142);
@@ -65746,7 +65771,7 @@
 	var ChooseLanguage = __webpack_require__(146);
 
 
-	module.exports = Ractive.extend({
+	var Dialogue = Ractive.extend({
 	  template: __webpack_require__(149),
 	  data: function() {
 	    return {
@@ -65807,7 +65832,7 @@
 	      .hide();
 
 	    $('.nm-body')
-	      .mousewheel(function(e, delta) {
+	      .on('mousewheel', function(e, delta) {
 	        if ($(e.target).parents('.nm-sequence').length) return;
 	        this.scrollLeft -= delta * 30;
 	      });
@@ -65945,9 +65970,27 @@
 	});
 
 
+	Dialogue.createData = function(d) {
+	  var entrySeqId = uuid.v4();
+
+	  return _.extend({
+	    id: uuid.v4(),
+	    sequences: [{
+	      id: entrySeqId,
+	      name: 'Start of ' + d.name,
+	      blocks: []
+	    }],
+	    seqtree: seqtree.create([entrySeqId, null, null])
+	  }, d);
+	};
+
+
 	function newDate() {
 	  return moment().format("ddd, MMM D YYYY, h:mm a");
 	}
+
+
+	module.exports = Dialogue;
 
 
 /***/ },
@@ -77440,7 +77483,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(15);
-	var uuid = __webpack_require__(25);
+	var uuid = __webpack_require__(26);
 
 
 	function create(key) {
@@ -77777,7 +77820,7 @@
 
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(15);
-	var uuid = __webpack_require__(25);
+	var uuid = __webpack_require__(26);
 	var Base = __webpack_require__(50);
 	var blockTypes = __webpack_require__(154);
 
@@ -78228,6 +78271,8 @@
 	      return dashboard.getLanguageName(this.getCurrentLanguageId());
 	    },
 	    dialogue: function() {
+	      if (this.get('_dialogue')) return this.get('_dialogue');
+
 	      var dialogue = ((this.parent || 0).parent || 0).parent;
 	      return dialogue
 	        ? dialogue
@@ -89801,7 +89846,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(15);
-	var rangy = __webpack_require__(19);
+	var rangy = __webpack_require__(20);
 	var Ractive = __webpack_require__(17);
 
 
@@ -89877,7 +89922,10 @@
 
 /***/ },
 /* 164 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
+
+	var _ = __webpack_require__(15);
+
 
 	function log(v) {
 	  console.log.apply(console, arguments);
@@ -90033,7 +90081,7 @@
 
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(15);
-	var uuid = __webpack_require__(25);
+	var uuid = __webpack_require__(26);
 	var Screen = __webpack_require__(156);
 	var blockUtils = __webpack_require__(165);
 	var utils = __webpack_require__(164);
@@ -90745,7 +90793,7 @@
 
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(15);
-	var uuid = __webpack_require__(25);
+	var uuid = __webpack_require__(26);
 	var Screen = __webpack_require__(156);
 	var drawers = __webpack_require__(49);
 	var ChooseLanguage = __webpack_require__(146);
@@ -91316,7 +91364,7 @@
 
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(15);
-	var uuid = __webpack_require__(25);
+	var uuid = __webpack_require__(26);
 	var Base = __webpack_require__(157);
 	var drawers = __webpack_require__(49);
 	var ChooseSequence = __webpack_require__(171);
@@ -91395,7 +91443,7 @@
 
 	var $ = __webpack_require__(1);
 	var _ = __webpack_require__(15);
-	var uuid = __webpack_require__(25);
+	var uuid = __webpack_require__(26);
 	var Base = __webpack_require__(157);
 	var drawers = __webpack_require__(49);
 	var Conditions = __webpack_require__(193);
@@ -91505,7 +91553,7 @@
 /* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var uuid = __webpack_require__(25);
+	var uuid = __webpack_require__(26);
 
 
 	var types = {};
@@ -92253,6 +92301,245 @@
 
 /***/ },
 /* 224 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var d3 = __webpack_require__(158);
+	var vis = __webpack_require__(225);
+	var data = __webpack_require__(226);
+	var Ractive = __webpack_require__(17);
+
+
+	var Overview = Ractive.extend({
+	  template: __webpack_require__(227),
+	  oncomplete: function() {
+	    d3.select(this.el)
+	      .select('.nm-vis')
+	      .datum(data.parse(this.get()))
+	      .call(vis.draw);
+	  },
+	  computed: {
+	    campaignName: function() {
+	      return dashboard.get('campaignName');
+	    }
+	  }
+	});
+
+
+	module.exports = Overview;
+
+
+/***/ },
+/* 225 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var _ = __webpack_require__(15);
+	var d3 = __webpack_require__(158);
+	var sapphire = __webpack_require__(159);
+	var translate = sapphire.utils.translate;
+
+
+	function draw(el) {
+	  var padding = 30;
+	  var nodeRadius = 4;
+
+	  // TODO something better for dims
+	  var layout = d3.layout.cluster()
+	    .nodeSize([30, 30]);
+
+	  var nodes = layout.nodes(el.datum());
+	  normalizeX(nodes);
+
+	  var links = layout.links(nodes);
+	  var dims = getDims(el.select('svg'), nodes, padding, nodeRadius);
+
+	  var diagonal = Diagonal({
+	    projection: function(d) {
+	      return [d.x * dims.scale, d.y * dims.scale];
+	    }
+	  });
+
+	  var svg = el.select('svg')
+	    .attr('height', dims.height + 24)
+	    .append('g')
+	      .attr('transform', translate(padding, padding));
+
+	  svg.selectAll('.nm-ov-link')
+	    .data(links)
+	    .enter().append('path')
+	      .call(drawLink, diagonal);
+
+	  svg.selectAll('.nm-ov-node')
+	    .data(nodes)
+	    .enter().append('g')
+	      .call(drawNode, dims, nodeRadius);
+	}
+
+
+	function normalizeX(nodes) {
+	  var minX = d3.min(nodes, function(d) { return d.x; });
+	  var xOffset = Math.abs(Math.min(0, minX));
+	  nodes.forEach(function(d) { d.x += xOffset; });
+	}
+
+
+	function getDims(svg, nodes, padding, nodeRadius) {
+	  var maxWidth = $(svg.node()).width() - padding;
+	  var maxX = d3.max(nodes, function(d) { return d.x; });
+	  var maxY = d3.max(nodes, function(d) { return d.y; });
+	  var scale = maxWidth / (Math.max(maxX, maxY) + nodeRadius);
+
+	  return {
+	    scale: scale,
+	    width: (maxX * scale) + padding,
+	    height: (maxY * scale) + padding
+	  };
+	}
+
+
+	function drawLink(link, diagonal) {
+	  link
+	    .attr('class', 'nm-ov-link')
+	    .attr('d', diagonal);
+	}
+
+
+	function drawNode(node, dims, nodeRadius) {
+	  node
+	    .attr('class', 'nm-ov-node')
+	    .attr('transform', function(d) {
+	      return translate(d.x * dims.scale, d.y * dims.scale);
+	    });
+
+	  node.append('circle')
+	    .attr('r', nodeRadius);
+
+	  node.append('text')
+	    .attr('text-anchor', 'middle')
+	    .attr('y', function(d) {
+	      return d.children
+	        ? -8
+	        : 18;
+	    })
+	    .text(function(d) {
+	      return d.title;
+	    });
+	}
+
+
+	function Diagonal(opts) {
+	  opts = _.defaults(opts || {}, {
+	    projection: _.identity,
+	    controlPointFactor: 0.382
+	  });
+
+	  return function(d, i) {
+	    var p0 = d.source;
+	    var p2 = d.target;
+	    var len = p2.y - p0.y;
+	    var c = p0.y + (len * opts.controlPointFactor);
+
+	    var p1 = {
+	      x: p2.x,
+	      y: c
+	    };
+
+	    var p = [p0, p1, p2];
+	    p = p.map(opts.projection);
+
+	    return ['M', p[0], 'L', p[1], ' ', p[2]].join('');
+	  };
+	}
+
+
+	exports.draw = draw;
+
+
+/***/ },
+/* 226 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var _ = __webpack_require__(15);
+
+
+	function parse(dialogue) {
+	  return parseSequence(dialogue.sequences[0], dialogue);
+	}
+
+
+	function parseSequence(seq, dialogue) {
+	  return {
+	    title: seq.name,
+	    children: _(seq.blocks)
+	      .filter(blockIsRoutable)
+	      .map(getBlockSequenceIds)
+	      .flatten()
+	      .uniq()
+	      .map(args(findSequence, dialogue))
+	      .map(args(parseSequence, dialogue))
+	      .value()
+	  };
+	}
+
+
+	function blockIsRoutable(block) {
+	  // TODO better way of doing this
+	  return _.contains([
+	    'route',
+	    'askchoice',
+	    'conditionalroute'
+	  ], block.type);
+	}
+
+
+	function getBlockSequenceIds(block) {
+	  return getBlockSequenceIds[block.type](block);
+	}
+
+
+	getBlockSequenceIds.route = function(block) {
+	  return [block.seqId];
+	};
+
+
+	getBlockSequenceIds.askchoice = function(block) {
+	  return _(block.stash.allChoices)
+	    .map(function(choice) { return choice.route; })
+	    .compact()
+	    .uniq()
+	    .value();
+	};
+
+
+	getBlockSequenceIds.conditionalroute = function(block) {
+	  return [block.seqId];
+	};
+
+
+	function findSequence(id, dialogue) {
+	  return _.find(dialogue.sequences, {id: id});
+	}
+
+
+	function args(fn) {
+	  var a = _.slice(arguments, 1);
+
+	  return function(v) {
+	    return fn.apply(this, [v].concat(a, _.slice(arguments, 1)));
+	  };
+	}
+
+
+	exports.parse = parse;
+
+
+/***/ },
+/* 227 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-container"},"f":[{"t":7,"e":"div","a":{"class":"nm-head"},"f":[{"t":7,"e":"div","a":{"class":"nm-toolbar pull-right"},"f":[{"t":7,"e":"div","a":{"class":"nm-toolbar-group nm-state"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"changeLanguage","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"shownLanguageName"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"hideLanguage","a":{"r":[],"s":"[]"}}},"f":["×"]}]}],"r":"shownLanguageName"}]}," ",{"t":7,"e":"div","a":{"class":"nm-toolbar-group nm-actions"},"f":[{"t":7,"e":"a","a":{"class":"btn btn-sm btn-default","href":["./dialogues/",{"t":2,"r":"id"}]},"f":["Back to dialogue"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"f":["Menu"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"f":["Sarima"]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-titles"},"f":[{"t":7,"e":"a","a":{"class":"nm-title","href":"/numi-prototypes/"},"f":[{"t":7,"e":"small","f":["Campaign"]}," ",{"t":7,"e":"div","a":{"class":"nm-title-text"},"f":[{"t":2,"r":"campaignName"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-title-divider"},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-menu-right"}}]}," ",{"t":7,"e":"a","a":{"class":"nm-title","href":["./dialogues/",{"t":2,"r":"id"}]},"f":[{"t":7,"e":"small","f":["Dialogue"]}," ",{"t":7,"e":"div","a":{"class":"nm-title-text"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-title-divider"},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-menu-right"}}]}," ",{"t":7,"e":"div","a":{"class":"nm-title"},"f":[{"t":7,"e":"div","a":{"class":"nm-title-text nm-title-text-center"},"f":["Overview"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-body"},"f":[{"t":7,"e":"div","a":{"class":"nm-vis nm-vis-overview"},"f":[{"t":7,"e":"svg"}]}]}]}]};
+
+/***/ },
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -93243,13 +93530,13 @@
 
 
 /***/ },
-/* 225 */
+/* 229 */
 /***/ function(module, exports) {
 
 	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-container nm-container-dashboard"},"f":[{"t":7,"e":"div","a":{"class":"nm-head"},"f":[{"t":7,"e":"div","a":{"class":"pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"f":["Menu"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"f":["Sarima"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-titles"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-name nm-title nm-title-active"},"v":{"click":{"m":"renameCampaign","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"small","f":["Campaign"]}," ",{"t":7,"e":"div","a":{"class":"nm-title-text"},"f":[{"t":2,"r":"campaignName"}]}]}],"n":51,"r":"renamingCampaign"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-rename nm-title nm-title-active"},"f":[{"t":7,"e":"div","a":{"class":"well"},"f":[{"t":7,"e":"small","f":["Campaign"]}," ",{"t":7,"e":"div","a":{"class":"form-group"},"f":[{"t":7,"e":"textarea","a":{"class":"nm-rename-value","value":[{"t":2,"r":"campaignName"}]}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"v":{"click":{"m":"hideCampaignRename","a":{"r":[],"s":"[]"}}},"f":["Save"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-link"},"v":{"click":{"m":"cancelCampaignRename","a":{"r":[],"s":"[]"}}},"f":["Cancel"]}]}]}],"r":"renamingCampaign"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-body nm-body-dashboard"},"f":[{"t":7,"e":"div","a":{"class":"nm-dashboard-actions"},"f":[{"t":7,"e":"div","a":{"class":"btn-group pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default nm-placeholder nm-placeholder-default"},"v":{"click":{"m":"createDialogue","a":{"r":[],"s":"[]"}}},"f":["+ Add dialogue"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"confirmPublish","a":{"r":[],"s":"[]"}}},"m":[{"t":4,"f":["disabled"],"n":51,"r":"hasUnpublishedChanges"}],"f":[{"t":4,"f":["Go live"],"x":{"r":["publishCount"],"s":"_0===0"}}," ",{"t":4,"f":["Make changes live"],"x":{"r":["publishCount"],"s":"_0>0"}}]}]}]}," ",{"t":7,"e":"br"}," ",{"t":7,"e":"div","a":{"class":"list-group nm-dashboard-dialogue-list"},"f":[{"t":4,"f":[{"t":7,"e":"h4","f":["Dialogues"]}],"r":"dialogues.length"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-dashboard-dialogue-item"},"f":[{"t":7,"e":"a","a":{"class":"list-group-item-heading nm-dashboard-dialogue-header","href":["./dialogues/",{"t":2,"r":"id"}]},"f":[{"t":2,"r":"name"}]}," ",{"t":7,"e":"div","a":{"class":"nm-dashboard-dialogue-body"},"f":[{"t":7,"e":"div","a":{"class":"btn-group pull-right"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"f":["Download ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-down"}}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"f":["Archive"]}]}," ",{"t":4,"f":[{"t":7,"e":"p","f":["Last ",{"t":7,"e":"strong","f":["edited"]}," on ",{"t":2,"r":"lastEdit"}," by you"]}],"r":"lastEdit"}," ",{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Not live yet"]}],"x":{"r":["publishCount"],"s":"_0===0"}}," ",{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-info"},"f":["Live"]}," ",{"t":4,"f":[{"t":7,"e":"p","a":{"class":"label label-warning"},"f":["Changes not live yet"]}],"r":"hasUnpublishedChanges"}],"x":{"r":["publishCount"],"s":"_0>0"}}]}]}],"r":"dialogues"}]}]}]}]};
 
 /***/ },
-/* 226 */
+/* 230 */
 /***/ function(module, exports) {
 
 	var prefix = 'numi-prototype:';
@@ -93289,243 +93576,19 @@
 
 
 /***/ },
-/* 227 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var d3 = __webpack_require__(158);
-	var vis = __webpack_require__(228);
-	var data = __webpack_require__(229);
-	var Ractive = __webpack_require__(17);
-
-
-	var Overview = Ractive.extend({
-	  template: __webpack_require__(230),
-	  oncomplete: function() {
-	    d3.select(this.el)
-	      .select('.nm-vis')
-	      .datum(data.parse(this.get()))
-	      .call(vis.draw);
-	  },
-	  computed: {
-	    campaignName: function() {
-	      return dashboard.get('campaignName');
-	    }
-	  }
-	});
-
-
-	module.exports = Overview;
+	exports.foo = __webpack_require__(232);
 
 
 /***/ },
-/* 228 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var _ = __webpack_require__(15);
-	var d3 = __webpack_require__(158);
-	var sapphire = __webpack_require__(159);
-	var translate = sapphire.utils.translate;
-
-
-	function draw(el) {
-	  var padding = 30;
-	  var nodeRadius = 4;
-
-	  // TODO something better for dims
-	  var layout = d3.layout.cluster()
-	    .nodeSize([30, 30]);
-
-	  var nodes = layout.nodes(el.datum());
-	  normalizeX(nodes);
-
-	  var links = layout.links(nodes);
-	  var dims = getDims(el.select('svg'), nodes, padding, nodeRadius);
-
-	  var diagonal = Diagonal({
-	    projection: function(d) {
-	      return [d.x * dims.scale, d.y * dims.scale];
-	    }
-	  });
-
-	  var svg = el.select('svg')
-	    .attr('height', dims.height + 24)
-	    .append('g')
-	      .attr('transform', translate(padding, padding));
-
-	  svg.selectAll('.nm-ov-link')
-	    .data(links)
-	    .enter().append('path')
-	      .call(drawLink, diagonal);
-
-	  svg.selectAll('.nm-ov-node')
-	    .data(nodes)
-	    .enter().append('g')
-	      .call(drawNode, dims, nodeRadius);
-	}
-
-
-	function normalizeX(nodes) {
-	  var minX = d3.min(nodes, function(d) { return d.x; });
-	  var xOffset = Math.abs(Math.min(0, minX));
-	  nodes.forEach(function(d) { d.x += xOffset; });
-	}
-
-
-	function getDims(svg, nodes, padding, nodeRadius) {
-	  var maxWidth = $(svg.node()).width() - padding;
-	  var maxX = d3.max(nodes, function(d) { return d.x; });
-	  var maxY = d3.max(nodes, function(d) { return d.y; });
-	  var scale = maxWidth / (Math.max(maxX, maxY) + nodeRadius);
-
-	  return {
-	    scale: scale,
-	    width: (maxX * scale) + padding,
-	    height: (maxY * scale) + padding
-	  };
-	}
-
-
-	function drawLink(link, diagonal) {
-	  link
-	    .attr('class', 'nm-ov-link')
-	    .attr('d', diagonal);
-	}
-
-
-	function drawNode(node, dims, nodeRadius) {
-	  node
-	    .attr('class', 'nm-ov-node')
-	    .attr('transform', function(d) {
-	      return translate(d.x * dims.scale, d.y * dims.scale);
-	    });
-
-	  node.append('circle')
-	    .attr('r', nodeRadius);
-
-	  node.append('text')
-	    .attr('text-anchor', 'middle')
-	    .attr('y', function(d) {
-	      return d.children
-	        ? -8
-	        : 18;
-	    })
-	    .text(function(d) {
-	      return d.title;
-	    });
-	}
-
-
-	function Diagonal(opts) {
-	  opts = _.defaults(opts || {}, {
-	    projection: _.identity,
-	    controlPointFactor: 0.382
-	  });
-
-	  return function(d, i) {
-	    var p0 = d.source;
-	    var p2 = d.target;
-	    var len = p2.y - p0.y;
-	    var c = p0.y + (len * opts.controlPointFactor);
-
-	    var p1 = {
-	      x: p2.x,
-	      y: c
-	    };
-
-	    var p = [p0, p1, p2];
-	    p = p.map(opts.projection);
-
-	    return ['M', p[0], 'L', p[1], ' ', p[2]].join('');
-	  };
-	}
-
-
-	exports.draw = draw;
-
-
-/***/ },
-/* 229 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var _ = __webpack_require__(15);
-
-
-	function parse(dialogue) {
-	  return parseSequence(dialogue.sequences[0], dialogue);
-	}
-
-
-	function parseSequence(seq, dialogue) {
-	  return {
-	    title: seq.name,
-	    children: _(seq.blocks)
-	      .filter(blockIsRoutable)
-	      .map(getBlockSequenceIds)
-	      .flatten()
-	      .uniq()
-	      .map(args(findSequence, dialogue))
-	      .map(args(parseSequence, dialogue))
-	      .value()
-	  };
-	}
-
-
-	function blockIsRoutable(block) {
-	  // TODO better way of doing this
-	  return _.contains([
-	    'route',
-	    'askchoice',
-	    'conditionalroute'
-	  ], block.type);
-	}
-
-
-	function getBlockSequenceIds(block) {
-	  return getBlockSequenceIds[block.type](block);
-	}
-
-
-	getBlockSequenceIds.route = function(block) {
-	  return [block.seqId];
-	};
-
-
-	getBlockSequenceIds.askchoice = function(block) {
-	  return _(block.stash.allChoices)
-	    .map(function(choice) { return choice.route; })
-	    .compact()
-	    .uniq()
-	    .value();
-	};
-
-
-	getBlockSequenceIds.conditionalroute = function(block) {
-	  return [block.seqId];
-	};
-
-
-	function findSequence(id, dialogue) {
-	  return _.find(dialogue.sequences, {id: id});
-	}
-
-
-	function args(fn) {
-	  var a = _.slice(arguments, 1);
-
-	  return function(v) {
-	    return fn.apply(this, [v].concat(a, _.slice(arguments, 1)));
-	  };
-	}
-
-
-	exports.parse = parse;
-
-
-/***/ },
-/* 230 */
+/* 232 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-container"},"f":[{"t":7,"e":"div","a":{"class":"nm-head"},"f":[{"t":7,"e":"div","a":{"class":"nm-toolbar pull-right"},"f":[{"t":7,"e":"div","a":{"class":"nm-toolbar-group nm-state"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"changeLanguage","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"shownLanguageName"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"hideLanguage","a":{"r":[],"s":"[]"}}},"f":["×"]}]}],"r":"shownLanguageName"}]}," ",{"t":7,"e":"div","a":{"class":"nm-toolbar-group nm-actions"},"f":[{"t":7,"e":"a","a":{"class":"btn btn-sm btn-default","href":["./dialogues/",{"t":2,"r":"id"}]},"f":["Back to dialogue"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"f":["Menu"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"f":["Sarima"]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-titles"},"f":[{"t":7,"e":"a","a":{"class":"nm-title","href":"/numi-prototypes/"},"f":[{"t":7,"e":"small","f":["Campaign"]}," ",{"t":7,"e":"div","a":{"class":"nm-title-text"},"f":[{"t":2,"r":"campaignName"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-title-divider"},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-menu-right"}}]}," ",{"t":7,"e":"a","a":{"class":"nm-title","href":["./dialogues/",{"t":2,"r":"id"}]},"f":[{"t":7,"e":"small","f":["Dialogue"]}," ",{"t":7,"e":"div","a":{"class":"nm-title-text"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-title-divider"},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-menu-right"}}]}," ",{"t":7,"e":"div","a":{"class":"nm-title"},"f":[{"t":7,"e":"div","a":{"class":"nm-title-text nm-title-text-center"},"f":["Overview"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-body"},"f":[{"t":7,"e":"div","a":{"class":"nm-vis nm-vis-overview"},"f":[{"t":7,"e":"svg"}]}]}]}]};
+	module.exports = function() {
+	return {"renamingCampaign":false,"campaignName":"Foo","publishCount":0,"values":[],"labels":[],"languages":[{"id":"598a5f8d-d704-43f6-b9e1-3a7fe139189b","name":"English","isParent":true}],"dialogues":[{"id":"dialogue0","name":"sdfsdf","sequences":[{"id":"11505e8f-07d7-4259-8851-106bc4624f37","name":"Start of sdfsdf","blocks":[{"saveAs":"color","highCharCount":140,"content":{"598a5f8d-d704-43f6-b9e1-3a7fe139189b":{"6709ff33-5f0d-4426-82ad-a48196ce642a.text":"red","text":"fav col?","6a359898-d35a-40d0-a691-34bbde1bac15.text":"blue","e0a37fcb-dc9b-4b52-8536-4bb291920007.text":""}},"stash":{"allChoices":[{"id":"6709ff33-5f0d-4426-82ad-a48196ce642a","route":null,"saveAs":null,"answerCounts":[678,326,645,466,376,497,373,352,541,348,517,546,580,351,478,552,488,523,456,281,500,565,475,405,586,401,406,220,548,444,475,517,548,399,449,601,569,529,476,315,396,408,507,452,443,470,501,537,403,530]},{"id":"6a359898-d35a-40d0-a691-34bbde1bac15","route":null,"saveAs":null,"answerCounts":[524,517,494,580,372,604,426,358,456,333,583,425,464,586,513,559,492,576,390,593,653,386,423,615,495,558,510,379,617,611,462,482,535,542,436,398,582,455,504,440,558,527,512,466,395,528,447,503,645,554]},{"id":"e0a37fcb-dc9b-4b52-8536-4bb291920007","route":null,"saveAs":null,"answerCounts":[420,467,433,464,445,469,540,433,538,666,588,559,476,487,353,438,589,610,418,719,587,394,470,496,692,367,596,369,514,407,571,475,412,575,531,422,497,418,487,646,557,525,556,667,654,582,370,408,474,541]}]},"stats":{"times":[1453198463015,1453227263015,1453256063015,1453284863015,1453313663015,1453342463015,1453371263015,1453400063015,1453428863015,1453457663015,1453486463015,1453515263015,1453544063015,1453572863015,1453601663015,1453630463015,1453659263015,1453688063015,1453716863015,1453745663015,1453774463015,1453803263015,1453832063015,1453860863015,1453889663015,1453918463015,1453947263015,1453976063015,1454004863015,1454033663015,1454062463015,1454091263015,1454120063015,1454148863015,1454177663015,1454206463015,1454235263015,1454264063015,1454292863015,1454321663015,1454350463015,1454379263015,1454408063015,1454436863015,1454465663015,1454494463015,1454523263015,1454552063015,1454580863015,1454609663015],"publishTimes":[1453860863015,1453630463015,1454436863015,1454004863015,1454177663015,1454235263015],"timeouts":[413,540,494,557,268,538,560,463,633,402,524,341,582,441,439,440,579,544,431,460,428,554,405,561,601,630,336,618,461,592,358,557,580,619,425,549,457,400,338,632,575,593,456,525,443,373,400,489,726,502],"answers":[1202,843,1139,1046,748,1101,799,710,997,681,1100,971,1044,937,991,1111,980,1099,846,874,1153,951,898,1020,1081,959,916,599,1165,1055,937,999,1083,941,885,999,1151,984,980,755,954,935,1019,918,838,998,948,1040,1048,1084],"views":[1615,1383,1633,1603,1016,1639,1359,1173,1630,1083,1624,1312,1626,1378,1430,1551,1559,1643,1277,1334,1581,1505,1303,1581,1682,1589,1252,1217,1626,1647,1295,1556,1663,1560,1310,1548,1608,1384,1318,1387,1529,1528,1475,1443,1281,1371,1348,1529,1774,1586]},"type":"askchoice","unedited":true,"id":"ecbe1637-8f01-4ec4-a651-b288d491377e"},{"saveAs":"name","highCharCount":140,"content":{"598a5f8d-d704-43f6-b9e1-3a7fe139189b":{"text":"what is your name?"}},"stash":{},"stats":{"times":[1453198463015,1453227263015,1453256063015,1453284863015,1453313663015,1453342463015,1453371263015,1453400063015,1453428863015,1453457663015,1453486463015,1453515263015,1453544063015,1453572863015,1453601663015,1453630463015,1453659263015,1453688063015,1453716863015,1453745663015,1453774463015,1453803263015,1453832063015,1453860863015,1453889663015,1453918463015,1453947263015,1453976063015,1454004863015,1454033663015,1454062463015,1454091263015,1454120063015,1454148863015,1454177663015,1454206463015,1454235263015,1454264063015,1454292863015,1454321663015,1454350463015,1454379263015,1454408063015,1454436863015,1454465663015,1454494463015,1454523263015,1454552063015,1454580863015,1454609663015],"publishTimes":[1453860863015,1453630463015,1454436863015,1454004863015,1454177663015,1454235263015],"timeouts":[413,540,494,557,268,538,560,463,633,402,524,341,582,441,439,440,579,544,431,460,428,554,405,561,601,630,336,618,461,592,358,557,580,619,425,549,457,400,338,632,575,593,456,525,443,373,400,489,726,502],"answers":[1202,843,1139,1046,748,1101,799,710,997,681,1100,971,1044,937,991,1111,980,1099,846,874,1153,951,898,1020,1081,959,916,599,1165,1055,937,999,1083,941,885,999,1151,984,980,755,954,935,1019,918,838,998,948,1040,1048,1084],"views":[1615,1383,1633,1603,1016,1639,1359,1173,1630,1083,1624,1312,1626,1378,1430,1551,1559,1643,1277,1334,1581,1505,1303,1581,1682,1589,1252,1217,1626,1647,1295,1556,1663,1560,1310,1548,1608,1384,1318,1387,1529,1528,1475,1443,1281,1371,1348,1529,1774,1586]},"type":"ask","unedited":true,"id":"6ffe9245-0334-4305-8c64-e9081eeba3e3"},{"itemId":"33c06cf1-6c41-4559-9de4-3c8e7ba65fe6","seqId":null,"conditionSet":null,"content":{},"stash":{},"stats":{"times":[1453198463015,1453227263015,1453256063015,1453284863015,1453313663015,1453342463015,1453371263015,1453400063015,1453428863015,1453457663015,1453486463015,1453515263015,1453544063015,1453572863015,1453601663015,1453630463015,1453659263015,1453688063015,1453716863015,1453745663015,1453774463015,1453803263015,1453832063015,1453860863015,1453889663015,1453918463015,1453947263015,1453976063015,1454004863015,1454033663015,1454062463015,1454091263015,1454120063015,1454148863015,1454177663015,1454206463015,1454235263015,1454264063015,1454292863015,1454321663015,1454350463015,1454379263015,1454408063015,1454436863015,1454465663015,1454494463015,1454523263015,1454552063015,1454580863015,1454609663015],"publishTimes":[1453860863015,1453630463015,1454436863015,1454004863015,1454177663015,1454235263015],"timeouts":[538,499,607,692,371,510,530,528,474,615,410,521,507,586,451,425,551,516,597,637,468,535,455,542,475,494,574,525,458,490,440,526,408,329,491,371,578,566,526,645,435,396,448,536,496,518,531,698,507,526],"answers":[456,461,287,564,471,552,384,669,295,663,483,445,451,540,417,496,477,456,486,499,665,492,466,560,479,459,413,450,549,472,429,487,469,480,419,518,404,417,561,466,521,455,434,566,495,636,305,462,634,419],"views":[994,960,894,1256,842,1062,914,1197,769,1278,893,966,958,1126,868,921,1028,972,1083,1136,1133,1027,921,1102,954,953,987,975,1007,962,869,1013,877,809,910,889,982,983,1087,1111,956,851,882,1102,991,1154,836,1160,1141,945]},"type":"conditionalroute","unedited":true,"id":"240acbc0-f572-4d1c-9fe0-b83526af5791"}]}],"seqtree":{"key":["11505e8f-07d7-4259-8851-106bc4624f37",null,null],"id":"091a6c6d-3e39-4b01-bee5-71123ab0d9d9","children":[],"currentIdx":null},"silent":null,"shownLanguageId":null,"shownLanguageName":null,"publishCount":0,"lastEdit":"Wed, Jan 20 2016, 9:57 am","hasUnpublishedChanges":true,"_prev":null}],"channels":[{"id":"chan1","name":"*120*123#","available":true,"isSessionBased":true},{"id":"chan2","name":"*120*456#","available":true,"isSessionBased":true},{"id":"chan3","name":"*120*789#","available":true,"isSessionBased":true},{"id":"chan4","name":"12345","available":true,"isSessionBased":false},{"id":"chan5","name":"6789","available":true,"isSessionBased":false},{"id":"chan6","name":"0123","available":true,"isSessionBased":false}],"campaignNameBackup":"MomConnect"};};
+
 
 /***/ }
 /******/ ]);

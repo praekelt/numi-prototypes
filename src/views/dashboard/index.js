@@ -111,18 +111,10 @@ module.exports = Ractive.extend({
     }));
   },
   addDialogue: function(name) {
-    var entrySeqId = uuid.v4();
-
-    var d = {
-      id: 'dialogue' + this.get('dialogues').length,
+    var d = Dialogue.createData({
       name: name,
-      sequences: [{
-        id: entrySeqId,
-        name: 'Start of ' + name,
-        blocks: []
-      }],
-      seqtree: seqtree.create([entrySeqId, null, null])
-    };
+      id: 'dialogue' + this.get('dialogues').length
+    });
 
     this.push('dialogues', d);
     return this.findDialogueView(d.id);
@@ -238,4 +230,10 @@ module.exports = Ractive.extend({
     this.set('campaignName', this.get('campaignNameBackup'));
     this.hideCampaignRename();
   },
+  download: function() {
+    open([
+      'data:text/json;charset=utf-8',
+      JSON.stringify(this.get())
+    ].join(','));
+  }
 });
