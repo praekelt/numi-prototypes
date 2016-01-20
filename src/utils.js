@@ -1,3 +1,6 @@
+var _ = require('lodash');
+
+
 function log(v) {
   console.log.apply(console, arguments);
   return v;

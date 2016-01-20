@@ -10,7 +10,7 @@ var DialogueMenu = require('../drawers/dialogue-menu');
 var ChooseLanguage = require('../drawers/choose-language');
 
 
-module.exports = Ractive.extend({
+var Dialogue = Ractive.extend({
   template: require('./template.html'),
   data: function() {
     return {
@@ -71,7 +71,7 @@ module.exports = Ractive.extend({
       .hide();
 
     $('.nm-body')
-      .mousewheel(function(e, delta) {
+      .on('mousewheel', function(e, delta) {
         if ($(e.target).parents('.nm-sequence').length) return;
         this.scrollLeft -= delta * 30;
       });
@@ -209,6 +209,24 @@ module.exports = Ractive.extend({
 });
 
 
+Dialogue.createData = function(d) {
+  var entrySeqId = uuid.v4();
+
+  return _.extend({
+    id: uuid.v4(),
+    sequences: [{
+      id: entrySeqId,
+      name: 'Start of ' + d.name,
+      blocks: []
+    }],
+    seqtree: seqtree.create([entrySeqId, null, null])
+  }, d);
+};
+
+
 function newDate() {
   return moment().format("ddd, MMM D YYYY, h:mm a");
 }
+
+
+module.exports = Dialogue;

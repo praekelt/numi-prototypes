@@ -4,11 +4,15 @@
 var log = console.log.bind(console);
 if (require.main === module) console.log = function(){};
 
+var jsdom = require('jsdom');
+setupDom();
+
 require('ractive-require-templates');
+require('../../src/ractive-extensions');
 var _ = require('lodash');
 var uuid = require('node-uuid');
 var blockTypes = require('../../src/views/blocks');
-var Dialogue = require('../../src/views/dialogue');
+var Dashboard = require('../../src/views/dashboard');
 var Sequence = require('../../src/views/sequence');
 
 function run() {
@@ -19,12 +23,23 @@ function run() {
 
 
 function parse(model) {
-  var dialogue = create(Dialogue);
+  var dashboard = Dashboard();
+  var name = model.states[0].name;
+  dashboard.set('name', name);
+
+  // the prototype expects a dashboard global variable
+  // yes, I know it is terrible
+  global.dashboard = dashboard;
+
+  var view = dashboard.addDialogue(name);
+  var dialogue = view.get();
 
   var d = {
     dialogue: dialogue,
     blocks: [],
-    model: model
+    model: model,
+    view: view,
+    dashboard: dashboard
   };
 
   removeBackConnections(d);
@@ -39,14 +54,25 @@ function parse(model) {
     parseConnection(d, connection);
   });
 
-  return d.dialogue;
+  d.blocks
+    .forEach(function(block) {
+      computeBlock(d, block);
+    });
+
+  return serialize(d);
+}
+
+
+function serialize(d) {
+  var result = d.dashboard.get();
+  result.dialogues = [d.dialogue];
+  return result;
 }
 
 
 function addStartBlockToSeq(d) {
   var block = _.find(d.blocks, {id: d.model.start_state.uuid});
-  var seq = seqFromBlock(block);
-  addSeq(d, seq);
+  addBlockToSeq(d.dialogue.sequences[0], block);
 }
 
 
@@ -56,6 +82,26 @@ function parseState(d, state) {
 
   block._meta = {state: state};
   addBlock(d, block);
+}
+
+
+function computeBlock(d, block) {
+  var type = blockTypes[block.type];
+  var computedKeys = _.keys(type.prototype.computed);
+
+  var view = type({
+    data: _.extend(_.omit(block, computedKeys), {_dialogue: d.view})
+  });
+
+  computedKeys
+    .forEach(function(k) {
+      if (k in block) view.set(k, block[k]);
+    });
+
+  _(block)
+    .extend(view.get())
+    .tap(rmProps(['_dialogue', '_']))
+    .value();
 }
 
 
@@ -388,8 +434,20 @@ function isBackConnection(d, connection) {
 }
 
 
-module.exports = parse;
-
-if (require.main === module) {
-  run();
+function setupDom() {
+  global.window = jsdom.jsdom().defaultView;
+  global.document = global.window.document;
 }
+
+
+function rmProps(props) {
+  return function(obj) {
+    var n = props.length;
+    var i = -1;
+    while (++i < n) delete obj[props[i]];
+  }
+}
+
+
+module.exports = parse;
+if (require.main === module) run();
