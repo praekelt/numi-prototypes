@@ -39,7 +39,7 @@ page('/', function(ctx, next) {
 
 
 page('/campaigns/:name', function(ctx) {
-  load(ctx.params.id);
+  load(ctx.params.name);
 });
 
 
