@@ -91862,7 +91862,7 @@
 /* 203 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-4 nm-cond-operator"},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":["User has label"]}]}," ",{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-5 nm-cond-operand ",{"t":4,"f":["is-incomplete nm-cell-placeholder"],"n":51,"r":"label"}]},"v":{"click":{"m":"chooseLabel","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":4,"f":[{"t":2,"r":"label"}],"r":"label"}," ",{"t":4,"f":["Choose a label"],"n":51,"r":"label"}]}]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-3 nm-cell-btn btn"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-9 nm-cond-operator"},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":["User has label"]}]}," ",{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-12 nm-cond-operand ",{"t":4,"f":["is-incomplete nm-cell-placeholder"],"n":51,"r":"label"}]},"v":{"click":{"m":"chooseLabel","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":4,"f":[{"t":2,"r":"label"}],"r":"label"}," ",{"t":4,"f":["Choose a label"],"n":51,"r":"label"}]}]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-3 nm-cell-btn btn"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]};
 
 /***/ },
 /* 204 */
@@ -91905,7 +91905,7 @@
 /* 205 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-4 nm-cond-operator"},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":["User doesn't have label"]}]}," ",{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-5 nm-cond-operand ",{"t":4,"f":["is-incomplete nm-cell-placeholder"],"n":51,"r":"label"}]},"v":{"click":{"m":"chooseLabel","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":4,"f":[{"t":2,"r":"label"}],"r":"label"}," ",{"t":4,"f":["Choose a label"],"n":51,"r":"label"}]}]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-3 nm-cell-btn btn"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-9 nm-cond-operator"},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":["User doesn't have label"]}]}," ",{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-12 nm-cond-operand ",{"t":4,"f":["is-incomplete nm-cell-placeholder"],"n":51,"r":"label"}]},"v":{"click":{"m":"chooseLabel","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":4,"f":[{"t":2,"r":"label"}],"r":"label"}," ",{"t":4,"f":["Choose a label"],"n":51,"r":"label"}]}]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-3 nm-cell-btn btn"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]};
 
 /***/ },
 /* 206 */
