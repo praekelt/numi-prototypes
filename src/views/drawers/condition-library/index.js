@@ -78,6 +78,16 @@ ConditionLibrary.palletes = [{
         };
       })
   }, {
+    key: 'date',
+    name: 'Date conditions',
+    conditions: [{
+      name: "Date hasn't been reached",
+      type: 'datefuture'
+    }, {
+      name: "Date has passed",
+      type: 'datepast'
+    }, ]
+  }, {
     key: 'label',
     name: 'Label conditions',
     conditions: [{

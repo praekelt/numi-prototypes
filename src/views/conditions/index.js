@@ -6,6 +6,8 @@ types.comparison = require('./comparison');
 types.group = require('./group');
 types.haslabel = require('./has-label');
 types.nothaslabel = require('./not-has-label');
+types.datepast = require('./date-past');
+types.datefuture = require('./date-future');
 
 
 function create(d) {
