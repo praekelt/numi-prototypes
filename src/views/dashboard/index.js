@@ -14,7 +14,7 @@ module.exports = Ractive.extend({
   data: function() {
     return {
       renamingCampaign: false,
-      campaignName: 'MomConnect',
+      campaignName: 'Maternal Health',
       publishCount: 0,
       values: [],
       labels: [],
