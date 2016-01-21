@@ -1,0 +1,23 @@
+<div>
+  <h3 class="page-header">
+    Add label to the user
+    <button class="close" on-click="close()">&times</button>
+  </h3>
+
+  <div class="nm-form">
+    <div class="nm-rows">
+      <div class="nm-row">
+        <div class="nm-cell {{^text}}is-incomplete{{/text}}">
+          <label>Text</label>
+          <input type="text" value="{{text}}">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br/>
+
+  <hr class="nm-divider">
+
+  <button type="button" class="btn btn-default pull-left" on-click="close()">Save and close <span class="glyphicon glyphicon-chevron-right"></span></button>
+</div>

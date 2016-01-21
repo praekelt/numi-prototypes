@@ -96,6 +96,17 @@ BlockLibrary.palletes = [{
       ].join(' ')
     }]
   }, {
+    key: 'actions',
+    name: 'Actions',
+    blocks: [{
+      name: 'Add label to the user',
+      type: 'setlabel',
+      helptext: [
+        'Add a label to the user to use later on to show',
+        'them different screens'
+      ].join(' ')
+    }]
+  }, {
     key: 'routing',
     name: 'Routing',
     blocks: [{
