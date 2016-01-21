@@ -91604,6 +91604,7 @@
 	types.comparison = __webpack_require__(195);
 	types.group = __webpack_require__(200);
 	types.haslabel = __webpack_require__(237);
+	types.nothaslabel = __webpack_require__(239);
 
 
 	function create(d) {
@@ -91907,6 +91908,9 @@
 	    conditions: [{
 	      name: 'User has label',
 	      type: 'haslabel'
+	    }, {
+	      name: "User doesn't have label",
+	      type: 'nothaslabel'
 	    }]
 	  }]
 	}];
@@ -91940,7 +91944,7 @@
 /* 205 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"comparison","a":{"id":[{"t":2,"r":"id"}],"a":[{"t":2,"r":"a"}],"b":[{"t":2,"r":"b"}],"dataType":[{"t":2,"r":"dataType"}],"operator":[{"t":2,"r":"operator"}],"operatorSpan":[{"t":2,"r":"operatorSpan"}]}}],"x":{"r":["type"],"s":"_0==\"comparison\""}},{"t":4,"f":[{"t":7,"e":"group","a":{"id":[{"t":2,"r":"id"}],"conditionSet":[{"t":2,"r":"conditionSet"}]}}],"x":{"r":["type"],"s":"_0==\"group\""}},{"t":4,"f":[{"t":7,"e":"haslabel","a":{"label":[{"t":2,"r":"label"}]}}],"x":{"r":["type"],"s":"_0==\"haslabel\""}}]};
+	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"comparison","a":{"id":[{"t":2,"r":"id"}],"a":[{"t":2,"r":"a"}],"b":[{"t":2,"r":"b"}],"dataType":[{"t":2,"r":"dataType"}],"operator":[{"t":2,"r":"operator"}],"operatorSpan":[{"t":2,"r":"operatorSpan"}]}}],"x":{"r":["type"],"s":"_0==\"comparison\""}},{"t":4,"f":[{"t":7,"e":"group","a":{"id":[{"t":2,"r":"id"}],"conditionSet":[{"t":2,"r":"conditionSet"}]}}],"x":{"r":["type"],"s":"_0==\"group\""}},{"t":4,"f":[{"t":7,"e":"haslabel","a":{"label":[{"t":2,"r":"label"}]}}],"x":{"r":["type"],"s":"_0==\"haslabel\""}},{"t":4,"f":[{"t":7,"e":"nothaslabel","a":{"label":[{"t":2,"r":"label"}]}}],"x":{"r":["type"],"s":"_0==\"nothaslabel\""}}]};
 
 /***/ },
 /* 206 */
@@ -93601,7 +93605,50 @@
 /* 238 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-2 nm-cond-operator"},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":["User has label"]}]}," ",{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-8 nm-cond-operand ",{"t":4,"f":["is-incomplete nm-cell-placeholder"],"n":51,"r":"label"}]},"v":{"click":{"m":"chooseLabel","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":4,"f":[{"t":2,"r":"label"}],"r":"label"}," ",{"t":4,"f":["Choose a label"],"n":51,"r":"label"}]}]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-3 nm-cell-btn btn"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-4 nm-cond-operator"},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":["User has label"]}]}," ",{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-5 nm-cond-operand ",{"t":4,"f":["is-incomplete nm-cell-placeholder"],"n":51,"r":"label"}]},"v":{"click":{"m":"chooseLabel","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":4,"f":[{"t":2,"r":"label"}],"r":"label"}," ",{"t":4,"f":["Choose a label"],"n":51,"r":"label"}]}]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-3 nm-cell-btn btn"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]};
+
+/***/ },
+/* 239 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Base = __webpack_require__(196);
+	var Chooser = __webpack_require__(166);
+
+
+	var HasLabel = Base.extend({
+	  template: __webpack_require__(240),
+	  chooseLabel: function(name) {
+	    var self = this;
+
+	    var chooser = Chooser({
+	      el: $('<div>'),
+	      data: {
+	        title: 'Choose a label',
+	        items: dashboard.getUserLabels()
+	      }
+	    });
+
+	    chooser.once('chosen', function(id, d) {
+	      self.set('label', d.name);
+	      chooser.close();
+	    });
+
+	    chooser.open();
+	  },
+	  isComplete: function() {
+	    return !!this.get('label');
+	  }
+	});
+
+
+	module.exports = HasLabel;
+
+
+/***/ },
+/* 240 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-4 nm-cond-operator"},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":["User doesn't have label"]}]}," ",{"t":7,"e":"div","a":{"class":["nm-cell nm-cell-5 nm-cond-operand ",{"t":4,"f":["is-incomplete nm-cell-placeholder"],"n":51,"r":"label"}]},"v":{"click":{"m":"chooseLabel","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":4,"f":[{"t":2,"r":"label"}],"r":"label"}," ",{"t":4,"f":["Choose a label"],"n":51,"r":"label"}]}]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-3 nm-cell-btn btn"},"v":{"click":{"m":"destroy","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]};
 
 /***/ }
 /******/ ]);

@@ -5,6 +5,7 @@ var types = {};
 types.comparison = require('./comparison');
 types.group = require('./group');
 types.haslabel = require('./has-label');
+types.nothaslabel = require('./not-has-label');
 
 
 function create(d) {
