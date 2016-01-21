@@ -77,6 +77,13 @@ ConditionLibrary.palletes = [{
           operatorSpan: d[1]
         };
       })
+  }, {
+    key: 'label',
+    name: 'Label conditions',
+    conditions: [{
+      name: 'User has label',
+      type: 'haslabel'
+    }]
   }]
 }];
 

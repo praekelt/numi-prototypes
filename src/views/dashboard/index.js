@@ -6,7 +6,6 @@ var NewDialogue = require('../drawers/new-dialogue');
 var Dialogue = require('../dialogue');
 var pg = require('../../pg');
 var drawers = require('../../drawers');
-var seqtree = require('../../seqtree');
 var bootbox = require('bootbox');
 
 
@@ -184,6 +183,23 @@ module.exports = Ractive.extend({
           };
         })
         .value());
+  },
+  getUserLabels: function() {
+    return _(this.get('dialogues'))
+      .pluck('sequences')
+      .flatten()
+      .pluck('blocks')
+      .flatten()
+      .filter({type: 'setlabel'})
+      .pluck('text')
+      .compact()
+      .map(function(v) {
+        return {
+          id: v,
+          name: v
+        };
+      })
+    .value();
   },
   getUserFieldName: function(id) {
     return _.find(this.getUserFields(), {id: id}).name;

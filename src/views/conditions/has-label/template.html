@@ -1,0 +1,12 @@
+<div class="nm-cell nm-cell-2 nm-cond-operator">
+  <span class="nm-static-input">User has label</span>
+</div>
+
+<div class="nm-cell nm-cell-8 nm-cond-operand {{^label}}is-incomplete nm-cell-placeholder{{/label}}" on-click="chooseLabel()">
+  <span class="nm-static-input">
+    {{#label}}{{label}}{{/label}}
+    {{^label}}Choose a label{{/label}}
+  </span>
+</div>
+
+<button class="nm-cell nm-cell-3 nm-cell-btn btn" on-click="destroy()">Remove</button>

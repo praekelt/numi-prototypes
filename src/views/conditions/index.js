@@ -4,6 +4,7 @@ var uuid = require('node-uuid');
 var types = {};
 types.comparison = require('./comparison');
 types.group = require('./group');
+types.haslabel = require('./has-label');
 
 
 function create(d) {
