@@ -28,7 +28,7 @@
           {{/route}}
 
           {{#route}}
-          <a class="list-group-item nm-preview-list-item {{#activeBlockItemId === itemId}}active{{/}}" on-click="onRouteClick(event)" href="#">
+          <a class="list-group-item nm-preview-list-item {{#activeBlockItemId === itemId}}active{{/}}" on-click="onConditionalRouteClick(event)" href="#">
             <span class="nm-preview-arrow glyphicon glyphicon-menu-right pull-right"></span>
 
             <p>&nbsp↳ {{name}}</p>
