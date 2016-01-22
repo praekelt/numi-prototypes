@@ -55,10 +55,6 @@ var Base = Ractive.extend({
     if (this.drawerEdit) drawers.change(view);
     else drawers.close();
   },
-  onconfig: function() {
-    this.set('content', _.cloneDeep(this.get('content') || {}));
-    this.set('stash', _.cloneDeep(this.get('stash') || {}));
-  },
   getEditView: function() {
     var self = this;
     this.get('sequence').scrollToBlock(this.get('id'));

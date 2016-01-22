@@ -5,9 +5,11 @@ var proxyProp = require('../utils').proxyProp;
 
 
 var Screen = Base.extend({
-  data: {
-    charParser: charParser,
-    highCharCount: 140
+  data: function() {
+    return {
+      charParser: charParser,
+      highCharCount: 140
+    };
   },
   computed: {
     charCount: function() {

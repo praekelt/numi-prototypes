@@ -78098,9 +78098,11 @@
 
 
 	var Screen = Base.extend({
-	  data: {
-	    charParser: charParser,
-	    highCharCount: 140
+	  data: function() {
+	    return {
+	      charParser: charParser,
+	      highCharCount: 140
+	    };
 	  },
 	  computed: {
 	    charCount: function() {
@@ -78199,10 +78201,6 @@
 	    var view = this.getEditView();
 	    if (this.drawerEdit) drawers.change(view);
 	    else drawers.close();
-	  },
-	  onconfig: function() {
-	    this.set('content', _.cloneDeep(this.get('content') || {}));
-	    this.set('stash', _.cloneDeep(this.get('stash') || {}));
 	  },
 	  getEditView: function() {
 	    var self = this;
@@ -90106,8 +90104,6 @@
 	    };
 	  },
 	  onconfig: function() {
-	    Screen.prototype.onconfig.call(this);
-
 	    if (this.get('allChoices').length < 1) {
 	      this.push('allChoices', this.newChoice());
 	    }
