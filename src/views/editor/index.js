@@ -7,8 +7,6 @@ module.exports = Ractive.extend({
   template: require('./template.html'),
   onrender: function() {
     this.drawContent();
-
-    // TODO unbind on unrender
     this.$editEl().on('keyup', this.onKeyUp.bind(this));
   },
   onKeyUp: function() {
@@ -17,11 +15,15 @@ module.exports = Ractive.extend({
   },
   onunrender: function() {
     if (this.range) restoreRange(this.$editEl(), this.range);
+    this.$editEl().off('keyup');
   },
   $editEl: function() {
     return $(this.el).find('.nm-editor');
   },
   drawContent: function() {
+    // rangy gets unhappy if we try save/restore ranges on detched elements
+    if (!$.contains(document.body, this.el)) return;
+
     var $el = this.$editEl();
     this.range = saveRange($el);
     $el.html(this.parseContent(this.get('content')));

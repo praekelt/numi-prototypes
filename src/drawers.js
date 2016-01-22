@@ -78,7 +78,9 @@ function change(view) {
 
   return curr
     ? close(curr.view, changeCloseDuration)
-      .then(function() { return open(view); })
+      .then(function() {
+        return open(view);
+      })
     : open(view);
 }
 

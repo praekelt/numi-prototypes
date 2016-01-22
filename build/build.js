@@ -65654,7 +65654,9 @@
 
 	  return curr
 	    ? close(curr.view, changeCloseDuration)
-	      .then(function() { return open(view); })
+	      .then(function() {
+	        return open(view);
+	      })
 	    : open(view);
 	}
 
@@ -89852,8 +89854,6 @@
 	  template: __webpack_require__(163),
 	  onrender: function() {
 	    this.drawContent();
-
-	    // TODO unbind on unrender
 	    this.$editEl().on('keyup', this.onKeyUp.bind(this));
 	  },
 	  onKeyUp: function() {
@@ -89862,11 +89862,15 @@
 	  },
 	  onunrender: function() {
 	    if (this.range) restoreRange(this.$editEl(), this.range);
+	    this.$editEl().off('keyup');
 	  },
 	  $editEl: function() {
 	    return $(this.el).find('.nm-editor');
 	  },
 	  drawContent: function() {
+	    // rangy gets unhappy if we try save/restore ranges on detched elements
+	    if (!$.contains(document.body, this.el)) return;
+
 	    var $el = this.$editEl();
 	    this.range = saveRange($el);
 	    $el.html(this.parseContent(this.get('content')));
