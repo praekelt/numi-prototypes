@@ -1,23 +1,28 @@
 var _ = require('lodash');
 
 
-function parse(dialogue) {
-  return parseSequence(dialogue.sequences[0], null, {
+function parse(dialogue, opts) {
+  opts = _.defaults(opts || {}, {
+    seq: dialogue.sequences[0],
+    maxDepth: 4
+  });
+
+  return parseSequence(opts.seq, null, 0, {
     nodes: [],
-    dialogue: dialogue
+    dialogue: dialogue,
+    maxDepth: opts.maxDepth
   });
 }
 
 
-function parseSequence(seq, parent, state) {
+function parseSequence(seq, parent, depth, state) {
   if (inChain(seq, parent)) return;
-  return _.find(state.nodes, seq.id)
-    ? parseSequence.link(seq, parent, state)
-    : parseSequence.node(seq, parent, state);
+  if (depth > state.maxDepth) return;
+  return parseSequence.node(seq, parent, depth + 1, state);
 }
 
 
-parseSequence.node = function(seq, parent, state) {
+parseSequence.node = function(seq, parent, depth, state) {
   state.nodes.push(seq.id);
 
   var d = {
@@ -33,7 +38,7 @@ parseSequence.node = function(seq, parent, state) {
     .flatten()
     .uniq()
     .map(args(findSequence, state))
-    .map(args(parseSequence, d, state))
+    .map(args(parseSequence, d, depth, state))
     .compact()
     .value();
 
