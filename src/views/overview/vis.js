@@ -7,25 +7,26 @@ var translate = sapphire.utils.translate;
 function draw(el) {
   var padding = 30;
   var nodeRadius = 4;
+  var dims = getDims(el);
 
   // TODO something better for dims
   var layout = d3.layout.tree()
-    .nodeSize([3, 3]);
+    .size([dims.width - (padding * 2), dims.height - (padding * 2)]);
 
   var nodes = layout.nodes(el.datum());
   normalizeX(nodes);
 
   var links = layout.links(nodes);
-  var dims = getDims(el.select('svg'), nodes, padding, nodeRadius);
 
   var diagonal = Diagonal({
     projection: function(d) {
-      return [d.x * dims.scale, d.y * dims.scale];
+      return [d.x, d.y];
     }
   });
 
   var svg = el.select('svg')
-    .attr('height', dims.height + 24)
+    .attr('width', dims.width)
+    .attr('height', dims.height)
     .append('g')
       .attr('transform', translate(padding, padding));
 
@@ -37,7 +38,7 @@ function draw(el) {
   svg.selectAll('.nm-ov-node')
     .data(nodes)
     .enter().append('g')
-      .call(drawNode, dims, nodeRadius);
+      .call(drawNode, nodeRadius);
 }
 
 
@@ -48,16 +49,12 @@ function normalizeX(nodes) {
 }
 
 
-function getDims(svg, nodes, padding, nodeRadius) {
-  var maxWidth = $(svg.node()).width() - padding;
-  var maxX = d3.max(nodes, function(d) { return d.x; });
-  var maxY = d3.max(nodes, function(d) { return d.y; });
-  var scale = maxWidth / (Math.max(maxX, maxY) + nodeRadius);
+function getDims(el) {
+  var $el = $(el.node());
 
   return {
-    scale: scale,
-    width: (maxX * scale) + padding,
-    height: (maxY * scale) + padding
+    width: $el.width(),
+    height: $el.height(),
   };
 }
 
@@ -69,11 +66,11 @@ function drawLink(link, diagonal) {
 }
 
 
-function drawNode(node, dims, nodeRadius) {
+function drawNode(node, nodeRadius) {
   node
     .attr('class', 'nm-ov-node')
     .attr('transform', function(d) {
-      return translate(d.x * dims.scale, d.y * dims.scale);
+      return translate(d.x, d.y);
     });
 
   node.append('circle')
