@@ -154,24 +154,36 @@ function drawNode(node, nodeRadius, update, enterCoords, exitCoords) {
 function Diagonal(opts) {
   opts = _.defaults(opts || {}, {
     projection: _.identity,
-    controlPointFactor: 0.382
+    r: 0.182,
+    s: 0.9
   });
 
   return function(d, i) {
-    var p0 = d.source;
-    var p2 = d.target;
-    var len = p2.y - p0.y;
-    var c = p0.y + (len * opts.controlPointFactor);
+    var pA = d.source;
+    var pB = d.target;
+    var lenY = pB.y - pA.y;
+    var lenX = pB.x - pA.x;
+    var cY = pA.y + (lenY * opts.r);
+    var lenCY = pB.y - cY;
 
-    var p1 = {
-      x: p2.x,
-      y: c
-    };
+    var p = [
+      pA, {
+       x: pA.x,
+       y: cY
+      }, {
+       x: pA.x + (lenX * opts.s),
+       y: cY
+      }, {
+       x: pB.x,
+       y: pB.y - (lenCY * opts.s)
+      },
+      pB];
 
-    var p = [p0, p1, p2];
     p = p.map(opts.projection);
 
-    return ['M', p[0], 'L', p[1], ' ', p[2]].join('');
+    return ['M', p[0], 'L']
+      .concat(p.slice(1).join(' '))
+      .join('');
   };
 }
 
