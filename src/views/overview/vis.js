@@ -20,9 +20,10 @@ function draw(el, enterCoords, exitCoords) {
 
   // TODO something better for dims
   var layout = d3.layout.tree()
+    .separation(function() { return 2; })
     .size([
-      dims.width - (padding * 2),
-      dims.height - (padding * 2)]);
+      dims.height - (padding * 2),
+      dims.width - (padding * 2)]);
 
   var nodes = layout.nodes(el.datum());
   normalizeX(nodes);
@@ -30,8 +31,10 @@ function draw(el, enterCoords, exitCoords) {
   var links = layout.links(nodes);
 
   var diagonal = Diagonal({
+    r: 0.0382,
+    s: 1,
     projection: function(d) {
-      return [d.x, d.y];
+      return [d.y, d.x];
     }
   });
 
@@ -108,7 +111,7 @@ function drawNode(node, nodeRadius, update, enterCoords, exitCoords) {
   var entering = node.enter()
     .append('g')
       .attr('radius', 0)
-      .attr('transform', translate(enterCoords));
+      .attr('transform', translate(flip(enterCoords)));
 
   entering.append('circle');
   entering.append('text');
@@ -117,7 +120,7 @@ function drawNode(node, nodeRadius, update, enterCoords, exitCoords) {
     .transition()
       .duration(300)
       .attr('radius', 0)
-      .attr('transform', translate(exitCoords))
+      .attr('transform', translate(flip(exitCoords)))
       .remove();
 
   node
@@ -132,7 +135,7 @@ function drawNode(node, nodeRadius, update, enterCoords, exitCoords) {
     .transition()
       .duration(300)
       .attr('transform', function(d) {
-        return translate(d.x, d.y);
+        return translate(flip(d.x, d.y));
       });
 
   node.select('circle')
@@ -198,6 +201,21 @@ function translate(x, y) {
     : x;
 
   return 'translate(' + d.x + ',' + d.y + ')';
+}
+
+
+function flip(x, y) {
+  var d = arguments.length > 1
+    ? {
+      x: x,
+      y: y
+    }
+    : x;
+
+  return {
+    x: d.y,
+    y: d.x
+  };
 }
 
 
