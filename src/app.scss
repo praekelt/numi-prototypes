@@ -1181,4 +1181,8 @@ a.nm-list-group-item-drawer-secondary {
 
 .nm-ov-node {
   fill: $fg0;
+
+  text {
+    display: none;
+  }
 }

@@ -1,17 +1,28 @@
 var _ = require('lodash');
 var d3 = require('d3');
-var sapphire = require('../../../bower_components/sapphire/build/sapphire');
-var translate = sapphire.utils.translate;
+var setExpanded = require('./data').setExpanded;
 
 
-function draw(el) {
-  var padding = 30;
+function draw(el, enterCoords, exitCoords) {
+  var padding = 20;
   var nodeRadius = 4;
   var dims = getDims(el);
 
+  enterCoords = enterCoords || {
+    x: 0,
+    y: 0
+  };
+
+  exitCoords = exitCoords || {
+    x: 0,
+    y: 0
+  };
+
   // TODO something better for dims
   var layout = d3.layout.tree()
-    .size([dims.width - (padding * 2), dims.height - (padding * 2)]);
+    .size([
+      dims.width - (padding * 2),
+      dims.height - (padding * 2)]);
 
   var nodes = layout.nodes(el.datum());
   normalizeX(nodes);
@@ -27,18 +38,25 @@ function draw(el) {
   var svg = el.select('svg')
     .attr('width', dims.width)
     .attr('height', dims.height)
-    .append('g')
+    .select('.nm-vis-main')
       .attr('transform', translate(padding, padding));
 
   svg.selectAll('.nm-ov-link')
-    .data(links)
-    .enter().append('path')
-      .call(drawLink, diagonal);
+    .data(links, function(d, i) {
+      return [d.source.id, d.target.id].join();
+    })
+    .call(drawLink, diagonal, enterCoords, exitCoords);
 
   svg.selectAll('.nm-ov-node')
-    .data(nodes)
-    .enter().append('g')
-      .call(drawNode, nodeRadius);
+    .data(nodes, function(d) {
+      return d.id;
+    })
+    .call(drawNode, nodeRadius, update, enterCoords, exitCoords);
+
+
+  function update(enterCoords, exitCoords) {
+    draw(el, enterCoords, exitCoords);
+  }
 }
 
 
@@ -54,29 +72,73 @@ function getDims(el) {
 
   return {
     width: $el.width(),
-    height: $el.height(),
+    height: $el.height()
   };
 }
 
 
-function drawLink(link, diagonal) {
+function drawLink(link, diagonal, enterCoords, exitCoords) {
+  link.enter()
+    .append('path')
+      .attr('stroke-width', 0)
+      .attr('d', diagonal({
+        source: enterCoords,
+        target: enterCoords
+      }));
+
+  link.exit()
+    .transition()
+      .duration(300)
+      .attr('stroke-width', 0)
+      .attr('d', diagonal({
+        source: exitCoords,
+        target: exitCoords
+      }))
+      .remove();
+
   link
     .attr('class', 'nm-ov-link')
-    .attr('d', diagonal);
+    .transition()
+      .duration(300)
+      .attr('d', diagonal);
 }
 
 
-function drawNode(node, nodeRadius) {
-  node
-    .attr('class', 'nm-ov-node')
-    .attr('transform', function(d) {
-      return translate(d.x, d.y);
-    });
+function drawNode(node, nodeRadius, update, enterCoords, exitCoords) {
+  var entering = node.enter()
+    .append('g')
+      .attr('radius', 0)
+      .attr('transform', translate(enterCoords));
 
-  node.append('circle')
+  entering.append('circle');
+  entering.append('text');
+
+  node.exit()
+    .transition()
+      .duration(300)
+      .attr('radius', 0)
+      .attr('transform', translate(exitCoords))
+      .remove();
+
+  node
+    .on('click', function(d) {
+      setExpanded(d, !d.expanded);
+      update({
+        x: d.x,
+        y: d.y
+      }, d);
+    })
+    .attr('class', 'nm-ov-node')
+    .transition()
+      .duration(300)
+      .attr('transform', function(d) {
+        return translate(d.x, d.y);
+      });
+
+  node.select('circle')
     .attr('r', nodeRadius);
 
-  node.append('text')
+  node.select('text')
     .attr('text-anchor', 'middle')
     .attr('y', function(d) {
       return d.children
@@ -111,6 +173,19 @@ function Diagonal(opts) {
 
     return ['M', p[0], 'L', p[1], ' ', p[2]].join('');
   };
+}
+
+
+
+function translate(x, y) {
+  var d = arguments.length > 1
+    ? {
+      x: x,
+      y: y
+    }
+    : x;
+
+  return 'translate(' + d.x + ',' + d.y + ')';
 }
 
 

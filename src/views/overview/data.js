@@ -1,23 +1,26 @@
 var _ = require('lodash');
+var uuid = require('node-uuid');
 
 
 function parse(dialogue, opts) {
   opts = _.defaults(opts || {}, {
     seq: dialogue.sequences[0],
-    maxDepth: 4
+    maxDepth: null,
+    maxExpandDepth: 3
   });
 
   return parseSequence(opts.seq, null, 0, {
     nodes: [],
     dialogue: dialogue,
-    maxDepth: opts.maxDepth
+    maxDepth: opts.maxDepth,
+    maxExpandDepth: opts.maxExpandDepth
   });
 }
 
 
 function parseSequence(seq, parent, depth, state) {
   if (inChain(seq, parent)) return;
-  if (depth > state.maxDepth) return;
+  if (state.maxDepth && depth >= state.maxDepth) return;
   return parseSequence.node(seq, parent, depth + 1, state);
 }
 
@@ -27,12 +30,13 @@ parseSequence.node = function(seq, parent, depth, state) {
 
   var d = {
     parent: parent,
-    id: seq.id,
+    id: uuid.v4(),
+    seqId: seq.id,
     title: seq.name,
-    isLink: false
+    isLink: false,
   };
 
-  d.children = _(seq.blocks)
+  d._children = _(seq.blocks)
     .filter(blockIsRoutable)
     .map(getBlockSequenceIds)
     .flatten()
@@ -42,6 +46,7 @@ parseSequence.node = function(seq, parent, depth, state) {
     .compact()
     .value();
 
+  setExpanded(d, state.maxExpandDepth != null && depth <= state.maxExpandDepth);
   return d;
 };
 
@@ -72,7 +77,7 @@ function getBlockSequenceIds(block) {
 
 
 function inChain(seq, parent) {
-  do if ((parent || 0).id === seq.id) return true;
+  do if ((parent || 0).seqId === seq.id) return true;
   while ((parent = (parent || 0).parent));
   return false;
 }
@@ -111,4 +116,21 @@ function args(fn) {
 }
 
 
+function setExpanded(node, expanded) {
+  node.expanded = expanded;
+  if (expanded) node.children = node._children;
+  else node.children = null;
+
+  node._children
+    .filter(hasOneChild)
+    .forEach(args(setExpanded, expanded));
+}
+
+
+function hasOneChild(node) {
+  return node._children.length === 1;
+}
+
+
 exports.parse = parse;
+exports.setExpanded = setExpanded;

@@ -1,6 +1,6 @@
 var d3 = require('d3');
-var vis = require('./vis');
 var data = require('./data');
+var vis = require('./vis');
 var Ractive = require('ractive');
 
 
