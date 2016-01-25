@@ -30,10 +30,17 @@ function draw(el, enterCoords, exitCoords) {
 
   var links = layout.links(nodes);
 
-  var diagonal = d3.svg.diagonal()
-    .projection(function(d) {
+  var lineWeight = d3.scale.linear()
+    .domain([1, linkWeight(links[0])])
+    .range([1, 7]);
+
+  var diagonal = Diagonal({
+    r: 0.0382,
+    s: 0.9,
+    projection: function(d) {
       return [d.y, d.x];
-    });
+    }
+  });
 
   var svg = el.select('svg')
     .attr('width', dims.width)
@@ -45,14 +52,13 @@ function draw(el, enterCoords, exitCoords) {
     .data(links, function(d, i) {
       return [d.source.id, d.target.id].join();
     })
-    .call(drawLink, diagonal, enterCoords, exitCoords);
+    .call(drawLink, diagonal, lineWeight, enterCoords, exitCoords);
 
   svg.selectAll('.nm-ov-node')
     .data(nodes, function(d) {
       return d.id;
     })
     .call(drawNode, nodeRadius, update, enterCoords, exitCoords);
-
 
   function update(enterCoords, exitCoords) {
     draw(el, enterCoords, exitCoords);
@@ -77,7 +83,7 @@ function getDims(el) {
 }
 
 
-function drawLink(link, diagonal, enterCoords, exitCoords) {
+function drawLink(link, diagonal, lineWeight, enterCoords, exitCoords) {
   link.enter()
     .append('path')
       .attr('stroke-width', 0)
@@ -101,7 +107,7 @@ function drawLink(link, diagonal, enterCoords, exitCoords) {
     .transition()
       .duration(300)
       .attr('stroke-width', function(d) {
-        return Math.max(Math.min(lineWeight(d) * 0.1, 6), 1);
+        return lineWeight(linkWeight(d));
       })
       .attr('d', diagonal);
 }
@@ -219,7 +225,7 @@ function flip(x, y) {
 }
 
 
-function lineWeight(d) {
+function linkWeight(d) {
   var n = 0;
   walk(d.target, function() { n++; });
   return n;
