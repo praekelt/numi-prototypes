@@ -9,8 +9,8 @@ function draw(el) {
   var nodeRadius = 4;
 
   // TODO something better for dims
-  var layout = d3.layout.cluster()
-    .nodeSize([30, 30]);
+  var layout = d3.layout.tree()
+    .nodeSize([3, 3]);
 
   var nodes = layout.nodes(el.datum());
   normalizeX(nodes);

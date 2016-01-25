@@ -92504,8 +92504,8 @@
 	  var nodeRadius = 4;
 
 	  // TODO something better for dims
-	  var layout = d3.layout.cluster()
-	    .nodeSize([30, 30]);
+	  var layout = d3.layout.tree()
+	    .nodeSize([3, 3]);
 
 	  var nodes = layout.nodes(el.datum());
 	  normalizeX(nodes);
@@ -92623,23 +92623,53 @@
 
 
 	function parse(dialogue) {
-	  return parseSequence(dialogue.sequences[0], dialogue);
+	  return parseSequence(dialogue.sequences[0], null, {
+	    nodes: [],
+	    dialogue: dialogue
+	  });
 	}
 
 
-	function parseSequence(seq, dialogue) {
+	function parseSequence(seq, parent, state) {
+	  if (inChain(seq, parent)) return;
+	  return _.find(state.nodes, seq.id)
+	    ? parseSequence.link(seq, parent, state)
+	    : parseSequence.node(seq, parent, state);
+	}
+
+
+	parseSequence.node = function(seq, parent, state) {
+	  state.nodes.push(seq.id);
+
+	  var d = {
+	    parent: parent,
+	    id: seq.id,
+	    title: seq.name,
+	    isLink: false
+	  };
+
+	  d.children = _(seq.blocks)
+	    .filter(blockIsRoutable)
+	    .map(getBlockSequenceIds)
+	    .flatten()
+	    .uniq()
+	    .map(args(findSequence, state))
+	    .map(args(parseSequence, d, state))
+	    .compact()
+	    .value();
+
+	  return d;
+	};
+
+
+	parseSequence.link = function(seq) {
 	  return {
 	    title: seq.name,
-	    children: _(seq.blocks)
-	      .filter(blockIsRoutable)
-	      .map(getBlockSequenceIds)
-	      .flatten()
-	      .uniq()
-	      .map(args(findSequence, dialogue))
-	      .map(args(parseSequence, dialogue))
-	      .value()
+	    parent: parent,
+	    isLink: true,
+	    children: []
 	  };
-	}
+	};
 
 
 	function blockIsRoutable(block) {
@@ -92654,6 +92684,13 @@
 
 	function getBlockSequenceIds(block) {
 	  return getBlockSequenceIds[block.type](block);
+	}
+
+
+	function inChain(seq, parent) {
+	  do if ((parent || 0).id === seq.id) return true;
+	  while ((parent = (parent || 0).parent));
+	  return false;
 	}
 
 
@@ -92676,8 +92713,8 @@
 	};
 
 
-	function findSequence(id, dialogue) {
-	  return _.find(dialogue.sequences, {id: id});
+	function findSequence(id, state) {
+	  return _.find(state.dialogue.sequences, {id: id});
 	}
 
 
