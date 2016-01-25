@@ -30,13 +30,10 @@ function draw(el, enterCoords, exitCoords) {
 
   var links = layout.links(nodes);
 
-  var diagonal = Diagonal({
-    r: 0.0382,
-    s: 1,
-    projection: function(d) {
+  var diagonal = d3.svg.diagonal()
+    .projection(function(d) {
       return [d.y, d.x];
-    }
-  });
+    });
 
   var svg = el.select('svg')
     .attr('width', dims.width)
@@ -103,6 +100,9 @@ function drawLink(link, diagonal, enterCoords, exitCoords) {
     .attr('class', 'nm-ov-link')
     .transition()
       .duration(300)
+      .attr('stroke-width', function(d) {
+        return Math.max(Math.min(lineWeight(d) * 0.1, 6), 1);
+      })
       .attr('d', diagonal);
 }
 
@@ -216,6 +216,23 @@ function flip(x, y) {
     x: d.y,
     y: d.x
   };
+}
+
+
+function lineWeight(d) {
+  var n = 0;
+  walk(d.target, function() { n++; });
+  return n;
+}
+
+
+function walk(root, fn) {
+  each(root, fn);
+
+  function each(node) {
+    fn(node);
+    node._children.forEach(each);
+  }
 }
 
 

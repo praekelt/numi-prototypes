@@ -6,7 +6,7 @@ function parse(dialogue, opts) {
   opts = _.defaults(opts || {}, {
     seq: dialogue.sequences[0],
     maxDepth: null,
-    maxExpandDepth: 3
+    maxExpandDepth: 2
   });
 
   return parseSequence(opts.seq, null, 0, {
@@ -117,18 +117,15 @@ function args(fn) {
 
 
 function setExpanded(node, expanded) {
-  node.expanded = expanded;
-  if (expanded) node.children = node._children;
-  else node.children = null;
-
-  node._children
-    .filter(hasOneChild)
-    .forEach(args(setExpanded, expanded));
+  setNodeExpanded(node, expanded);
+  node._children.forEach(args(setNodeExpanded, expanded));
 }
 
 
-function hasOneChild(node) {
-  return node._children.length === 1;
+function setNodeExpanded(node, expanded) {
+  node.expanded = expanded;
+  if (expanded) node.children = node._children;
+  else node.children = null;
 }
 
 
