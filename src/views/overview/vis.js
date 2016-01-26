@@ -10,8 +10,6 @@ var isCollapsed = data.isCollapsed;
 
 function draw(el, opts) {
   var padding = 20;
-  var innerNodeRadius = 5;
-  var leafNodeRadius = 3;
   var dims = getDims(el);
 
   opts = _.defaults(opts || {}, {
@@ -41,11 +39,15 @@ function draw(el, opts) {
 
   var lineWeight = d3.scale.linear()
     .domain([1, 100, 500, 800, 1000])
-    .range([1, 3, 5, 7]);
+    .range([1]);
+
+  var nodeRadius = d3.scale.linear()
+    .domain([1, 2, 50, 1000])
+    .range([2, 7, 10, 15]);
 
   var diagonal = Diagonal({
     r: 0.1618,
-    s: 1,
+    s: 0.9618,
     projection: function(d) {
       return [d.y, d.x];
     }
@@ -76,8 +78,7 @@ function draw(el, opts) {
       return d.id;
     })
     .call(drawNode, {
-      innerNodeRadius,
-      leafNodeRadius,
+      nodeRadius,
       update,
       transitionDuration: opts.transitionDuration,
       enterCoords: opts.enterCoords,
@@ -178,9 +179,7 @@ function drawNode(node, opts) {
 
   node.select('circle')
     .attr('r', function(d) {
-      return isLeafNode(d)
-        ? opts.leafNodeRadius
-        : opts.innerNodeRadius;
+      return opts.nodeRadius(nodeWeight(d));
     });
 
   node.select('text')
@@ -262,8 +261,13 @@ function flip(x, y) {
 
 
 function linkWeight(d) {
+  return nodeWeight(d.target);
+}
+
+
+function nodeWeight(d) {
   var n = 0;
-  walk(d.target, function() { n++; });
+  walk(d, function() { n++; });
   return n;
 }
 
