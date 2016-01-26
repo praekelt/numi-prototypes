@@ -1175,13 +1175,30 @@ a.nm-list-group-item-drawer-secondary {
 
 .nm-ov-link {
   fill: none;
-  stroke: $fg1;
+  stroke: $fg2;
 }
 
 .nm-ov-node {
-  fill: $fg0;
-
   text {
     display: none;
+  }
+}
+
+.nm-ov-node-leaf {
+  fill: $fg2;
+}
+
+.nm-ov-node-inner {
+  fill: $bg0;
+  stroke-width: 2px;
+  stroke: $fg2;
+  cursor: pointer;
+
+  &.is-collapsed {
+    fill: $fg3;
+
+    &:hover {
+      fill: $fg4;
+    }
   }
 }

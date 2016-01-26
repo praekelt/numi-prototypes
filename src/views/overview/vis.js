@@ -1,22 +1,31 @@
 var _ = require('lodash');
 var d3 = require('d3');
-var setExpanded = require('./data').setExpanded;
+var data = require('./data');
+var setExpanded = data.setExpanded;
+var isInnerNode = data.isInnerNode;
+var isLeafNode = data.isLeafNode;
+var isExpanded = data.isExpanded;
+var isCollapsed = data.isCollapsed;
 
 
-function draw(el, enterCoords, exitCoords) {
+function draw(el, opts) {
   var padding = 20;
-  var nodeRadius = 4;
+  var innerNodeRadius = 5;
+  var leafNodeRadius = 3;
   var dims = getDims(el);
 
-  enterCoords = enterCoords || {
-    x: 0,
-    y: 0
-  };
+  opts = _.defaults(opts || {}, {
+    enterCoords: {
+      x: 0,
+      y: 0
+    },
+    exitCoords: {
+      x: 0,
+      y: 0
+    },
+    transitionDuration: 0
+  });
 
-  exitCoords = exitCoords || {
-    x: 0,
-    y: 0
-  };
 
   // TODO something better for dims
   var layout = d3.layout.tree()
@@ -35,7 +44,7 @@ function draw(el, enterCoords, exitCoords) {
     .range([1, 3, 5, 7]);
 
   var diagonal = Diagonal({
-    r: 0.0618,
+    r: 0.1618,
     s: 1,
     projection: function(d) {
       return [d.y, d.x];
@@ -48,20 +57,35 @@ function draw(el, enterCoords, exitCoords) {
     .select('.nm-vis-main')
       .attr('transform', translate(padding, padding));
 
-  svg.selectAll('.nm-ov-link')
+  svg.select('.nm-ov-links')
+    .selectAll('.nm-ov-link')
     .data(links, function(d, i) {
       return [d.source.id, d.target.id].join();
     })
-    .call(drawLink, diagonal, lineWeight, enterCoords, exitCoords);
+    .call(drawLink, {
+      diagonal,
+      lineWeight,
+      transitionDuration: opts.transitionDuration,
+      enterCoords: opts.enterCoords,
+      exitCoords: opts.exitCoords
+    });
 
-  svg.selectAll('.nm-ov-node')
+  svg.select('.nm-ov-nodes')
+    .selectAll('.nm-ov-node')
     .data(nodes, function(d) {
       return d.id;
     })
-    .call(drawNode, nodeRadius, update, enterCoords, exitCoords);
+    .call(drawNode, {
+      innerNodeRadius,
+      leafNodeRadius,
+      update,
+      transitionDuration: opts.transitionDuration,
+      enterCoords: opts.enterCoords,
+      exitCoords: opts.exitCoords
+    });
 
-  function update(enterCoords, exitCoords) {
-    draw(el, enterCoords, exitCoords);
+  function update(opts) {
+    draw(el, _.defaults(opts, {transitionDuration: 300}));
   }
 }
 
@@ -83,69 +107,81 @@ function getDims(el) {
 }
 
 
-function drawLink(link, diagonal, lineWeight, enterCoords, exitCoords) {
+function drawLink(link, opts) {
   link.enter()
     .append('path')
       .attr('stroke-width', 0)
-      .attr('d', diagonal({
-        source: enterCoords,
-        target: enterCoords
+      .attr('d', opts.diagonal({
+        source: opts.enterCoords,
+        target: opts.enterCoords
       }));
 
   link.exit()
     .transition()
-      .duration(300)
+      .duration(opts.transitionDuration)
       .attr('stroke-width', 0)
-      .attr('d', diagonal({
-        source: exitCoords,
-        target: exitCoords
+      .attr('d', opts.diagonal({
+        source: opts.exitCoords,
+        target: opts.exitCoords
       }))
       .remove();
 
   link
     .attr('class', 'nm-ov-link')
     .transition()
-      .duration(300)
+      .duration(opts.transitionDuration)
       .attr('stroke-width', function(d) {
-        return lineWeight(linkWeight(d));
+        return opts.lineWeight(linkWeight(d));
       })
-      .attr('d', diagonal);
+      .attr('d', opts.diagonal);
 }
 
 
-function drawNode(node, nodeRadius, update, enterCoords, exitCoords) {
+function drawNode(node, opts) {
   var entering = node.enter()
     .append('g')
       .attr('radius', 0)
-      .attr('transform', translate(flip(enterCoords)));
+      .attr('transform', translate(flip(opts.enterCoords)))
+      .on('click', function(d) {
+        setExpanded(d, !isExpanded(d));
+
+        opts.update({
+          enterCoords: {
+            x: d.x,
+            y: d.y
+          },
+          exitCoords: d
+        });
+      });
 
   entering.append('circle');
   entering.append('text');
 
   node.exit()
     .transition()
-      .duration(300)
+      .duration(opts.transitionDuration)
       .attr('radius', 0)
-      .attr('transform', translate(flip(exitCoords)))
+      .attr('transform', translate(flip(opts.exitCoords)))
       .remove();
 
   node
-    .on('click', function(d) {
-      setExpanded(d, !d.expanded);
-      update({
-        x: d.x,
-        y: d.y
-      }, d);
-    })
     .attr('class', 'nm-ov-node')
+    .classed('nm-ov-node-leaf', isLeafNode)
+    .classed('nm-ov-node-inner', isInnerNode)
+    .classed('is-expanded', isExpanded)
+    .classed('is-collapsed', isCollapsed)
     .transition()
-      .duration(300)
+      .duration(opts.transitionDuration)
       .attr('transform', function(d) {
         return translate(flip(d.x, d.y));
       });
 
   node.select('circle')
-    .attr('r', nodeRadius);
+    .attr('r', function(d) {
+      return isLeafNode(d)
+        ? opts.leafNodeRadius
+        : opts.innerNodeRadius;
+    });
 
   node.select('text')
     .attr('text-anchor', 'middle')

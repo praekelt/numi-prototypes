@@ -131,11 +131,35 @@ function hasOneChild(node) {
 
 
 function setNodeExpanded(node, expanded) {
+  if (node._children.length < 1) return;
   node.expanded = expanded;
   if (expanded) node.children = node._children;
   else node.children = null;
 }
 
 
+function isLeafNode(node) {
+  return node._children.length < 1;
+}
+
+
+function isInnerNode(node) {
+  return node._children.length > 0;
+}
+
+
+function isExpanded(node) {
+  return node.expanded;
+}
+
+function isCollapsed(node) {
+  return !node.expanded;
+}
+
+
 exports.parse = parse;
 exports.setExpanded = setExpanded;
+exports.isLeafNode = isLeafNode;
+exports.isInnerNode = isInnerNode;
+exports.isExpanded = isExpanded;
+exports.isCollapsed = isCollapsed;
