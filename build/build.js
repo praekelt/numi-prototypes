@@ -92667,12 +92667,12 @@
 	  var links = layout.links(nodes);
 
 	  var lineWeight = d3.scale.linear()
-	    .domain([1, linkWeight(links[0])])
-	    .range([1, 7]);
+	    .domain([1, 100, 500, 800, 1000])
+	    .range([1, 3, 5, 7]);
 
 	  var diagonal = Diagonal({
-	    r: 0.0382,
-	    s: 0.9,
+	    r: 0.0618,
+	    s: 1,
 	    projection: function(d) {
 	      return [d.y, d.x];
 	    }
