@@ -2,6 +2,7 @@ var _ = require('lodash');
 var d3 = require('d3');
 var args = require('../../utils').args;
 var store = require('./store');
+var Layout = require('./layout');
 
 
 function draw(el, opts) {
@@ -20,17 +21,12 @@ function draw(el, opts) {
     transitionDuration: 0
   });
 
-
-  // TODO something better for dims
-  var layout = d3.layout.tree()
-    .separation(function() { return 2; })
-    .size([
-      dims.height - (padding * 2),
-      dims.width - (padding * 2)]);
+  var layout = Layout({
+    width: dims.width - (padding * 2),
+    height: dims.height - (padding * 2)
+  });
 
   var nodes = layout.nodes(el.datum());
-  normalizeX(nodes);
-
   var links = layout.links(nodes);
 
   var lineWeight = d3.scale.linear()
@@ -43,10 +39,7 @@ function draw(el, opts) {
 
   var diagonal = Diagonal({
     r: 0.1618,
-    s: 0.9618,
-    projection: function(d) {
-      return [d.y, d.x];
-    }
+    s: 0.9618
   });
 
   var svg = el.select('svg')
@@ -86,13 +79,6 @@ function draw(el, opts) {
   function update(opts) {
     draw(el, _.defaults(opts, {transitionDuration: 300}));
   }
-}
-
-
-function normalizeX(nodes) {
-  var minX = d3.min(nodes, function(d) { return d.x; });
-  var xOffset = Math.abs(Math.min(0, minX));
-  nodes.forEach(function(d) { d.x += xOffset; });
 }
 
 
@@ -157,7 +143,7 @@ function drawNode(node, opts) {
   var entering = node.enter()
     .append('g')
       .attr('radius', 0)
-      .attr('transform', translate(flip(opts.enterCoords)));
+      .attr('transform', translate(opts.enterCoords));
 
   entering.append('circle');
   entering.append('text');
@@ -166,7 +152,7 @@ function drawNode(node, opts) {
     .transition()
       .duration(opts.transitionDuration)
       .attr('radius', 0)
-      .attr('transform', translate(flip(opts.exitCoords)))
+      .attr('transform', translate(opts.exitCoords))
       .remove();
 
   node
@@ -180,7 +166,7 @@ function drawNode(node, opts) {
     .transition()
       .duration(opts.transitionDuration)
       .attr('transform', function(d) {
-        return translate(flip(d.x, d.y));
+        return translate(d);
       });
 
   node.select('circle')
@@ -235,7 +221,9 @@ function updateFrom(d, opts) {
 
 function Diagonal(opts) {
   opts = _.defaults(opts || {}, {
-    projection: _.identity,
+    projection: function(d) {
+      return [d.x, d.y];
+    },
     r: 0.182,
     s: 0.9
   });
@@ -243,21 +231,21 @@ function Diagonal(opts) {
   return function(d, i) {
     var pA = d.source;
     var pB = d.target;
-    var lenY = pB.y - pA.y;
     var lenX = pB.x - pA.x;
-    var cY = pA.y + (lenY * opts.r);
-    var lenCY = pB.y - cY;
+    var lenY = pB.y - pA.y;
+    var cX = pA.x + (lenX * opts.r);
+    var lenCX = pB.x - cX;
 
     var p = [
       pA, {
-       x: pA.x,
-       y: cY
+       x: cX,
+       y: pA.y
       }, {
-       x: pA.x + (lenX * opts.s),
-       y: cY
+       x: cX,
+       y: pA.y + (lenY * opts.s)
       }, {
-       x: pB.x,
-       y: pB.y - (lenCY * opts.s)
+       x: pB.x - (lenCX * opts.s),
+       y: pB.y
       },
       pB];
 
@@ -280,21 +268,6 @@ function translate(x, y) {
     : x;
 
   return 'translate(' + d.x + ',' + d.y + ')';
-}
-
-
-function flip(x, y) {
-  var d = arguments.length > 1
-    ? {
-      x: x,
-      y: y
-    }
-    : x;
-
-  return {
-    x: d.y,
-    y: d.x
-  };
 }
 
 
