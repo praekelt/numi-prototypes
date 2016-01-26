@@ -1175,7 +1175,7 @@ a.nm-list-group-item-drawer-secondary {
 
 .nm-ov-link {
   fill: none;
-  stroke: $fg2;
+  stroke: $fg1;
 }
 
 .nm-ov-node {
@@ -1185,17 +1185,17 @@ a.nm-list-group-item-drawer-secondary {
 }
 
 .nm-ov-node-leaf {
-  fill: $fg2;
+  fill: $fg1;
 }
 
 .nm-ov-node-inner {
   fill: $bg0;
   stroke-width: 2px;
-  stroke: $fg2;
+  stroke: $fg1;
   cursor: pointer;
 
   &.is-collapsed {
-    fill: $fg3;
+    fill: $fg2;
 
     &:hover {
       fill: $fg4;
