@@ -92634,10 +92634,6 @@
 
 	function setExpanded(node, expanded) {
 	  setNodeExpanded(node, expanded);
-
-	  //node._children
-	  //  .filter(hasOneChild)
-	  //  .forEach(args(setNodeExpanded, expanded));
 	}
 
 
