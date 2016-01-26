@@ -1176,29 +1176,63 @@ a.nm-list-group-item-drawer-secondary {
 .nm-ov-link {
   fill: none;
   stroke: $fg1;
+
+  &.is-selected {
+    stroke: $fg-active0;
+    stroke-width: 2px;
+  }
 }
 
 .nm-ov-node {
   text {
+    fill: $fg0;
+    font-size: 10px;
+    font-weight: bold;
     display: none;
+  }
+
+  &.is-selected {
+
+    circle {
+      stroke: $fg-active0;
+    }
   }
 }
 
 .nm-ov-node-leaf {
-  fill: $fg1;
+  circle {
+    fill: $bg0;
+    stroke-width: 2px;
+    stroke: $fg1;
+    cursor: pointer;
+  }
 }
 
 .nm-ov-node-inner {
-  fill: $bg0;
-  stroke-width: 2px;
-  stroke: $fg1;
-  cursor: pointer;
+  circle {
+    fill: $bg2;
+    stroke-width: 2px;
+    stroke: $fg1;
+    cursor: pointer;
+  }
 
   &.is-collapsed {
-    fill: $fg2;
+    circle {
+      fill: $fg2;
 
-    &:hover {
-      fill: $fg4;
+      &:hover {
+        fill: $fg4;
+      }
+    }
+  }
+
+  &.is-selected {
+    circle {
+      fill: $bg-active0;
+
+      &:hover {
+        fill: $bg-active1;
+      }
     }
   }
 }

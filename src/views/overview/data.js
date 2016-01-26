@@ -1,5 +1,7 @@
 var _ = require('lodash');
 var uuid = require('node-uuid');
+var args = require('../../utils').args;
+var store = require('./store');
 
 
 function parse(dialogue, opts) {
@@ -34,6 +36,7 @@ parseSequence.node = function(seq, parent, depth, state) {
     seqId: seq.id,
     title: seq.name,
     isLink: false,
+    selected: false
   };
 
   d._children = _(seq.blocks)
@@ -46,7 +49,8 @@ parseSequence.node = function(seq, parent, depth, state) {
     .compact()
     .value();
 
-  setExpanded(d, state.maxExpandDepth != null && depth <= state.maxExpandDepth);
+  var expanded = state.maxExpandDepth != null && depth <= state.maxExpandDepth;
+  store.setExpanded(d, expanded);
   return d;
 };
 
@@ -107,59 +111,4 @@ function findSequence(id, state) {
 }
 
 
-function args(fn) {
-  var a = _.slice(arguments, 1);
-
-  return function(v) {
-    return fn.apply(this, [v].concat(a, _.slice(arguments, 1)));
-  };
-}
-
-
-function setExpanded(node, expanded) {
-  setNodeExpanded(node, expanded);
-
-  node._children
-    .filter(hasOneChild)
-    .forEach(args(setNodeExpanded, expanded));
-}
-
-
-function hasOneChild(node) {
-  return node._children.length === 1;
-}
-
-
-function setNodeExpanded(node, expanded) {
-  if (node._children.length < 1) return;
-  node.expanded = expanded;
-  if (expanded) node.children = node._children;
-  else node.children = null;
-}
-
-
-function isLeafNode(node) {
-  return node._children.length < 1;
-}
-
-
-function isInnerNode(node) {
-  return node._children.length > 0;
-}
-
-
-function isExpanded(node) {
-  return node.expanded;
-}
-
-function isCollapsed(node) {
-  return !node.expanded;
-}
-
-
 exports.parse = parse;
-exports.setExpanded = setExpanded;
-exports.isLeafNode = isLeafNode;
-exports.isInnerNode = isInnerNode;
-exports.isExpanded = isExpanded;
-exports.isCollapsed = isCollapsed;

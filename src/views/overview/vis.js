@@ -1,11 +1,7 @@
 var _ = require('lodash');
 var d3 = require('d3');
-var data = require('./data');
-var setExpanded = data.setExpanded;
-var isInnerNode = data.isInnerNode;
-var isLeafNode = data.isLeafNode;
-var isExpanded = data.isExpanded;
-var isCollapsed = data.isCollapsed;
+var args = require('../../utils').args;
+var store = require('./store');
 
 
 function draw(el, opts) {
@@ -43,7 +39,7 @@ function draw(el, opts) {
 
   var nodeRadius = d3.scale.linear()
     .domain([1, 2, 50, 1000])
-    .range([2, 7, 10, 15]);
+    .range([5, 7, 10, 15]);
 
   var diagonal = Diagonal({
     r: 0.1618,
@@ -69,7 +65,8 @@ function draw(el, opts) {
       lineWeight,
       transitionDuration: opts.transitionDuration,
       enterCoords: opts.enterCoords,
-      exitCoords: opts.exitCoords
+      exitCoords: opts.exitCoords,
+      root: nodes[0]
     });
 
   svg.select('.nm-ov-nodes')
@@ -80,6 +77,7 @@ function draw(el, opts) {
     .call(drawNode, {
       nodeRadius,
       update,
+      root: nodes[0],
       transitionDuration: opts.transitionDuration,
       enterCoords: opts.enterCoords,
       exitCoords: opts.exitCoords
@@ -135,6 +133,23 @@ function drawLink(link, opts) {
         return opts.lineWeight(linkWeight(d));
       })
       .attr('d', opts.diagonal);
+
+  link
+    .filter(function(d) {
+      return store.isSelected(d.target);
+    })
+    .call(drawSelectedLink, opts);
+
+  link
+    .sort(function(a, b) {
+      return +store.isSelected(a.target) - +store.isSelected(b.target);
+    });
+}
+
+
+function drawSelectedLink(link, opts) {
+  link
+    .classed('is-selected', true);
 }
 
 
@@ -142,18 +157,7 @@ function drawNode(node, opts) {
   var entering = node.enter()
     .append('g')
       .attr('radius', 0)
-      .attr('transform', translate(flip(opts.enterCoords)))
-      .on('click', function(d) {
-        setExpanded(d, !isExpanded(d));
-
-        opts.update({
-          enterCoords: {
-            x: d.x,
-            y: d.y
-          },
-          exitCoords: d
-        });
-      });
+      .attr('transform', translate(flip(opts.enterCoords)));
 
   entering.append('circle');
   entering.append('text');
@@ -166,11 +170,13 @@ function drawNode(node, opts) {
       .remove();
 
   node
+    .on('click', null)
+    .on('click', args(toggleNodeSelected, opts))
     .attr('class', 'nm-ov-node')
-    .classed('nm-ov-node-leaf', isLeafNode)
-    .classed('nm-ov-node-inner', isInnerNode)
-    .classed('is-expanded', isExpanded)
-    .classed('is-collapsed', isCollapsed)
+    .classed('nm-ov-node-leaf', store.isLeafNode)
+    .classed('nm-ov-node-inner', store.isInnerNode)
+    .classed('is-expanded', store.isExpanded)
+    .classed('is-collapsed', store.isCollapsed)
     .transition()
       .duration(opts.transitionDuration)
       .attr('transform', function(d) {
@@ -183,15 +189,47 @@ function drawNode(node, opts) {
     });
 
   node.select('text')
-    .attr('text-anchor', 'middle')
-    .attr('y', function(d) {
-      return d.children
-        ? -8
-        : 18;
-    })
+    .attr('text-anchor', 'right')
+    .attr('y', -12)
+    .attr('x', -140)
     .text(function(d) {
       return d.title;
     });
+
+
+  node
+    .filter(store.isSelected)
+    .call(drawSelectedNode, opts);
+}
+
+
+function drawSelectedNode(node, opts) {
+  node
+    .on('click', args(expandNode, opts))
+    .classed('is-selected', true);
+}
+
+
+function toggleNodeSelected(d, opts) {
+  store.toggleSelected(d, opts.root);
+  updateFrom(d, opts);
+}
+
+
+function expandNode(d, opts) {
+  store.setExpanded(d, !store.isExpanded(d));
+  updateFrom(d, opts);
+}
+
+
+function updateFrom(d, opts) {
+  opts.update({
+    enterCoords: {
+      x: d.x,
+      y: d.y
+    },
+    exitCoords: d
+  });
 }
 
 
@@ -267,18 +305,8 @@ function linkWeight(d) {
 
 function nodeWeight(d) {
   var n = 0;
-  walk(d, function() { n++; });
+  store.walk(d, function() { n++; });
   return n;
-}
-
-
-function walk(root, fn) {
-  each(root, fn);
-
-  function each(node) {
-    fn(node);
-    node._children.forEach(each);
-  }
 }
 
 
