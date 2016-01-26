@@ -111,7 +111,7 @@ var Dialogue = Ractive.extend({
   },
   isComplete: function() {
     return _.chain(this.get('sequences'))
-      .pluck('blocks')
+      .map('blocks')
       .flatten()
       .invoke('isComplete')
       .all()

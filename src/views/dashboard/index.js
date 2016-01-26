@@ -155,7 +155,7 @@ module.exports = Ractive.extend({
         });
     },
     hasUnpublishedChanges: function() {
-      return _.any(_.pluck(this.get('dialogues'), 'hasUnpublishedChanges'));
+      return _.some(_.map(this.get('dialogues'), 'hasUnpublishedChanges'));
     },
     isComplete: function() {
       return _.all(_.invoke(this.get('dialogueViews'), 'isComplete'));
@@ -172,11 +172,11 @@ module.exports = Ractive.extend({
       special: true
     }]
     .concat(_(this.get('dialogues'))
-        .pluck('sequences')
+        .map('sequences')
         .flatten()
-        .pluck('blocks')
+        .map('blocks')
         .flatten()
-        .pluck('saveAs')
+        .map('saveAs')
         .compact()
         .map(function(v) {
           return {
