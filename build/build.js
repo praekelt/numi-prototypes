@@ -92615,7 +92615,15 @@
 
 	function setExpanded(node, expanded) {
 	  setNodeExpanded(node, expanded);
-	  node._children.forEach(args(setNodeExpanded, expanded));
+
+	  node._children
+	    .filter(hasOneChild)
+	    .forEach(args(setNodeExpanded, expanded));
+	}
+
+
+	function hasOneChild(node) {
+	  return node._children.length === 1;
 	}
 
 
