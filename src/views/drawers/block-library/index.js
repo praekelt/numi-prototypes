@@ -33,9 +33,9 @@ var BlockLibrary = Base.extend({
   },
   pushRecent: function(type) {
     var d = _.chain(this.get('palletes'))
-      .map('categories')
+      .pluck('categories')
       .flatten()
-      .map('blocks')
+      .pluck('blocks')
       .flatten()
       .find({type: type})
       .value();

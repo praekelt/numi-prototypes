@@ -6,7 +6,7 @@ var Chooser = require('../../drawers/chooser');
 var Action = Base.extend({
   template: require('./preview.html'),
   isComplete: function() {
-    return _.all(_.map(this.get('fields'), 'userFieldId'));
+    return _.all(_.pluck(this.get('fields'), 'userFieldId'));
   }
 });
 

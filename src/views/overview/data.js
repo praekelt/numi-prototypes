@@ -67,7 +67,7 @@ parseSequence.link = function(seq) {
 
 function blockIsRoutable(block) {
   // TODO better way of doing this
-  return _.includes([
+  return _.contains([
     'route',
     'askchoice',
     'conditionalroute'

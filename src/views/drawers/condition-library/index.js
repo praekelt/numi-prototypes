@@ -25,9 +25,9 @@ var ConditionLibrary = Base.extend({
   },
   pushRecent: function(type) {
     var d = _.chain(this.get('palletes'))
-      .map('categories')
+      .pluck('categories')
       .flatten()
-      .map('conditions')
+      .pluck('conditions')
       .flatten()
       .find({type: type})
       .value();

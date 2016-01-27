@@ -69,7 +69,7 @@ var Language = Screen.extend({
   getAnswerCounts() {
     return _.chain(this.get('allChoices'))
       .slice(0, -1)
-      .map('answerCounts')
+      .pluck('answerCounts')
       .unzip()
       .map(_.sum)
       .value();
