@@ -77,6 +77,17 @@ function isSelected(node) {
 }
 
 
+function setCurrent(node, current) {
+  node.current = current;
+  if (current) setExpanded(node, true);
+}
+
+
+function isCurrent(node) {
+  return node.current;
+}
+
+
 function walk(root, fn) {
   each(root, fn);
 
@@ -194,3 +205,5 @@ exports.toggleSelected = toggleSelected;
 exports.isSelected = isSelected;
 exports.walk = walk;
 exports.applyToSeqtree = applyToSeqtree;
+exports.setCurrent = setCurrent;
+exports.isCurrent = isCurrent;

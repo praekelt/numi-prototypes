@@ -126,6 +126,12 @@ function drawLink(link, opts) {
 
   link
     .attr('class', 'nm-ov-link')
+    .classed('is-selected', function(d) {
+      return store.isSelected(d.target);
+    })
+    .classed('is-current', function(d) {
+      return store.isCurrent(d.target);
+    })
     .transition()
       .duration(opts.transitionDuration)
       .attr('stroke-width', function(d) {
@@ -134,21 +140,11 @@ function drawLink(link, opts) {
       .attr('d', opts.diagonal);
 
   link
-    .filter(function(d) {
-      return store.isSelected(d.target);
-    })
-    .call(drawSelectedLink, opts);
-
-  link
     .sort(function(a, b) {
-      return +store.isSelected(a.target) - +store.isSelected(b.target);
+      a = store.isSelected(a.target) || store.isCurrent(a.target);
+      b = store.isSelected(b.target) || store.isCurrent(b.target);
+      return +a - +b;
     });
-}
-
-
-function drawSelectedLink(link, opts) {
-  link
-    .classed('is-selected', true);
 }
 
 
@@ -176,6 +172,7 @@ function drawNode(node, opts) {
     .classed('nm-ov-node-inner', store.isInnerNode)
     .classed('is-expanded', store.isExpanded)
     .classed('is-collapsed', store.isCollapsed)
+    .classed('is-current', store.isCurrent)
     .transition()
       .duration(opts.transitionDuration)
       .attr('transform', function(d) {
@@ -194,7 +191,6 @@ function drawNode(node, opts) {
     .text(function(d) {
       return d.title;
     });
-
 
   node
     .filter(store.isSelected)

@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var uuid = require('node-uuid');
 var args = require('../../utils').args;
+var seqtree = require('../../seqtree');
 var store = require('./store');
 
 
@@ -11,12 +12,15 @@ function parse(dialogue, opts) {
     maxExpandDepth: 2
   });
 
-  return parseSequence(opts.seq, null, 0, {
+  var root = parseSequence(opts.seq, null, 0, {
     nodes: [],
     dialogue: dialogue,
     maxDepth: opts.maxDepth,
     maxExpandDepth: opts.maxExpandDepth
   });
+
+  applySeqtree(root, dialogue.seqtree);
+  return root;
 }
 
 
@@ -36,7 +40,8 @@ parseSequence.node = function(seq, parent, depth, state) {
     seqId: seq.id,
     title: seq.name,
     isLink: false,
-    selected: false
+    selected: false,
+    current: false
   };
 
   d._children = _(seq.blocks)
@@ -104,6 +109,22 @@ getBlockSequenceIds.askchoice = function(block) {
 getBlockSequenceIds.conditionalroute = function(block) {
   return [block.seqId];
 };
+
+
+function applySeqtree(root, seqtreeRoot) {
+  var node = root;
+
+  seqtree.walkCurrent(seqtreeRoot, function(seqtreeNode) {
+    store.setCurrent(node, true);
+    var target = seqtreeNode.children[seqtreeNode.currentIdx]
+    var id;
+
+    if (target) {
+      id = target.key[0];
+      node = _.find(node._children, {seqId: id});
+    }
+  });
+}
 
 
 function findSequence(id, state) {
