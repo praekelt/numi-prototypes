@@ -11,7 +11,11 @@
       </div>
 
       <div class="nm-toolbar-group nm-actions">
-        <a class="btn btn-sm btn-default" href="./dialogues/{{id}}">Back to dialogue</a>
+        <div class="btn-group">
+          <a class="btn btn-sm btn-default {{^hasSelection}}disabled{{/hasSelection}}" href="./dialogues/{{id}}" on-click="showSelected()">Show selected in dialogue</a>
+          <a class="btn btn-sm btn-default" href="./dialogues/{{id}}">Back to dialogue</a>
+        </div>
+
         <button class="btn btn-sm btn-default">
           Menu
         </button>
@@ -54,9 +58,11 @@
   </div>
 
   <div class="nm-body">
-    <div class="nm-vis nm-vis-overview">
+    <!-- TODO better way of updating on vis interactions -->
+    <div class="nm-vis nm-vis-overview" on-click="refresh()">
       <svg>
         <g class="nm-vis-main">
+          <rect class="nm-ov-underlay"></rect>
           <g class="nm-ov-links"></g>
           <g class="nm-ov-nodes"></g>
         </g>

@@ -18,7 +18,9 @@ function draw(el, opts) {
       x: 0,
       y: 0
     },
-    transitionDuration: 0
+    transitionDuration: 0,
+    root: el.datum(),
+    update: update
   });
 
   var layout = Layout({
@@ -26,7 +28,7 @@ function draw(el, opts) {
     height: dims.height - (padding * 2)
   });
 
-  var nodes = layout.nodes(el.datum());
+  var nodes = layout.nodes(opts.root);
   var links = layout.links(nodes);
 
   var lineWeight = d3.scale.linear()
@@ -48,6 +50,11 @@ function draw(el, opts) {
     .select('.nm-vis-main')
       .attr('transform', translate(padding, padding));
 
+  svg.select('.nm-ov-underlay')
+    .attr('width', dims.width)
+    .attr('height', dims.height)
+    .on('click', args(deselect, opts));
+
   svg.select('.nm-ov-links')
     .selectAll('.nm-ov-link')
     .data(links, function(d, i) {
@@ -59,7 +66,7 @@ function draw(el, opts) {
       transitionDuration: opts.transitionDuration,
       enterCoords: opts.enterCoords,
       exitCoords: opts.exitCoords,
-      root: nodes[0]
+      root: opts.root
     });
 
   svg.select('.nm-ov-nodes')
@@ -70,7 +77,7 @@ function draw(el, opts) {
     .call(drawNode, {
       nodeRadius,
       update,
-      root: nodes[0],
+      root: opts.root,
       transitionDuration: opts.transitionDuration,
       enterCoords: opts.enterCoords,
       exitCoords: opts.exitCoords
@@ -79,6 +86,12 @@ function draw(el, opts) {
   function update(opts) {
     draw(el, _.defaults(opts, {transitionDuration: 300}));
   }
+}
+
+
+function deselect(d, opts) {
+  store.setSelected(opts.root, false);
+  opts.update();
 }
 
 
@@ -256,7 +269,6 @@ function Diagonal(opts) {
       .join('');
   };
 }
-
 
 
 function translate(x, y) {

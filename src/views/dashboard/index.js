@@ -7,7 +7,6 @@ var Dialogue = require('../dialogue');
 var Overview = require('../overview');
 var pg = require('../../pg');
 var drawers = require('../../drawers');
-var seqtree = require('../../seqtree');
 var bootbox = require('bootbox');
 
 
@@ -208,13 +207,15 @@ module.exports = Ractive.extend({
     });
   },
   showDialogueOverview: function(id) {
+    var self = this;
+
     var overview = Overview({
       el: $('<div>'),
       data: this.findWhere('dialogues', {id: id})
     });
 
-    overview.on('change', function() {
-      this.updateDatum('dialogues', overview.get());
+    overview.on('showPath', function(seqtree) {
+      self.updateMatches('dialogues', {id: id}, {seqtree: seqtree});
     });
 
     overview.openPage();

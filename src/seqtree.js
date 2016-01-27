@@ -14,14 +14,19 @@ function create(key) {
 
 function select(node, key) {
   var i = _.findIndex(node.children, {key: key});
+  var child;
 
   if (i < 0) {
     child = create(key);
     i = node.children.length;
     node.children.push(child);
   }
+  else {
+    child = node.children[i];
+  }
 
   node.currentIdx = i;
+  return child;
 }
 
 
