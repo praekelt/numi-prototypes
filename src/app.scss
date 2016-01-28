@@ -1195,10 +1195,16 @@ a.nm-list-group-item-drawer-secondary {
   }
 
   &, &.is-current, &.is-collapsed {
-    circle {
-      &:hover {
+    &:hover {
+      cursor: pointer;
+
+      circle {
         stroke: $fg-active1;
         fill: $bg-active0;
+      }
+
+      text {
+        fill: darken($fg-active1, 15%);
       }
     }
   }
@@ -1221,7 +1227,6 @@ a.nm-list-group-item-drawer-secondary {
     fill: $bg0;
     stroke-width: 2px;
     stroke: $fg1;
-    cursor: pointer;
   }
 }
 
