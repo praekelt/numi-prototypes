@@ -352,6 +352,10 @@ a.nm-title {
   margin-top: -3px;
 }
 
+.nm-title-text-center {
+  line-height: 2.5em;
+}
+
 .nm-head {
   z-index: 999;
   padding: 4px;
@@ -1158,4 +1162,101 @@ a.nm-list-group-item-drawer-secondary {
 
 .nm-char-nonascii {
   border-bottom: 2px solid $fg-warning0;
+}
+
+.nm-vis-overview {
+  padding: 20px;
+  height: 100%;
+
+  svg {
+    width: 100%;
+  }
+}
+
+.nm-ov-link {
+  fill: none;
+  stroke: $fg1;
+
+  &.is-current {
+    stroke: $fg-current0;
+    stroke-width: 2px;
+  }
+
+  &.is-selected {
+    stroke: $fg-active0;
+    stroke-width: 2px;
+  }
+}
+
+.nm-ov-node {
+  text {
+    fill: darken($fg1, 15%);
+    font-size: 0.83em;
+  }
+
+  &, &.is-current, &.is-collapsed {
+    &:hover {
+      cursor: pointer;
+
+      circle {
+        stroke: $fg-active1;
+        fill: $bg-active0;
+      }
+
+      text {
+        fill: darken($fg-active1, 15%);
+      }
+    }
+  }
+
+  &.is-current {
+    circle {
+      stroke: $fg-current0;
+    }
+  }
+
+  &.is-selected {
+    circle {
+      stroke: $fg-active0;
+    }
+  }
+}
+
+.nm-ov-node-leaf {
+  circle {
+    fill: $bg0;
+    stroke-width: 2px;
+    stroke: $fg1;
+  }
+}
+
+.nm-ov-node-inner {
+  circle {
+    fill: $bg1;
+    stroke-width: 2px;
+    stroke: $fg1;
+    cursor: pointer;
+  }
+
+  &.is-collapsed {
+    circle {
+      fill: $fg2;
+    }
+  }
+
+  &.is-current {
+    circle {
+      fill: $bg-current0;
+    }
+  }
+
+  &.is-selected {
+    circle {
+      fill: $bg-active0;
+    }
+  }
+}
+
+.nm-ov-underlay {
+  fill-opacity: 0;
 }

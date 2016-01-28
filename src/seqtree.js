@@ -14,14 +14,19 @@ function create(key) {
 
 function select(node, key) {
   var i = _.findIndex(node.children, {key: key});
+  var child;
 
   if (i < 0) {
     child = create(key);
     i = node.children.length;
     node.children.push(child);
   }
+  else {
+    child = node.children[i];
+  }
 
   node.currentIdx = i;
+  return child;
 }
 
 
@@ -64,6 +69,27 @@ function find(root, id) {
 }
 
 
+function walk(root, fn) {
+  each(root, fn);
+
+  function each(node) {
+    fn(node);
+    node.children.forEach(each);
+  }
+}
+
+
+function walkCurrent(root, fn) {
+  each(root, fn);
+
+  function each(node) {
+    fn(node);
+    var i = node.currentIdx;
+    if (i != null) each(node.children[i]);
+  }
+}
+
+
 function all(root) {
   var results = [root];
   add(root);
@@ -90,3 +116,5 @@ exports.search = search;
 exports.all = all;
 exports.deselect = deselect;
 exports.isOnBlock = isOnBlock;
+exports.walk = walk;
+exports.walkCurrent = walkCurrent;

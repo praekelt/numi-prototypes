@@ -23,6 +23,20 @@ function isNonAscii(s) {
 }
 
 
+function args(fn) {
+  var a = _.slice(arguments, 1);
+
+  return function(v) {
+    var args = arguments.length > 0
+      ? [v].concat(a, _.slice(arguments, 1))
+      : a;
+
+    return fn.apply(this, args);
+  };
+}
+
+
 exports.log = log;
 exports.hashzip = hashzip;
 exports.isNonAscii = isNonAscii;
+exports.args = args;

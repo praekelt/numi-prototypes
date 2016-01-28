@@ -11,11 +11,12 @@
       </div>
 
       <div class="nm-toolbar-group nm-actions">
-        <a class="btn btn-sm btn-default" href="./dialogues/{{id}}/overview">
-          Overview
-        </a>
+        <div class="btn-group">
+          <a class="btn btn-sm btn-default {{^hasSelection}}disabled{{/hasSelection}}" href="./dialogues/{{id}}" on-click="showSelected()">Show selected in dialogue</a>
+          <a class="btn btn-sm btn-default" href="./dialogues/{{id}}">Back to dialogue</a>
+        </div>
 
-        <button class="btn btn-sm btn-default" on-click="showMenu()">
+        <button class="btn btn-sm btn-default">
           Menu
         </button>
 
@@ -37,37 +38,35 @@
         <span class="glyphicon glyphicon-menu-right"></span>
       </div>
 
-      <div class="nm-name nm-title nm-title-active" on-click="rename()">
+      <a class="nm-title" href="./dialogues/{{id}}">
         <small>Dialogue</small>
         <div class="nm-title-text">
           {{name}}
         </div>
+      </a>
+
+      <div class="nm-title-divider">
+        <span class="glyphicon glyphicon-menu-right"></span>
       </div>
 
-      <div class="nm-rename nm-title nm-title-active">
-        <div class="well">
-          <small>Dialogue</small>
-
-          <div class="form-group">
-            <textarea class="nm-rename-value" value="{{name}}"></textarea>
-          </div>
-
-          <button class="btn btn-sm btn-default" on-click="hideRename()">Save</button>
-          <button class="btn btn-sm btn-link" on-click="cancelRename()">Cancel</button>
+      <div class="nm-title">
+        <div class="nm-title-text nm-title-text-center">
+          Overview
         </div>
       </div>
     </div>
   </div>
 
-  <div class="nm-body nm-body-dialogue">
-   <div class="nm-sequences" style="width: {{sequenceChain.length * 50}}vw;">
-     {{#sequenceChain}}
-     <div class="nm-sequence-wrapper {{#shownLanguageId}}is-showing-language{{/shownLanguageId}}">
-        <div class="nm-sequence">
-          <seqsurrogate></seqsurrogate>
-        </div>
-      </div>
-      {{/sequenceChain}}
-   </div>
+  <div class="nm-body">
+    <!-- TODO better way of updating on vis interactions -->
+    <div class="nm-vis nm-vis-overview" on-click="refresh()">
+      <svg>
+        <g class="nm-vis-main">
+          <rect class="nm-ov-underlay"></rect>
+          <g class="nm-ov-links"></g>
+          <g class="nm-ov-nodes"></g>
+        </g>
+      </svg>
+    </div>
   </div>
 </div>
