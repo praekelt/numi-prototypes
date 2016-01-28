@@ -90935,7 +90935,6 @@
 	    this.selectChoice(id);
 	  },
 	  onconfig: function() {
-	    Screen.prototype.onconfig.call(this);
 	    this.resetTotals();
 	  },
 	  refreshLanguages: function() {
