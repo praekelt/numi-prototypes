@@ -24,6 +24,7 @@ $fg-warning1: darken($fg-warning0, 20%);
 $fg-link: #337ab7;
 $fg-chart-publish: #aec7e8;
 $fg-active0: darken($bg-active0, 30%);
+$fg-active1: darken($fg-active0, 10%);
 $fg-incomplete: lighten($fg-warning0, 15%);
 $bg-incomplete: lighten($fg-incomplete, 30%);
 

@@ -1196,6 +1196,15 @@ a.nm-list-group-item-drawer-secondary {
     display: none;
   }
 
+  &, &.is-current, &.is-collapsed {
+    circle {
+      &:hover {
+        stroke: $fg-active1;
+        fill: $bg-active0;
+      }
+    }
+  }
+
   &.is-current {
     circle {
       stroke: $fg-current0;
@@ -1220,7 +1229,7 @@ a.nm-list-group-item-drawer-secondary {
 
 .nm-ov-node-inner {
   circle {
-    fill: $bg2;
+    fill: $bg1;
     stroke-width: 2px;
     stroke: $fg1;
     cursor: pointer;
@@ -1229,30 +1238,18 @@ a.nm-list-group-item-drawer-secondary {
   &.is-collapsed {
     circle {
       fill: $fg2;
-
-      &:hover {
-        fill: $fg4;
-      }
     }
   }
 
   &.is-current {
     circle {
       fill: $bg-current0;
-
-      &:hover {
-        fill: $bg-current1;
-      }
     }
   }
 
   &.is-selected {
     circle {
       fill: $bg-active0;
-
-      &:hover {
-        fill: $bg-active1;
-      }
     }
   }
 }
