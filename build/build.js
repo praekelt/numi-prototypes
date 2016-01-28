@@ -92799,12 +92799,25 @@
 	  template: __webpack_require__(245),
 	  onconfig: function() {
 	    this._d = data.parse(this.get());
+	    this._backed = false;
+	  },
+	  back: function(e) {
+	    if (!this._backed && e.keyCode === 27 && !e.ctrlKey) {
+	      history.back();
+	      this._backed = true;
+	    }
 	  },
 	  oncomplete: function() {
 	    d3.select(this.el)
 	      .select('.nm-vis')
 	      .datum(this._d)
 	      .call(vis.draw);
+
+	    this.back = this.back.bind(this);
+	    $(document).on('keydown', this.back);
+	  },
+	  onunrender: function() {
+	    $(document).off('keydown', this.back);
 	  },
 	  refresh: function() {
 	    this.update('hasSelection');
