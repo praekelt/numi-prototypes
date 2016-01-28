@@ -90989,7 +90989,15 @@
 	    });
 
 	    if (!lang) return;
-	    this.updateMatches('allChoices', {id: id}, {languageId: lang.id});
+	    this.updateChoiceLanguage(id, lang.id);
+	  },
+	  updateChoiceLanguage: function(choiceId, languageId) {
+	    _.extend(this.findWhere('allChoices', {id: choiceId}), {
+	      languageId: languageId,
+	      languageName: dashboard.getLanguageName(languageId)
+	    });
+
+	    this.update('allChoices');
 	  },
 	  removeChoice: function(id) {
 	    var choices = this.get('allChoices');
@@ -91004,7 +91012,7 @@
 	    var chooser = ChooseLanguage({el: $('<div>')});
 
 	    chooser.once('chosen', function(languageId) {
-	      self.updateMatches('allChoices', {id: id}, {languageId: languageId});
+	      self.updateChoiceLanguage(id, languageId);
 	      drawers.close(chooser);
 	    });
 
