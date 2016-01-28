@@ -91757,12 +91757,13 @@
 /* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var uuid = __webpack_require__(26);
 	var Ractive = __webpack_require__(17);
 
 
 	var Base = Ractive.extend({
 	  data: function() {
-	    return {id: null};
+	    return {id: uuid.v4()};
 	  },
 	  computed: {
 	    isComplete: function() {
@@ -92216,7 +92217,7 @@
 /* 213 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"comparison","a":{"id":[{"t":2,"r":"id"}],"a":[{"t":2,"r":"a"}],"b":[{"t":2,"r":"b"}],"dataType":[{"t":2,"r":"dataType"}],"operator":[{"t":2,"r":"operator"}],"operatorSpan":[{"t":2,"r":"operatorSpan"}]}}],"x":{"r":["type"],"s":"_0==\"comparison\""}},{"t":4,"f":[{"t":7,"e":"group","a":{"id":[{"t":2,"r":"id"}],"conditionSet":[{"t":2,"r":"conditionSet"}]}}],"x":{"r":["type"],"s":"_0==\"group\""}},{"t":4,"f":[{"t":7,"e":"haslabel","a":{"label":[{"t":2,"r":"label"}]}}],"x":{"r":["type"],"s":"_0==\"haslabel\""}},{"t":4,"f":[{"t":7,"e":"nothaslabel","a":{"label":[{"t":2,"r":"label"}]}}],"x":{"r":["type"],"s":"_0==\"nothaslabel\""}},{"t":4,"f":[{"t":7,"e":"datepast","a":{"label":[{"t":2,"r":"fieldId"}]}}],"x":{"r":["type"],"s":"_0==\"datepast\""}},{"t":4,"f":[{"t":7,"e":"datefuture","a":{"label":[{"t":2,"r":"fieldId"}]}}],"x":{"r":["type"],"s":"_0==\"datefuture\""}}]};
+	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"comparison","a":{"id":[{"t":2,"r":"id"}],"a":[{"t":2,"r":"a"}],"b":[{"t":2,"r":"b"}],"dataType":[{"t":2,"r":"dataType"}],"operator":[{"t":2,"r":"operator"}],"operatorSpan":[{"t":2,"r":"operatorSpan"}]}}],"x":{"r":["type"],"s":"_0==\"comparison\""}},{"t":4,"f":[{"t":7,"e":"group","a":{"id":[{"t":2,"r":"id"}],"conditionSet":[{"t":2,"r":"conditionSet"}]}}],"x":{"r":["type"],"s":"_0==\"group\""}},{"t":4,"f":[{"t":7,"e":"haslabel","a":{"id":[{"t":2,"r":"id"}],"label":[{"t":2,"r":"label"}]}}],"x":{"r":["type"],"s":"_0==\"haslabel\""}},{"t":4,"f":[{"t":7,"e":"nothaslabel","a":{"id":[{"t":2,"r":"id"}],"label":[{"t":2,"r":"label"}]}}],"x":{"r":["type"],"s":"_0==\"nothaslabel\""}},{"t":4,"f":[{"t":7,"e":"datepast","a":{"id":[{"t":2,"r":"id"}],"label":[{"t":2,"r":"fieldId"}]}}],"x":{"r":["type"],"s":"_0==\"datepast\""}},{"t":4,"f":[{"t":7,"e":"datefuture","a":{"id":[{"t":2,"r":"id"}],"label":[{"t":2,"r":"fieldId"}]}}],"x":{"r":["type"],"s":"_0==\"datefuture\""}}]};
 
 /***/ },
 /* 214 */

@@ -1,9 +1,10 @@
+var uuid = require('node-uuid');
 var Ractive = require('ractive');
 
 
 var Base = Ractive.extend({
   data: function() {
-    return {id: null};
+    return {id: uuid.v4()};
   },
   computed: {
     isComplete: function() {
