@@ -92927,7 +92927,9 @@
 
 
 	getBlockSequenceIds.route = function(block) {
-	  return [block.seqId];
+	  return block.seqId
+	    ? [block.seqId]
+	    : [];
 	};
 
 
@@ -92941,7 +92943,9 @@
 
 
 	getBlockSequenceIds.conditionalroute = function(block) {
-	  return [block.seqId];
+	  return block.seqId
+	    ? [block.seqId]
+	    : [];
 	};
 
 

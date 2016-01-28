@@ -93,7 +93,9 @@ function inChain(seq, parent) {
 
 
 getBlockSequenceIds.route = function(block) {
-  return [block.seqId];
+  return block.seqId
+    ? [block.seqId]
+    : [];
 };
 
 
@@ -107,7 +109,9 @@ getBlockSequenceIds.askchoice = function(block) {
 
 
 getBlockSequenceIds.conditionalroute = function(block) {
-  return [block.seqId];
+  return block.seqId
+    ? [block.seqId]
+    : [];
 };
 
 
