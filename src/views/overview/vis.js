@@ -6,7 +6,7 @@ var Layout = require('./layout');
 
 
 function draw(el, opts) {
-  var padding = 20;
+  var padding = 100;
   var dims = getDims(el);
 
   opts = _.defaults(opts || {}, {
@@ -171,7 +171,15 @@ function drawNode(node, opts) {
 
   node
     .on('click', null)
+    .on('mouseover', null)
+    .on('mouseout', null)
     .on('click', args(toggleNodeSelected, opts))
+    .on('mouseover', function(d) {
+      d3.select(this).select('text').text(d.title);
+    })
+    .on('mouseout', function(d) {
+      d3.select(this).select('text').text(nodeText(d));
+    })
     .attr('class', 'nm-ov-node')
     .classed('nm-ov-node-leaf', store.isLeafNode)
     .classed('nm-ov-node-inner', store.isInnerNode)
@@ -190,16 +198,40 @@ function drawNode(node, opts) {
     });
 
   node.select('text')
-    .attr('text-anchor', 'right')
-    .attr('y', -12)
-    .attr('x', -140)
-    .text(function(d) {
-      return d.title;
-    });
+    .attr('text-anchor', function(d) {
+      return !d.parent
+        ? 'middle'
+        : 'end';
+    })
+    .attr('y', function(d) {
+      return !d.parent
+        ? -(opts.nodeRadius(nodeWeight(d)) + 6)
+        : -6;
+    })
+    .attr('x', function(d) {
+      return !d.parent
+        ? 0
+        : -19;
+    })
+    .text(nodeText);
 
   node
     .filter(store.isSelected)
     .call(drawSelectedNode, opts);
+}
+
+
+function nodeText(d) {
+  return !store.isSelected(d) || d._children.some(store.isSelected)
+    ? truncate(d.title, 18)
+    : d.title;
+}
+
+
+function truncate(s, pos) {
+  return s.length > pos
+    ? s.slice(0, pos) + '…'
+    : s;
 }
 
 

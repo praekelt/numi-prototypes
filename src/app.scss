@@ -1190,10 +1190,8 @@ a.nm-list-group-item-drawer-secondary {
 
 .nm-ov-node {
   text {
-    fill: $fg0;
-    font-size: 10px;
-    font-weight: bold;
-    display: none;
+    fill: darken($fg1, 15%);
+    font-size: 0.83em;
   }
 
   &, &.is-current, &.is-collapsed {

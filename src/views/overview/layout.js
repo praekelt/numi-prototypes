@@ -3,9 +3,8 @@ var _ = require('lodash');
 
 
 function Layout(opts) {
-  opts = _.defaults(opts || {}, {
-    separation: _.constant(2)
-  });
+  opts = _.defaults(opts || {}, {separation: 2});
+  opts.separation = d3.functor(opts.separation);
 
   var tree = d3.layout.tree()
     .separation(opts.separation)
