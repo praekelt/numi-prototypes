@@ -115,8 +115,10 @@ function applySeqtree(root, seqtreeRoot) {
   var node = root;
 
   seqtree.walkCurrent(seqtreeRoot, function(seqtreeNode) {
+    if (!node) return;
+
     store.setCurrent(node, true);
-    var target = seqtreeNode.children[seqtreeNode.currentIdx]
+    var target = seqtreeNode.children[seqtreeNode.currentIdx];
     var id;
 
     if (target) {
