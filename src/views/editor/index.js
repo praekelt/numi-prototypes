@@ -5,7 +5,7 @@ var Ractive = require('ractive');
 
 module.exports = Ractive.extend({
   template: require('./template.html'),
-  onrender: function() {
+  oncomplete: function() {
     this.drawContent();
     this.$editEl().on('keyup', this.onKeyUp.bind(this));
   },

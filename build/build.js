@@ -89912,7 +89912,7 @@
 
 	module.exports = Ractive.extend({
 	  template: __webpack_require__(163),
-	  onrender: function() {
+	  oncomplete: function() {
 	    this.drawContent();
 	    this.$editEl().on('keyup', this.onKeyUp.bind(this));
 	  },
