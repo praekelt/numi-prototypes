@@ -93052,10 +93052,15 @@
 
 	  link
 	    .sort(function(a, b) {
-	      a = store.isSelected(a.target) || store.isCurrent(a.target);
-	      b = store.isSelected(b.target) || store.isCurrent(b.target);
-	      return +a - +b;
+	      return nodeOrdinal(a.target) - nodeOrdinal(b.target);
 	    });
+	}
+
+
+	function nodeOrdinal(node) {
+	  if (store.isSelected(node)) return 3;
+	  if (store.isCurrent(node)) return 2;
+	  return 1;
 	}
 
 
