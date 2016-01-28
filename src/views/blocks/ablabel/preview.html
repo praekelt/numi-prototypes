@@ -10,11 +10,15 @@
 
     <div class="list-group-item nm-preview-list-item nm-preview-cells">
       <div class="nm-preview-cell">
-        <i class="nm-preview-annotation"><strong>A: </strong> {{a}}</i>
+        <i class="nm-preview-annotation">
+          <strong>A: </strong> {{#a}}{{a}}{{/a}}{{^a}}No label given{{/a}}
+        </i>
       </div>
 
       <div class="nm-preview-cell">
-        <i class="nm-preview-annotation"><strong>B: </strong> {{b}}</i>
+        <i class="nm-preview-annotation">
+          <strong>B: </strong> {{#b}}{{b}}{{/b}}{{^b}}No label given{{/b}}
+        </i>
       </div>
     </div>
   </div>
