@@ -5,10 +5,18 @@
       <button class="btn btn-default nm-block-action" on-click="destroy()">Remove</button>
     </div>
 
-    <p class="nm-block-title">Assign label to the user</p>
+    <p class="nm-block-title">Randomly assign label A or B to the user</p>
 
-    {{#text}}<i>{{text}}</i>{{/text}}
-    {{^text}}<i class="nm-preview-annotation">No label given</i>{{/text}}
+
+    <div class="list-group-item nm-preview-list-item nm-preview-cells">
+      <div class="nm-preview-cell">
+        <i class="nm-preview-annotation"><strong>A: </strong> {{a}}</i>
+      </div>
+
+      <div class="nm-preview-cell">
+        <i class="nm-preview-annotation"><strong>B: </strong> {{b}}</i>
+      </div>
+    </div>
   </div>
 
   <div class="panel-footer">

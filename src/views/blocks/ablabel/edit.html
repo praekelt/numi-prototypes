@@ -1,15 +1,22 @@
 <div>
   <h3 class="page-header">
-    Assign label to the user
+    Randomly assign label A or B to the user
     <button class="close" on-click="close()">&times</button>
   </h3>
 
   <div class="nm-form">
     <div class="nm-rows">
       <div class="nm-row">
-        <div class="nm-cell {{^text}}is-incomplete{{/text}}">
-          <label>Label to add to the user</label>
-          <input type="text" value="{{text}}">
+        <div class="nm-cell {{^a}}is-incomplete{{/a}}">
+          <label>Label A</label>
+          <input type="text" value="{{a}}">
+        </div>
+      </div>
+
+      <div class="nm-row">
+        <div class="nm-cell {{^b}}is-incomplete{{/b}}">
+          <label>Label B</label>
+          <input type="text" value="{{b}}">
         </div>
       </div>
     </div>

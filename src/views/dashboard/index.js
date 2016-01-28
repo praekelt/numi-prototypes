@@ -191,8 +191,12 @@ module.exports = Ractive.extend({
       .flatten()
       .pluck('blocks')
       .flatten()
-      .filter({type: 'setlabel'})
-      .pluck('text')
+      .map(function(d) {
+        if (d.type === 'setlabel') return [d.text];
+        else if (d.type === 'ablabel') return [d.a, d.b];
+        return null;
+      })
+      .flatten()
       .compact()
       .map(function(v) {
         return {

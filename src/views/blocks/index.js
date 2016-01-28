@@ -15,3 +15,4 @@ exports.userdialsin = require('./userdialsin');
 exports.usersendsmessage = require('./usersendsmessage');
 exports.annotation = require('./annotation');
 exports.setlabel = require('./setlabel');
+exports.ablabel = require('./ablabel');
