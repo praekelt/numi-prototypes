@@ -91,10 +91,10 @@ ConditionLibrary.palletes = [{
     key: 'label',
     name: 'Label conditions',
     conditions: [{
-      name: 'User has label',
+      name: 'User has the label',
       type: 'haslabel'
     }, {
-      name: "User doesn't have label",
+      name: "User doesn't have the label",
       type: 'nothaslabel'
     }]
   }]
