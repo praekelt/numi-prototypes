@@ -1075,10 +1075,6 @@ a.nm-list-group-item-drawer-secondary {
     border-right: 0;
   }
 
-  &:hover {
-    background: $bg2;
-  }
-
   &.is-pressed {
     background: $bg5;
   }
@@ -1087,6 +1083,10 @@ a.nm-list-group-item-drawer-secondary {
 .nm-cell-btn {
   @include nm-cell-choosable();
   background: $bg3;
+
+  &:hover {
+    background: $bg2;
+  }
 }
 
 .nm-cell-choosable {
