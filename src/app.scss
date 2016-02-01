@@ -1059,9 +1059,8 @@ a.nm-list-group-item-drawer-secondary {
   }
 }
 
-.nm-cell-btn {
+@mixin nm-cell-choosable() {
   white-space: normal;
-  background: $bg3;
   font-size: 0.9em;
   border-radius: 0;
   cursor: pointer !important;
@@ -1079,6 +1078,15 @@ a.nm-list-group-item-drawer-secondary {
   &.is-pressed {
     background: $bg5;
   }
+}
+
+.nm-cell-btn {
+  @include nm-cell-choosable();
+  background: $bg3;
+}
+
+.nm-cell-choosable {
+  @include nm-cell-choosable();
 }
 
 .nm-cell-btn-li {
