@@ -13,7 +13,7 @@
   {{/conditions}}
 
   <div class="nm-row">
-    <button class="nm-cell nm-cell-btn btn nm-cell-placeholder" on-click="addCondition()">
+    <button class="nm-cell nm-cell-btn btn nm-cell-placeholder {{^conditions}}is-incomplete{{/conditions}}" on-click="addCondition()">
       + Add a condition
     </button>
   </div>

@@ -998,7 +998,9 @@ a.nm-list-group-item-drawer-secondary {
   }
 
   &.is-incomplete {
-    border: 1px solid $fg-incomplete;
+    &, &:hover {
+      border: 1px solid $fg-incomplete;
+    }
   }
 
   &.is-inactive {
