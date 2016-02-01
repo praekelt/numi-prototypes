@@ -1,1 +1,16 @@
-Doesn't have the label {{label}}
+{{#conditions.length === 1}}
+<span class="nm-preview-annotation">
+  If the user does not have the label
+  {{#label}}<strong>{{label}}</strong>{{/label}}
+  {{^label}}<i>(no label given)</i>{{/label}}
+</span>
+{{/}}
+
+
+{{#conditions.length > 1}}
+<span class="nm-preview-annotation nm-indent">
+  does not have the label
+  {{#label}}<strong>{{label}}</strong>{{/label}}
+  {{^label}}<i>(no label given)</i>{{/label}}
+</span>
+{{/}}

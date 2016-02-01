@@ -1,3 +1,25 @@
+{{^conditions}}
+<i class="nm-preview-annotation">No conditions given</i>
+{{/conditions}}
+
+{{#conditions.length > 1}}
+<div class="list-group-item nm-preview-list-item">
+    {{#type === 'all'}}
+    <i class="nm-preview-annotation">
+      If the user matches <strong>all</strong> of the following:
+    </i>
+    {{/}}
+
+    {{#type === 'any'}}
+    <i class="nm-preview-annotation">
+      If the user matches <strong>any</strong> of the following:
+    </i>
+    {{/}}
+</div>
+{{/}}
+
 {{#conditions}}
+<div class="list-group-item nm-preview-list-item">
   {{>conditions}}
+</div>
 {{/conditions}}

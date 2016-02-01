@@ -8,14 +8,11 @@
 
     <br/>
     <div class="list-group nm-preview-list">
+      {{#conditionSet}}
+        <conditions type="{{type}}" name="{{name}}" conditions="{{conditions}}"></conditions>
+      {{/conditionSet}}
 
       <div class="list-group-item nm-preview-list-item">
-        <p>
-        {{#conditionSet}}
-          <conditions type="{{type}}" name="{{name}}" conditions="{{conditions}}"></conditions>
-        {{/conditionSet}}
-        </p>
-
         <p>
           {{^route}}
           <i class="nm-preview-annotation">No sequence given</i>
