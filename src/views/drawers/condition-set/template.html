@@ -1,32 +1,7 @@
 <div>
   {{>header {title: "Condition Set"}}}
-
-  <div class="nm-form">
-    <div class="nm-rows">
-      <div class="nm-row">
-        <div class="nm-cell {{^name}}is-incomplete{{/name}}">
-          <label>Name of this set of conditions</label>
-          <input type="text" value="{{name}}">
-        </div>
-      </div>
-
-      <div class="nm-row">
-        <button class="btn nm-cell nm-cell-btn nm-cell-12 {{#type === 'all'}}is-pressed{{/}}" on-click="set('type', 'all')">Match all of the following</button>
-        <button class="btn nm-cell nm-cell-btn nm-cell-12 {{#type === 'any'}}is-pressed{{/}}" on-click="set('type', 'any')">Match any of the following</button>
-      </div>
-
-      {{#conditions}}
-      <div class="nm-row">
-        {{>conditions}}
-      </div>
-      {{/conditions}}
-
-      <div class="nm-row">
-        <button class="nm-cell nm-cell-btn btn nm-cell-placeholder" on-click="addCondition()">
-          + Add a condition
-        </button>
-      </div>
-    </div>
+    <div class="nm-form">
+    <conditions type="{{type}}" name="{{name}}" conditions="{{conditions}}"></conditions>
   </div>
 
   <hr class="nm-divider">
