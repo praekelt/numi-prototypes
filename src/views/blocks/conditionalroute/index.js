@@ -17,7 +17,7 @@ var ConditionalRoute = Base.extend({
   isComplete: function() {
     // TODO more truthful condition set check
     return this.get('route')
-        && this.get('conditionSet');
+        && ConditionSet.isComplete(this.get('conditionSet'));
   },
   data: function() {
     return {

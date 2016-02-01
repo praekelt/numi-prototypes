@@ -91553,7 +91553,7 @@
 	  isComplete: function() {
 	    // TODO more truthful condition set check
 	    return this.get('route')
-	        && this.get('conditionSet');
+	        && ConditionSet.isComplete(this.get('conditionSet'));
 	  },
 	  data: function() {
 	    return {
@@ -91689,6 +91689,15 @@
 	});
 
 
+	ConditionSet.isComplete = function(d) {
+	  return _(d.conditions)
+	    .map(function(d) {
+	      return conditions.types[d.type].isComplete(d);
+	    })
+	    .every();
+	};
+
+
 	ConditionSet.Preview = Ractive.extend({
 	  template: __webpack_require__(258),
 	  partials: {conditions: __webpack_require__(214)},
@@ -91806,9 +91815,14 @@
 	    this.parent.removeCondition(this.get('id'));
 	  },
 	  isComplete: function() {
-	    return true;
-	  },
+	    return this.constructor.isComplete(this.get());
+	  }
 	});
+
+
+	Base.isComplete = function() {
+	  return true;
+	};
 
 
 	Base.Preview = Ractive.extend();
@@ -91958,11 +91972,13 @@
 	    });
 
 	    chooser.open();
-	  },
-	  isComplete: function() {
-	    return !!this.get('label');
 	  }
 	});
+
+
+	HasLabel.isComplete = function(d) {
+	  return !!d.label;
+	};
 
 
 	HasLabel.Preview = Base.Preview.extend({
@@ -92006,11 +92022,13 @@
 	    });
 
 	    chooser.open();
-	  },
-	  isComplete: function() {
-	    return !!this.get('label');
 	  }
 	});
+
+
+	NotHasLabel.isComplete = function(d) {
+	  return !!d.label;
+	};
 
 
 	NotHasLabel.Preview = Base.Preview.extend({
@@ -94747,7 +94765,7 @@
 /* 257 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-preview-annotation"},"f":["If the user has the label ",{"t":7,"e":"strong","f":[{"t":2,"r":"label"}]}]}],"x":{"r":["conditions.length"],"s":"_0===1"}},{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-preview-annotation nm-indent"},"f":["has the label ",{"t":7,"e":"strong","f":[{"t":2,"r":"label"}]}]}],"x":{"r":["conditions.length"],"s":"_0>1"}}]};
+	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-preview-annotation"},"f":["If the user has the label ",{"t":4,"f":[{"t":7,"e":"strong","f":[{"t":2,"r":"label"}]}],"r":"label"}," ",{"t":4,"f":[{"t":7,"e":"i","f":["(no label given)"]}],"n":51,"r":"label"}]}],"x":{"r":["conditions.length"],"s":"_0===1"}},{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-preview-annotation nm-indent"},"f":["has the label ",{"t":4,"f":[{"t":7,"e":"strong","f":[{"t":2,"r":"label"}]}],"r":"label"}," ",{"t":4,"f":[{"t":7,"e":"i","f":["(no label given)"]}],"n":51,"r":"label"}]}],"x":{"r":["conditions.length"],"s":"_0>1"}}]};
 
 /***/ },
 /* 258 */

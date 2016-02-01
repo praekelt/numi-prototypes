@@ -36,6 +36,15 @@ var ConditionSet = Ractive.extend({
 });
 
 
+ConditionSet.isComplete = function(d) {
+  return _(d.conditions)
+    .map(function(d) {
+      return conditions.types[d.type].isComplete(d);
+    })
+    .every();
+};
+
+
 ConditionSet.Preview = Ractive.extend({
   template: require('./preview.html'),
   partials: {conditions: require('../condition-set/conditions.html')},

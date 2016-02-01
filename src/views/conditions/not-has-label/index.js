@@ -21,11 +21,13 @@ var NotHasLabel = Base.extend({
     });
 
     chooser.open();
-  },
-  isComplete: function() {
-    return !!this.get('label');
   }
 });
+
+
+NotHasLabel.isComplete = function(d) {
+  return !!d.label;
+};
 
 
 NotHasLabel.Preview = Base.Preview.extend({

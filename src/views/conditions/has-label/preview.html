@@ -1,12 +1,16 @@
 {{#conditions.length === 1}}
 <span class="nm-preview-annotation">
-  If the user has the label <strong>{{label}}</strong>
+  If the user has the label
+  {{#label}}<strong>{{label}}</strong>{{/label}}
+  {{^label}}<i>(no label given)</i>{{/label}}
 </span>
 {{/}}
 
 
 {{#conditions.length > 1}}
 <span class="nm-preview-annotation nm-indent">
-  has the label <strong>{{label}}</strong>
+  has the label
+  {{#label}}<strong>{{label}}</strong>{{/label}}
+  {{^label}}<i>(no label given)</i>{{/label}}
 </span>
 {{/}}
