@@ -4,6 +4,9 @@ var Chooser = require('../../drawers/chooser');
 
 var HasLabel = Base.extend({
   template: require('./template.html'),
+  data: function() {
+    return {label: null};
+  },
   chooseLabel: function(name) {
     var self = this;
 

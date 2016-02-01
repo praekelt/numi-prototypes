@@ -91955,6 +91955,9 @@
 
 	var HasLabel = Base.extend({
 	  template: __webpack_require__(204),
+	  data: function() {
+	    return {label: null};
+	  },
 	  chooseLabel: function(name) {
 	    var self = this;
 
@@ -92005,6 +92008,9 @@
 
 	var NotHasLabel = Base.extend({
 	  template: __webpack_require__(206),
+	  data: function() {
+	    return {label: null};
+	  },
 	  chooseLabel: function(name) {
 	    var self = this;
 
