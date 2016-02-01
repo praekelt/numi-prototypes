@@ -91539,7 +91539,7 @@
 	var uuid = __webpack_require__(26);
 	var Base = __webpack_require__(157);
 	var drawers = __webpack_require__(49);
-	var ConditionSet = __webpack_require__(193);
+	var ConditionSet = __webpack_require__(194);
 	var ChooseSequence = __webpack_require__(171);
 
 
@@ -91558,7 +91558,7 @@
 	    return {
 	      itemId: uuid.v4(),
 	      seqId: null,
-	      conditionSet: null
+	      conditionSet: ConditionSet.prototype.data()
 	    };
 	  },
 	  computed: {
@@ -91581,22 +91581,9 @@
 
 	ConditionalRoute.Edit = Base.Edit.extend({
 	  template: __webpack_require__(217),
+	  components: {conditions: ConditionSet},
 	  removeRoute: function() {
 	    this.set('seqId', null);
-	  },
-	  setConditions: function() {
-	    var self = this;
-
-	    var conditions = ConditionSet({
-	      el: $('<div>'),
-	      data: _.extend({useClose: true}, this.get('conditionSet'))
-	    });
-
-	    conditions.on('change', function() {
-	      self.set('conditionSet', conditions.get());
-	    });
-
-	    drawers.open(conditions);
 	  },
 	  setRoute: function() {
 	    var self = this;
@@ -92271,7 +92258,7 @@
 /* 217 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h4","a":{"class":"page-header"},"f":["Conditionally go to another sequence ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-placeholder is-incomplete"},"v":{"click":{"m":"setConditions","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"label","f":["Conditions that need to be met"]}," ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," ",{"t":7,"e":"span","a":{"class":"nm-static-input nm-static-input-placeholder"},"f":["Choose a set of conditions"]}]}]}],"n":51,"r":"conditionSet"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-18"},"f":[{"t":7,"e":"label","f":["Conditions that need to be met"]}," ",{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-btn nm-cell-3 btn"},"v":{"click":{"m":"setConditions","a":{"r":[],"s":"[]"}}},"f":["Change"]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-btn nm-cell-3 btn"},"v":{"click":{"m":"set","a":{"r":[],"s":"[\"conditionSet\",null]"}}},"f":["Remove"]}]}],"r":"conditionSet"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-placeholder is-incomplete"},"v":{"click":{"m":"setRoute","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"label","f":["Sequence to route to"]}," ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," ",{"t":7,"e":"span","a":{"class":"nm-static-input nm-static-input-placeholder"},"f":["Choose a sequence"]}]}]}],"n":51,"r":"route"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-18"},"f":[{"t":7,"e":"label","f":["Route"]}," ",{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-btn nm-cell-3 btn"},"v":{"click":{"m":"setRoute","a":{"r":[],"s":"[]"}}},"f":["Change"]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-btn nm-cell-3 btn"},"v":{"click":{"m":"removeRoute","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}],"r":"route"}]}]}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","f":[{"t":7,"e":"h4","a":{"class":"page-header"},"f":["Conditionally go to another sequence ",{"t":7,"e":"button","a":{"class":"close"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["×"]}]}," ",{"t":7,"e":"div","a":{"class":"nm-form"},"f":[{"t":7,"e":"div","a":{"class":"nm-rows"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-placeholder is-incomplete"},"v":{"click":{"m":"setRoute","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"label","f":["Sequence to route to"]}," ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right pull-right"}}," ",{"t":7,"e":"span","a":{"class":"nm-static-input nm-static-input-placeholder"},"f":["Choose a sequence"]}]}]}],"n":51,"r":"route"}," ",{"t":4,"f":[{"t":7,"e":"div","a":{"class":"nm-row"},"f":[{"t":7,"e":"div","a":{"class":"nm-cell nm-cell-18"},"f":[{"t":7,"e":"label","f":["Route"]}," ",{"t":7,"e":"span","a":{"class":"nm-static-input"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-btn nm-cell-3 btn"},"v":{"click":{"m":"setRoute","a":{"r":[],"s":"[]"}}},"f":["Change"]}," ",{"t":7,"e":"button","a":{"class":"nm-cell nm-cell-btn nm-cell-3 btn"},"v":{"click":{"m":"removeRoute","a":{"r":[],"s":"[]"}}},"f":["Remove"]}]}],"r":"route"}," ",{"t":4,"f":[{"t":7,"e":"conditions","a":{"type":[{"t":2,"r":"type"}],"name":[{"t":2,"r":"name"}],"conditions":[{"t":2,"r":"conditions"}]}}],"r":"conditionSet"}]}]}," ",{"t":7,"e":"hr","a":{"class":"nm-divider"}}," ",{"t":7,"e":"button","a":{"type":"button","class":"btn btn-default pull-left"},"v":{"click":{"m":"close","a":{"r":[],"s":"[]"}}},"f":["Save and close ",{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-chevron-right"}}]}]}]};
 
 /***/ },
 /* 218 */

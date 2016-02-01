@@ -3,7 +3,7 @@ var _ = require('lodash');
 var uuid = require('node-uuid');
 var Base = require('../base');
 var drawers = require('../../../drawers');
-var ConditionSet = require('../../drawers/condition-set');
+var ConditionSet = require('../../condition-set');
 var ChooseSequence = require('../../drawers/choose-sequence');
 
 
@@ -22,7 +22,7 @@ var ConditionalRoute = Base.extend({
     return {
       itemId: uuid.v4(),
       seqId: null,
-      conditionSet: null
+      conditionSet: ConditionSet.prototype.data()
     };
   },
   computed: {
@@ -45,22 +45,9 @@ var ConditionalRoute = Base.extend({
 
 ConditionalRoute.Edit = Base.Edit.extend({
   template: require('./edit.html'),
+  components: {conditions: ConditionSet},
   removeRoute: function() {
     this.set('seqId', null);
-  },
-  setConditions: function() {
-    var self = this;
-
-    var conditions = ConditionSet({
-      el: $('<div>'),
-      data: _.extend({useClose: true}, this.get('conditionSet'))
-    });
-
-    conditions.on('change', function() {
-      self.set('conditionSet', conditions.get());
-    });
-
-    drawers.open(conditions);
   },
   setRoute: function() {
     var self = this;
