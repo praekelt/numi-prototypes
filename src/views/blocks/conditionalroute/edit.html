@@ -6,28 +6,6 @@
 
   <div class="nm-form">
     <div class="nm-rows">
-      {{^conditionSet}}
-      <div class="nm-row">
-        <div class="nm-cell nm-cell-placeholder is-incomplete" on-click="setConditions()">
-          <label>Conditions that need to be met</label>
-          <span class="glyphicon glyphicon-chevron-right pull-right"></span>
-          <span class="nm-static-input nm-static-input-placeholder">Choose a set of conditions</span>
-        </div>
-      </div>
-      {{/conditionSet}}
-
-      {{#conditionSet}}
-      <div class="nm-row">
-        <div class="nm-cell nm-cell-18">
-          <label>Conditions that need to be met</label>
-          <span class="nm-static-input">{{name}}</span>
-        </div>
-
-        <button class="nm-cell nm-cell-btn nm-cell-3 btn" on-click="setConditions()">Change</button>
-        <button class="nm-cell nm-cell-btn nm-cell-3 btn" on-click="set('conditionSet', null)">Remove</button>
-      </div>
-      {{/conditionSet}}
-
       {{^route}}
       <div class="nm-row">
         <div class="nm-cell nm-cell-placeholder is-incomplete" on-click="setRoute()">
@@ -40,7 +18,7 @@
 
       {{#route}}
       <div class="nm-row">
-        <div class="nm-cell nm-cell-18">
+        <div class="nm-cell nm-cell-choosable nm-cell-21" on-click="setRoute()">
           <label>Route</label>
 
           <span class="nm-static-input">
@@ -48,11 +26,14 @@
           </span>
         </div>
 
-        <button class="nm-cell nm-cell-btn nm-cell-3 btn" on-click="setRoute()">Change</button>
         <button class="nm-cell nm-cell-btn nm-cell-3 btn" on-click="removeRoute()">Remove</button>
       </div>
       {{/route}}
     </div>
+
+    {{#conditionSet}}
+      <conditions type="{{type}}" name="{{name}}" conditions="{{conditions}}"></conditions>
+    {{/conditionSet}}
   </div>
 
   <hr class="nm-divider">

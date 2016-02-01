@@ -2,7 +2,7 @@ var Base = require('../base');
 var Chooser = require('../../drawers/chooser');
 
 
-var HasLabel = Base.extend({
+var DateFuture = Base.extend({
   template: require('./template.html'),
   computed: {
     fieldName: function() {
@@ -35,4 +35,16 @@ var HasLabel = Base.extend({
 });
 
 
-module.exports = HasLabel;
+DateFuture.isComplete = function(d) {
+  return !!d.fieldId;
+};
+
+
+DateFuture.Preview = Base.Preview.extend({
+  template: require('./preview.html'),
+  computed: DateFuture.prototype.computed
+});
+
+
+
+module.exports = DateFuture;

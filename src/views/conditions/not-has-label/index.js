@@ -2,8 +2,11 @@ var Base = require('../base');
 var Chooser = require('../../drawers/chooser');
 
 
-var HasLabel = Base.extend({
+var NotHasLabel = Base.extend({
   template: require('./template.html'),
+  data: function() {
+    return {label: null};
+  },
   chooseLabel: function(name) {
     var self = this;
 
@@ -21,11 +24,18 @@ var HasLabel = Base.extend({
     });
 
     chooser.open();
-  },
-  isComplete: function() {
-    return !!this.get('label');
   }
 });
 
 
-module.exports = HasLabel;
+NotHasLabel.isComplete = function(d) {
+  return !!d.label;
+};
+
+
+NotHasLabel.Preview = Base.Preview.extend({
+  template: require('./preview.html')
+});
+
+
+module.exports = NotHasLabel;

@@ -4,6 +4,9 @@ var Chooser = require('../../drawers/chooser');
 
 var HasLabel = Base.extend({
   template: require('./template.html'),
+  data: function() {
+    return {label: null};
+  },
   chooseLabel: function(name) {
     var self = this;
 
@@ -21,10 +24,17 @@ var HasLabel = Base.extend({
     });
 
     chooser.open();
-  },
-  isComplete: function() {
-    return !!this.get('label');
   }
+});
+
+
+HasLabel.isComplete = function(d) {
+  return !!d.label;
+};
+
+
+HasLabel.Preview = Base.Preview.extend({
+  template: require('./preview.html')
 });
 
 

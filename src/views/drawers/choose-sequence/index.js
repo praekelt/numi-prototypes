@@ -23,11 +23,11 @@ module.exports = Base.extend({
 
     list.once('chosen', function(id) {
       self.choose(id);
-      drawers.close(self);
-      drawers.close(list);
+      self.close();
+      list.close();
     });
 
-    drawers.open(list);
+    list.open();
   },
   chooseDialogue: function() {
   },

@@ -20,9 +20,13 @@ var Comparison = Base.extend({
 
     drawers.open(chooser);
   },
-  isComplete: function() {
-    return this.get('a') != null
-        && this.get('b') != null;
+  preview: function(name) {
+    var d = this.get(name);
+
+    if (d.type === 'userField' && d.userFieldId != null)
+      return dashboard.getUserFieldName(d.userFieldId);
+    else if (d.type === 'value')
+      return d.value;
   },
   data: function() {
     return {
@@ -35,18 +39,33 @@ var Comparison = Base.extend({
         return this.get(name) != null;
       },
       preview: function(name) {
-        var d = this.get(name);
-
-        if (d.type === 'userField' && d.userFieldId != null)
-          return dashboard.getUserFieldName(d.userFieldId);
-        else if (d.type === 'value')
-          return d.value;
+        return this.preview(name);
       }
     };
   },
   computed: {
     operandSpan: function() {
       return Math.floor((21 - this.get('operatorSpan')) / 2);
+    }
+  }
+});
+
+
+Comparison.isComplete = function(d) {
+  return d.a != null
+      && d.b != null;
+};
+
+
+Comparison.Preview = Base.Preview.extend({
+  template: require('./preview.html'),
+  preview: Comparison.prototype.preview,
+  computed: {
+    previewA: function() {
+      return this.preview('a');
+    },
+    previewB: function() {
+      return this.preview('b');
     }
   }
 });

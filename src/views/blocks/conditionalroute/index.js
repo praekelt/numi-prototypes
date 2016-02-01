@@ -3,12 +3,13 @@ var _ = require('lodash');
 var uuid = require('node-uuid');
 var Base = require('../base');
 var drawers = require('../../../drawers');
-var ConditionSet = require('../../drawers/condition-set');
+var ConditionSet = require('../../condition-set');
 var ChooseSequence = require('../../drawers/choose-sequence');
 
 
 var ConditionalRoute = Base.extend({
   template: require('./preview.html'),
+  components: {conditions: ConditionSet.Preview},
   onConditionalRouteClick: function(e) {
     e.original.preventDefault();
     this.selectItem(this.get('seqId'), this.get('itemId'));
@@ -16,13 +17,13 @@ var ConditionalRoute = Base.extend({
   isComplete: function() {
     // TODO more truthful condition set check
     return this.get('route')
-        && this.get('conditionSet');
+        && ConditionSet.isComplete(this.get('conditionSet'));
   },
   data: function() {
     return {
       itemId: uuid.v4(),
       seqId: null,
-      conditionSet: null
+      conditionSet: ConditionSet.prototype.data()
     };
   },
   computed: {
@@ -45,22 +46,9 @@ var ConditionalRoute = Base.extend({
 
 ConditionalRoute.Edit = Base.Edit.extend({
   template: require('./edit.html'),
+  components: {conditions: ConditionSet},
   removeRoute: function() {
     this.set('seqId', null);
-  },
-  setConditions: function() {
-    var self = this;
-
-    var conditions = ConditionSet({
-      el: $('<div>'),
-      data: _.extend({useClose: true}, this.get('conditionSet'))
-    });
-
-    conditions.on('change', function() {
-      self.set('conditionSet', conditions.get());
-    });
-
-    drawers.open(conditions);
   },
   setRoute: function() {
     var self = this;

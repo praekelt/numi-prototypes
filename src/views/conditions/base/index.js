@@ -15,9 +15,17 @@ var Base = Ractive.extend({
     this.parent.removeCondition(this.get('id'));
   },
   isComplete: function() {
-    return true;
-  },
+    return this.constructor.isComplete(this.get());
+  }
 });
+
+
+Base.isComplete = function() {
+  return true;
+};
+
+
+Base.Preview = Ractive.extend();
 
 
 module.exports = Base;

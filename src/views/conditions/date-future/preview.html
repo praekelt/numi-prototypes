@@ -1,0 +1,14 @@
+{{#conditions.length === 1}}
+<span class="nm-preview-annotation">
+  If the user field <strong>{{fieldName}}</strong> has not yet been reached
+</span>
+{{/}}
+
+
+{{#conditions.length > 1}}
+<span class="nm-preview-annotation">
+  <p class="nm-indent">
+    User field <strong>{{fieldName}}</strong> has not yet been reached
+  </p>
+</span>
+{{/}}

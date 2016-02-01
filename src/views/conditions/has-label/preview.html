@@ -1,0 +1,14 @@
+{{#conditions.length === 1}}
+<span class="nm-preview-annotation">
+  If the user has the label <strong>{{label}}</strong>
+</span>
+{{/}}
+
+
+{{#conditions.length > 1}}
+<span class="nm-preview-annotation">
+  <p class="nm-indent">
+    User has the label <strong>{{label}}</strong>
+  </p>
+</span>
+{{/}}
