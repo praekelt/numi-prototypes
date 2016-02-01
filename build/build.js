@@ -91701,7 +91701,15 @@
 	ConditionSet.Preview = Ractive.extend({
 	  template: __webpack_require__(258),
 	  partials: {conditions: __webpack_require__(214)},
-	  components: _.mapValues(conditions.types, 'Preview')
+	  components: _.mapValues(conditions.types, 'Preview'),
+	  computed: {
+	    completeConditions: function() {
+	      return this.get('conditions')
+	        .filter(function(d) {
+	          return conditions.types[d.type].isComplete(d);
+	        });
+	    }
+	  }
 	});
 
 
@@ -91759,9 +91767,13 @@
 
 	    drawers.open(chooser);
 	  },
-	  isComplete: function() {
-	    return this.get('a') != null
-	        && this.get('b') != null;
+	  preview: function(name) {
+	    var d = this.get(name);
+
+	    if (d.type === 'userField' && d.userFieldId != null)
+	      return dashboard.getUserFieldName(d.userFieldId);
+	    else if (d.type === 'value')
+	      return d.value;
 	  },
 	  data: function() {
 	    return {
@@ -91774,18 +91786,33 @@
 	        return this.get(name) != null;
 	      },
 	      preview: function(name) {
-	        var d = this.get(name);
-
-	        if (d.type === 'userField' && d.userFieldId != null)
-	          return dashboard.getUserFieldName(d.userFieldId);
-	        else if (d.type === 'value')
-	          return d.value;
+	        return this.preview(name);
 	      }
 	    };
 	  },
 	  computed: {
 	    operandSpan: function() {
 	      return Math.floor((21 - this.get('operatorSpan')) / 2);
+	    }
+	  }
+	});
+
+
+	Comparison.isComplete = function(d) {
+	  return d.a != null
+	      && d.b != null;
+	};
+
+
+	Comparison.Preview = Base.Preview.extend({
+	  template: __webpack_require__(262),
+	  preview: Comparison.prototype.preview,
+	  computed: {
+	    previewA: function() {
+	      return this.preview('a');
+	    },
+	    previewB: function() {
+	      return this.preview('b');
 	    }
 	  }
 	});
@@ -91848,6 +91875,9 @@
 	      value: 0,
 	      userFieldId: null
 	    };
+	  },
+	  onconfig: function() {
+	    if (this.get('dataType') === 'text') this.set('value', '');
 	  },
 	  computed: {
 	    userFieldName: function() {
@@ -92059,7 +92089,7 @@
 	var Chooser = __webpack_require__(166);
 
 
-	var HasLabel = Base.extend({
+	var DatePast = Base.extend({
 	  template: __webpack_require__(208),
 	  computed: {
 	    fieldName: function() {
@@ -92085,14 +92115,22 @@
 	    });
 
 	    chooser.open();
-	  },
-	  isComplete: function() {
-	    return !!this.get('fieldId');
 	  }
 	});
 
 
-	module.exports = HasLabel;
+	DatePast.isComplete = function(d) {
+	  return !!d.fieldId;
+	};
+
+
+	DatePast.Preview = Base.Preview.extend({
+	  template: __webpack_require__(260),
+	  computed: DatePast.prototype.computed
+	});
+
+
+	module.exports = DatePast;
 
 
 /***/ },
@@ -92109,7 +92147,7 @@
 	var Chooser = __webpack_require__(166);
 
 
-	var HasLabel = Base.extend({
+	var DateFuture = Base.extend({
 	  template: __webpack_require__(210),
 	  computed: {
 	    fieldName: function() {
@@ -92142,7 +92180,19 @@
 	});
 
 
-	module.exports = HasLabel;
+	DateFuture.isComplete = function(d) {
+	  return !!d.fieldId;
+	};
+
+
+	DateFuture.Preview = Base.Preview.extend({
+	  template: __webpack_require__(261),
+	  computed: DateFuture.prototype.computed
+	});
+
+
+
+	module.exports = DateFuture;
 
 
 /***/ },
@@ -92286,7 +92336,7 @@
 /* 214 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"comparison","a":{"id":[{"t":2,"r":"id"}],"a":[{"t":2,"r":"a"}],"b":[{"t":2,"r":"b"}],"dataType":[{"t":2,"r":"dataType"}],"operator":[{"t":2,"r":"operator"}],"operatorSpan":[{"t":2,"r":"operatorSpan"}]}}],"x":{"r":["type"],"s":"_0==\"comparison\""}},{"t":4,"f":[{"t":7,"e":"group","a":{"id":[{"t":2,"r":"id"}],"conditionSet":[{"t":2,"r":"conditionSet"}]}}],"x":{"r":["type"],"s":"_0==\"group\""}},{"t":4,"f":[{"t":7,"e":"haslabel","a":{"id":[{"t":2,"r":"id"}],"label":[{"t":2,"r":"label"}]}}],"x":{"r":["type"],"s":"_0==\"haslabel\""}},{"t":4,"f":[{"t":7,"e":"nothaslabel","a":{"id":[{"t":2,"r":"id"}],"label":[{"t":2,"r":"label"}]}}],"x":{"r":["type"],"s":"_0==\"nothaslabel\""}},{"t":4,"f":[{"t":7,"e":"datepast","a":{"id":[{"t":2,"r":"id"}],"label":[{"t":2,"r":"fieldId"}]}}],"x":{"r":["type"],"s":"_0==\"datepast\""}},{"t":4,"f":[{"t":7,"e":"datefuture","a":{"id":[{"t":2,"r":"id"}],"label":[{"t":2,"r":"fieldId"}]}}],"x":{"r":["type"],"s":"_0==\"datefuture\""}}]};
+	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"comparison","a":{"id":[{"t":2,"r":"id"}],"a":[{"t":2,"r":"a"}],"b":[{"t":2,"r":"b"}],"dataType":[{"t":2,"r":"dataType"}],"operator":[{"t":2,"r":"operator"}],"operatorSpan":[{"t":2,"r":"operatorSpan"}]}}],"x":{"r":["type"],"s":"_0==\"comparison\""}},{"t":4,"f":[{"t":7,"e":"group","a":{"id":[{"t":2,"r":"id"}],"conditionSet":[{"t":2,"r":"conditionSet"}]}}],"x":{"r":["type"],"s":"_0==\"group\""}},{"t":4,"f":[{"t":7,"e":"haslabel","a":{"id":[{"t":2,"r":"id"}],"label":[{"t":2,"r":"label"}]}}],"x":{"r":["type"],"s":"_0==\"haslabel\""}},{"t":4,"f":[{"t":7,"e":"nothaslabel","a":{"id":[{"t":2,"r":"id"}],"label":[{"t":2,"r":"label"}]}}],"x":{"r":["type"],"s":"_0==\"nothaslabel\""}},{"t":4,"f":[{"t":7,"e":"datepast","a":{"id":[{"t":2,"r":"id"}],"fieldId":[{"t":2,"r":"fieldId"}]}}],"x":{"r":["type"],"s":"_0==\"datepast\""}},{"t":4,"f":[{"t":7,"e":"datefuture","a":{"id":[{"t":2,"r":"id"}],"fieldId":[{"t":2,"r":"fieldId"}]}}],"x":{"r":["type"],"s":"_0==\"datefuture\""}}]};
 
 /***/ },
 /* 215 */
@@ -94771,19 +94821,37 @@
 /* 257 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-preview-annotation"},"f":["If the user has the label ",{"t":4,"f":[{"t":7,"e":"strong","f":[{"t":2,"r":"label"}]}],"r":"label"}," ",{"t":4,"f":[{"t":7,"e":"i","f":["(no label given)"]}],"n":51,"r":"label"}]}],"x":{"r":["conditions.length"],"s":"_0===1"}},{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-preview-annotation nm-indent"},"f":["has the label ",{"t":4,"f":[{"t":7,"e":"strong","f":[{"t":2,"r":"label"}]}],"r":"label"}," ",{"t":4,"f":[{"t":7,"e":"i","f":["(no label given)"]}],"n":51,"r":"label"}]}],"x":{"r":["conditions.length"],"s":"_0>1"}}]};
+	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-preview-annotation"},"f":["If the user has the label ",{"t":7,"e":"strong","f":[{"t":2,"r":"label"}]}]}],"x":{"r":["conditions.length"],"s":"_0===1"}},{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-preview-annotation"},"f":[{"t":7,"e":"p","a":{"class":"nm-indent"},"f":["User has the label ",{"t":7,"e":"strong","f":[{"t":2,"r":"label"}]}]}]}],"x":{"r":["conditions.length"],"s":"_0>1"}}]};
 
 /***/ },
 /* 258 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No conditions given"]}],"n":51,"r":"conditions"},{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["If the user matches ",{"t":7,"e":"strong","f":["all"]}," of the following:"]}],"x":{"r":["type"],"s":"_0===\"all\""}}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["If the user matches ",{"t":7,"e":"strong","f":["any"]}," of the following:"]}],"x":{"r":["type"],"s":"_0===\"any\""}}]}],"x":{"r":["conditions.length"],"s":"_0>1"}},{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":8,"r":"conditions"}]}],"r":"conditions"}]};
+	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["No conditions given"]}],"n":51,"r":"completeConditions"},{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["If the user matches ",{"t":7,"e":"strong","f":["all"]}," of the following:"]}],"x":{"r":["type"],"s":"_0===\"all\""}}," ",{"t":4,"f":[{"t":7,"e":"i","a":{"class":"nm-preview-annotation"},"f":["If the user matches ",{"t":7,"e":"strong","f":["any"]}," of the following:"]}],"x":{"r":["type"],"s":"_0===\"any\""}}]}],"x":{"r":["completeConditions.length"],"s":"_0>1"}},{"t":4,"f":[{"t":7,"e":"div","a":{"class":"list-group-item nm-preview-list-item"},"f":[{"t":8,"r":"conditions"}]}],"r":"completeConditions"}]};
 
 /***/ },
 /* 259 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-preview-annotation"},"f":["If the user does not have the label ",{"t":4,"f":[{"t":7,"e":"strong","f":[{"t":2,"r":"label"}]}],"r":"label"}," ",{"t":4,"f":[{"t":7,"e":"i","f":["(no label given)"]}],"n":51,"r":"label"}]}],"x":{"r":["conditions.length"],"s":"_0===1"}},{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-preview-annotation nm-indent"},"f":["does not have the label ",{"t":4,"f":[{"t":7,"e":"strong","f":[{"t":2,"r":"label"}]}],"r":"label"}," ",{"t":4,"f":[{"t":7,"e":"i","f":["(no label given)"]}],"n":51,"r":"label"}]}],"x":{"r":["conditions.length"],"s":"_0>1"}}]};
+	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-preview-annotation"},"f":["If the user does not have the label ",{"t":7,"e":"strong","f":[{"t":2,"r":"label"}]}]}],"x":{"r":["conditions.length"],"s":"_0===1"}},{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-preview-annotation"},"f":[{"t":7,"e":"p","a":{"class":"nm-indent"},"f":["User does not have the label ",{"t":7,"e":"strong","f":[{"t":2,"r":"label"}]}]}]}],"x":{"r":["conditions.length"],"s":"_0>1"}}]};
+
+/***/ },
+/* 260 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-preview-annotation"},"f":["If the user field ",{"t":7,"e":"strong","f":[{"t":2,"r":"fieldName"}]}," has passed"]}],"x":{"r":["conditions.length"],"s":"_0===1"}},{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-preview-annotation"},"f":[{"t":7,"e":"p","a":{"class":"nm-indent"},"f":["User field ",{"t":7,"e":"strong","f":[{"t":2,"r":"fieldName"}]}," has passed"]}]}],"x":{"r":["conditions.length"],"s":"_0>1"}}]};
+
+/***/ },
+/* 261 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-preview-annotation"},"f":["If the user field ",{"t":7,"e":"strong","f":[{"t":2,"r":"fieldName"}]}," has not yet been reached"]}],"x":{"r":["conditions.length"],"s":"_0===1"}},{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-preview-annotation"},"f":[{"t":7,"e":"p","a":{"class":"nm-indent"},"f":["User field ",{"t":7,"e":"strong","f":[{"t":2,"r":"fieldName"}]}," has not yet been reached"]}]}],"x":{"r":["conditions.length"],"s":"_0>1"}}]};
+
+/***/ },
+/* 262 */
+/***/ function(module, exports) {
+
+	module.exports={"v":3,"t":[{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-preview-annotation"},"f":["If ",{"t":7,"e":"strong","f":[{"t":2,"r":"previewA"}]}," ",{"t":2,"r":"operator"}," ",{"t":7,"e":"strong","f":[{"t":2,"r":"previewB"}]}]}],"x":{"r":["conditions.length"],"s":"_0===1"}},{"t":4,"f":[{"t":7,"e":"span","a":{"class":"nm-preview-annotation"},"f":[{"t":7,"e":"p","a":{"class":"nm-indent"},"f":[{"t":7,"e":"strong","f":[{"t":2,"r":"previewA"}]}," ",{"t":2,"r":"operator"}," ",{"t":7,"e":"strong","f":[{"t":2,"r":"previewB"}]}]}]}],"x":{"r":["conditions.length"],"s":"_0>1"}}]};
 
 /***/ }
 /******/ ]);

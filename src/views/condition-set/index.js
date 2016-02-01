@@ -48,7 +48,15 @@ ConditionSet.isComplete = function(d) {
 ConditionSet.Preview = Ractive.extend({
   template: require('./preview.html'),
   partials: {conditions: require('../condition-set/conditions.html')},
-  components: _.mapValues(conditions.types, 'Preview')
+  components: _.mapValues(conditions.types, 'Preview'),
+  computed: {
+    completeConditions: function() {
+      return this.get('conditions')
+        .filter(function(d) {
+          return conditions.types[d.type].isComplete(d);
+        });
+    }
+  }
 });
 
 

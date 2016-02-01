@@ -12,6 +12,9 @@ var ChooseOperand = Base.extend({
       userFieldId: null
     };
   },
+  onconfig: function() {
+    if (this.get('dataType') === 'text') this.set('value', '');
+  },
   computed: {
     userFieldName: function() {
       return dashboard.getUserFieldName(this.get('userFieldId'));

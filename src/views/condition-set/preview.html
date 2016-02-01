@@ -1,8 +1,8 @@
-{{^conditions}}
+{{^completeConditions}}
 <i class="nm-preview-annotation">No conditions given</i>
-{{/conditions}}
+{{/completeConditions}}
 
-{{#conditions.length > 1}}
+{{#completeConditions.length > 1}}
 <div class="list-group-item nm-preview-list-item">
     {{#type === 'all'}}
     <i class="nm-preview-annotation">
@@ -18,8 +18,8 @@
 </div>
 {{/}}
 
-{{#conditions}}
+{{#completeConditions}}
 <div class="list-group-item nm-preview-list-item">
   {{>conditions}}
 </div>
-{{/conditions}}
+{{/completeConditions}}
