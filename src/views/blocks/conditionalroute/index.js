@@ -9,6 +9,7 @@ var ChooseSequence = require('../../drawers/choose-sequence');
 
 var ConditionalRoute = Base.extend({
   template: require('./preview.html'),
+  components: {conditions: ConditionSet.Preview},
   onConditionalRouteClick: function(e) {
     e.original.preventDefault();
     this.selectItem(this.get('seqId'), this.get('itemId'));

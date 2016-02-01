@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var drawers = require('../../drawers');
 var Ractive = require('ractive');
 var conditions = require('../conditions');
@@ -32,6 +33,13 @@ var ConditionSet = Ractive.extend({
   removeCondition: function(id) {
     this.removeWhere('conditions', {id: id});
   }
+});
+
+
+ConditionSet.Preview = Ractive.extend({
+  template: require('./preview.html'),
+  partials: {conditions: require('../condition-set/conditions.html')},
+  components: _.mapValues(conditions.types, 'Preview')
 });
 
 

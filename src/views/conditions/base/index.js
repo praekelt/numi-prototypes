@@ -20,4 +20,7 @@ var Base = Ractive.extend({
 });
 
 
+Base.Preview = Ractive.extend();
+
+
 module.exports = Base;

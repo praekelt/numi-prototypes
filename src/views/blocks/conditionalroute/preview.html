@@ -11,15 +11,9 @@
 
       <div class="list-group-item nm-preview-list-item">
         <p>
-          {{#conditionSet}}
-          {{^name}}
-          <i class="nm-preview-annotation">No name given for condition set</i>
-          {{/name}}
-
-          {{#name}}
-          <span>{{name}}</span>
-          {{/name}}
-          {{/conditionSet}}
+        {{#conditionSet}}
+          <conditions type="{{type}}" name="{{name}}" conditions="{{conditions}}"></conditions>
+        {{/conditionSet}}
         </p>
 
         <p>

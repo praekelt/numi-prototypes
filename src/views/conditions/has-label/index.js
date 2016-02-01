@@ -28,4 +28,9 @@ var HasLabel = Base.extend({
 });
 
 
+HasLabel.Preview = Base.Preview.extend({
+  template: require('./preview.html')
+});
+
+
 module.exports = HasLabel;
