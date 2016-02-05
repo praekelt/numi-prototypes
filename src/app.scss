@@ -1205,7 +1205,7 @@ a.nm-list-group-item-drawer-secondary {
 }
 
 .nm-ov-node {
-  text {
+  .nm-ov-label-node {
     fill: darken($fg1, 15%);
     font-size: 0.83em;
   }
@@ -1219,7 +1219,7 @@ a.nm-list-group-item-drawer-secondary {
         fill: $bg-active0;
       }
 
-      text {
+      .nm-ov-label-node {
         fill: darken($fg-active1, 15%);
       }
     }
@@ -1232,8 +1232,23 @@ a.nm-list-group-item-drawer-secondary {
   }
 
   &.is-selected {
+    .nm-ov-hint-toggle-node {
+      fill: $fg-active1;
+      font-weight: bold;
+    }
+
     .nm-ov-glyph-node {
       stroke: $fg-active0;
+    }
+
+    &:hover {
+      .nm-ov-glyph-node {
+        stroke: darken($fg-active1, 15%);
+      }
+
+      .nm-ov-hint-toggle-node {
+        fill: darken($fg-active1, 15%);
+      }
     }
   }
 }
@@ -1271,6 +1286,10 @@ a.nm-list-group-item-drawer-secondary {
       fill: $bg-active0;
     }
   }
+}
+
+.nm-ov-hint-toggle-node {
+  fill: none;
 }
 
 .nm-ov-underlay {

@@ -165,11 +165,17 @@ function drawNode(node, opts) {
       .classed('nm-ov-glyph-node', true);
 
   entering
+    .filter(store.isInnerNode)
+    .append('text')
+      .classed('nm-ov-hint-toggle-node', true);
+
+  entering
     .filter(store.isLeafNode)
     .append('rect')
       .classed('nm-ov-glyph-node', true);
 
-  entering.append('text');
+  entering.append('text')
+    .classed('nm-ov-label-node', true);
 
   node.exit()
     .transition()
@@ -184,10 +190,10 @@ function drawNode(node, opts) {
     .on('mouseout', null)
     .on('click', args(toggleNodeSelected, opts))
     .on('mouseover', function(d) {
-      d3.select(this).select('text').text(d.title);
+      d3.select(this).select('.nm-ov-label-node').text(d.title);
     })
     .on('mouseout', function(d) {
-      d3.select(this).select('text').text(nodeText(d));
+      d3.select(this).select('.nm-ov-label-node').text(nodeText(d));
     })
     .attr('class', 'nm-ov-node')
     .classed('nm-ov-node-leaf', store.isLeafNode)
@@ -213,7 +219,7 @@ function drawNode(node, opts) {
     .attr('rx', 2)
     .attr('ry', 2);
 
-  node.select('text')
+  node.select('.nm-ov-label-node')
     .attr('text-anchor', function(d) {
       return !d.parent
         ? 'middle'
@@ -230,6 +236,15 @@ function drawNode(node, opts) {
         : -19;
     })
     .text(nodeText);
+
+  node.select('.nm-ov-hint-toggle-node')
+    .attr('x', -5.5)
+    .attr('y', 5)
+    .text(function(d) {
+      return store.isCollapsed(d)
+        ? '+'
+        : '−';
+    });
 
   node
     .filter(store.isSelected)
