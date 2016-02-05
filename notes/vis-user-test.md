@@ -1,15 +1,24 @@
 Numi User Testing: Overview
 ===========================
 
+Intro
+-----
+  - changed prototype to provide a better overview of how the different parts of the dialogue flow from one to another.
+  - we want you to test out the changes we've made
+  - testing prototype ideas, not you
+  - testing ideas, not look and feel
+  - prototype still not a real working thing, just meant to test the ideas we want to use in the working thing
+  - going to go through a set of steps, asking you to click on things, and ask questions at each step
+
 Script
 ------
 - explain and make sure user understands what sequences (and blocks) are
 
-- tell users that more visual hints are likely to be given in actual thing, but we want to test how intuitive the vis, so we aren't showing them here
+- tell user that more visual hints are likely to be given in actual thing, but we want to test how intuitive the vis, so we aren't showing them here
 
 - give user link to fin lit dialogue
 - guide the user through navigating paths in dialogue view, make sure they understand what is happening
-- tell user to click [Overview]
+- tell user to click `[ Overview ]`
 - ask user to explain what they are seeing
 - ask what they expect the following mean:
   - circles
@@ -27,13 +36,13 @@ Script
 - ask what they think just happened
 - ask user to click on circle "Glossary Split" again
 - ask what they think happened
-- refer to [ Show selected in dialogue | Back to dialogue ]
+- refer to `[ Show selected in dialogue | Back to dialogue ]`
 - ask what they think each button does
-- ask user to click [ Show selected in dialogue ]
+- ask user to click `[ Show selected in dialogue ]`
 - ask what they think happened
 
-Checklist to cross-check against after testing
-----------------------------------------------
+Ideas to evaluate (cross-check against after testing)
+-----------------------------------------------------
 - overview button
 - vis
   - sequences (circles)
