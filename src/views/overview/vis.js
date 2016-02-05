@@ -159,7 +159,16 @@ function drawNode(node, opts) {
       .attr('radius', 0)
       .attr('transform', translate(opts.enterCoords));
 
-  entering.append('circle');
+  entering
+    .filter(store.isInnerNode)
+    .append('circle')
+      .classed('nm-ov-glyph-node', true);
+
+  entering
+    .filter(store.isLeafNode)
+    .append('rect')
+      .classed('nm-ov-glyph-node', true);
+
   entering.append('text');
 
   node.exit()
@@ -196,6 +205,13 @@ function drawNode(node, opts) {
     .attr('r', function(d) {
       return opts.nodeRadius(nodeWeight(d));
     });
+
+  node.select('rect')
+    .attr('width', 10)
+    .attr('height', 10)
+    .attr('y', -5)
+    .attr('rx', 2)
+    .attr('ry', 2);
 
   node.select('text')
     .attr('text-anchor', function(d) {
