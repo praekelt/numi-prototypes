@@ -15,6 +15,7 @@ Intro
 
   - going to go through a set of steps, asking you to click on things, and ask questions at each step
 
+
 Script
 ------
 - give user link to fin lit dialogue
@@ -30,33 +31,27 @@ Script
 - ask what they expect the following mean:
   - circles
   - lines
-  - rectangles
   - circle size
   - text next to circles
   - purple circles and lines
-
-- ask user to click on circle "Glossary Split"
-
-- ask what they expect the following mean:
   - blue circles and lines
   - +s
   - -s
 
-- ask user to click on circle "Glossary Split" again
+- if the user understood the vis differently, explain what the vis is showing
 
-- ask what they think just happened
+- ask:
+Find which sequences the end user could reach from the "Glossary Split" sequence
 
-- ask user to click on circle "Glossary Split" again
+- ask:
+Trace one possible path the end user could take involving "Glossary Split", from start to end of session.
 
-- ask what they think happened
+- ask:
+Hide the sequences connected to the "Glossary split" sequence
 
-- refer to `[ Show selected in dialogue | Back to dialogue ]`
+- ask:
+Show the current path on the previous page we were viewing before clicking `[ Overview ]`
 
-- ask what they think `[ Back to dialogue ]` does
-
-- ask user to click `[ Show selected in dialogue ]`
-
-- ask what they think happened
 
 Ideas to evaluate (cross-check against after testing)
 -----------------------------------------------------
