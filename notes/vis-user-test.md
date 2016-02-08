@@ -22,7 +22,8 @@ Script
 
 - explain and make sure user understands what sequences (and blocks) are
 
-- guide the user through navigating paths in dialogue view, make sure they understand what is happening
+- guide the user to select the following in the edit view, explain what it means:
+Welcome screen -> Main Menu -> Tips
 
 - tell user to click `[ Overview ]`
 
@@ -50,7 +51,7 @@ Trace one possible path the end user could take involving "Glossary Split", from
 Hide the sequences connected to the "Glossary split" sequence
 
 - ask:
-Show the current path on the previous page we were viewing before clicking `[ Overview ]`
+Show the path to the "Feedback screen" sequence in the previous page we were viewing before clicking `[ Overview ]`
 
 
 Ideas to evaluate (cross-check against after testing)
