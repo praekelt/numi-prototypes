@@ -42,10 +42,10 @@ Welcome screen -> Main Menu -> Tips
 - if the user understood the vis differently, explain what the vis is showing
 
 - ask:
-Find which sequences the end user could reach from the "Glossary Split" sequence
+Find which sequences the end user can reach from the "Glossary Split" sequence
 
 - ask:
-Trace one possible path the end user could take involving "Glossary Split", from start to end of session.
+Trace one possible path the end user can take involving "Glossary Split", from start to end of session.
 
 - ask:
 Hide the sequences connected to the "Glossary split" sequence
