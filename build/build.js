@@ -93451,6 +93451,27 @@
 
 
 	function drawKey(el, opts) {
+	  el.select('.nm-ov-key-glyph-link')
+	    .selectAll('.nm-ov-link')
+	      .data([{
+	        source: {
+	          x: 8,
+	          y: 16
+	        },
+	        target: {
+	          x: 20,
+	          y: 16
+	        }
+	      }])
+	      .call(drawLink, {
+	        diagonal: opts.diagonal,
+	        lineWeight: opts.lineWeight,
+	        transitionDuration: opts.transitionDuration,
+	        enterCoords: opts.enterCoords,
+	        exitCoords: opts.exitCoords,
+	        root: opts.root
+	      });
+
 	  el.select('.nm-ov-key-glyph-node-leaf')
 	    .selectAll('.nm-ov-node')
 	      .data([{
@@ -93974,7 +93995,7 @@
 /* 256 */
 /***/ function(module, exports) {
 
-	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-container"},"f":[{"t":7,"e":"div","a":{"class":"nm-head"},"f":[{"t":7,"e":"div","a":{"class":"nm-toolbar pull-right"},"f":[{"t":7,"e":"div","a":{"class":"nm-toolbar-group nm-state"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"changeLanguage","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"shownLanguageName"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"hideLanguage","a":{"r":[],"s":"[]"}}},"f":["×"]}]}],"r":"shownLanguageName"}]}," ",{"t":7,"e":"div","a":{"class":"nm-toolbar-group nm-actions"},"f":[{"t":7,"e":"div","a":{"class":"btn-group"},"f":[{"t":7,"e":"a","a":{"class":["btn btn-sm btn-default ",{"t":4,"f":["disabled"],"n":51,"r":"hasSelection"}],"href":["./dialogues/",{"t":2,"r":"id"}]},"v":{"click":{"m":"showSelected","a":{"r":[],"s":"[]"}}},"f":["Show selected in dialogue"]}," ",{"t":7,"e":"a","a":{"class":"btn btn-sm btn-default","href":["./dialogues/",{"t":2,"r":"id"}]},"f":["Back to dialogue"]}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"f":["Menu"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"f":["Sarima"]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-titles"},"f":[{"t":7,"e":"a","a":{"class":"nm-title","href":"/numi-prototypes/"},"f":[{"t":7,"e":"small","f":["Campaign"]}," ",{"t":7,"e":"div","a":{"class":"nm-title-text"},"f":[{"t":2,"r":"campaignName"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-title-divider"},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-menu-right"}}]}," ",{"t":7,"e":"a","a":{"class":"nm-title","href":["./dialogues/",{"t":2,"r":"id"}]},"f":[{"t":7,"e":"small","f":["Dialogue"]}," ",{"t":7,"e":"div","a":{"class":"nm-title-text"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-title-divider"},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-menu-right"}}]}," ",{"t":7,"e":"div","a":{"class":"nm-title"},"f":[{"t":7,"e":"div","a":{"class":"nm-title-text nm-title-text-center"},"f":["Overview"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-body"},"f":[" ",{"t":7,"e":"div","a":{"class":"nm-vis nm-vis-overview"},"v":{"click":{"m":"refresh","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"svg","a":{"class":"nm-ov-container"},"f":[{"t":7,"e":"g","a":{"class":"nm-vis-main"},"f":[{"t":7,"e":"rect","a":{"class":"nm-ov-underlay"}}," ",{"t":7,"e":"g","a":{"class":"nm-ov-links"}}," ",{"t":7,"e":"g","a":{"class":"nm-ov-nodes"}}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-ov-key"},"f":[{"t":7,"e":"table","a":{"class":"nm-ov-key-table"},"f":[{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":[{"t":7,"e":"svg","a":{"class":"nm-ov-key-glyph nm-ov-key-glyph-node-leaf","width":"25","height":"25"},"f":[]}]}," ",{"t":7,"e":"td","f":[{"t":7,"e":"span","a":{"class":"nm-ov-key-text"},"f":["Ending sequence"]}]}]}," ",{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":[{"t":7,"e":"svg","a":{"class":"nm-ov-key-glyph nm-ov-key-glyph-node-collapsed","width":"25","height":"25"},"f":[]}]}," ",{"t":7,"e":"td","f":[{"t":7,"e":"span","a":{"class":"nm-ov-key-text"},"f":["Sequence with routes hidden"]}]}]}," ",{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":[{"t":7,"e":"svg","a":{"class":"nm-ov-key-glyph nm-ov-key-glyph-node-expanded","width":"25","height":"25"},"f":[]}]}," ",{"t":7,"e":"td","f":[{"t":7,"e":"span","a":{"class":"nm-ov-key-text"},"f":["Sequence with routes shown"]}]}]}," ",{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":[{"t":7,"e":"svg","a":{"class":"nm-ov-key-glyph nm-ov-key-glyph-selection-old","width":"25","height":"25"},"f":[]}]}," ",{"t":7,"e":"td","f":[{"t":7,"e":"span","a":{"class":"nm-ov-key-text"},"f":["Selection in dialogue"]}]}]}," ",{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":[{"t":7,"e":"svg","a":{"class":"nm-ov-key-glyph nm-ov-key-glyph-selection-new","width":"25","height":"25"},"f":[]}]}," ",{"t":7,"e":"td","f":[{"t":7,"e":"span","a":{"class":"nm-ov-key-text"},"f":["New selection"]}]}]}]}]}]}]}]}]};
+	module.exports={"v":3,"t":[{"t":7,"e":"div","a":{"class":"nm-container"},"f":[{"t":7,"e":"div","a":{"class":"nm-head"},"f":[{"t":7,"e":"div","a":{"class":"nm-toolbar pull-right"},"f":[{"t":7,"e":"div","a":{"class":"nm-toolbar-group nm-state"},"f":[{"t":4,"f":[{"t":7,"e":"div","a":{"class":"btn-group btn-group-sm"},"f":[{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"changeLanguage","a":{"r":[],"s":"[]"}}},"f":[{"t":2,"r":"shownLanguageName"}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-default"},"v":{"click":{"m":"hideLanguage","a":{"r":[],"s":"[]"}}},"f":["×"]}]}],"r":"shownLanguageName"}]}," ",{"t":7,"e":"div","a":{"class":"nm-toolbar-group nm-actions"},"f":[{"t":7,"e":"div","a":{"class":"btn-group"},"f":[{"t":7,"e":"a","a":{"class":["btn btn-sm btn-default ",{"t":4,"f":["disabled"],"n":51,"r":"hasSelection"}],"href":["./dialogues/",{"t":2,"r":"id"}]},"v":{"click":{"m":"showSelected","a":{"r":[],"s":"[]"}}},"f":["Show selected in dialogue"]}," ",{"t":7,"e":"a","a":{"class":"btn btn-sm btn-default","href":["./dialogues/",{"t":2,"r":"id"}]},"f":["Back to dialogue"]}]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"f":["Menu"]}," ",{"t":7,"e":"button","a":{"class":"btn btn-sm btn-default"},"f":["Sarima"]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-titles"},"f":[{"t":7,"e":"a","a":{"class":"nm-title","href":"/numi-prototypes/"},"f":[{"t":7,"e":"small","f":["Campaign"]}," ",{"t":7,"e":"div","a":{"class":"nm-title-text"},"f":[{"t":2,"r":"campaignName"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-title-divider"},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-menu-right"}}]}," ",{"t":7,"e":"a","a":{"class":"nm-title","href":["./dialogues/",{"t":2,"r":"id"}]},"f":[{"t":7,"e":"small","f":["Dialogue"]}," ",{"t":7,"e":"div","a":{"class":"nm-title-text"},"f":[{"t":2,"r":"name"}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-title-divider"},"f":[{"t":7,"e":"span","a":{"class":"glyphicon glyphicon-menu-right"}}]}," ",{"t":7,"e":"div","a":{"class":"nm-title"},"f":[{"t":7,"e":"div","a":{"class":"nm-title-text nm-title-text-center"},"f":["Overview"]}]}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-body"},"f":[" ",{"t":7,"e":"div","a":{"class":"nm-vis nm-vis-overview"},"v":{"click":{"m":"refresh","a":{"r":[],"s":"[]"}}},"f":[{"t":7,"e":"svg","a":{"class":"nm-ov-container"},"f":[{"t":7,"e":"g","a":{"class":"nm-vis-main"},"f":[{"t":7,"e":"rect","a":{"class":"nm-ov-underlay"}}," ",{"t":7,"e":"g","a":{"class":"nm-ov-links"}}," ",{"t":7,"e":"g","a":{"class":"nm-ov-nodes"}}]}]}," ",{"t":7,"e":"div","a":{"class":"nm-ov-key"},"f":[{"t":7,"e":"table","a":{"class":"nm-ov-key-table"},"f":[{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":[{"t":7,"e":"svg","a":{"class":"nm-ov-key-glyph nm-ov-key-glyph-link","width":"25","height":"25"},"f":[]}]}," ",{"t":7,"e":"td","f":[{"t":7,"e":"span","a":{"class":"nm-ov-key-text"},"f":["Route between sequences"]}]}]}," ",{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":[{"t":7,"e":"svg","a":{"class":"nm-ov-key-glyph nm-ov-key-glyph-node-leaf","width":"25","height":"25"},"f":[]}]}," ",{"t":7,"e":"td","f":[{"t":7,"e":"span","a":{"class":"nm-ov-key-text"},"f":["Ending sequence"]}]}]}," ",{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":[{"t":7,"e":"svg","a":{"class":"nm-ov-key-glyph nm-ov-key-glyph-node-collapsed","width":"25","height":"25"},"f":[]}]}," ",{"t":7,"e":"td","f":[{"t":7,"e":"span","a":{"class":"nm-ov-key-text"},"f":["Sequence with routes hidden"]}]}]}," ",{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":[{"t":7,"e":"svg","a":{"class":"nm-ov-key-glyph nm-ov-key-glyph-node-expanded","width":"25","height":"25"},"f":[]}]}," ",{"t":7,"e":"td","f":[{"t":7,"e":"span","a":{"class":"nm-ov-key-text"},"f":["Sequence with routes shown"]}]}]}," ",{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":[{"t":7,"e":"svg","a":{"class":"nm-ov-key-glyph nm-ov-key-glyph-selection-old","width":"25","height":"25"},"f":[]}]}," ",{"t":7,"e":"td","f":[{"t":7,"e":"span","a":{"class":"nm-ov-key-text"},"f":["Selection in dialogue"]}]}]}," ",{"t":7,"e":"tr","f":[{"t":7,"e":"td","f":[{"t":7,"e":"svg","a":{"class":"nm-ov-key-glyph nm-ov-key-glyph-selection-new","width":"25","height":"25"},"f":[]}]}," ",{"t":7,"e":"td","f":[{"t":7,"e":"span","a":{"class":"nm-ov-key-text"},"f":["New selection"]}]}]}]}]}]}]}]}]};
 
 /***/ },
 /* 257 */
@@ -95018,7 +95039,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.foo = __webpack_require__(261);
-	exports.translations = __webpack_require__(262);
+	exports.translations = __webpack_require__(263);
 
 
 /***/ },
@@ -95030,7 +95051,8 @@
 
 
 /***/ },
-/* 262 */
+/* 262 */,
+/* 263 */
 /***/ function(module, exports) {
 
 	module.exports = function() {

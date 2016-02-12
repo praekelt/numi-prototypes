@@ -39,6 +39,27 @@ function draw(el, opts) {
 
 
 function drawKey(el, opts) {
+  el.select('.nm-ov-key-glyph-link')
+    .selectAll('.nm-ov-link')
+      .data([{
+        source: {
+          x: 8,
+          y: 16
+        },
+        target: {
+          x: 20,
+          y: 16
+        }
+      }])
+      .call(drawLink, {
+        diagonal: opts.diagonal,
+        lineWeight: opts.lineWeight,
+        transitionDuration: opts.transitionDuration,
+        enterCoords: opts.enterCoords,
+        exitCoords: opts.exitCoords,
+        root: opts.root
+      });
+
   el.select('.nm-ov-key-glyph-node-leaf')
     .selectAll('.nm-ov-node')
       .data([{
