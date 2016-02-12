@@ -23,9 +23,7 @@ function draw(el, opts) {
       .domain([1, 100, 500, 800, 1000])
       .range([1]),
 
-    nodeRadius: d3.scale.linear()
-      .domain([1, 2, 50, 1000])
-      .range([5, 7, 10, 15])
+    nodeRadius: d3.functor(8)
   });
 
   el.call(drawKey, opts)
@@ -47,8 +45,7 @@ function drawKey(el, opts) {
         x: 25,
         y: 28,
         title: '',
-        _children: d3.range(_.last(opts.nodeRadius.domain()))
-          .map(function() { return {_children: []}; })
+        _children: [{_children: []}]
       }])
       .call(drawNode, {
         nodeRadius: opts.nodeRadius,
