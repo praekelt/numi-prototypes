@@ -60,13 +60,30 @@
   <div class="nm-body">
     <!-- TODO better way of updating on vis interactions -->
     <div class="nm-vis nm-vis-overview" on-click="refresh()">
-      <svg>
+      <svg class="nm-ov-container">
         <g class="nm-vis-main">
           <rect class="nm-ov-underlay"></rect>
           <g class="nm-ov-links"></g>
           <g class="nm-ov-nodes"></g>
         </g>
       </svg>
+
+      <div class="nm-ov-key">
+        <table class="nm-ov-key-table">
+          <tr>
+            <td>
+              <svg class="nm-ov-key-glyph nm-ov-key-glyph-route" width=50 height=50>
+              </svg>
+            </td>
+
+            <td>
+              <span class="nm-ov-key-text">
+                Sequence with many routes
+              </span>
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
   </div>
 </div>

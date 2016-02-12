@@ -1184,9 +1184,10 @@ a.nm-list-group-item-drawer-secondary {
   padding: 20px;
   height: 100%;
 
-  svg {
-    width: 100%;
-  }
+}
+
+.nm-ov-container {
+  width: 100%;
 }
 
 .nm-ov-link {
@@ -1294,4 +1295,18 @@ a.nm-list-group-item-drawer-secondary {
 
 .nm-ov-underlay {
   fill-opacity: 0;
+}
+
+.nm-ov-key {
+  position: absolute;
+  left: 40px;
+  bottom: 40px;
+}
+
+.nm-ov-key-table {
+}
+
+.nm-ov-key-text {
+  fill: darken($fg1, 15%);
+  font-size: 0.83em;
 }

@@ -6,9 +6,6 @@ var Layout = require('./layout');
 
 
 function draw(el, opts) {
-  var padding = 100;
-  var dims = getDims(el);
-
   opts = _.defaults(opts || {}, {
     enterCoords: {
       x: 0,
@@ -20,8 +17,53 @@ function draw(el, opts) {
     },
     transitionDuration: 0,
     root: el.datum(),
-    update: update
+    update: update,
+
+    lineWeight: d3.scale.linear()
+      .domain([1, 100, 500, 800, 1000])
+      .range([1]),
+
+    nodeRadius: d3.scale.linear()
+      .domain([1, 2, 50, 1000])
+      .range([5, 7, 10, 15])
   });
+
+  el.call(drawKey, opts)
+    .call(drawVis, opts);
+
+  function update(opts) {
+    draw(el, _.defaults(opts, {transitionDuration: 300}));
+  }
+}
+
+
+function drawKey(el, opts) {
+  el.select('.nm-ov-key-glyph')
+    .selectAll('.nm-ov-node')
+      .data([{
+        isLink: false,
+        selected: false,
+        current: false,
+        x: 25,
+        y: 28,
+        title: '',
+        _children: d3.range(_.last(opts.nodeRadius.domain()))
+          .map(function() { return {_children: []}; })
+      }])
+      .call(drawNode, {
+        nodeRadius: opts.nodeRadius,
+        update: opts.update,
+        root: opts.root,
+        transitionDuration: opts.transitionDuration,
+        enterCoords: opts.enterCoords,
+        exitCoords: opts.exitCoords
+      });
+}
+
+
+function drawVis(el, opts) {
+  var padding = 100;
+  var dims = getDims(el);
 
   var layout = Layout({
     width: dims.width - (padding * 2),
@@ -31,20 +73,12 @@ function draw(el, opts) {
   var nodes = layout.nodes(opts.root);
   var links = layout.links(nodes);
 
-  var lineWeight = d3.scale.linear()
-    .domain([1, 100, 500, 800, 1000])
-    .range([1]);
-
-  var nodeRadius = d3.scale.linear()
-    .domain([1, 2, 50, 1000])
-    .range([5, 7, 10, 15]);
-
   var diagonal = Diagonal({
     r: 0.1618,
     s: 0.9618
   });
 
-  var svg = el.select('svg')
+  var svg = el.select('.nm-ov-container')
     .attr('width', dims.width)
     .attr('height', dims.height)
     .select('.nm-vis-main')
@@ -62,7 +96,7 @@ function draw(el, opts) {
     })
     .call(drawLink, {
       diagonal,
-      lineWeight,
+      lineWeight: opts.lineWeight,
       transitionDuration: opts.transitionDuration,
       enterCoords: opts.enterCoords,
       exitCoords: opts.exitCoords,
@@ -75,17 +109,13 @@ function draw(el, opts) {
       return d.id;
     })
     .call(drawNode, {
-      nodeRadius,
-      update,
+      nodeRadius: opts.nodeRadius,
+      update: opts.update,
       root: opts.root,
       transitionDuration: opts.transitionDuration,
       enterCoords: opts.enterCoords,
       exitCoords: opts.exitCoords
     });
-
-  function update(opts) {
-    draw(el, _.defaults(opts, {transitionDuration: 300}));
-  }
 }
 
 
