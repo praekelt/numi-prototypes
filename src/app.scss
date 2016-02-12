@@ -1289,6 +1289,12 @@ a.nm-list-group-item-drawer-secondary {
   }
 }
 
+.nm-ov-node-no-hint {
+  .nm-ov-hint-toggle-node {
+    visibility: hidden;
+  }
+}
+
 .nm-ov-hint-toggle-node {
   fill: none;
 }
@@ -1299,14 +1305,15 @@ a.nm-list-group-item-drawer-secondary {
 
 .nm-ov-key {
   position: absolute;
-  left: 40px;
-  bottom: 40px;
+  left: 30px;
+  bottom: 20px;
 }
 
 .nm-ov-key-table {
 }
 
 .nm-ov-key-text {
+  padding-left: 4px;
   fill: darken($fg1, 15%);
   font-size: 0.83em;
 }
