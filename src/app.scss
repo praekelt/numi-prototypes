@@ -1184,9 +1184,10 @@ a.nm-list-group-item-drawer-secondary {
   padding: 20px;
   height: 100%;
 
-  svg {
-    width: 100%;
-  }
+}
+
+.nm-ov-container {
+  width: 100%;
 }
 
 .nm-ov-link {
@@ -1194,12 +1195,12 @@ a.nm-list-group-item-drawer-secondary {
   stroke: $fg1;
 
   &.is-current {
-    stroke: $fg-current0;
+    stroke: $fg-selection-current0;
     stroke-width: 2px;
   }
 
   &.is-selected {
-    stroke: $fg-active0;
+    stroke: $fg-selection-new0;
     stroke-width: 2px;
   }
 }
@@ -1215,39 +1216,39 @@ a.nm-list-group-item-drawer-secondary {
       cursor: pointer;
 
       .nm-ov-glyph-node {
-        stroke: $fg-active1;
-        fill: $bg-active0;
+        stroke: $fg-selection-new1;
+        fill: $bg-selection-new0;
       }
 
       .nm-ov-label-node {
-        fill: darken($fg-active1, 15%);
+        fill: darken($fg-selection-new1, 15%);
       }
     }
   }
 
   &.is-current {
     .nm-ov-glyph-node {
-      stroke: $fg-current0;
+      stroke: $fg-selection-current0;
     }
   }
 
   &.is-selected {
     .nm-ov-hint-toggle-node {
-      fill: $fg-active1;
+      fill: $fg-selection-new1;
       font-weight: bold;
     }
 
     .nm-ov-glyph-node {
-      stroke: $fg-active0;
+      stroke: $fg-selection-new0;
     }
 
     &:hover {
       .nm-ov-glyph-node {
-        stroke: darken($fg-active1, 15%);
+        stroke: darken($fg-selection-new1, 15%);
       }
 
       .nm-ov-hint-toggle-node {
-        fill: darken($fg-active1, 15%);
+        fill: darken($fg-selection-new1, 15%);
       }
     }
   }
@@ -1277,14 +1278,20 @@ a.nm-list-group-item-drawer-secondary {
 
   &.is-current {
     .nm-ov-glyph-node {
-      fill: $bg-current0;
+      fill: $bg-selection-current0;
     }
   }
 
   &.is-selected {
     .nm-ov-glyph-node {
-      fill: $bg-active0;
+      fill: $bg-selection-new0;
     }
+  }
+}
+
+.nm-ov-node-no-hint {
+  .nm-ov-hint-toggle-node {
+    visibility: hidden;
   }
 }
 
@@ -1294,4 +1301,19 @@ a.nm-list-group-item-drawer-secondary {
 
 .nm-ov-underlay {
   fill-opacity: 0;
+}
+
+.nm-ov-key {
+  position: absolute;
+  left: 30px;
+  bottom: 20px;
+}
+
+.nm-ov-key-table {
+}
+
+.nm-ov-key-text {
+  padding-left: 4px;
+  fill: darken($fg1, 15%);
+  font-size: 0.83em;
 }

@@ -6,9 +6,6 @@ var Layout = require('./layout');
 
 
 function draw(el, opts) {
-  var padding = 100;
-  var dims = getDims(el);
-
   opts = _.defaults(opts || {}, {
     enterCoords: {
       x: 0,
@@ -20,8 +17,185 @@ function draw(el, opts) {
     },
     transitionDuration: 0,
     root: el.datum(),
-    update: update
+    update: update,
+
+    lineWeight: d3.functor(1),
+
+    nodeRadius: d3.functor(8),
+
+    diagonal: Diagonal({
+      r: 0.1618,
+      s: 0.9618
+    })
   });
+
+  el.call(drawKey, opts)
+    .call(drawVis, opts);
+
+  function update(opts) {
+    draw(el, _.defaults(opts, {transitionDuration: 300}));
+  }
+}
+
+
+function drawKey(el, opts) {
+  el.select('.nm-ov-key-glyph-node-leaf')
+    .selectAll('.nm-ov-node')
+      .data([{
+        isLink: false,
+        selected: false,
+        current: false,
+        expanded: false,
+        x: 9,
+        y: 16,
+        title: '',
+        _children: []
+      }])
+      .call(drawNode, {
+        nodeRadius: opts.nodeRadius,
+        update: opts.update,
+        root: opts.root,
+        transitionDuration: opts.transitionDuration,
+        enterCoords: opts.enterCoords,
+        exitCoords: opts.exitCoords
+      });
+
+  el.select('.nm-ov-key-glyph-node-collapsed')
+    .selectAll('.nm-ov-node')
+      .data([{
+        isLink: false,
+        selected: false,
+        current: false,
+        expanded: false,
+        x: 14,
+        y: 16,
+        title: '',
+        _children: [{_children: []}]
+      }])
+      .call(drawNode, {
+        nodeRadius: opts.nodeRadius,
+        update: opts.update,
+        root: opts.root,
+        transitionDuration: opts.transitionDuration,
+        enterCoords: opts.enterCoords,
+        exitCoords: opts.exitCoords
+      });
+
+  el.select('.nm-ov-key-glyph-node-expanded')
+    .selectAll('.nm-ov-node')
+      .data([{
+        isLink: false,
+        selected: false,
+        current: false,
+        expanded: true,
+        x: 14,
+        y: 16,
+        title: '',
+        _children: [{_children: []}]
+      }])
+      .call(drawNode, {
+        nodeRadius: opts.nodeRadius,
+        update: opts.update,
+        root: opts.root,
+        transitionDuration: opts.transitionDuration,
+        enterCoords: opts.enterCoords,
+        exitCoords: opts.exitCoords
+      });
+
+  el.select('.nm-ov-key-glyph-selection-old')
+    .selectAll('.nm-ov-link')
+      .data([{
+        source: {
+          x: 0,
+          y: 16,
+          current: true
+        },
+        target: {
+          x: 8,
+          y: 16,
+          current: true
+        }
+      }])
+      .call(drawLink, {
+        diagonal: opts.diagonal,
+        lineWeight: opts.lineWeight,
+        transitionDuration: opts.transitionDuration,
+        enterCoords: opts.enterCoords,
+        exitCoords: opts.exitCoords,
+        root: opts.root
+      });
+
+  el.select('.nm-ov-key-glyph-selection-old')
+    .selectAll('.nm-ov-node')
+      .data([{
+        isLink: false,
+        selected: false,
+        current: true,
+        expanded: false,
+        x: 14,
+        y: 16,
+        title: '',
+        _children: [{_children: []}]
+      }])
+      .call(drawNode, {
+        nodeRadius: opts.nodeRadius,
+        update: opts.update,
+        root: opts.root,
+        transitionDuration: opts.transitionDuration,
+        enterCoords: opts.enterCoords,
+        exitCoords: opts.exitCoords
+      });
+
+  el.select('.nm-ov-key-glyph-selection-new')
+    .selectAll('.nm-ov-link')
+      .data([{
+        source: {
+          x: 0,
+          y: 16,
+          selected: true
+        },
+        target: {
+          x: 8,
+          y: 16,
+          selected: true
+        }
+      }])
+      .call(drawLink, {
+        diagonal: opts.diagonal,
+        lineWeight: opts.lineWeight,
+        transitionDuration: opts.transitionDuration,
+        enterCoords: opts.enterCoords,
+        exitCoords: opts.exitCoords,
+        root: opts.root
+      });
+
+  el.select('.nm-ov-key-glyph-selection-new')
+    .selectAll('.nm-ov-node')
+      .data([{
+        isLink: false,
+        selected: true,
+        current: false,
+        expanded: false,
+        x: 14,
+        y: 16,
+        title: '',
+        _children: [{_children: []}]
+      }])
+      .call(drawNode, {
+        nodeRadius: opts.nodeRadius,
+        update: opts.update,
+        root: opts.root,
+        transitionDuration: opts.transitionDuration,
+        enterCoords: opts.enterCoords,
+        exitCoords: opts.exitCoords
+      })
+      .classed('nm-ov-node-no-hint', true);
+}
+
+
+function drawVis(el, opts) {
+  var padding = 100;
+  var dims = getDims(el);
 
   var layout = Layout({
     width: dims.width - (padding * 2),
@@ -31,20 +205,7 @@ function draw(el, opts) {
   var nodes = layout.nodes(opts.root);
   var links = layout.links(nodes);
 
-  var lineWeight = d3.scale.linear()
-    .domain([1, 100, 500, 800, 1000])
-    .range([1]);
-
-  var nodeRadius = d3.scale.linear()
-    .domain([1, 2, 50, 1000])
-    .range([5, 7, 10, 15]);
-
-  var diagonal = Diagonal({
-    r: 0.1618,
-    s: 0.9618
-  });
-
-  var svg = el.select('svg')
+  var svg = el.select('.nm-ov-container')
     .attr('width', dims.width)
     .attr('height', dims.height)
     .select('.nm-vis-main')
@@ -61,8 +222,8 @@ function draw(el, opts) {
       return [d.source.id, d.target.id].join();
     })
     .call(drawLink, {
-      diagonal,
-      lineWeight,
+      diagonal: opts.diagonal,
+      lineWeight: opts.lineWeight,
       transitionDuration: opts.transitionDuration,
       enterCoords: opts.enterCoords,
       exitCoords: opts.exitCoords,
@@ -75,17 +236,13 @@ function draw(el, opts) {
       return d.id;
     })
     .call(drawNode, {
-      nodeRadius,
-      update,
+      nodeRadius: opts.nodeRadius,
+      update: opts.update,
       root: opts.root,
       transitionDuration: opts.transitionDuration,
       enterCoords: opts.enterCoords,
       exitCoords: opts.exitCoords
     });
-
-  function update(opts) {
-    draw(el, _.defaults(opts, {transitionDuration: 300}));
-  }
 }
 
 
@@ -135,7 +292,7 @@ function drawLink(link, opts) {
     .transition()
       .duration(opts.transitionDuration)
       .attr('stroke-width', function(d) {
-        return opts.lineWeight(linkWeight(d));
+        return opts.lineWeight(d);
       })
       .attr('d', opts.diagonal);
 
@@ -209,7 +366,7 @@ function drawNode(node, opts) {
 
   node.select('circle')
     .attr('r', function(d) {
-      return opts.nodeRadius(nodeWeight(d));
+      return opts.nodeRadius(d);
     });
 
   node.select('rect')
@@ -227,7 +384,7 @@ function drawNode(node, opts) {
     })
     .attr('y', function(d) {
       return !d.parent
-        ? -(opts.nodeRadius(nodeWeight(d)) + 6)
+        ? -(opts.nodeRadius(d) + 6)
         : -6;
     })
     .attr('x', function(d) {
@@ -344,18 +501,6 @@ function translate(x, y) {
     : x;
 
   return 'translate(' + d.x + ',' + d.y + ')';
-}
-
-
-function linkWeight(d) {
-  return nodeWeight(d.target);
-}
-
-
-function nodeWeight(d) {
-  var n = 0;
-  store.walk(d, function() { n++; });
-  return n;
 }
 
 
