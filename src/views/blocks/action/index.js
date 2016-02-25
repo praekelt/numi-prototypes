@@ -43,10 +43,10 @@ Action.Edit = Base.Edit.extend({
 
     list.once('chosen', function(id) {
       self.set('fields.' + i + '.userFieldId', id);
-      drawers.close(list);
+      list.close();
     });
 
-    drawers.open(list);
+    list.open();
   },
   remove: function(key) {
     var i = _.findIndex(this.get('fields'), {key: key});
